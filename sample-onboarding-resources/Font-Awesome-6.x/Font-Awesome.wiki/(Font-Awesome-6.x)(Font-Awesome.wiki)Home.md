@@ -1,5 +1,3 @@
-[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://standwithukraine.pp.ua)
-
 Welcome to the Font-Awesome wiki!
 
 # [Font Awesome v4.6.0](http://fontawesome.io)

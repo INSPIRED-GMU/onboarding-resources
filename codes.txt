@@ -13,7 +13,7 @@
 
 --Contribution to Translations
 
---Information on Review Process
+--Information on Contribution Review Process
 
 -Style Guides
 --Git Commit message style

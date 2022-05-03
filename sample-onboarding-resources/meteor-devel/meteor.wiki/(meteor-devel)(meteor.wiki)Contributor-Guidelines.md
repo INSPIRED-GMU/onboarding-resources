@@ -1,0 +1,1 @@
+The page has moved! See the new [contributor guidelines](https://github.com/meteor/meteor/wiki/Contributing-to-Meteor).

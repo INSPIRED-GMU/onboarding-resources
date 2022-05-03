@@ -1,0 +1,1 @@
+Moved to [CONTRIBUTING.md](https://github.com/meteor/meteor/blob/devel/CONTRIBUTING.md) in the repository.

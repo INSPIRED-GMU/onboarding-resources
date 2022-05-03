@@ -1,0 +1,1 @@
+Please consult the Meteor Guide: http://guide.meteor.com/code-style.html#javascript

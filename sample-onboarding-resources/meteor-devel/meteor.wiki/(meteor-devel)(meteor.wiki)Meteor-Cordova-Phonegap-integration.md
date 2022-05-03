@@ -1,0 +1,1 @@
+See [this new page](https://github.com/meteor/meteor/wiki/Meteor-Cordova-integration).

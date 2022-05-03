@@ -1,0 +1,1 @@
+This content has moved to the Meteor Guide: http://guide.meteor.com/mobile.html#running-on-ios

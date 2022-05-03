@@ -1,0 +1,1 @@
+Please see https://github.com/microsoft/PowerToys/tree/releaseChecklist/doc/releases

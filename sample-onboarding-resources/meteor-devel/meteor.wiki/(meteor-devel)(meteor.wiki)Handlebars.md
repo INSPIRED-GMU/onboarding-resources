@@ -1,0 +1,1 @@
+Meteor ships with a variant of Handlebars named [Spacebars](https://github.com/meteor/meteor/blob/devel/packages/spacebars/README.md).

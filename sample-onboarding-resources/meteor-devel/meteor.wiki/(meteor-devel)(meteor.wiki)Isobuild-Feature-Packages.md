@@ -1,0 +1,1 @@
+This content has moved to https://docs.meteor.com/api/packagejs.html#isobuild-features

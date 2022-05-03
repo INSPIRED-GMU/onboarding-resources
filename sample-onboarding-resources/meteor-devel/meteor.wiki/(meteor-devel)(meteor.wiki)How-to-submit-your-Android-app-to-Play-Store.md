@@ -1,0 +1,1 @@
+This content is now available in the Meteor Guide: http://guide.meteor.com/mobile.html#submitting-android

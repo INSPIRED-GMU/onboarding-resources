@@ -4,14 +4,14 @@ import os
 # traverse directory, and list directories as dirs and files as files
 for root, dirs, files in os.walk(os.getcwd()):
     path = root.split(os.sep)
-    if not ".git" == root.lower():
+    if ".git" not in path:
         for file in files:
             #rename sub-files
             if len(path) > 3:
                 i = 3
                 new_name = ""
                 while i < len(path):
-                    new_name += "(" + path[i] + ")"
+                    new_name += "[" + path[i] + "]"
                     i += 1
                     #to prevent hitting the filename + path character limit of the os
                     if len(new_name)+len(file.lower()) > 180:

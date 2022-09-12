@@ -22,7 +22,7 @@ for root, dirs, files in os.walk(os.getcwd()):
                         os.remove(path_no_ext + ".md")
                     if file.endswith(".rst"):
                         os.system("rst2html5.py "+ path_no_ext+".rst " + path_no_ext + ".html" )
-                    #    os.remove(path_no_ext + ".rst")
+                        os.remove(path_no_ext + ".rst")
                         os.system("wkhtmltopdf "+ path_no_ext + ".html " + path_no_ext+".pdf")
                         os.remove(path_no_ext + ".html")
                 except WindowsError:

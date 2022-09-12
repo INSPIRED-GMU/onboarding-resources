@@ -7,9 +7,9 @@ endLoc = input("Enter ending location (will not be converted): ")
 # traverse directory, and list directories as dirs and files as files
 for root, dirs, files in os.walk(os.getcwd()):
     path = root.split(os.sep)
-    if startLoc in path:
+    if startLoc in path or startLoc == "none":
         flag = True
-    if endLoc in path:
+    if endLoc in path and endLoc != "none":
         break
     if ".git" not in path and flag:
         for file in files:

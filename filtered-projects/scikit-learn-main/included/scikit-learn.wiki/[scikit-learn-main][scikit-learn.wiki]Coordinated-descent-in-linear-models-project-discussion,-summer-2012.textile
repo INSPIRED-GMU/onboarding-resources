@@ -1,0 +1,18 @@
+# [[refactoring of ElasticNet and Lasso classes]]
+# [[setting up tests to benchmark current and future code ]]
+# cd speed up#
+## [[important equations]]
+## [[efficient implementation of covariance updates]]
+## l2 loss
+## log loss
+## multi-logit loss
+
+h3. Midterm Evaluation (July 13)
+
+# strong rule implementation
+## sequential strong rule
+# extending LARS
+# parallelization ( matrix of outcome )
+# narrative documentation
+
+h3. Final Evaluation (Aug 24)

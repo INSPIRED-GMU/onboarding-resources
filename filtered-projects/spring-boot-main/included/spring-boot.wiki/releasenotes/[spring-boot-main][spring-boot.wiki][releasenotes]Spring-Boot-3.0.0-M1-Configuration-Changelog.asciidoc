@@ -1,0 +1,119 @@
+Configuration properties change between `2.7.0-M1` and `3.0.0-M1`
+
+== Deprecated in `3.0.0-M1`
+None.
+
+
+
+== New in `3.0.0-M1`
+None.
+
+
+
+== Removed in `3.0.0-M1`
+|======================
+|Key  |Replacement |Reason
+|`management.endpoint.jolokia.config` | |
+|`management.endpoint.jolokia.enabled` | |
+|`management.metrics.graphql.autotime.enabled` | |
+|`management.metrics.graphql.autotime.percentiles` | |
+|`management.metrics.graphql.autotime.percentiles-histogram` | |
+|`spring.activemq.broker-url` | |
+|`spring.activemq.close-timeout` | |
+|`spring.activemq.in-memory` | |
+|`spring.activemq.non-blocking-redelivery` | |
+|`spring.activemq.packages.trust-all` | |
+|`spring.activemq.packages.trusted` | |
+|`spring.activemq.password` | |
+|`spring.activemq.pool.block-if-full` | |
+|`spring.activemq.pool.block-if-full-timeout` | |
+|`spring.activemq.pool.enabled` | |
+|`spring.activemq.pool.idle-timeout` | |
+|`spring.activemq.pool.max-connections` | |
+|`spring.activemq.pool.max-sessions-per-connection` | |
+|`spring.activemq.pool.time-between-expiration-check` | |
+|`spring.activemq.pool.use-anonymous-producers` | |
+|`spring.activemq.send-timeout` | |
+|`spring.activemq.user` | |
+|`spring.artemis.pool.block-if-full` | |
+|`spring.artemis.pool.block-if-full-timeout` | |
+|`spring.artemis.pool.enabled` | |
+|`spring.artemis.pool.idle-timeout` | |
+|`spring.artemis.pool.max-connections` | |
+|`spring.artemis.pool.max-sessions-per-connection` | |
+|`spring.artemis.pool.time-between-expiration-check` | |
+|`spring.artemis.pool.use-anonymous-producers` | |
+|`spring.cache.ehcache.config` | |
+|`spring.cache.infinispan.config` | |
+|`spring.config.use-legacy-processing` | |
+|`spring.data.elasticsearch.client.reactive.connection-timeout` |`spring.elasticsearch.connection-timeout` |
+|`spring.data.elasticsearch.client.reactive.max-in-memory-size` |`spring.elasticsearch.webclient.max-in-memory-size` |
+|`spring.data.elasticsearch.client.reactive.password` |`spring.elasticsearch.password` |
+|`spring.data.elasticsearch.client.reactive.socket-timeout` |`spring.elasticsearch.socket-timeout` |
+|`spring.data.elasticsearch.client.reactive.use-ssl` | |Use of SSL should be indicated through an https URI scheme
+|`spring.data.elasticsearch.client.reactive.username` |`spring.elasticsearch.username` |
+|`spring.datasource.continue-on-error` |`spring.sql.init.continue-on-error` |
+|`spring.datasource.data` |`spring.sql.init.data-locations` |
+|`spring.datasource.data-password` |`spring.sql.init.password` |
+|`spring.datasource.data-username` |`spring.sql.init.username` |
+|`spring.datasource.initialization-mode` |`spring.sql.init.mode` |
+|`spring.datasource.platform` |`spring.sql.init.platform` |
+|`spring.datasource.schema` |`spring.sql.init.schema-locations` |
+|`spring.datasource.schema-password` |`spring.sql.init.password` |
+|`spring.datasource.schema-username` |`spring.sql.init.username` |
+|`spring.datasource.separator` |`spring.sql.init.separator` |
+|`spring.datasource.sql-script-encoding` |`spring.sql.init.encoding` |
+|`spring.elasticsearch.rest.connection-timeout` |`spring.elasticsearch.connection-timeout` |
+|`spring.elasticsearch.rest.password` |`spring.elasticsearch.password` |
+|`spring.elasticsearch.rest.read-timeout` |`spring.elasticsearch.socket-timeout` |
+|`spring.elasticsearch.rest.sniffer.delay-after-failure` |`spring.elasticsearch.restclient.sniffer.delay-after-failure` |
+|`spring.elasticsearch.rest.sniffer.interval` |`spring.elasticsearch.restclient.sniffer.interval` |
+|`spring.elasticsearch.rest.username` |`spring.elasticsearch.username` |
+|`spring.graphql.cors.allow-credentials` | |
+|`spring.graphql.cors.allowed-headers` | |
+|`spring.graphql.cors.allowed-methods` | |
+|`spring.graphql.cors.allowed-origin-patterns` | |
+|`spring.graphql.cors.allowed-origins` | |
+|`spring.graphql.cors.exposed-headers` | |
+|`spring.graphql.cors.max-age` | |
+|`spring.graphql.graphiql.enabled` | |
+|`spring.graphql.graphiql.path` | |
+|`spring.graphql.path` | |
+|`spring.graphql.schema.file-extensions` | |
+|`spring.graphql.schema.introspection.enabled` | |
+|`spring.graphql.schema.locations` | |
+|`spring.graphql.schema.printer.enabled` | |
+|`spring.graphql.websocket.connection-init-timeout` | |
+|`spring.graphql.websocket.path` | |
+|`spring.h2.console.enabled` | |
+|`spring.h2.console.path` | |
+|`spring.h2.console.settings.trace` | |
+|`spring.h2.console.settings.web-admin-password` | |
+|`spring.h2.console.settings.web-allow-others` | |
+|`spring.jersey.application-path` | |
+|`spring.jersey.filter.order` | |
+|`spring.jersey.init` | |
+|`spring.jersey.servlet.load-on-startup` | |
+|`spring.jersey.type` | |
+|`spring.jta.atomikos.properties.allow-sub-transactions` | |
+|`spring.jta.atomikos.properties.checkpoint-interval` | |
+|`spring.jta.atomikos.properties.default-jta-timeout` | |
+|`spring.jta.atomikos.properties.default-max-wait-time-on-shutdown` | |
+|`spring.jta.atomikos.properties.enable-logging` | |
+|`spring.jta.atomikos.properties.force-shutdown-on-vm-exit` | |
+|`spring.jta.atomikos.properties.log-base-dir` | |
+|`spring.jta.atomikos.properties.log-base-name` | |
+|`spring.jta.atomikos.properties.max-actives` | |
+|`spring.jta.atomikos.properties.max-timeout` | |
+|`spring.jta.atomikos.properties.recovery.delay` | |
+|`spring.jta.atomikos.properties.recovery.forget-orphaned-log-entries-delay` | |
+|`spring.jta.atomikos.properties.recovery.max-retries` | |
+|`spring.jta.atomikos.properties.recovery.retry-interval` | |
+|`spring.jta.atomikos.properties.serial-jta-transactions` | |
+|`spring.jta.atomikos.properties.service` | |
+|`spring.jta.atomikos.properties.threaded-two-phase-commit` | |
+|`spring.jta.atomikos.properties.transaction-manager-unique-name` | |
+|`spring.jta.log-dir` | |
+|`spring.jta.transaction-manager-id` | |
+|`spring.webflux.session.cookie.same-site` |`server.reactive.session.cookie.same-site` |
+|======================

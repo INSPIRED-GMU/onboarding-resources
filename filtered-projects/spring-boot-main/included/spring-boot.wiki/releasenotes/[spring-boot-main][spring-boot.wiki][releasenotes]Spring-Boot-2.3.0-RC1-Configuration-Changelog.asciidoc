@@ -1,0 +1,93 @@
+Configuration properties change between `2.3.0.M4` and `2.3.0.RC1`
+
+.Deprecated keys in `2.3.0.RC1`
+|======================
+|Key  |Replacement |Reason
+|`management.metrics.distribution.sla` |`management.metrics.distribution.slo` |
+|`management.metrics.export.ganglia.protocol-version` | |No longer used by Micrometer.
+|`management.metrics.export.ganglia.rate-units` | |No longer used by Micrometer.
+|`spring.data.cassandra.connect-timeout` |`spring.data.cassandra.connection.init-query-timeout` |
+|`spring.data.cassandra.consistency-level` |`spring.data.cassandra.request.consistency` |
+|`spring.data.cassandra.read-timeout` |`spring.data.cassandra.request.timeout` |
+|`spring.data.cassandra.serial-consistency-level` |`spring.data.cassandra.request.serial-consistency` |
+|`spring.jta.bitronix.properties.allow-multiple-lrc` | |
+|`spring.jta.bitronix.properties.asynchronous2-pc` | |
+|`spring.jta.bitronix.properties.background-recovery-interval-seconds` | |
+|`spring.jta.bitronix.properties.current-node-only-recovery` | |
+|`spring.jta.bitronix.properties.debug-zero-resource-transaction` | |
+|`spring.jta.bitronix.properties.default-transaction-timeout` | |
+|`spring.jta.bitronix.properties.disable-jmx` | |
+|`spring.jta.bitronix.properties.exception-analyzer` | |
+|`spring.jta.bitronix.properties.filter-log-status` | |
+|`spring.jta.bitronix.properties.force-batching-enabled` | |
+|`spring.jta.bitronix.properties.forced-write-enabled` | |
+|`spring.jta.bitronix.properties.graceful-shutdown-interval` | |
+|`spring.jta.bitronix.properties.jndi-transaction-synchronization-registry-name` | |
+|`spring.jta.bitronix.properties.jndi-user-transaction-name` | |
+|`spring.jta.bitronix.properties.journal` | |
+|`spring.jta.bitronix.properties.log-part1-filename` | |
+|`spring.jta.bitronix.properties.log-part2-filename` | |
+|`spring.jta.bitronix.properties.max-log-size-in-mb` | |
+|`spring.jta.bitronix.properties.resource-configuration-filename` | |
+|`spring.jta.bitronix.properties.server-id` | |
+|`spring.jta.bitronix.properties.skip-corrupted-logs` | |
+|`spring.jta.bitronix.properties.warn-about-zero-resource-transaction` | |
+|`spring.mvc.date-format` |`spring.mvc.format.date` |
+|`spring.webflux.date-format` |`spring.webflux.format.date` |
+|======================
+
+.New keys in `2.3.0.RC1`
+|======================
+|Key  |Default value |Description
+|`management.metrics.distribution.slo` | |Specific service-level objective boundaries for meter IDs starting with the specified name.
+|`management.metrics.export.appoptics.floor-times` |`false` |Whether to ship a floored time, useful when sending measurements from multiple hosts to align them on a given time boundary.
+|`management.metrics.export.elastic.index-date-separator` |`-` |Prefix to separate the index name from the date format used for rolling indices.
+|`management.metrics.export.elastic.pipeline` | |Ingest pipeline name.
+|`management.metrics.export.graphite.graphite-tags-enabled` | |Whether Graphite tags should be used, as opposed to a hierarchical naming convention.
+|`management.metrics.export.newrelic.client-provider-type` | |Client provider type to use.
+|`management.metrics.export.prometheus.histogram-flavor` |`prometheus` |Histogram type for backing DistributionSummary and Timer.
+|`management.metrics.export.wavefront.sender.flush-interval` |`1s` |
+|`management.metrics.export.wavefront.sender.max-queue-size` |`50000` |
+|`management.metrics.export.wavefront.sender.message-size` | |
+|`server.error.include-binding-errors` |`never` |When to include "errors" attribute.
+|`server.error.include-message` |`never` |When to include "message" attribute.
+|`server.servlet.register-default-servlet` |`true` |Whether to register the default Servlet with the container.
+|`spring.data.cassandra.connection.connect-timeout` |`5s` |Timeout to use when establishing driver connections.
+|`spring.data.cassandra.connection.init-query-timeout` |`500ms` |Timeout to use for internal queries that run as part of the initialization process, just after a connection is opened.
+|`spring.data.cassandra.request.consistency` | |Queries consistency level.
+|`spring.data.cassandra.request.page-size` |`5000` |How many rows will be retrieved simultaneously in a single network roundtrip.
+|`spring.data.cassandra.request.serial-consistency` | |Queries serial consistency level.
+|`spring.data.cassandra.request.throttler.drain-interval` |`10ms` |How often the throttler attempts to dequeue requests.
+|`spring.data.cassandra.request.throttler.max-concurrent-requests` |`10000` |Maximum number of requests that are allowed to execute in parallel.
+|`spring.data.cassandra.request.throttler.max-queue-size` |`10000` |Maximum number of requests that can be enqueued when the throttling threshold is exceeded.
+|`spring.data.cassandra.request.throttler.max-requests-per-second` |`10000` |Maximum allowed request rate.
+|`spring.data.cassandra.request.throttler.type` |`none` |Request throttling type.
+|`spring.data.cassandra.request.timeout` |`2s` |How long the driver waits for a request to complete.
+|`spring.datasource.hikari.exception-override-class-name` | |
+|`spring.mvc.format.date` | |Date format to use, for example `dd/MM/yyyy`.
+|`spring.mvc.format.date-time` | |Date-time format to use, for example `yyyy-MM-dd HH:mm:ss`.
+|`spring.mvc.format.time` | |Time format to use, for example `HH:mm:ss`.
+|`spring.webflux.format.date` | |Date format to use, for example `dd/MM/yyyy`.
+|`spring.webflux.format.date-time` | |Date-time format to use, for example `yyyy-MM-dd HH:mm:ss`.
+|`spring.webflux.format.time` | |Time format to use, for example `HH:mm:ss`.
+|======================
+
+.Removed keys in `2.3.0.RC1`
+|======================
+|Key  |Replacement |Reason
+|`management.metrics.export.appoptics.num-threads` | |
+|`management.metrics.export.datadog.num-threads` | |
+|`management.metrics.export.dynatrace.num-threads` | |
+|`management.metrics.export.elastic.num-threads` | |
+|`management.metrics.export.humio.num-threads` | |
+|`management.metrics.export.influx.num-threads` | |
+|`management.metrics.export.kairos.num-threads` | |
+|`management.metrics.export.newrelic.num-threads` | |
+|`management.metrics.export.signalfx.num-threads` | |
+|`management.metrics.export.stackdriver.num-threads` | |
+|`management.metrics.export.wavefront.connect-timeout` | |
+|`management.metrics.export.wavefront.num-threads` | |
+|`management.metrics.export.wavefront.read-timeout` | |
+|`spring.data.cassandra.page-size` |`5000` |Queries default page size.
+|`spring.data.cassandra.pool.max-queue-size` |`spring.data.cassandra.request.throttler.max-queue-size` |
+|======================

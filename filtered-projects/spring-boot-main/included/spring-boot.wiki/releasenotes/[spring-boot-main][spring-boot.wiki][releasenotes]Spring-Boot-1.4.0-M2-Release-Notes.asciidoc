@@ -1,0 +1,348 @@
+:docs: https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/
+:framework-docs: https://docs.spring.io/spring-framework/docs/4.3.0.RC1/spring-framework-reference/htmlsingle/
+
+
+= Spring Boot 1.4.0 M2 Release Notes
+
+For changes in earlier milestones, please refer to:
+
+ - link:Spring-Boot-1.4.0-M1-Release-Notes[v1.4.0 M1]
+
+
+== Upgrading from Spring Boot 1.4.0 M1
+See instructions in the link:Spring-Boot-1.4.0-M1-Release-Notes[1.4.0.M1 release notes] for upgrading from v1.3.
+
+
+
+=== Test utilities and classes
+Spring Boot 1.4 ships with a new `spring-boot-test` module that contains a completely reorganized `org.springframework.boot.test` package. When upgrading a Spring Boot 1.3 application you should migrate from the deprecated classes in the old package to the equivalent class in the new structure. If you're using Linux or OSX, you can use the following command to migrate code:
+
+[indent=0]
+----
+find . -type f -name '*.java' -exec sed -i '' \
+-e s/org.springframework.boot.test.ConfigFileApplicationContextInitializer/org.springframework.boot.test.context.ConfigFileApplicationContextInitializer/g \
+-e s/org.springframework.boot.test.EnvironmentTestUtils/org.springframework.boot.test.util.EnvironmentTestUtils/g \
+-e s/org.springframework.boot.test.OutputCapture/org.springframework.boot.test.rule.OutputCapture/g \
+-e s/org.springframework.boot.test.SpringApplicationContextLoader/org.springframework.boot.test.context.SpringApplicationContextLoader/g \
+-e s/org.springframework.boot.test.SpringBootMockServletContext/org.springframework.boot.test.mock.web.SpringBootMockServletContext/g \
+-e s/org.springframework.boot.test.TestRestTemplate/org.springframework.boot.test.web.client.TestRestTemplate/g \
+{} \;
+----
+
+Additionally, Spring Boot 1.4 attempts to rationalize and simplify the various ways that a Spring Boot test can be run.  You should migrate the following to use the new `@SpringBootTest` annotation:
+
+ - From `@SpringApplicationConfiguration(classes=MyConfig.class)` to `@SpringBootTest(classes=MyConfig.class)`
+ - From `@ContextConfiguration(classes=MyConfig.class, loader=SpringApplicationContextLoader.class)` to `@SpringBootTest(classes=MyConfig.class)`
+ - From `@ContextConfiguration(classes=MyConfig.class, loader=SpringApplicationContextLoader.class)` to 
+`@SpringBootTest(classes=MyConfig.class)`
+ - From `@IntegrationTest` to `@SpringBootTest(webEnvironment=WebEnvironment.NONE)`
+ - From `@IntegrationTest with @WebAppConfiguration` to `@SpringBootTest(webEnvironment=WebEnvironment.DEFINED_PORT)` (or `RANDOM_PORT`)
+ - From `@WebIntegrationTest` to `@SpringBootTest(webEnvironment=WebEnvironment.DEFINED_PORT)` (or `RANDOM_PORT`)
+
+TIP: Whilst migrating tests you may also want to replace any `@RunWith(SpringJUnit4ClassRunner.class)` declarations with Spring 4.3's more readable `@RunWith(SpringRunner.class)`.
+
+For more details on the `@SpringBootTest` annotation refer to the {docs}#boot-features-testing-spring-boot-applications[updated documentation].
+
+
+
+=== Hibernate 5
+Hibernate 5.1 is now used as the default JPA persistence provider. If you are upgrading from Spring Boot 1.3 you will be moving from Hibernate 4.3 to Hibernate 5.1. Please refer to https://github.com/hibernate/hibernate-orm/blob/5.0/migration-guide.adoc[Hibernate migration documentation] for general upgrade instructions. In addition you should be aware of the following:
+
+`SpringNamingStrategy` is no longer used as Hibernate 5.1 has removed support for the old `NamingStrategy` interface. A new `SpringPhysicalNamingStrategy` is now auto-configured which is used in combination with Hibernate's default `ImplicitNamingStrategy`. This should be very close to (if not identical) to Spring Boot 1.3 defaults, however, you should check your Database schema is correct when upgrading.
+
+If you were already using Hibernate 5 before upgrading, you may be using Hibernate's 5 default. If you want to restore them after the upgrade, set this property in your configuration:
+
+[indent=0,source,properties]
+----
+spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+----
+
+In order to minimize upgrade pain, we set `hibernate.id.new_generator_mappings` to `false` for Hibernate 5. The Hibernate team generally don't recommend this setting, so if you're happy to deal with generator changes, you might want to set `spring.jpa.hibernate.use-new-id-generator-mappings` to `true` in your `application.properties` file.
+
+If you have major problems upgrading to Hibernate 5.1 you can downgrade to the older Hibernate version by overriding the `hibernate.version` property in your `pom.xml`:
+
+[indent=0,source,xml]
+----
+<properties>
+	<hibernate.version>4.3.11.Final</hibernate.version>
+</properties>
+----
+
+NOTE: Hibernate 4.3 will not be supported past Spring Boot 1.4. Please https://github.com/spring-projects/spring-boot/issues/new[raise an issue] if you find a bug that prevents you from upgrading.
+
+
+
+=== Guava caches
+Developers using Guava cache support are advised to migrate to https://github.com/ben-manes/caffeine[Caffeine].
+
+
+
+== New and Noteworthy
+
+TIP: Check link:Spring-Boot-1.4.0-M2-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+=== Spring Framework 4.3
+Spring Boot 1.4 builds on and requires Spring Framework 4.3. There are a number of nice refinements in Spring Framework 4.3 including new Spring MVC `@RequestMapping` annotations. Refer to the {framework-docs}#new-in-4.3[Spring Framework reference documentation] for details.
+
+Note that the test framework in Spring Framework 4.3 requires JUnit 4.12. See https://jira.spring.io/browse/SPR-13275[SPR-13275] for further details.
+
+=== Third-party library upgrades
+A number of third party libraries have been upgraded to their latest version. Updates include Hibernate 5.1, Jackson 2.7, Solr 5.5, Spring Data Hopper, Spring Session 1.2 & Hazelcast 3.6.  
+
+
+
+=== Image Banners
+You can now use image files to render ASCII art banners. Drop a `banner.gif`, `banner.jpg` or `banner.png` file into `src/main/resources` to have it automatically converted to ASCII. You can use the `banner.image.width` and `banner.image.height` properties to tweak the size, or use `banner.image.invert` to invert the colors.
+
+image::https://raw.githubusercontent.com/wiki/spring-projects/spring-boot/images/spring-banner-image.png[banner image]
+
+
+
+=== JSON Components
+A new `@JsonComponent` annotation is now provided for custom Jackson `JsonSerializer` and/or `JsonDeserializer` registration. This can be a useful way to decouple JSON serialization logic:
+
+[source,java,indent=0]
+----
+@JsonComponent
+public class Example {
+
+    public static class Serializer extends JsonSerializer<SomeObject> {
+        // ...
+    }
+
+    public static class Deserializer extends JsonDeserializer<SomeObject> {
+        // ...
+    }
+
+}
+----
+
+Additionally, Spring Boot also now provides `JsonObjectSerializer` and `JsonObjectDeserializer` base classes which provide useful alternatives to the standard Jackson versions when serializing objects. See the {docs}#boot-features-json-components[updated documentation] for details.
+
+
+
+=== Couchbase support
+Full auto-configuration support is now provided for Couchbase. You can easily access a `Bucket` and `Cluster` bean by adding the `spring-boot-starter-data-couchbase` "Starter" and providing a little configuration:
+
+[indent=0]
+----
+spring.couchbase.bootstrap-hosts=my-host-1,192.168.1.123
+spring.couchbase.bucket.name=my-bucket
+spring.couchbase.bucket.password=secret
+----
+
+It's also possible to use Couchbase as a backing store for a Spring Data `Repository` or as a `CacheManager`. Refer to the {docs}#boot-features-couchbase[updated documentation] for details.
+
+
+
+=== Neo4J Support
+Auto-configuration support is now provided for Neo4J. You can connect to a remote server or run an embedded Neo4J server. You can also use Neo4J to back a Spring Data `Repository`, for example:
+
+[source,java,indent=0]
+----
+public interface CityRepository extends GraphRepository<City> {
+
+    Page<City> findAll(Pageable pageable);
+
+    City findByNameAndCountry(String name, String country);
+
+}
+----
+
+Full details are provided in the {docs}#boot-features-neo4j[Neo4J section] of the reference documentation.
+
+
+
+=== Redis Spring Data repositories
+Redis can now be used to back Spring Data repositories. See the https://docs.spring.io/spring-data/redis/docs/current/reference/html/#redis.repositories[Spring Data Redis] documentation for more details.
+
+
+
+=== Narayana transaction manager support
+Auto-configuration support is now included for the Narayana transaction manager. You can choose between Narayana, Bitronix or Atomkos if you need JTA support. See {docs}#boot-features-jta-narayana[the updated reference guide] for details.
+
+
+
+=== Actuator info endpoint improvements
+You can now use the `InfoContributor` interface to register beans that expose information to the `/info` actuator endpoint. Out of the box support is provided for:
+
+* Full or partial Git information generated from the `git-commit-id-plugin` Maven or `gradle-git-properties` Gradle plugin (set `management.info.git.mode=full` to expose full details)
+* Build information generated from the Spring Boot Maven or Gradle plugin.
+* Custom information from the Environment (any property starting `info.*`)
+
+Details are documented in the {docs}#production-ready-application-info["Application information"] section of the reference docs.
+
+
+
+=== MetricsFilter improvements
+The `MetricsFilter` can now submit metrics in both the classic "merged" form, or grouped per HTTP method. Use `endpoints.metrics.filter` properties to change the configuration:
+
+[indent=0]
+----
+endpoints.metrics.filter.gauge-submissions=grouped
+endpoints.metrics.filter.counter-submissions=grouped,merged
+---- 
+
+
+
+=== Caffeine cache support
+Auto-configuration is provided for Caffeine v2.2 (a Java 8 rewrite of Guava’s caching support). Existing Guava cache users should consider migrating to Caffeine as Guava cache support will be dropped in a future release.
+
+
+
+=== Test improvements
+Spring Boot 1.4 includes a major overhaul of testing support. Test classes and utilities are now provided in dedicated `spring-boot-test` and `spring-boot-test-autoconfigure` jars (although most users will continue to pick them up via the `spring-boot-starter-test` "Starter"). We've added AssertJ, JSONassert and JsonPath dependencies to the test starter.
+
+
+
+==== @SpringBootTest
+With Spring Boot 1.3 there were multiple ways of writing a Spring Boot test. You could use `@SpringApplicationConfiguration`, `@ContextConfiguration` with the `SpringApplicationContextLoader`, `@IntegrationTest` or `@WebIntegrationTest`. With Spring Boot 1.4, a single `@SpringBootTest` annotation replaces all of those.
+
+Use `@SpringBootTest` in combination with `@RunWith(SpringRunner.class)` and set the `webEnvironment` attribute depending on the type of test you want to write.
+
+A classic integration test, with a mocked servlet environment:
+
+[source,java,indent=0]
+----
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class MyTest {
+
+	// ...
+
+}
+----
+
+A web integration test, running a live server listening on a defined port:
+
+[source,java,indent=0]
+----
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment=WebEnvionment.DEFINED_PORT)
+public class MyTest {
+
+	// ...
+
+}
+----
+
+A web integration test, running a live server listening on a random port:
+
+[source,java,indent=0]
+----
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment=WebEnvionment.RANDOM_PORT)
+public class MyTest {
+
+	@LocalServerPort
+	private int actualPort;
+
+	// ...
+
+}
+----
+
+See the {docs}#boot-features-testing-spring-boot-applications[updated reference documentation] for details.
+
+
+
+==== Auto-detection of test configuration
+Test configuration can now be automatically detected for most tests. If you follow the Spring Boot recommended conventions for structuring your code the `@SpringBootApplication` class will be loaded when no explicit configuration is defined. If you need to load a different `@Configuration` class you can either include it as a nested inner-class in your test, or use the `classes` attribute of `@SpringBootTest`.
+
+See {docs}#boot-features-testing-spring-boot-applications-detecting-config[Detecting test configuration] for details.
+
+
+
+==== Mocking and spying beans
+It's quite common to want to replace a single bean in your `ApplicationContext` with a mock for testing purposes. With Spring Boot 1.4 this now as easy as annotating a field in your test with `@MockBean`:
+
+[source,java,indent=0]
+----
+@RunWith(SpringRunner.class)
+@SpringBootTest
+public class MyTest {
+
+    @MockBean
+    private RemoteService remoteService;
+
+    @Autowired
+    private Reverser reverser;
+
+    @Test
+    public void exampleTest() {
+        // RemoteService has been injected into the reverser bean
+        given(this.remoteService.someCall()).willReturn("mock");
+        String reverse = reverser.reverseSomeCall();
+        assertThat(reverse).isEqualTo("kcom");
+    }
+
+}
+----
+
+You can also use `@SpyBean` if you want to spy on an existing bean rather than using a full mock.
+
+See the {docs}#boot-features-testing-spring-boot-applications-mocking-beans[mocking section] of the reference documentation for more details.
+
+
+==== Auto-configured tests
+Full application auto-configuration is sometime overkill for tests, you often only want to auto-configure a specific "slice" of your application. Spring Boot 1.4 introduces a number of specialized test annotations that can be used for testing specific parts of your application:
+
+* `@JsonTest` - For testing JSON marshalling and unmarshalling.
+* `@WebMvcTest` - For testing Spring MVC `@Controllers` using MockMVC.
+* `@DataJpaTest` - For testing Spring Data JPA elements
+
+Many of the annotations provide additional auto-configuration that's specific to testing. For example, if you use `@WebMvcTest` you can `@Autowire` a fully configured `MockMvc` instance.
+
+See the {docs}#boot-features-testing-spring-boot-applications-testing-autoconfigured-tests[reference documentation] for details.
+
+==== JSON AssertJ assertions
+New `JacksonTester`, `GsonTester` and `BasicJsonTester` classes can be used in combination with AssertJ to test JSON marshalling and unmarshalling. Testers can be used with the `@JsonTest` annotation or directly on a test class:
+
+[source,java,indent=0]
+----
+@RunWith(SpringRunner.class)
+@JsonTest
+public class MyJsonTests {
+
+    private JacksonTester<VehicleDetails> json;
+
+    @Test
+    public void testSerialize() throws Exception {
+        VehicleDetails details = new VehicleDetails("Honda", "Civic");
+        assertThat(this.json.write(details)).isEqualToJson("expected.json");
+        assertThat(this.json.write(details)).hasJsonPathStringValue("@.make");
+    }
+
+}
+----
+
+See the {docs}#boot-features-testing-spring-boot-applications-testing-autoconfigured-json-tests[JSON section] of the reference documentation or the Javadocs for details.
+
+=== Auto-configuration for Spring REST Docs
+
+Combined with the support for auto-configuring `MockMvc` described above, auto-configuration for Spring REST Docs has been introduced. REST Docs can be enabled using the new `@AutoConfigureRestDocs` annotation. This will result in the `MockMvc` instance being automatically configured to use REST Docs and also removes the need to use REST Docs' JUnit rule. Please see the {docs}#boot-features-testing-spring-boot-applications-testing-autoconfigured-rest-docs[relevant section] of the reference documentation for further details.
+
+=== Miscellaneous 
+* `server.jetty.acceptors` and `server.jetty.selectors` properties have been added to configure the number of Jetty acceptors and selectors.
+* `server.max-http-header-size` and `server.max-http-post-size` can be used to constrain maximum sizes for HTTP headers and HTTP POSTs. Settings work on Tomcat, Jetty and Undertow.
+* The minimum number of spare threads for Tomcat can now be configured using `server.tomcat.min-spare-threads`
+* Profile negation in now supported in `application.yml` files. Use the familiar `!` prefix in `spring.profiles` values
+
+
+
+== Deprecations in Spring Boot 1.4.0
+* Velocity support has been deprecated since support has been deprecated as of Spring Framework 4.3.
+* Some constructors in `UndertowEmbeddedServletContainer` have been deprecated (most uses should be unaffected).
+* The `locations` and `merge` attributes of the `@ConfigurationProperties` annotation have been deprecated in favor of directly configuring the `Environment`.
+* The protected `SpringApplication.printBanner` method should no longer be used to print a custom banner. Use the `Banner` interface instead.
+* The protected `InfoEndpoint.getAdditionalInfo` method has been deprecated in favor of the `InfoContributor` interface.
+* `org.springframework.boot.autoconfigure.test.ImportAutoConfiguration` has been moved to `org.springframework.boot.autoconfigure`.
+* All classes in the `org.springframework.boot.test` package have been deprecated. See the "upgrading" notes above for details.
+
+
+
+== Property Renames
+* `spring.jackson.serialization-inclusion` should be replaced with `spring.jackson.default-property-inclusion`.
+* `spring.activemq.pooled` should be replaced with `spring.activemq.pool.enabled`.
+* `spring.jpa.hibernate.naming-strategy` should be replaced with `spring.jpa.hibernate.naming.strategy`.
+* `server.tomcat.max-http-header-size` should be replaced with `server.max-http-header-size`.

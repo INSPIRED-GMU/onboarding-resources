@@ -1,0 +1,96 @@
+Configuration properties change between `2.0.4.RELEASE` and `2.1.0.M1`
+
+.New keys in `2.1.0.M1`
+|======================
+|Key  |Default value |Description
+|`management.endpoint.caches.cache.time-to-live` |`0ms` |Maximum time that a response can be cached.
+|`management.endpoint.caches.enabled` |`true` |Whether to enable the caches endpoint.
+|`management.endpoint.integrationgraph.cache.time-to-live` |`0ms` |Maximum time that a response can be cached.
+|`management.endpoint.integrationgraph.enabled` |`true` |Whether to enable the integrationgraph endpoint.
+|`management.metrics.tags` | |Common tags that are applied to every meter.
+|`server.tomcat.resource.allow-caching` |`true` |Whether static resource caching is permitted for this web application.
+|`spring.artemis.pool.block-if-full` |`true` |Whether to block when a connection is requested and the pool is full.
+|`spring.artemis.pool.block-if-full-timeout` |`-1ms` |Blocking period before throwing an exception if the pool is still full.
+|`spring.artemis.pool.create-connection-on-startup` |`true` |Whether to create a connection on startup.
+|`spring.artemis.pool.enabled` |`false` |Whether a PooledConnectionFactory should be created, instead of a regular ConnectionFactory.
+|`spring.artemis.pool.expiry-timeout` |`0ms` |Connection expiration timeout.
+|`spring.artemis.pool.idle-timeout` |`30s` |Connection idle timeout.
+|`spring.artemis.pool.max-connections` |`1` |Maximum number of pooled connections.
+|`spring.artemis.pool.maximum-active-session-per-connection` |`500` |Maximum number of active sessions per connection.
+|`spring.artemis.pool.reconnect-on-exception` |`true` |Reset the connection when a "JMSException" occurs.
+|`spring.artemis.pool.time-between-expiration-check` |`-1ms` |Time to sleep between runs of the idle connection eviction thread.
+|`spring.artemis.pool.use-anonymous-producers` |`true` |Whether to use only one anonymous "MessageProducer" instance.
+|`spring.datasource.dbcp2.default-schema` | |
+|`spring.elasticsearch.rest.password` | |Credentials password.
+|`spring.elasticsearch.rest.uris` |`http://localhost:9200` |Comma-separated list of the Elasticsearch instances to use.
+|`spring.elasticsearch.rest.username` | |Credentials username.
+|`spring.flyway.batch` | |
+|`spring.flyway.callbacks` | |
+|`spring.flyway.error-overrides` | |
+|`spring.flyway.ignore-ignored-migrations` | |
+|`spring.flyway.oracle-sqlplus` | |
+|`spring.flyway.stream` | |
+|`spring.jackson.visibility` | |Jackson visibility thresholds that can be used to limit which methods (and fields) are auto-detected.
+|`spring.jms.cache.consumers` |`false` |Whether to cache message consumers.
+|`spring.jms.cache.enabled` |`true` |Whether to cache sessions.
+|`spring.jms.cache.producers` |`true` |Whether to cache message producers.
+|`spring.jms.cache.session-cache-size` |`1` |Size of the session cache (per JMS Session type).
+|`spring.kafka.admin.ssl.key-store-location` | |Location of the key store file.
+|`spring.kafka.admin.ssl.key-store-password` | |Store password for the key store file.
+|`spring.kafka.admin.ssl.trust-store-location` | |Location of the trust store file.
+|`spring.kafka.admin.ssl.trust-store-password` | |Store password for the trust store file.
+|`spring.kafka.consumer.ssl.key-store-location` | |Location of the key store file.
+|`spring.kafka.consumer.ssl.key-store-password` | |Store password for the key store file.
+|`spring.kafka.consumer.ssl.trust-store-location` | |Location of the trust store file.
+|`spring.kafka.consumer.ssl.trust-store-password` | |Store password for the trust store file.
+|`spring.kafka.producer.ssl.key-store-location` | |Location of the key store file.
+|`spring.kafka.producer.ssl.key-store-password` | |Store password for the key store file.
+|`spring.kafka.producer.ssl.trust-store-location` | |Location of the trust store file.
+|`spring.kafka.producer.ssl.trust-store-password` | |Store password for the trust store file.
+|`spring.kafka.ssl.key-store-location` | |Location of the key store file.
+|`spring.kafka.ssl.key-store-password` | |Store password for the key store file.
+|`spring.kafka.ssl.trust-store-location` | |Location of the trust store file.
+|`spring.kafka.ssl.trust-store-password` | |Store password for the trust store file.
+|`spring.liquibase.database-change-log-lock-table` |`DATABASECHANGELOGLOCK` |Name of table to use for tracking concurrent Liquibase usage.
+|`spring.liquibase.database-change-log-table` |`DATABASECHANGELOG` |Name of table to use for tracking change history.
+|`spring.liquibase.liquibase-schema` | |Schema to use for Liquibase objects.
+|`spring.liquibase.liquibase-tablespace` | |Tablespace to use for Liquibase objects.
+|`spring.liquibase.test-rollback-on-update` |`false` |Whether rollback should be tested before update is performed.
+|`spring.main.allow-bean-definition-overriding` |`false` |Whether bean definition overriding, by registering a definition with the same name as an existing definition, is allowed.
+|`spring.mvc.servlet.path` |`/` |Path of the dispatcher servlet.
+|`spring.quartz.auto-startup` |`true` |Whether to automatically start the scheduler after initialization.
+|`spring.quartz.overwrite-existing-jobs` |`false` |Whether configured jobs should overwrite existing job definitions.
+|`spring.quartz.scheduler-name` |`quartzScheduler` |Name of the scheduler.
+|`spring.quartz.startup-delay` |`0s` |Delay after which the scheduler is started once initialization completes.
+|`spring.quartz.wait-for-jobs-to-complete-on-shutdown` |`false` |Whether to wait for running jobs to complete on shutdown.
+|`spring.resources.chain.compressed` |`false` |Whether to enable resolution of already compressed resources (gzip, brotli).
+|======================
+
+.Removed keys in `2.1.0.M1``
+|======================
+|Key  |Replacement |Reason
+|`server.servlet.path` |`spring.mvc.servlet.path` |
+|`spring.couchbase.env.endpoints.query` | |Number of sockets per node against the query (N1QL) service.
+|`spring.couchbase.env.endpoints.view` | |Number of sockets per node against the view service.
+|`spring.datasource.hikari.initialization-fail-fast` | |
+|`spring.datasource.hikari.jdbc4-connection-test` | |
+|`spring.datasource.hikari.scheduled-executor-service` | |
+|`spring.flyway.encoding` | |
+|`spring.kafka.admin.ssl.keystore-location` |`spring.kafka.admin.ssl.key-store-location` |
+|`spring.kafka.admin.ssl.keystore-password` |`spring.kafka.admin.ssl.key-store-password` |
+|`spring.kafka.admin.ssl.truststore-location` |`spring.kafka.admin.ssl.trust-store-location` |
+|`spring.kafka.admin.ssl.truststore-password` |`spring.kafka.admin.ssl.trust-store-password` |
+|`spring.kafka.consumer.ssl.keystore-location` |`spring.kafka.consumer.ssl.key-store-location` |
+|`spring.kafka.consumer.ssl.keystore-password` |`spring.kafka.consumer.ssl.key-store-password` |
+|`spring.kafka.consumer.ssl.truststore-location` |`spring.kafka.consumer.ssl.trust-store-location` |
+|`spring.kafka.consumer.ssl.truststore-password` |`spring.kafka.consumer.ssl.trust-store-password` |
+|`spring.kafka.producer.ssl.keystore-location` |`spring.kafka.producer.ssl.key-store-location` |
+|`spring.kafka.producer.ssl.keystore-password` |`spring.kafka.producer.ssl.key-store-password` |
+|`spring.kafka.producer.ssl.truststore-location` |`spring.kafka.producer.ssl.trust-store-location` |
+|`spring.kafka.producer.ssl.truststore-password` |`spring.kafka.producer.ssl.trust-store-password` |
+|`spring.kafka.ssl.keystore-location` |`spring.kafka.ssl.key-store-location` |
+|`spring.kafka.ssl.keystore-password` |`spring.kafka.ssl.key-store-password` |
+|`spring.kafka.ssl.truststore-location` |`spring.kafka.ssl.trust-store-location` |
+|`spring.kafka.ssl.truststore-password` |`spring.kafka.ssl.trust-store-password` |
+|`spring.resources.chain.gzipped` |`spring.resources.chain.compressed` |
+|======================

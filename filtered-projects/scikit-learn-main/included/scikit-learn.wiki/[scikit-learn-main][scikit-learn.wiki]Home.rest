@@ -1,0 +1,61 @@
+Welcome to the scikit-learn wiki
+=====================================
+
+`Homepage <http://scikit-learn.org>`_
+
+[[Available reviewers | Available reviewers]]
+
+[[Sprint planning & Upcoming events | Upcoming events]]
+
+[[Triaging tips | Triaging tips]]
+
+Developer documentation
+-----------------------
+
+*Note that this wiki is not well maintained.* See also our main `developer documentation <https://scikit-learn.org/dev/developers/>`_.
+
+[[Contributors Guide]]
+
+[[How to write docs]]
+
+[[git and github tips]]
+
+[[How to make a release]]
+
+[[Quick packaging for Debian/Ubuntu]]
+
+[[C integer types: the missing manual]]
+
+Working notes on implementation issues
+-------------------------------------------
+
+[[neighbors Working Notes]]
+
+[[Manifold Working Notes]]
+
+[[liblinear fork]]
+
+[[Pipeline et al. design issues]]
+
+
+Google summer of code (GSOC)
+-------------------------------
+[[Google summer of code (GSOC) 2017]]
+
+[[Google summer of code (GSOC) 2016]]
+
+[[Google summer of code (GSOC) 2015]]
+
+[[Google summer of code (GSOC) 2014]]
+
+[[A list of topics for a Google summer of code (GSOC) 2013]]
+
+[[A list of topics for a Google summer of code (GSOC) 2012]]
+
+[[A list of topics for a Google summer of code (GSOC) 2011]]
+
+[[Need for speed project discussion, summer 2012]]
+
+[[Coordinated descent in linear models project discussion, summer 2012]]
+
+[[Diversity]]

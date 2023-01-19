@@ -1,0 +1,78 @@
+:docs: https://docs.spring.io/spring-boot/docs/2.1.0.M3/reference/htmlsingle
+:framework-docs: https://docs.spring.io/spring-framework/docs/5.1.0.RC3/spring-framework-reference
+:actuator-docs: https://docs.spring.io/spring-boot/docs/2.1.0.M3/actuator-api/html
+:maven-docs: https://docs.spring.io/spring-boot/docs/2.1.0.M3/maven-plugin
+
+= Spring Boot 2.1.0 M3 Release Notes
+
+For changes in earlier milestones, please refer to:
+
+ - link:Spring-Boot-2.1.0-M2-Release-Notes[v2.1.0 M2]
+ - link:Spring-Boot-2.1.0-M1-Release-Notes[v2.1.0 M1]
+
+== Upgrading from Spring Boot 2.1.0 M2
+See instructions in the link:Spring-Boot-2.1.0-M2-Release-Notes[2.1.0.M2 release notes] for upgrading from v2.1.0.M1.
+
+=== Application Insights
+The `spring.insights.web.log-request-details` configuration property introduced in M2 has been relocated to `spring.http.log-request-details`. If you defined the older property, you should rename it with this release.
+
+=== Spring Version POM property
+The `spring.version` property defined in the `spring-boot-dependencies` POM has been renamed. To override the Spring Framework version you should now use the `spring-framework.version` property instead. We generally recommend that you stick with the managed framework version unless absolutely necessary.
+
+
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.1.0-M3-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+=== Kafka Streams Support
+Auto-configuration is now provided for https://kafka.apache.org/documentation/streams/[Kafa Streams] when a `org.apache.kafka:kafka-streams` dependency is declared. See {docs}#boot-features-kafka-streams[the updated Spring Boot documentation] and the [Spring Kafka documentation](https://docs.spring.io/spring-kafka/reference/htmlsingle/#kafka-streams) for details.
+
+=== Non-web OAuth Applications
+It's now easier to write non-web OAuth applications as we provide an auto-configured `InMemoryReactiveClientRegistrationRepository` bean regardless of the application type. If you're writing an application that doesn't use an embedded web server (such as a CLI application) you can now inject and use the configured registration repository directly.
+
+=== Context ApplicationConversionService Support
+The `ApplicationConversionService` is now registered by default with the `Environment` and `BeanFactory` created by `SpringApplication`. This allows you to use application converters directly with core Spring Framework items such as the `@Value` annotation:
+
+[source,java]
+----
+@Value("${my.duration:10s}")
+private Duration duration;
+----
+
+=== Logging Groups
+Logger groups can be defined to allow related loggers to be configured in one go. For example, you could declare a `tomcat` group that allows you to configure `org.apache.catalina`, `org.apache.coyote` and `org.apache.tomcat` loggers with a single key:
+
+[source,properties]
+----
+# define the group
+logging.group.tomcat=org.apache.catalina, org.apache.coyote, org.apache.tomcat
+
+# use the group (possibly in a different configuration file)
+logging.level.tomcat=TRACE
+----
+
+Convenient `web` and `sql` groups are provided out-of-the-box. See the {docs}#boot-features-custom-log-groups[reference guide] for details.
+
+=== Miscellaneous
+Apart from the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+* Configuration property meta-data is now ordered, with deprecated items appearing last.
+* The `withDetails` method on `Health.Builder` now also accepts a `Map`.
+* The `BackgroundPreinitializer` can be disabled for if a `spring.backgroundpreinitializer.ignore` system property is set
+* The JAP starter POM now works out-of-the-box on Java 9+
+* Kafka auto-configuation now supports `errorHandler` `transactionManager` and `afterRollbackProcessor` beans.
+* A reactive `ReactiveJwtDecoder` is now auto-configured when you have an issuer url defined.
+* MongoDB auto-configuration will now back-off when a `com.mongodb.client.MongoClient` bean is defined (as well as the more usual `com.mongodb.MongoClient`).
+* You can now optionally use Jetty RS as HTTP driver for WebClient
+* Security configuration is now applied to `WebTestClient`
+* `WebExceptionHandlers` are now supported by `@WebFluxTest`
+
+
+== Deprecations in Spring Boot 2.1.0 M3
+The `secure` attribute on `@AutoConfigureMockMvc` has been deprecated in favor of using Spring Security's `@WithMockUser` annotation.
+
+== Configuration Property Changes
+* The `++spring.security.oauth2.client.registration.login.*.redirect-uri-template++` property is deprecated in favor of `++spring.security.oauth2.client.registration.login.*.redirect-uri++`
+* The `spring.security.oauth2.resource.jwt.jwk.set-uri` property has been renamed to `spring.security.oauth2.resourceserver.jwt.jwk-set-uri`
+* The `spring.cloud.enabled` property has been removed (exclude `CloudServiceConnectorsAutoConfiguration` if you need to disable cloud connectors)
+* All `++management.metrics.binders.*.enabled++` properties have been removed in favor of directly excluding the auto-configuration.

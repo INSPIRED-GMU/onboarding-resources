@@ -1,0 +1,126 @@
+:actuator-docs: https://docs.spring.io/spring-boot/docs/2.6.0-SNAPSHOT/actuator-api/html/
+:docs: https://docs.spring.io/spring-boot/docs/2.6.0-SNAPSHOT/reference/html/
+
+= Spring Boot 2.6.0 M2 Release Notes
+
+
+
+== Upgrading from Spring Boot 2.5
+
+
+
+=== Deprecations from Spring Boot 2.4
+Classes, methods and properties that were deprecated in Spring Boot 2.4 have been removed in this release.
+Please ensure that you aren't calling deprecated methods before upgrading.
+
+
+
+=== Records and `@ConfigurationProperties`
+If you are using `@ConfigurationProperties` with a Java 16 record and the record has a single constructor, it no longer needs to be annotated with `@ConstructorBinding`.
+If your record has multiple constructors, `@ConstructorBinding` should still be used to identify the constructor to use for property binding.
+
+
+
+=== Dependency Management for org.jboss:jboss-transaction-spi removed
+Dependency management for `org.jboss:jboss-transaction-spi` has been removed.
+If you are using `org.jboss:jboss-transaction-spi` you should define your own dependency management that meets your application’s needs.
+
+
+
+=== Vault-related Flyway Properties Removed
+The 7.12 release of Flyway moved the Vault-related settings to a closed-source extension. Unfortunately, this prevents Spring Boot from configuring them. As a result, the corresponding `spring.flyway.vault-secrets`, `spring.flyway.vault-token`, and `spring.flyway.vault-url` properties have been removed. If you are a Flyway Teams user, the settings can be configured via a `FlywayConfigurationCustomizer` bean, `FluentConfigiguration.getExtensionConfiguration` and the Vault `ApiExtension`
+
+
+
+=== Circular References Prohibited by Default
+Circular references between beans are now prohibited by default.
+If your application fails to start due to a `BeanCurrentlyInCreationException` you are strongly encouraged to update your configuration to break the dependency cycle.
+If you are unable to do so, circular references can be allowed again by setting `spring.main.allow-circular-references` to `true`, or using the new setter methods on `SpringApplication` and `SpringApplicationBuilder`
+This will restore 2.5's behaviour and automatically attempt to break the dependency cycle.
+
+
+
+=== Minimum Requirements Changes
+None.
+
+
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.6.0-M2-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+
+
+=== MessageSource-based Interpolation of Bean Validation Messages
+The application's `MessageSource` is now used when resolving `{parameters}` in constraint messages.
+This allows you to use your application's `messages.properties` files for Bean Validation messages.
+Once the parameters have been resolved, message interpolation is completed using Bean Validation's default interpolator.
+
+
+
+=== Using WebTestClient for Testing Spring MVC
+Developers could use `WebTestClient` to test WebFlux apps in mock environments, or any Spring web app against live servers. This change also enables `WebTestClient` for Spring MVC in mock environments: classes annotated with `@AutoConfigureMockMvc` can get injected a `WebTestClient`. This makes our support complete, you can now use a single API to drive all your web tests!
+
+
+
+=== Auto-configuration for spring-rabbit-stream
+Auto-configuration for Spring AMQP's new `spring-rabbit-stream` module has been added.
+A `StreamListenerContainer` is auto-configured when the `spring.rabbitmq.listener.type` property is set to `stream`.
+The `spring.rabbitmq.stream.*` properties can be used to configure access to the broker and `spring.rabbitmq.listener.stream.native-listener` can be used to enable native listener support.
+
+
+
+=== Additional Path for Health Groups
+Health groups can be made available at an additional path on either the main or management port.
+This is useful in cloud environments such as Kubernetes, where it is quite common to use a separate management port for the actuator endpoints for security purposes. 
+Having a separate port could lead to unreliable health checks because the main application might not work properly even if the health check is successful.
+A typical configuration would have all the actuator endpoints on a separate port and health groups that are used for liveness and readiness available at an additional path on the main port.
+
+
+ 
+=== Health Groups with Composite Contributors
+Health groups can be configured to include/exclude parts of a `CompositeHealthContributor`.
+This can be done by specifying the fully qualified path to the component.
+For example, a component `spring` which is nested inside a composite named `test`, can be included using `test/spring`.
+
+
+
+=== Network Configuration for Docker Image Building
+A `network` configuration parameter has been added to the Maven plugin `spring-boot:build-image` goal and the Gradle `bootBuildImage` task. This parameter can be used to configure the network driver used by the container that runs the Cloud Native Buildpacks builder process. 
+
+
+=== Dependency Upgrades
+Spring Boot 2.6 M2 moves to new versions of several Spring projects:
+
+* https://github.com/micrometer-metrics/micrometer/releases/tag/v1.8.0-M2[Micrometer 1.8.0-M2]
+* https://github.com/spring-projects/spring-amqp/releases/tag/v2.4.0-M2[Spring AMQP 2.4.0-M2]
+* https://spring.io/blog/2021/08/12/spring-data-2021-1-0-m2-released[Spring Data 2021.1.0-M2]
+* https://github.com/spring-projects/spring-kafka/releases/tag/v2.8.0-M2[Spring Kafka 2.8.0-M2]
+* https://github.com/spring-projects/spring-hateoas/releases/tag/1.4.0-M2[Spring HATEOAS 1.4.0-M2]
+* https://github.com/spring-projects/spring-security/releases/tag/5.6.0-M2[Spring Security 5.6.0-M2]
+* Spring Session 2021.1.0-M1
+
+Numerous third-party dependencies have also been updated, some of the more noteworthy of which are the following:
+
+* Artemis 2.18
+* Commons DBCP 2.9
+* Commons Pool 2.11
+* Couchbase Client 3.2
+* Flyway 7.13
+* Jolokia 1.7
+* QueryDSL 5.0
+
+
+
+=== Miscellaneous
+Apart from the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+- The `heapdump` endpoint is now supported on OpenJ9 where it will produce a heap dump in PHD format.
+- New configuration properties are now supported for multipart support in WebFlux, under `spring.webflux.multipart.*`
+- Any `ContainerCustomizer` bean is now called to configure the auto-configured Spring AMQP `MessageListenerContainer`
+- Jackson's default leniency can be configured using the `spring.jackson.default-leniency` property.
+- Distribution statistic's expiry and buffer length are now configurable.
+
+
+== Deprecations in Spring Boot 2.6.0 M2
+
+- Three methods on `AbstractApplicationContextRunner` have been deprecated in favor of new `RunnerConfiguration`-based equivalents

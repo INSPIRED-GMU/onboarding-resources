@@ -1,0 +1,163 @@
+== Fetching PRs
+To ensure consistent and clean history, pull requests should never be merged using GitHub's user interface.
+Instead you should always fetch a pull-request to your local machine to merge it.
+
+TIP: You can install https://github.com/philwebb/spring-userscripts/blob/master/github-manual-merge.user.js[this user-script] in your browser to add manual merge steps to the GitHub UI
+
+There are few ways to fetch PRs
+
+
+
+=== Adding Remote Repos
+If you have a regular contributor, you might want to add them as a remote repository so that you can easily fetch any branch that they create.
+
+Do do this, you can use the following command:
+
+----
+$ git remote add example https://github.com/example/spring-boot
+----
+
+If you're using https://github.com/github/hub[Hub], this is even easier:
+
+----
+$ hub remote add example
+----
+
+In both cases, a new remote named `example` is created that points to `https://github.com/example/spring-boot`.
+
+To check out the branch used for the pull request, creating a local branch named after the pull request as shown in the following example:
+
+----
+$ git checkout -b pr/1234 example/some-new-feature
+----
+
+The example above creates a local branch named `pr/1234` that will track the `some-new-feature` branch of the `example` remote.
+
+
+
+=== Fetching a Single PR
+Adding a new remote for each pull-request can be annoying, so alternatively you can directly fetch a remote branch:
+
+----
+$ git fetch https://github.com/example/spring-boot.git some-new-feature
+$ git checkout -b pr/1234 FETCH_HEAD
+----
+
+The example above creates a local branch named `pr/1234` directly from the `some-new-feature` branch of the `example` remote.
+
+With https://github.com/github/hub[Hub], you can fetch the PR with one command: 
+
+----
+$ hub pr checkout 1234 pr/1234
+----
+
+Or with https://cli.github.com/[GitHub CLI]: 
+
+----
+$ gh pr checkout 1234 -b pr/1234
+----
+
+### Fetching All PRs
+
+GitHub allows you to automatically fetch all pull-requests for a repository.
+To do this, you first have to edit the `.git/config` file for the repository.
+
+Find the `remote` for the upstream project and add an additional `pr/*` section.
+
+For example, if your remote is named `spring-projects` change this:
+
+----
+[remote "spring-projects"]
+        url = https://github.com/spring-projects/spring-boot.git
+        fetch = +refs/heads/*:refs/remotes/spring-projects/*
+----
+
+to this:
+
+----
+[remote "spring-projects"]
+        url = https://github.com/spring-projects/spring-boot.git
+        fetch = +refs/heads/*:refs/remotes/spring-projects/*
+        fetch = +refs/pull/*/head:refs/remotes/spring-projects/pr/*
+----
+
+Now whenever you do `git fetch <upstream>` you'll also get all pull-requests.
+
+To checkout a pull request, you can do:
+
+----
+$ git checkout pr/15144
+----
+
+
+
+== Rebasing PRs
+Once you have fetched a PR locally, you'll need to rebase it.
+First, fetch from `<upstream>` to ensure that you have an up-to-date via of the origin repository, as shown in the following example:
+
+----
+$ git fetch spring-projects
+----
+
+Rebase the branch on top of the branch into which it will be merged, as shown in the following example:
+
+----
+$ git rebase spring-projects/main
+----
+
+TIP: Some users send multiple commits for a single pull request
+You can use `git rebase -i spring-projects/main` to do an interactive rebase.
+Use `F` to squash commits together
+
+Fix any conflicts that result from the rebase and commit the changes. 
+
+
+
+== Polishing PRs
+
+Amend the commit message so that it matches the project's style and references the pull request using `See gh-1234` (not `Closes gh-1234`).
+
+Make any changes that are necessary to polish the contributed code and commit them separately.
+The title of the polishing commit's message should reference the title of the commit that's being polished.
+For example, if the original commit's title is `Add support for some new feature` the polishing commit's title should be `Polish "Add support for some new feature"`. Its message should also reference the pull request using `See gh-1234`.
+
+
+
+== Merging PRs
+Check out the branch into which the changes will be merged, as shown in the following example:
+
+----
+$ git checkout main
+----
+
+Merge the changes. This should be done using `--no-ff` and `--log` to ensure that a fast-forward merge is not performed and to guarantee the creation of a useful merge commit. The merge commit makes merged pull requests easier to identify. The title of the merge commit should reference the pull request that's being merged and the source of the pull request. It should also include "Closes gh-1234" so that the pull-request is closed. Here's an example:
+
+----
+$ git merge --no-ff --log -m "Merge pull request #1234 from emmajones" pr/1234
+$ git commit --amend -m"$(git log --format=%B -n1)$(echo -e "\n\nCloses gh-1234")"
+----
+
+If you merge a lot of PRs you can optionally use https://github.com/spring-projects/spring-boot/wiki/Useful-git-aliases#merge-prs[this alias] and then type:
+
+----
+$ git mergepr pr/1234
+----
+
+The example above merges the branch `pr/1234`. The title of the merge commit will be:
+
+----
+Merge pull request #1234 from emmajones
+
+* gh-17002:
+  Check for null in SpringApplication constructor
+  Polish "Check for null in SpringApplication constructor"
+
+Closes gh-1234
+----
+
+The changes can now be pushed and your local workspace tidied up by deleting your local branch and the remote (if used), as shown in the following example:
+
+----
+$ git branch -d pr/1234
+$ git remote remove example
+----

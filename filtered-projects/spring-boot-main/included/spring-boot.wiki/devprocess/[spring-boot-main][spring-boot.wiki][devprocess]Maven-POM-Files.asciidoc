@@ -1,0 +1,121 @@
+
+NOTE: Spring Boot has migrated to Gradle, this page is no longer relevant.
+
+== Dependency management
+Spring Boot is a multi-modules project, with management of dependencies split in two main areas:
+
+* A Bill of Materials providing the public (and enforced) dependencies of the project (`spring-boot-dependencies`).
+* An internal parent providing management for components that the project needs, while not being responsible to expose that to the outside (`spring-boot-parent`).
+
+Separating those two concerns is very important as some dependencies that the project use cannot be enforced in the BOM.
+Dependencies are centralized into either the parent or the BOM, which means that the version of a plugin or a dependency can't be set in a child pom.
+
+Dependency management should only manage the version with `exclusions` for transitive libraries if necessary.
+In particular, it should not override the default scope (e.g. `compile`).
+
+
+
+== POM structure
+A `pom.xml` file should be structured as follows:
+
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-parent</artifactId>
+		<version>X.X.X.BUILD-SNAPSHOT</version>
+	</parent>
+	<artifactId>spring-boot-xxx</artifactId>
+	<name>Short name for XXX</name>
+	<description>Longer description for XXX</description>
+	<properties/>
+	<dependencies/>
+	<profiles/>
+</project>
+----
+
+To improve consistency amongst projects, it is important that various elements of the pom are ordered consistently.
+In particular, the following apply:
+
+* The `parent` must be the first element (after the `modelVersion`) to indicate the hierarchy in which this module is into.
+* The `groupId` and the `version` should not be provided again as those are inferred from the parent. In a traditional multi-modules build, the version is common.
+* If the project generates a `jar`, the `packaging` element should not be present as this is the default value
+
+
+
+== properties section
+Properties should be grouped by scope and ordered alphabetically within that scope.
+For instance, a `pom.xml` may define some build-related properties and then other properties that are specific to the project.
+Those should ideally be split in separate groups, each listed alphabetically.
+
+For instance:
+
+[source,xml]
+----
+<properties>
+	<java.version>11</java.version>
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	<my.property>abc/<my.property>
+	<something.else>def</something.else>
+</properties>
+----
+
+== dependencies section
+Dependencies of a module should be grouped by scope in the following order:
+
+* `compile`
+* `runtime`
+* optional (with the `<optional>true</optional> flag)`
+* `provided`
+* `test`
+
+Dependencies in each group should be ordered alphabetically using the `groupId` and then the `artifactId`.
+This has the advantage of easily lookup a dependency and find the dependencies used by a given group (usually referring to a project).
+
+The example below illustrates those rules:
+
+[source,xml]
+----
+<dependencies>
+	<!-- Compile -->
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-actuator</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-web</artifactId>
+	</dependency>
+	<!-- Runtime -->
+	<dependency>
+		<groupId>com.h2database</groupId>
+		<artifactId>h2</artifactId>
+		<scope>runtime</scope>
+	</dependency>
+	<!-- Optional -->
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-devtools</artifactId>
+		<optional>true</optional>
+	</dependency>
+	<!-- Test -->
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-test</artifactId>
+		<scope>test</scope>
+	</dependency>
+	<dependency>
+		<groupId>xmlunit</groupId>
+		<artifactId>xmlunit</artifactId>
+		<scope>test</scope>
+	</dependency>
+</dependencies>
+----
+
+When declaring a dependency, the default scope (`compile`) should not be specified.
+In a multi-modules project <<build-maven-dependency-management,dependencies have to be centrally managed>>, so the `<version>` should not be specified either.

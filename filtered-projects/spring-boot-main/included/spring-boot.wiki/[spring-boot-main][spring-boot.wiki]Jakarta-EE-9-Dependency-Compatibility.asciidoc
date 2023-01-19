@@ -1,0 +1,16 @@
+Open:
+
+* EhCache 3 – https://github.com/ehcache/ehcache3/issues/2946
+* H2's web console
+* Hibernate's metrics – https://hibernate.atlassian.net/browse/HHH-14930
+* Infinispan – https://issues.redhat.com/browse/ISPN-13207
+* Jersey – https://github.com/eclipse-ee4j/jersey/issues/4915
+* Jolokia – https://github.com/rhuss/jolokia/issues/451
+* Log4j 2's SMTP appender – https://issues.apache.org/jira/browse/LOG4J2-3362
+* Pooled JMS
+
+Resolved:
+
+* Apache Johnzon – `-jakarta` classified artifacts are available. Support could be reinstated.
+* REST Assured – https://github.com/rest-assured/rest-assured/issues/1510
+* Thymeleaf – https://github.com/thymeleaf/thymeleaf/issues/811

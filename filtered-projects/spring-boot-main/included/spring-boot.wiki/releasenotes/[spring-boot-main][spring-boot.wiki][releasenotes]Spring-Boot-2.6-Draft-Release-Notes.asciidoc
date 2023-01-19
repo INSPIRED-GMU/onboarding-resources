@@ -1,0 +1,495 @@
+:actuator-docs: https://docs.spring.io/spring-boot/docs/2.6.0/actuator-api/html/
+:docs: https://docs.spring.io/spring-boot/docs/2.6.0/reference/html/
+
+= Spring Boot 2.6.0 Release Notes
+
+
+== Upgrading from Spring Boot 2.5
+
+
+
+=== Deprecations from Spring Boot 2.4
+Classes, methods and properties that were deprecated in Spring Boot 2.4 have been removed in this release.
+Please ensure that you aren't calling deprecated methods before upgrading.
+
+
+
+=== Circular References Prohibited by Default
+Circular references between beans are now prohibited by default.
+If your application fails to start due to a `BeanCurrentlyInCreationException` you are strongly encouraged to update your configuration to break the dependency cycle.
+If you are unable to do so, circular references can be allowed again by setting `spring.main.allow-circular-references` to `true`, or using the new setter methods on `SpringApplication` and `SpringApplicationBuilder`
+This will restore 2.5's behaviour and automatically attempt to break the dependency cycle.
+
+
+=== PathPattern Based Path Matching Strategy for Spring MVC
+The default strategy for matching request paths against registered Spring MVC handler mappings has changed from `AntPathMatcher` to `PathPatternParser`.
+If you need to switch the default back to `AntPathMatcher`, you can set `spring.mvc.pathmatch.matching-strategy` to `ant-path-matcher`.
+The actuator endpoints now also use `PathPattern` based URL matching. 
+Note that the path matching strategy for actuator endpoints is not configurable via a configuration property.
+
+
+
+=== Actuator Env InfoContributor Disabled by Default
+The `env` info contributor is now disabled by default. To enable it, set `management.info.env.enabled` to `true`.
+
+
+
+=== Application Startup
+The `spring.boot.application.running` startup step logged to `ApplicationStartup` has been renamed to `spring.boot.application.ready`.
+If you are processing files generated from `FlightRecorderApplicationStartup` or `BufferingApplicationStartup` you will need to use the new name.
+
+
+
+=== Dependency Management Removals
+
+
+
+==== JBoss Transaction SPI
+Dependency management for `org.jboss:jboss-transaction-spi` has been removed.
+If you are using `org.jboss:jboss-transaction-spi` you should define your own dependency management that meets your application’s needs.
+
+
+
+==== Nimbus DS 
+Dependency management for `com.nimbusds:oauth2-oidc-sdk` and `com.nimbusds:nimbus-jose-jwt` has been removed.
+If you are using Spring Security you should rely on the versions that it will pull in as transitive dependencies.
+If you are not using Spring Security you should define your own dependency management that meets your application's needs.
+
+
+
+==== HAL Browser
+Dependency management for `org.webjars:hal-browser` has been removed.
+If you are using `org.webjars:hal-browser` you should define your own dependency management that meets your application's needs.
+
+
+
+=== Prometheus Version Property
+The property to control the version of Prometheus has changed from `prometheus-pushgateway.version` to `prometheus-client.version`. This is to reflect the fact that the property manages the version of every module in Prometheus's client, not just the pushgateway.
+
+
+
+=== Embedded Mongo
+To use embedded mongo, the `spring.mongodb.embedded.version` property must now be set.
+This helps to ensure that the MongoDB version that is used by the embedded support matches the MongoDB version that your application will use in production.
+
+
+
+=== Oracle Database Driver Dependency Management
+The dependency management for the Oracle database driver has been streamlined.
+If you are still relying on the old `com.oracle.ojdbc` groupId, you need to upgrade to the `com.oracle.database.jdbc` group as we have removed dependency management for the former.
+
+
+
+=== Vault-related Flyway Properties Removed
+The 7.12 release of Flyway moved the Vault-related settings to a closed-source extension. Unfortunately, this prevents Spring Boot from configuring them. As a result, the corresponding `spring.flyway.vault-secrets`, `spring.flyway.vault-token`, and `spring.flyway.vault-url` properties have been removed. If you are a Flyway Teams user, the settings can be configured via a `FlywayConfigurationCustomizer` bean, `FluentConfigiguration.getExtensionConfiguration` and the Vault `ApiExtension`
+
+
+
+=== WebFlux Session Properties
+The `spring.webflux.session` property group has been deprecated and relocated to `server.reactive.session`.
+The old properties will continue to work, but you should migrate to the new ones if possible.
+
+
+
+=== Elasticsearch Property Consolidation
+The configuration properties used to configure an Elasticsearch client have been consolidated.
+Previously, a number of common properties for configuring the blocking high-level REST client and the reactive REST client were duplicated across `spring.elasticsearch.rest` and `spring.data.elasticsearch.clients.reactive`.
+
+If you are using the blocking REST client, the following table lists the old properties and their replacements:
+
+[cols="1,1"]
+|===
+| Deprecated Property | Replacement
+
+| `spring.elasticsearch.rest.uris`
+| `spring.elasticsearch.uris`
+
+| `spring.elasticsearch.rest.username`
+| `spring.elasticsearch.username`
+
+| `spring.elasticsearch.rest.password`
+| `spring.elasticsearch.password`
+
+| `spring.elasticsearch.rest.connection-timeout`
+| `spring.elasticsearch.connection-timeout`
+
+| `spring.elasticsearch.rest.read-timeout`
+| `spring.elasticsearch.socket-timeout`
+
+| `spring.elasticsearch.rest.sniffer.interval`
+| `spring.elasticsearch.restclient.sniffer.interval`
+
+| `spring.elasticsearch.rest.sniffer.delay-after-failure`
+| `spring.elasticsearch.restclient.sniffer.delay-after-failure`
+
+If you are using the reactive client, the following table lists the old properties and their replacements:
+|===
+
+[cols="1, 1"]
+|===
+| Deprecated Property | Replacement
+
+| `spring.data.elasticsearch.client.reactive.endpoints`
+| `spring.elasticsearch.uris`
+
+| `spring.data.elasticsearch.client.reactive.use-ssl`
+| `https` scheme when configuring `spring.elasticsearch.uris`
+
+| `spring.data.elasticsearch.client.reactive.username`
+| `spring.elasticsearch.username`
+
+| `spring.data.elasticsearch.client.reactive.password`
+| `spring.elasticsearch.password`
+
+| `spring.data.elasticsearch.client.reactive.connection-timeout`
+| `spring.elasticsearch.connection-timeout`
+
+| `spring.data.elasticsearch.client.reactive.socket-timeout`
+| `spring.elasticsearch.socket-timeout`
+
+| `spring.data.elasticsearch.client.reactive.max-in-memory-size`
+| `spring.elasticsearch.webclient.max-in-memory-size`
+
+|===
+
+
+
+=== @Persistent no longer considered with Spring Data Couchbase
+To align the default behavior with Spring Data Couchbase, `@Persistent`-annotated types are no longer considered.
+If you are relying on that annotation, `@Document` can be used instead.
+
+
+
+=== Maven Build Info's Default Time
+The Maven plugin's build info support now uses the value of the `project.build.outputTimestamp` property as the default build time.
+If the property is not set, the the build session's start time is used as it was previously.
+As before, the time can be disabled entirely by setting it to `off`.
+
+
+
+=== Records and `@ConfigurationProperties`
+If you are using `@ConfigurationProperties` with a Java 16 record and the record has a single constructor, it no longer needs to be annotated with `@ConstructorBinding`.
+If your record has multiple constructors, `@ConstructorBinding` should still be used to identify the constructor to use for property binding.
+
+
+
+=== Deferred OpenID Connect Discovery
+For a resource server application using `spring-security-oauth2-resource-server` which is configured with an OpenID connect `issuer-uri`, Spring Boot now auto-configures a `SupplierJwtDecoder` instead of a `NimbusJwtDecoder`. 
+This enables Spring Security's lazy OIDC discovery support which improves startup time.
+Similarly, for reactive applications, a `ReactiveSupplierJwtDecoder` is auto-configured.
+
+
+
+=== Minimum Requirements Changes
+None.
+
+
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.6.0-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+
+
+=== SameSite Cookie Attribute Servlet Support
+You can now configure `SameSite` attributes on session cookies for servlet applications using the `server.session.cookie.same-site` property.
+This works with auto-configured Tomcat, Jetty and Undertow servers.
+
+In addition, the `CookieSameSiteSupplier` interface can be used if you want to apply a `SameSite` attribute to other cookies.
+See the {docs}/web.html#web.servlet.embedded-container.customizing.samesite[updated documentation] for more details and some example code.
+
+
+
+=== Reactive Server Session Properties
+The session properties supported for reactive servers (previously under `spring.webflux.session`) have been expanded with this release.
+The new properties are available under `server.reactive.session` and now offer parity with the servlet versions.
+
+
+
+=== Pluggable Sanitization Rules
+Spring Boot sanitizes sensitive values present in the `/env` and `/configprops` endpoints. 
+While it was possible to configure which properties get sanitized via configuration properties, users might want to apply sanitization rules based on which `PropertySource` the property originated from. 
+For example, Spring Cloud Vault uses vault to store encrypted values and load them into the Spring environment. 
+Since all values are encrypted, it would make sense to blank the values of every key in an entire property source.
+Such sanitization customizations can be configured by adding a `@Bean` of type `SanitizingFunction`.
+
+
+
+=== Java Runtime Information
+The `info` endpoint can now expose Java Runtime information under the `java` key, as shown in the following example:
+
+```json
+{
+  "java": {
+    "vendor": "BellSoft",
+    "version": "17",
+    "runtime": {
+      "name": "OpenJDK Runtime Environment",
+      "version": "17+35-LTS"
+    },
+    "jvm": {
+      "name": "OpenJDK 64-Bit Server VM",
+      "vendor": "BellSoft",
+      "version": "17+35-LTS"
+    }
+  }
+}
+```
+
+To expose this information in the `info` endpoint's response, set the `management.info.java.enabled` property to `true`.
+
+
+
+=== Build Info Property Exclusions
+It's now possible to exclude specific properties from being added to the `build-info.properties` file generated by the Spring Boot Maven or Gradle plugin.
+
+Maven users can exclude the standard `group`, `artifact`, `name`, `version` or `time` properties using the `<excludeInfoProperties>` tag.
+For example, to exclude the `version` property the following configuration can be used:
+
+[source,xml]
+----
+<configuration>
+	<excludeInfoProperties>
+		<excludeInfoProperty>version</excludeInfoProperty>
+	</excludeInfoProperties>
+</configuration>
+----
+
+Gradle users can use `null` values with the `properties` block of the DSL:
+
+[source,gradle]
+----
+task buildInfo(type: org.springframework.boot.gradle.tasks.buildinfo.BuildInfo) {
+	destinationDir project.buildDir
+	properties {
+		version = null
+	}
+}
+----
+
+
+
+=== Health Support
+
+
+==== Additional Path on Main or Management Port
+Health groups can be made available at an additional path on either the main or management port.
+This is useful in cloud environments such as Kubernetes, where it is quite common to use a separate management port for the actuator endpoints for security purposes. 
+Having a separate port could lead to unreliable health checks because the main application might not work properly even if the health check is successful.
+A typical configuration would have all the actuator endpoints on a separate port and health groups that are used for liveness and readiness available at an additional path on the main port.
+
+
+ 
+=== Composite Contributor Include/Exclude Support
+Health groups can be configured to include/exclude parts of a `CompositeHealthContributor`.
+This can be done by specifying the fully qualified path to the component.
+For example, a component `spring` which is nested inside a composite named `test`, can be included using `test/spring`.
+
+
+
+=== Metrics Support
+
+
+=== Application Startup
+Auto-configuration exposes two metrics related to application startup:
+
+* `application.started.time`: time taken to start the application.
+* `application.ready.time`: time taken for the application to be ready to service requests.
+
+
+
+==== Disk Space
+Micrometer's `DiskSpaceMetrics` are now auto-configured.
+`disk.free` and `disk.total` metrics are provided for the partition identified by the current working directory.
+To change the path that is used, define your own `DiskSpaceMetrics` bean.
+
+
+
+==== Task Execution and Scheduling
+Micrometer's `ExecutorServiceMetrics` are now auto-configured for all `ThreadPoolTaskExecutor` and `ThreadPoolTaskScheduler` beans, as long as the underlying `ThreadPoolExecutor` is available.
+Metrics are tagged with the name of the executor derived from its bean name.
+
+
+
+==== Jetty Connection and SSL
+Micrometer's `JettyConnectionMetrics` are now auto-configured.
+Additionally, when `server.ssl.enabled` is set to `true`, Micrometer's `JettySslHandshakeMetrics` are also auto-configured.
+
+
+
+==== Exporting to the Dynatrace v2 API
+Support for exporting metrics to the Dynatrace v2 API has been added.
+With a local OneAgent running on the host, a dependency on `io.micrometer:micrometer-registry-dynatrace` is all that is required.
+Without a local OneAgent, the `management.metrics.export.dynatrace.uri` and `management.metrics.export.dynatrace.api-token` properties must be configured.
+Other settings that are specific to the v2 API can be configured using the `management.metrics.export.dynatrace.v2` properties.
+Please refer to the {docs}/actuator.html#actuator.metrics.export.dynatrace[updated reference documentation] for further details.
+
+
+
+=== Docker Image Building Support
+
+
+
+==== Additional Image Tags
+The Maven and Gradle plugins now support applying additional tags to a generated image after it is built using a `tags` configuration parameter. 
+
+See the updated https://docs.spring.io/spring-boot/docs/2.6.0-SNAPSHOT/gradle-plugin/reference/htmlsingle/#build-image.customization[Gradle] and https://docs.spring.io/spring-boot/docs/2.6.0-SNAPSHOT/maven-plugin/reference/htmlsingle/#build-image.customization[Maven] reference documentation for more details.
+
+
+
+==== Network Configuration 
+A `network` configuration parameter has been added to the Maven plugin `spring-boot:build-image` goal and the Gradle `bootBuildImage` task. This parameter can be used to configure the network driver used by the container that runs the Cloud Native Buildpacks builder process. 
+
+
+
+==== Cache Configuration
+The Maven and Gradle plugins now support customizing the names of the volumes used to cache layers contributed to a built image by buildpacks using `buildCache` and `launchCache` configuration parameters. 
+
+See the updated https://docs.spring.io/spring-boot/docs/2.6.0-SNAPSHOT/gradle-plugin/reference/htmlsingle/#build-image.examples.caches[Gradle ] and https://docs.spring.io/spring-boot/docs/2.6.0-SNAPSHOT/maven-plugin/reference/htmlsingle/#build-image.examples.caches[Maven] reference documentation for more details.
+
+
+
+=== Auto-configuration for Spring Data Envers
+Auto-configuration for Spring Data Envers is now provided.
+To use it, add a dependency on `org.springframework.data:spring-data-envers` and update your JPA repositories to extend from `RevisionRepository`.
+
+
+
+=== Redis Connection Pooling
+Redis (both Jedis and Lettuce) will now automatically enable pooling when `commons-pool2` is on the classpath.
+Set `spring.redis.jedis.pool.enabled` or `spring.redis.lettuce.pool.enabled` to `false` to disable pooling if required.
+
+
+
+=== Auto-configuration for spring-rabbit-stream
+Auto-configuration for Spring AMQP's new `spring-rabbit-stream` module has been added.
+A `StreamListenerContainer` is auto-configured when the `spring.rabbitmq.listener.type` property is set to `stream`.
+The `spring.rabbitmq.stream.*` properties can be used to configure access to the broker and `spring.rabbitmq.listener.stream.native-listener` can be used to enable native listener support.
+
+
+
+=== Support for PEM format in Kafka SSL Properties
+Previously, Kafka only supported file-based key and trust stores for SSL.
+With https://cwiki.apache.org/confluence/display/KAFKA/KIP-651+-+Support+PEM+format+for+SSL+certificates+and+private+key[KIP-651], it is now possible to use the PEM format.
+Spring Boot has added the following properties that allow configuring SSL certificates and private keys using the PEM format:
+
+- `spring.kafka.ssl.key-store-key`
+- `spring.kafka.ssl.key-store-certificate-chain`
+- `spring.kafka.ssl.trust-store-certificates`
+
+
+
+=== Improved Configuration of the Maven Plugin's Start Goal
+The Maven Plugin's `start` goal has been made more configurable from the command line.
+Its `wait` and `maxAttempts` properties can be specified using `spring-boot.start.wait` and `spring-boot.start.maxAttempts` respectively.
+
+
+
+=== Auto-configured Spring Web Service Server Tests
+A new annotation, `@WebServiceServerTest`, that can be used to test Web Service `@Endpoint` beans has been introduced.
+The annotation creates a test slice containing `@Endpoint` beans and auto-configures a `MockWebServiceClient` bean that can be used to test your web service endpoints.
+
+
+
+=== MessageSource-based Interpolation of Bean Validation Messages
+The application's `MessageSource` is now used when resolving `{parameters}` in constraint messages.
+This allows you to use your application's `messages.properties` files for Bean Validation messages.
+Once the parameters have been resolved, message interpolation is completed using Bean Validation's default interpolator.
+
+
+
+=== Using WebTestClient for Testing Spring MVC
+Developers could use `WebTestClient` to test WebFlux apps in mock environments, or any Spring web app against live servers. This change also enables `WebTestClient` for Spring MVC in mock environments: classes annotated with `@AutoConfigureMockMvc` can get injected a `WebTestClient`. This makes our support complete, you can now use a single API to drive all your web tests!
+
+
+
+=== Spring Integration PollerMetadata Properties
+Spring Integration `PollerMetadata` (poll unbounded number of messages every second) can now be customized with `spring.integration.poller.*` configuration properties.
+
+
+
+=== Support for Log4j2's Composite Configuration
+Log4j2's composite configuration is now supported.
+To use it, configure the `logging.log4j2.config.override` property with a comma-separated list of secondary configuration files that will override the main configuration. The main configuration is sourced from Spring Boot's defaults, a well-known standard location such as `log4j2.xml`, or the location specified by the `logging.config` property as before.
+
+
+
+
+
+
+
+
+=== Dependency Upgrades
+Spring Boot 2.6 moves to new versions of several Spring projects:
+
+* https://docs.spring.io/spring-security/reference/5.6.0/whats-new.html[Spring Security 5.6]
+* https://github.com/spring-projects/spring-data-commons/wiki/Release-Train-2021.1-%28Q%29-Release-Notes[Spring Data 2021.1]
+* https://github.com/spring-projects/spring-hateoas/releases/tag/1.4.0[Spring HATEOAS 1.4]
+* https://docs.spring.io/spring-kafka/docs/2.8.x/reference/html/#spring-kafka-intro-new[Spring Kafka 2.8]
+* https://docs.spring.io/spring-amqp/docs/2.4.x/reference/html/#changes-in-2-4-since-2-3[Spring AMQP 2.4]
+* https://github.com/spring-projects/spring-session-bom/wiki/Spring-Session-2021.1-Release-Notes[Spring Session 2021.1.0]
+
+Numerous third-party dependencies have also been updated, some of the more noteworthy of which are the following:
+
+* https://www.confluent.io/blog/apache-kafka-3-0-major-improvements-and-new-features/[Apache Kafka 3.0]
+* https://issues.apache.org/jira/secure/ReleaseNote.jspa?projectId=12315920&version=12350519[Artemis 2.19]
+* https://docs.datastax.com/en/developer/java-driver/4.13/[Cassandra Driver 4.13]
+* Commons DBCP 2.9
+* Commons Pool 2.11
+* https://docs.couchbase.com/java-sdk/current/project-docs/sdk-release-notes.html#version-3-2-3-2-november-2021[Couchbase Client 3.2.2]
+* https://www.elastic.co/guide/en/elasticsearch/reference/7.15/release-highlights.html[Elasticsearch 7.15]
+* https://flywaydb.org/documentation/learnmore/releaseNotes#8.0.5[Flyway 8.0.5]
+* https://in.relation.to/2021/10/13/hibernate-orm-560-final/[Hibernate 5.6]
+* https://junit.org/junit5/docs/current/release-notes/#release-notes-5.8.1[JUnit Jupiter 5.8]
+* https://github.com/redis/jedis/releases/tag/v3.7.0[Jedis 3.7]
+* https://downloads.apache.org/kafka/3.0.0/RELEASE_NOTES.html[Kafka 3.0]
+* https://blog.jetbrains.com/kotlin/2021/11/kotlin-1-6-0-is-released/[Kotlin 1.6]
+* https://github.com/liquibase/liquibase/releases/tag/v4.5.0[Liquibase 4.5]
+* https://github.com/micrometer-metrics/micrometer/releases/tag/v1.8.0[Micrometer 1.8]
+* https://github.com/mockito/mockito/releases/tag/v4.0.0[Mockito 4.0]
+* https://docs.mongodb.com/manual/release-notes/4.4/[MongoDB 4.4]
+* https://www.postgresql.org/about/news/postgresql-jdbc-4230-released-2333/[Postgresql 42.3]
+* https://github.com/querydsl/querydsl/releases/tag/QUERYDSL_5_0_0[QueryDSL 5.0]
+* SnakeYAML 1.29
+* https://ultraq.github.io/thymeleaf-layout-dialect/migrating-to-3.0/[Thymeleaf Layout Dialect 3.0]
+
+
+
+=== Miscellaneous
+Apart from the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+* The failure analysis for a `NoSuchMethodError` now includes information about the location from which the calling class was loaded.
+* A `ClientResourcesBuilderCustomizer` bean can now be defined to customize Lettuce's `ClientResources` will retaining the default auto-configuration.
+* Configuration properties for Flyway's `detectEncoding`, `failOnMissingLocations`, and `ignoreMigrationPatterns` configuration settings have been added.
+* A custom `ResourceLoader` to be used by the application can be provided when creating a `SpringApplicationBulder`.
+* A `WebSessionIdResolver` can now be defined to customize the resolver that will be used by the auto-configured `WebSessionManager`.
+* Any `RSocketConnectorConfigurer` beans are now automatically applied to the auto-configured `RSocketRequester.Builder`.
+* `spring-boot-configuration-processor` can now generate metadata for classes annotated with Lombok's `@Value`.
+* A new `server.tomcat.reject-illegal-header` configuration property can be set to true to configure Tomcat to accept illegal headers.
+* When using Stackdriver, labels can now be configured on the monitor resource by setting `management.metrics.export.stackdriver.resource-labels.*` configuration properties.
+* `@EntityScan` now supports comma-separated values in its `basePackages` attribute.
+* A new configuration property, `server.netty.idle-timeout`, that can be used to control Reactor Netty's idle timeout has been added.
+* The location from which Devtools loads its global settings can now be configured using the `spring.devtools.home` system property or the `SPRING_DEVTOOLS_HOME` environment variable.
+* The setter methods on `RabbitTemplateConfigurer` are now `public`
+* The `heapdump` endpoint is now supported on OpenJ9 where it will produce a heap dump in PHD format.
+* New configuration properties are now supported for multipart support in WebFlux, under `spring.webflux.multipart.*`
+* Any `ContainerCustomizer` bean is now called to configure the auto-configured Spring AMQP `MessageListenerContainer`
+* Jackson's default leniency can be configured using the `spring.jackson.default-leniency` property.
+* Distribution statistic's expiry and buffer length are now configurable.
+* Command Latency metrics for Lettuce are now auto-configured.
+* Disk space metrics can be configured with one or more paths using the `management.metrics.system.diskspace.paths` property.
+* Users can take control over the Redis auto-configuration by providing a `RedisStandaloneConfiguration` bean. 
+* The URLs of all available data sources is now logged when the H2 console is auto-configured.
+* A new configuration property, `spring.integration.management.default-logging-enabled`, can be used to disable Spring Integration's default logging by setting its value to `false`.
+* Auto-configuration for `UserDetailsService` will now back off in the presence of an `AuthenticationManagerProvider` bean.
+
+
+
+== Deprecations in Spring Boot 2.6.0 
+
+* `AbstractDataSourceInitializer` has been deprecated in favor of `DataSourceScriptDatabaseInitializer`.
+  Similarly, subclasses of `AbstractDataSourceInitializer` have been deprecated in favour of new `DataSourceScriptDatabaseInitializer`-based equivalents.
+* `SpringPhysicalNamingStrategy` has been deprecated in favor of Hibernate 5.5's `CamelCaseToUnderscoresNamingStrategy`
+* Three methods on `AbstractApplicationContextRunner` have been deprecated in favor of new `RunnerConfiguration`-based equivalents
+* The `started` and `running` methods in `SpringApplicationRunListener` have been replaced with versions that accept a `Duration`.
+* Constructors in `ApplicationStartedEvent` and `ApplicationReadyEvent` have been replaced with versions that accept a `Duration`.
+* The `EnvironmentEndpoint.sanitize` has been deprecated for removal.

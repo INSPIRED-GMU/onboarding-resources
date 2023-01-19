@@ -1,0 +1,106 @@
+:actuator-docs: https://docs.spring.io/spring-boot/docs/2.5.0-SNAPSHOT/actuator-api/html/
+:docs: https://docs.spring.io/spring-boot/docs/2.5.x-SNAPSHOT/reference/html/
+
+= Spring Boot 2.5.0 M1 Release Notes
+
+
+
+== Upgrading from Spring Boot 2.4
+
+
+=== Deprecations from Spring Boot 2.3
+Classes, methods and properties that were deprecated in Spring Boot 2.3 have been removed in this release.
+Please ensure that you aren't calling deprecated methods before upgrading.
+
+
+
+=== Spring Data Solr
+Following its removal from Spring Data in 2021.0.0, auto-configuration for Spring Data Solr has been removed in this release.
+
+
+
+=== Default Expression Language (EL) Implementation
+The EL implementation that is included in Spring Boot's web and validation starters has changed. Tomcat's implementation (`org.apache.tomcat.embed.tomcat-embed-el`) is now used in place of the reference implementation from Glassfish (`org.glassfish:jakrta.el`).
+
+
+
+=== Customizing jOOQ's `DefaultConfiguration`
+To streamline the customization of jOOQ's `DefaultConfiguration`, a bean that implements `DefaultConfigurationCustomizer` can now be defined. This customiser callback should be used in favour of defining one or more `*Provider` beans, the support for which has now been deprecated.
+
+
+
+=== Groovy 3
+The default version of Groovy has been upgraded to 3.x. If you are using Groovy and also using Spock, you should also upgrade to the latest Groovy 3.0-compatible release of Spock 2.0. Alternatively, use the `groovy.version` to downgrade back to Groovy 2.5.
+
+
+
+=== Minimum requirements changes
+None.
+
+
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.5.0-M1-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+
+
+=== Secure info endpoint
+The `/info` actuator endpoint is no longer exposed over the web by default. Additionally, if Spring Security is on the classpath, the endpoint requires authenticated access by default.
+
+
+
+=== `GET` requests to `actuator/startup`
+The actuator's `startup` endpoint now supports `GET` requests. Unlike a `POST` request, a `GET` request to the endpoint does not drain the event buffer and events will continue to be held in memory.
+
+
+
+=== Java 16 support
+This release provides preliminary support for Java 16.
+
+
+
+=== Dependency Upgrades
+Spring Boot 2.5 moves to new versions of several Spring projects:
+
+- https://spring.io/blog/2020/12/09/first-milestone-of-spring-data-2021-0-0-released[Spring Data 2021.0.0-M1]
+- https://github.com/spring-projects/spring-hateoas/milestone/54?closed=1[Spring HATEOAS 1.3.0-M1]
+- https://docs.spring.io/spring-integration/docs/5.5.0-M1/reference/html/whats-new.html#whats-new[Spring Integration 5.5.0-M1]
+- https://github.com/spring-projects/spring-security/releases/tag/5.5.0-M1[Spring Security 5.5.0-M1]
+- https://github.com/spring-projects/spring-session/releases/tag/2.5.0-M1[Spring Session 2021.0.0-M1]
+
+Numerous third-party dependencies have also been updated, some of the more noteworthy of which are the following:
+
+- Artemis 2.16
+- Cassandra Driver 4.10
+- Embedded Mongo 3.0
+- Flyway 7.5
+- Groovy 3.0
+- Hibernate Validator 6.2
+- Jackson 2.12
+- Jersey 2.33
+- Kafka 2.7
+- Liquibase 4.2
+- Mockito 3.7
+- Oracle Database 21.1
+- Solr 8.7
+
+
+
+=== Miscellaneous
+Apart from the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+- `management.endpoints.web.cors.allowed-origin-patterns` can now be used to configure the allowed origin patterns for Actuator endpoints https://github.com/spring-projects/spring-boot/pull/24608[(#24608)]
+- `HttpSessionIdListener` beans are now automatically registered with the servlet context https://github.com/spring-projects/spring-boot/issues/24879[(#24879)]
+- Couchbase now uses the auto-configured `ObjectMapper` by default https://github.com/spring-projects/spring-boot/issues/24616[(#24616)]
+- Elasticsearch's `Sniffer` is now auto-configured when its `elasticsearch-rest-client-sniffer` module is on the classpath https://github.com/spring-projects/spring-boot/issues/24174[(#24174)]
+- `spring.data.cassandra.controlconnection.timeout` can now be used to configure the timeout of Cassandra's control connection https://github.com/spring-projects/spring-boot/issues/24189[(#24189)]
+- `spring.kafka.listener.only-log-record-metadata` can now be used to configure what's logged when retries are being attempted https://github.com/spring-projects/spring-boot/pull/24582[(#24582)]
+- Support for Apache Phoenix, auto-detecting `jdbc:phoenix` JDBC URLs https://github.com/spring-projects/spring-boot/pull/24114[(#24114)]
+- Configuration properties for Rabbit's key store and trust store algorithms https://github.com/spring-projects/spring-boot/pull/24076[(#24076)]
+
+
+== Deprecations in Spring Boot 2.5.0 M1
+
+
+=== Support for jOOQ's `*Provider` callbacks
+Support for beans that implement jOOQ's `*Provider` callback interfaces or `Settings` has been deprecated. A `DefaultConfigurationCustomizer` should be used instead.

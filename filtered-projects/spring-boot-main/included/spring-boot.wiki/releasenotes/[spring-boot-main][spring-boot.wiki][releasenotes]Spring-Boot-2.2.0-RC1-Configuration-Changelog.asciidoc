@@ -1,0 +1,19 @@
+Configuration properties change between `2.2.0.M6` and `2.2.0.BUILD-SNAPSHOT`
+
+.Deprecated keys in `2.2.0.RC1`
+|======================
+|Key  |Replacement |Reason
+|`management.metrics.export.humio.repository` | |No longer used as repository is resolved from the api token.
+|======================
+
+.New keys in `2.2.0.RC1`
+|======================
+|Key  |Default value |Description
+|`logging.pattern.rolling-file-name` |`${LOG_FILE}.%d{yyyy-MM-dd}.%i.gz` |Pattern for rolled-over log file names.
+|`management.endpoint.health.show-components` | |When to show components.
+|`management.endpoints.migrate-legacy-ids` |`false` |Whether to transparently migrate legacy endpoint IDs.
+|`server.tomcat.host-header` |`X-Forwarded-Host` |Name of the HTTP header from which the remote host is extracted.
+|`spring.banner.image.bitdepth` |`4` |The bit depth to use for ANSI colors.
+|`spring.banner.image.pixelmode` |`TEXT` |The pixel mode to use when rendering the image.
+|`spring.security.saml2.relyingparty.registration` | |SAML2 relying party registrations.
+|======================

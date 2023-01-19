@@ -1,0 +1,45 @@
+= Spring Boot {2.x} Release Notes
+
+
+
+== Upgrading from Spring Boot {2.x-1}
+
+
+
+=== Deprecations from Spring Boot {2.x-2}
+Classes, methods and properties that were deprecated in Spring Boot {2.x-2} have been removed in this release.
+Please ensure that you aren't calling deprecated methods before upgrading.
+
+
+
+=== Minimum Requirements Changes
+
+
+
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-{2.x}-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+
+
+=== Dependency Upgrades
+Spring Boot {2.x} moves to new versions of several Spring projects:
+
+* …
+
+Numerous third-party dependencies have also been updated, some of the more noteworthy of which are the following:
+
+* …
+
+
+
+=== Miscellaneous
+Apart from the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+* …
+
+
+
+== Deprecations in Spring Boot {2.x}
+
+* …

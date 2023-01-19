@@ -1,0 +1,222 @@
+Configuration properties change between `2.3.6.RELEASE` and `2.4.0`
+
+== Deprecated in `2.4.0`
+|======================
+|Key  |Replacement |Reason
+|`logging.file.clean-history-on-start` |`logging.logback.rollingpolicy.clean-history-on-start` |
+|`logging.file.max-history` |`logging.logback.rollingpolicy.max-history` |
+|`logging.file.max-size` |`logging.logback.rollingpolicy.max-file-size` |
+|`logging.file.total-size-cap` |`logging.logback.rollingpolicy.total-size-cap` |
+|`logging.pattern.rolling-file-name` |`logging.logback.rollingpolicy.file-name-pattern` |
+|`management.server.servlet.context-path` |`management.server.base-path` |
+|`spring.data.mongodb.grid-fs-database` |`spring.data.mongodb.gridfs.database` |
+|`spring.data.neo4j.password` |`spring.neo4j.authentication.password` |
+|`spring.data.neo4j.uri` |`spring.neo4j.uri` |
+|`spring.data.neo4j.username` |`spring.neo4j.authentication.password` |
+|`spring.mvc.locale` |`spring.web.locale` |
+|`spring.mvc.locale-resolver` |`spring.web.locale-resolver` |
+|`spring.profiles` |`spring.config.activate.on-profile` |
+|`spring.resources.add-mappings` |`spring.web.resources.add-mappings` |
+|`spring.resources.cache.cachecontrol.cache-private` |`spring.web.resources.cache.cachecontrol.cache-private` |
+|`spring.resources.cache.cachecontrol.cache-public` |`spring.web.resources.cache.cachecontrol.cache-public` |
+|`spring.resources.cache.cachecontrol.max-age` |`spring.web.resources.cache.cachecontrol.max-age` |
+|`spring.resources.cache.cachecontrol.must-revalidate` |`spring.web.resources.cache.cachecontrol.must-revalidate` |
+|`spring.resources.cache.cachecontrol.no-cache` |`spring.web.resources.cache.cachecontrol.no-cache` |
+|`spring.resources.cache.cachecontrol.no-store` |`spring.web.resources.cache.cachecontrol.no-store` |
+|`spring.resources.cache.cachecontrol.no-transform` |`spring.web.resources.cache.cachecontrol.no-transform` |
+|`spring.resources.cache.cachecontrol.proxy-revalidate` |`spring.web.resources.cache.cachecontrol.proxy-revalidate` |
+|`spring.resources.cache.cachecontrol.s-max-age` |`spring.web.resources.cache.cachecontrol.s-max-age` |
+|`spring.resources.cache.cachecontrol.stale-if-error` |`spring.web.resources.cache.cachecontrol.stale-if-error` |
+|`spring.resources.cache.cachecontrol.stale-while-revalidate` |`spring.web.resources.cache.cachecontrol.stale-while-revalidate` |
+|`spring.resources.cache.period` |`spring.web.resources.cache.period` |
+|`spring.resources.chain.cache` |`spring.web.resources.chain.cache` |
+|`spring.resources.chain.compressed` |`spring.web.resources.chain.compressed` |
+|`spring.resources.chain.enabled` |`spring.web.resources.chain.enabled` |
+|`spring.resources.chain.html-application-cache` | |The appcache manifest feature is being removed from browsers.
+|`spring.resources.chain.strategy.content.enabled` |`spring.web.resources.chain.strategy.content.enabled` |
+|`spring.resources.chain.strategy.content.paths` |`spring.web.resources.chain.strategy.content.paths` |
+|`spring.resources.chain.strategy.fixed.enabled` |`spring.web.resources.chain.strategy.fixed.enabled` |
+|`spring.resources.chain.strategy.fixed.paths` |`spring.web.resources.chain.strategy.fixed.paths` |
+|`spring.resources.chain.strategy.fixed.version` |`spring.web.resources.chain.strategy.fixed.version` |
+|`spring.resources.static-locations` |`spring.web.resources.static-locations` |
+|======================
+
+
+
+== New in `2.4.0`
+|======================
+|Key  |Default value |Description
+|`logging.charset.console` | |Charset to use for console output.
+|`logging.charset.file` | |Charset to use for file output.
+|`logging.logback.rollingpolicy.clean-history-on-start` |`false` |Whether to clean the archive log files on startup.
+|`logging.logback.rollingpolicy.file-name-pattern` |`${LOG_FILE}.%d{yyyy-MM-dd}.%i.gz` |Pattern for rolled-over log file names.
+|`logging.logback.rollingpolicy.max-file-size` |`10MB` |Maximum log file size.
+|`logging.logback.rollingpolicy.max-history` |`7` |Maximum number of days archive log files are kept.
+|`logging.logback.rollingpolicy.total-size-cap` |`0B` |Total size of log backups to be kept.
+|`management.endpoint.startup.enabled` |`true` |Whether to enable the startup endpoint.
+|`management.health.db.ignore-routing-data-sources` |`false` |Whether to ignore AbstractRoutingDataSources when creating database health indicators.
+|`management.metrics.export.defaults.enabled` |`true` |Whether to enable default metrics exporters.
+|`management.metrics.export.prometheus.pushgateway.password` | |Login password of the Prometheus Pushgateway.
+|`management.metrics.export.prometheus.pushgateway.username` | |Login user of the Prometheus Pushgateway.
+|`management.metrics.export.statsd.protocol` |`udp` |Protocol of the StatsD server to receive exported metrics.
+|`management.server.base-path` |`` |Management endpoint base path (for instance, `/management`).
+|`server.netty.h2c-max-content-length` |`0B` |Maximum content length of an H2C upgrade request.
+|`server.netty.initial-buffer-size` |`128B` |Initial buffer size for HTTP request decoding.
+|`server.netty.max-chunk-size` |`8KB` |Maximum chunk size that can be decoded for an HTTP request.
+|`server.netty.max-initial-line-length` |`4KB` |Maximum length that can be decoded for an HTTP request's initial line.
+|`server.netty.validate-headers` |`true` |Whether to validate headers when decoding requests.
+|`server.undertow.preserve-path-on-forward` |`false` |Whether to preserve the path of a request when it is forwarded.
+|`spring.cache.redis.enable-statistics` |`false` |Whether to enable cache statistics.
+|`spring.config.activate.on-cloud-platform` | |Required cloud platform for the document to be included.
+|`spring.config.activate.on-profile` | |Profile expressions that should match for the document to be included.
+|`spring.config.import` | |Import additional config data.
+|`spring.data.mongodb.gridfs.bucket` | |GridFS bucket name.
+|`spring.data.mongodb.gridfs.database` | |GridFS database name.
+|`spring.data.neo4j.database` | |Database name to use.
+|`spring.data.neo4j.repositories.type` |`auto` |Type of Neo4j repositories to enable.
+|`spring.datasource.dbcp2.clear-statement-pool-on-return` | |
+|`spring.datasource.oracleucp.abandoned-connection-timeout` | |
+|`spring.datasource.oracleucp.connection-factory-class-name` | |
+|`spring.datasource.oracleucp.connection-factory-properties` | |
+|`spring.datasource.oracleucp.connection-harvest-max-count` | |
+|`spring.datasource.oracleucp.connection-harvest-trigger-count` | |
+|`spring.datasource.oracleucp.connection-labeling-high-cost` | |
+|`spring.datasource.oracleucp.connection-pool-name` | |
+|`spring.datasource.oracleucp.connection-properties` | |
+|`spring.datasource.oracleucp.connection-repurpose-threshold` | |
+|`spring.datasource.oracleucp.connection-validation-timeout` | |
+|`spring.datasource.oracleucp.connection-wait-timeout` | |
+|`spring.datasource.oracleucp.data-source-name` | |
+|`spring.datasource.oracleucp.database-name` | |
+|`spring.datasource.oracleucp.description` | |
+|`spring.datasource.oracleucp.fast-connection-failover-enabled` | |
+|`spring.datasource.oracleucp.high-cost-connection-reuse-threshold` | |
+|`spring.datasource.oracleucp.inactive-connection-timeout` | |
+|`spring.datasource.oracleucp.initial-pool-size` | |
+|`spring.datasource.oracleucp.login-timeout` | |
+|`spring.datasource.oracleucp.max-connection-reuse-count` | |
+|`spring.datasource.oracleucp.max-connection-reuse-time` | |
+|`spring.datasource.oracleucp.max-connections-per-shard` | |
+|`spring.datasource.oracleucp.max-idle-time` | |
+|`spring.datasource.oracleucp.max-pool-size` | |
+|`spring.datasource.oracleucp.max-statements` | |
+|`spring.datasource.oracleucp.min-pool-size` | |
+|`spring.datasource.oracleucp.network-protocol` | |
+|`spring.datasource.oracleucp.o-n-s-configuration` | |
+|`spring.datasource.oracleucp.password` | |
+|`spring.datasource.oracleucp.pdb-roles` | |
+|`spring.datasource.oracleucp.port-number` | |
+|`spring.datasource.oracleucp.property-cycle` | |
+|`spring.datasource.oracleucp.query-timeout` | |
+|`spring.datasource.oracleucp.role-name` | |
+|`spring.datasource.oracleucp.s-q-l-for-validate-connection` | |
+|`spring.datasource.oracleucp.seconds-to-trust-idle-connection` | |
+|`spring.datasource.oracleucp.server-name` | |
+|`spring.datasource.oracleucp.sharding-mode` | |
+|`spring.datasource.oracleucp.time-to-live-connection-timeout` | |
+|`spring.datasource.oracleucp.timeout-check-interval` | |
+|`spring.datasource.oracleucp.u-r-l` | |
+|`spring.datasource.oracleucp.user` | |
+|`spring.datasource.oracleucp.validate-connection-on-borrow` | |
+|`spring.flyway.cherry-pick` | |Migrations that Flyway should consider when migrating or undoing.
+|`spring.flyway.create-schemas` |`true` |Whether Flyway should attempt to create the schemas specified in the schemas property.
+|`spring.flyway.jdbc-properties` | |Properties to pass to the JDBC driver.
+|`spring.flyway.lock-retry-count` |`50` |Maximum number of retries when trying to obtain a lock.
+|`spring.flyway.oracle-kerberos-cache-file` | |Path of the Oracle Kerberos cache file.
+|`spring.flyway.oracle-kerberos-config-file` | |Path of the Oracle Kerberos config file.
+|`spring.flyway.output-query-results` | |Whether Flyway should output a table with the results of queries when executing migrations.
+|`spring.flyway.skip-executing-migrations` | |Whether Flyway should skip executing the contents of the migrations and only update the schema history table.
+|`spring.h2.console.settings.web-admin-password` | |Password to access preferences and tools of H2 Console.
+|`spring.kafka.listener.idle-between-polls` |`0` |Sleep interval between Consumer.poll(Duration) calls.
+|`spring.kafka.streams.cleanup.on-shutdown` |`true` |Cleanup the application’s local state directory on shutdown.
+|`spring.kafka.streams.cleanup.on-startup` |`false` |Cleanup the application’s local state directory on startup.
+|`spring.ldap.template.ignore-name-not-found-exception` |`false` |Whether NameNotFoundException should be ignored in searches via the LdapTemplate.
+|`spring.ldap.template.ignore-partial-result-exception` |`false` |Whether PartialResultException should be ignored in searches via the LdapTemplate.
+|`spring.ldap.template.ignore-size-limit-exceeded-exception` |`true` |Whether SizeLimitExceededException should be ignored in searches via the LdapTemplate.
+|`spring.liquibase.driver-class-name` | |Fully qualified name of the JDBC driver.
+|`spring.mvc.pathmatch.matching-strategy` |`ant-path-matcher` |Choice of strategy for matching request paths against registered mappings.
+|`spring.neo4j.authentication.kerberos-ticket` | |Kerberos ticket for connecting to the database.
+|`spring.neo4j.authentication.password` | |Login password of the server.
+|`spring.neo4j.authentication.realm` | |Realm to connect to.
+|`spring.neo4j.authentication.username` | |Login user of the server.
+|`spring.neo4j.connection-timeout` |`30s` |Timeout for borrowing connections from the pool.
+|`spring.neo4j.max-transaction-retry-time` |`30s` |Maximum time transactions are allowed to retry.
+|`spring.neo4j.pool.connection-acquisition-timeout` |`60s` |Acquisition of new connections will be attempted for at most configured timeout.
+|`spring.neo4j.pool.idle-time-before-connection-test` | |Pooled connections that have been idle in the pool for longer than this threshold will be tested before they are used again.
+|`spring.neo4j.pool.log-leaked-sessions` |`false` |Whether to log leaked sessions.
+|`spring.neo4j.pool.max-connection-lifetime` |`1h` |Pooled connections older than this threshold will be closed and removed from the pool.
+|`spring.neo4j.pool.max-connection-pool-size` |`100` |Maximum amount of connections in the connection pool towards a single database.
+|`spring.neo4j.pool.metrics-enabled` |`false` |Whether to enable metrics.
+|`spring.neo4j.security.cert-file` | |Path to the file that holds the trusted certificates.
+|`spring.neo4j.security.encrypted` |`false` |Whether the driver should use encrypted traffic.
+|`spring.neo4j.security.hostname-verification-enabled` |`true` |Whether hostname verification is required.
+|`spring.neo4j.security.trust-strategy` |`trust-system-ca-signed-certificates` |Trust strategy to use.
+|`spring.neo4j.uri` |`bolt://localhost:7687` |URI used by the driver.
+|`spring.r2dbc.pool.max-acquire-time` | |Maximum time to acquire a connection from the pool.
+|`spring.r2dbc.pool.max-create-connection-time` | |Maximum time to wait to create a new connection.
+|`spring.r2dbc.pool.max-life-time` | |Maximum lifetime of a connection in the pool.
+|`spring.r2dbc.pool.validation-depth` |`local` |Validation depth.
+|`spring.rabbitmq.address-shuffle-mode` |`none` |Mode used to shuffle configured addresses.
+|`spring.rabbitmq.channel-rpc-timeout` |`10m` |Continuation timeout for RPC calls in channels.
+|`spring.rabbitmq.listener.direct.de-batching-enabled` |`true` |Whether the container should present batched messages as discrete messages or call the listener with the batch.
+|`spring.rabbitmq.listener.simple.consumer-batch-enabled` |`false` |Whether the container creates a batch of messages based on the 'receive-timeout' and 'batch-size'.
+|`spring.rabbitmq.listener.simple.de-batching-enabled` |`true` |Whether the container should present batched messages as discrete messages or call the listener with the batch.
+|`spring.redis.client-type` | |Type of client to use.
+|`spring.redis.connect-timeout` | |Connection timeout.
+|`spring.redis.lettuce.cluster.refresh.dynamic-refresh-sources` |`true` |Whether to discover and query all cluster nodes for obtaining the cluster topology.
+|`spring.redis.username` | |Login username of the redis server.
+|`spring.rsocket.server.fragment-size` | |Maximum transmission unit.
+|`spring.rsocket.server.ssl.ciphers` | |
+|`spring.rsocket.server.ssl.client-auth` | |
+|`spring.rsocket.server.ssl.enabled` | |
+|`spring.rsocket.server.ssl.enabled-protocols` | |
+|`spring.rsocket.server.ssl.key-alias` | |
+|`spring.rsocket.server.ssl.key-password` | |
+|`spring.rsocket.server.ssl.key-store` | |
+|`spring.rsocket.server.ssl.key-store-password` | |
+|`spring.rsocket.server.ssl.key-store-provider` | |
+|`spring.rsocket.server.ssl.key-store-type` | |
+|`spring.rsocket.server.ssl.protocol` | |
+|`spring.rsocket.server.ssl.trust-store` | |
+|`spring.rsocket.server.ssl.trust-store-password` | |
+|`spring.rsocket.server.ssl.trust-store-provider` | |
+|`spring.rsocket.server.ssl.trust-store-type` | |
+|`spring.web.locale` | |Locale to use.
+|`spring.web.locale-resolver` |`accept-header` |Define how the locale should be resolved.
+|`spring.web.resources.add-mappings` |`true` |Whether to enable default resource handling.
+|`spring.web.resources.cache.cachecontrol.cache-private` | |Indicate that the response message is intended for a single user and must not be stored by a shared cache.
+|`spring.web.resources.cache.cachecontrol.cache-public` | |Indicate that any cache may store the response.
+|`spring.web.resources.cache.cachecontrol.max-age` | |Maximum time the response should be cached, in seconds if no duration suffix is not specified.
+|`spring.web.resources.cache.cachecontrol.must-revalidate` | |Indicate that once it has become stale, a cache must not use the response without re-validating it with the server.
+|`spring.web.resources.cache.cachecontrol.no-cache` | |Indicate that the cached response can be reused only if re-validated with the server.
+|`spring.web.resources.cache.cachecontrol.no-store` | |Indicate to not cache the response in any case.
+|`spring.web.resources.cache.cachecontrol.no-transform` | |Indicate intermediaries (caches and others) that they should not transform the response content.
+|`spring.web.resources.cache.cachecontrol.proxy-revalidate` | |Same meaning as the "must-revalidate" directive, except that it does not apply to private caches.
+|`spring.web.resources.cache.cachecontrol.s-max-age` | |Maximum time the response should be cached by shared caches, in seconds if no duration suffix is not specified.
+|`spring.web.resources.cache.cachecontrol.stale-if-error` | |Maximum time the response may be used when errors are encountered, in seconds if no duration suffix is not specified.
+|`spring.web.resources.cache.cachecontrol.stale-while-revalidate` | |Maximum time the response can be served after it becomes stale, in seconds if no duration suffix is not specified.
+|`spring.web.resources.cache.period` | |Cache period for the resources served by the resource handler.
+|`spring.web.resources.cache.use-last-modified` |`true` |Whether we should use the "lastModified" metadata of the files in HTTP caching headers.
+|`spring.web.resources.chain.cache` |`true` |Whether to enable caching in the Resource chain.
+|`spring.web.resources.chain.compressed` |`false` |Whether to enable resolution of already compressed resources (gzip, brotli).
+|`spring.web.resources.chain.enabled` | |Whether to enable the Spring Resource Handling chain.
+|`spring.web.resources.chain.strategy.content.enabled` |`false` |Whether to enable the content Version Strategy.
+|`spring.web.resources.chain.strategy.content.paths` |`/**` |Comma-separated list of patterns to apply to the content Version Strategy.
+|`spring.web.resources.chain.strategy.fixed.enabled` |`false` |Whether to enable the fixed Version Strategy.
+|`spring.web.resources.chain.strategy.fixed.paths` |`/**` |Comma-separated list of patterns to apply to the fixed Version Strategy.
+|`spring.web.resources.chain.strategy.fixed.version` | |Version string to use for the fixed Version Strategy.
+|`spring.web.resources.static-locations` |`classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/` |Locations of static resources.
+|======================
+
+
+
+== Removed in `2.4.0`
+|======================
+|Key  |Replacement |Reason
+|`management.health.status.http-mapping` | |
+|`spring.data.neo4j.auto-index` | |Automatic index creation is no longer supported.
+|`spring.data.neo4j.embedded.enabled` | |Embedded mode is no longer supported, please use Testcontainers instead.
+|`spring.data.neo4j.open-in-view` | |
+|`spring.data.neo4j.repositories.enabled` |`spring.data.neo4j.repositories.type` |
+|`spring.data.neo4j.use-native-types` | |Native type support is now built-in.
+|======================

@@ -1,0 +1,57 @@
+Configuration properties change between `2.2.0.M2` and `2.2.0.M3`
+
+.Deprecated keys in `2.2.0.M3`
+|======================
+|Key  |Replacement |Reason
+|`management.health.elasticsearch.indices` | |Upstream elasticsearch transport is deprected
+|`management.health.elasticsearch.response-timeout` | |Upstream elasticsearch transport is deprected
+|`management.metrics.web.client.requests-metric-name` |`management.metrics.web.client.request.metric-name` |
+|`management.metrics.web.server.auto-time-requests` |`management.metrics.web.server.request.autotime.enabled` |
+|`management.metrics.web.server.requests-metric-name` |`management.metrics.web.server.request.metric-name` |
+|======================
+
+.New keys in `2.2.0.M3`
+|======================
+|Key  |Default value |Description
+|`management.auditevents.enabled` |`true` |Whether to enable storage of audit events.
+|`management.metrics.web.client.request.autotime.enabled` |`true` |Whether to automatically time web client requests.
+|`management.metrics.web.client.request.autotime.percentiles` | |Computed non-aggregable percentiles to publish.
+|`management.metrics.web.client.request.autotime.percentiles-histogram` |`false` |Whether percentile histograms should be published.
+|`management.metrics.web.client.request.metric-name` |`http.client.requests` |Name of the metric for sent requests.
+|`management.metrics.web.server.request.autotime.enabled` |`true` |Whether to automatically time web server requests.
+|`management.metrics.web.server.request.autotime.percentiles` | |Computed non-aggregable percentiles to publish.
+|`management.metrics.web.server.request.autotime.percentiles-histogram` |`false` |Whether percentile histograms should be published.
+|`management.metrics.web.server.request.metric-name` |`http.server.requests` |Name of the metric for received requests.
+|`server.jetty.accesslog.custom-format` | |Custom log format, see org.eclipse.jetty.server.CustomRequestLog.
+|`server.jetty.accesslog.format` | |Log format.
+|`server.jetty.accesslog.ignore-paths` | |Request paths that should not be logged.
+|`server.undertow.allow-encoded-slash` |`false` |Whether the server should decode percent encoded slash characters.
+|`server.undertow.always-set-keep-alive` |`true` |Whether the 'Connection: keep-alive' header should be added to all responses, even if not required by the HTTP specification.
+|`server.undertow.decode-url` |`true` |Whether the URL should be decoded.
+|`server.undertow.max-cookies` |`200` |Maximum number of cookies that are allowed.
+|`server.undertow.max-headers` | |Maximum number of headers that are allowed.
+|`server.undertow.max-parameters` | |Maximum number of query or path parameters that are allowed.
+|`server.undertow.url-charset` |`UTF-8` |Charset used to decode URLs.
+|`spring.elasticsearch.rest.connection-timeout` |`1s` |Connection timeout.
+|`spring.elasticsearch.rest.read-timeout` |`30s` |Read timeout.
+|`spring.flyway.batch` | |Whether to batch SQL statements when executing them.
+|`spring.flyway.error-overrides` | |Rules for the built-in error handling to override specific SQL states and error codes.
+|`spring.flyway.license-key` | |Licence key for Flyway Pro or Flyway Enterprise.
+|`spring.flyway.oracle-sqlplus` | |Whether to enable support for Oracle SQL*Plus commands.
+|`spring.flyway.stream` | |Whether to stream SQL migrations when executing them.
+|`spring.redis.jedis.pool.time-between-eviction-runs` | |Time between runs of the idle object evictor thread.
+|`spring.redis.lettuce.pool.time-between-eviction-runs` | |Time between runs of the idle object evictor thread.
+|======================
+
+.Removed keys in `2.2.0.M3`
+|======================
+|Key  |Replacement |Reason
+|`server.jetty.accesslog.date-format` |`server.jetty.accesslog.custom-format` |
+|`server.jetty.accesslog.extended-format` |`server.jetty.accesslog.format` |
+|`server.jetty.accesslog.locale` |`server.jetty.accesslog.custom-format` |
+|`server.jetty.accesslog.log-cookies` |`server.jetty.accesslog.custom-format` |
+|`server.jetty.accesslog.log-latency` |`server.jetty.accesslog.custom-format` |
+|`server.jetty.accesslog.log-server` |`server.jetty.accesslog.custom-format` |
+|`server.jetty.accesslog.time-zone` |`server.jetty.accesslog.custom-format` |
+|`spring.datasource.jmx-enabled` |`spring.datasource.tomcat.jmx-enabled` |
+|======================

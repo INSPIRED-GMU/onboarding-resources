@@ -1,0 +1,28 @@
+The `scikit-learn <http://scikit-learn.org/stable/>`_ strives to be a friendly and welcoming community.
+
+For this purpose, we believe that a community formed by a balanced group of men and women is the best option. Unfortunately, women are unrepresented in our community.
+
+This is why we will pay special care to women applications for funding to work on the scikit-learn and join the community. For this purpose, the scikit-learn is accepting students to the Google summer of code (GSOC).
+
+Students are paid $5000 over the Summer to work from home on a task they choose as outlined in their application. Each student has a primary mentor within the group of developers they work with email. Their primary mentor is responsible for helping them integrate with the community, refine their goals to meet Summer of Code program deadlines, and evaluate the student's progress in the program. 
+
+Strong student applicants have: 
+
+  * A will to learn and to communicate.
+  * An interest in developing high-quality code.
+  * Curiosity about data processing, machine learning, or computational statistics.
+  * Some knowledge of scientific or numerical programming with Python.
+
+To apply, the first step is to join the scikit-learn mailing list, and introduce yourself: 
+https://lists.sourceforge.net/lists/listinfo/scikit-learn-general
+
+See [[A-list-of-topics-for-a-Google-summer-of-code-(GSOC)-2011]] for ideas of projects to work on.
+
+____
+
+.. image:: http://farm6.static.flickr.com/5016/5583476068_95c101f793.jpg
+  :scale: 50
+.. image:: http://farm6.static.flickr.com/5265/5583474358_9b522420f3.jpg
+  :scale: 50
+.. image:: http://farm6.static.flickr.com/5304/5582885715_8257e7d478.jpg
+  :scale: 50

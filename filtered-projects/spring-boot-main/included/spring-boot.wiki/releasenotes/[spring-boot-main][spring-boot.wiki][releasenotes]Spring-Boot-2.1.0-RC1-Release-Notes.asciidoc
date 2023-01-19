@@ -1,0 +1,76 @@
+:docs: https://docs.spring.io/spring-boot/docs/2.1.0.RC1/reference/htmlsingle
+:framework-docs: https://docs.spring.io/spring-framework/docs/5.1.1.RELEASE/spring-framework-reference
+:actuator-docs: https://docs.spring.io/spring-boot/docs/2.1.0.RC1/actuator-api/html
+:maven-docs: https://docs.spring.io/spring-boot/docs/2.1.0.RC1/maven-plugin
+
+= Spring Boot 2.1.0 RC1 Release Notes
+For changes in earlier milestones, please refer to:
+
+ - link:Spring-Boot-2.1.0-M4-Release-Notes[v2.1.0 M4]
+ - link:Spring-Boot-2.1.0-M3-Release-Notes[v2.1.0 M3]
+ - link:Spring-Boot-2.1.0-M2-Release-Notes[v2.1.0 M2]
+ - link:Spring-Boot-2.1.0-M1-Release-Notes[v2.1.0 M1]
+
+== Upgrading from Spring Boot 2.1.0 M4
+See instructions in the link:Spring-Boot-2.1.0-M4-Release-Notes[2.1.0.M4 release notes] for upgrading from v2.1.0.M4 and earlier.
+
+=== OAuth2 client configuration
+The structure of the `spring.security.oauth2.client.registration` has been reworked in a single tree rather than having an `authorizationcode` and `clientcredentials` sub namespace.
+
+=== 'all' SLA handling
+The description of `management.metrics.distribution.sla` wrongly described that a `all` meter ID could be used to set a SLA for all metrics. This feature couldn't be implemented properly given that the unit may differ based on the meter type.
+
+=== Thymeleaf Spring Security Extras
+Dependency management and auto-configuration for Thymeleaf's Spring Security Extras module has switched from `thymeleaf-extras-springsecurity4` to `thymeleaf-extras-springsecurity5`. If you were using the module, you should update your `pom.xml` or `build.gradle` to depend upon `thymeleaf-extras-springsecurity5`.
+
+=== Naryana JTA Support
+The Naryana support has been removed in favour of https://github.com/snowdrop/narayana-spring-boot[the starter from the Naryana team].
+
+=== InfluxDB HttpClient customization
+Previously, declaring a `OkHttpClient.Builder` bean was enough to customize the client used by InfluxDB. To make sure such customizations are isolated, please define a `InfluxDbOkHttpClientBuilderProvider` bean instead.
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.1.0-RC1-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+=== Micrometer
+
+==== Auto-configuration support for new registries
+The following metrics registries are now auto-configured when on the classpath:
+
+* AppOptics
+* Humio
+* KariosDB
+
+Additionally, support for Prometheus push gateway has been added.
+
+==== Auto-configuration support for new metrics
+The following metrics are now available as core metrics when applicable:
+
+* Jetty server thread pool metrics
+* Server-side Jersey HTTP request metrics
+
+==== Additional histogram configuration properties
+New `+management.metrics.distribution.maximum-expected-value.*+` and `+management.metrics.distribution.minimum-expected-value.*+` properties can be used to control the maximum and minimum expected values on a per-meter basis.
+
+
+==== WebFlux.Fn
+`http.server.request` metrics are now tagged with a `uri` tag based on the router function's matching pattern.
+
+=== Hibernate
+Spring Boot now registers a `BeanContainer` implementation that uses the `BeanFactory` so that converters and entity listeners can use regular dependency injection.
+
+=== Reloadable `MessageSource`
+Resource bundles can be made reloadable by enabling the `spring.messages.reloadable` property. 
+
+=== Miscellaneous
+Apart from the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+- A configuration property, `spring.webflux.hiddenmethod.filter.enable`, can be used to enable or disable the `HiddenHttpMethodFilter` when using WebFlux.
+- Flyway's configuration can now be customized programatically using a `FlywayConfigurationCustomizer` bean.
+- DevTools now sets `spring.messages.reloadable` to `true` by default.
+- When using Neo4J and a Caffeine cache, a `BookmarkManager` will be auto-configured.
+- Git and Build info support custom encoding.
+
+== Deprecations in Spring Boot 2.1.0 RC1
+- Customization of InfluxDB's HTTP client via an `OkHttpClient.Builder` bean has been deprecated. An `InfluxDbOkHttpClientBuilderProvider` bean should be used instead.
+- Properties for configuring Cassandra's retry, reconnection, and load balancing policies have been deprecated. A `ClusterBuilderCustomizer` bean should be used instead.

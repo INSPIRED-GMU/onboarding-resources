@@ -1,0 +1,18 @@
+Configuration properties change between `2.7.0-M1` and `2.7.0-M2`
+
+== Deprecated in `2.7.0-M2`
+None.
+
+
+
+== New in `2.7.0-M2`
+|======================
+|Key  |Default value |Description
+|`spring.kafka.listener.immediate-stop` |`false` |Whether the container stops after the current record is processed or after all the records from the previous poll are processed.
+|`spring.redis.sentinel.username` | |Login username for authenticating with sentinel(s).
+|======================
+
+
+
+== Removed in `2.7.0-M2`
+None.

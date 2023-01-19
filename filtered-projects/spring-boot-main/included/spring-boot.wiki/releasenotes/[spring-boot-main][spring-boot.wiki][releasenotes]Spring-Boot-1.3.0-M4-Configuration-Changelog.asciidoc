@@ -1,0 +1,8 @@
+Configuration properties change between `1.3.0.M3` and `1.3.0.M4`
+
+.New keys in `1.3.0.M4`
+|======================
+|Key  |Default value |Description
+|`spring.datasource.type` | |Fully qualified name of the connection pool implementation to use.
+|`spring.messages.fallback-to-system-locale` |`true` |Set whether to fall back to the system Locale if no files for a specific Locale have been found.
+|======================

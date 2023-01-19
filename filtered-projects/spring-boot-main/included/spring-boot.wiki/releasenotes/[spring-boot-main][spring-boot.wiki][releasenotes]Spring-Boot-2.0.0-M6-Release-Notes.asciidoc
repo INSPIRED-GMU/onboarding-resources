@@ -1,0 +1,74 @@
+For changes in earlier milestones, please refer to:
+
+ - link:Spring-Boot-2.0.0-M1-Release-Notes[v2.0.0 M1]
+ - link:Spring-Boot-2.0.0-M2-Release-Notes[v2.0.0 M2]
+ - link:Spring-Boot-2.0.0-M3-Release-Notes[v2.0.0 M3]
+ - link:Spring-Boot-2.0.0-M4-Release-Notes[v2.0.0 M4]
+ - link:Spring-Boot-2.0.0-M5-Release-Notes[v2.0.0 M5]
+
+== Upgrading from Spring Boot 2.0.0 M5
+See instructions in the link:Spring-Boot-2.0.0-M5-Release-Notes[2.0.0.M5 release notes] for upgrading from v2.0.0.M5 and earlier.
+
+=== Actuator configuration changes
+Management Server-related properties have been moved from `management.\*` to `management.server.*`.
+We also fixed the meaning of `management.server.context-path`: it is now the endpoint management equivalent of `server.context-path` (only active when `management.server.port` is set). Additionally, you can also set the base path for the management endpoints with a new, separate property: `management.endpoints.web.base-path`.
+
+For example, if you've set `management.server.context-path=/management` and `management.endpoints.web.base-path=/application`, you'll be able to reach the health endpoint at the following path: `/management/application/health`.
+
+=== Configuration location
+The behavior of the `spring.config.location` configuration has been fixed; it previously added a location to the list of default ones, now it replaces the default locations. If you were relying on the way it was handled previously, you should now use `spring.config.additional-location` instead.
+
+=== WARN message for implicit `open-in-view`
+From now on, applications that don't explicitly enable `spring.jpa.open-in-view` will get a WARN message during startup. While this behavior is a friendly default, this can lead to issues if you're not fully aware of what's that doing for you. This message makes sure that you understand that database queries may be performed during view rendering. If you're fine with that, you can configure explicitly this property and never get that WARN message again.
+
+=== Harmonized `mainClassName` in Gradle builds
+`BootRun`, `BootJar`, and `BootWar` all use `mainClassName` as the property to configure the name of the main class. This makes the three Boot-specific tasks consistent with each other, and also aligns them with Gradle's own application plugin.
+
+=== `ConfigurationProperties` validation
+It is now mandatory that your `@ConfigurationProperties` object is annotated with `@Validated` if you want to turn on validation.
+
+=== DataSource Initialization
+`DataSource` initialization is now only enabled for embedded data sources and will switch off as soon as you're using a production database. The new `spring.datasource.initialization-mode` (replacing `spring.datasource.initialize`) offers more control.
+
+=== Spring Mobile
+Auto-configuration and dependency management for Spring Mobile has been removed.
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.0.0-M6-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+=== Error conventions support in Spring WebFlux
+Spring Boot now supports the same error conventions with WebFlux as it does with MVC: default views and JSON responses for errors, custom error views, and more... Check out the https://docs.spring.io/spring-boot/docs/2.0.0.M6/reference/html/boot-features-developing-web-applications.html#boot-features-webflux-error-handling[dedicated section in the reference documentation].
+
+=== TLS configuration and HTTP/2 support
+You can now configure SSL for your WebFlux application with `server.ssl.*` configuration properties. This is supported for all available servers: Tomcat, Jetty, Undertow and Reactor Netty.
+
+You can now configure HTTP/2 for your MVC or WebFlux application: using `server.http2.enabled`.
+For this milestone, only Tomcat and Undertow are supported (see https://github.com/spring-projects/spring-boot/issues/10902[#10902] for Jetty support). 
+
+Depending on your choice of server and JDK, https://docs.spring.io/spring-boot/docs/2.0.0.M6/reference/html/howto-embedded-web-servers.html#howto-configure-http2[restrictions and prerequisites can apply].
+
+=== Configurable JPA mapping resources
+If you were extending Spring Boot's JPA configuration to register mapping resources, there is now a `spring.jpa.mapping-resources` property.
+
+=== `@SendTo` support with `@KafkaListener`
+Kafka listeners using the auto-configured factory now supports `@SendTo`.
+
+=== Data Sources Metrics
+By default, all available data sources are instrumented (the mix, max and usage metrics are made available for each).
+
+=== Kotlin extension
+Spring Boot now ships a Kotlin `runApplication` extension:
+
+```kotlin
+package com.example.demo
+
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
+
+@SpringBootApplication
+class DemoApplication
+
+fun main(args: Array<String>) {
+    runApplication<DemoApplication>(*args)
+}
+```

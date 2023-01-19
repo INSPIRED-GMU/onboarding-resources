@@ -1,0 +1,29 @@
+Tracking down performance regressions when developing Spring Boot can be challenging. This page documents some techniques that we occasionally use.
+
+== Test applications
+The `spring-boot-sample-tomcat` and `spring-boot-sample-actuator-ui` projects are good first candidates. There's also https://github.com/dsyer/spring-boot-startup-bench[spring-boot-startup-bench]. Changing the main method to call `.close()` helps with repeated launching:
+
+[source,java]
+----
+public static void main(String[] args) throws Exception {
+   SpringApplication.run(SampleTomcatApplication.class, args).close();
+}
+----
+
+== GC Pauses
+Startup speed can suffer if too many GC pauses happen. This can be a pain to track down because a relatively small change might suddenly push the memory limits.
+
+Printing GC can be a useful way to see what's changed between versions:
+
+----
+java -XX:+PrintGC -XX:+PrintGCTimeStamps -XX:+PrintGCDateStamps -jar target/*.jar | grep GC
+----
+
+
+
+
+== Relative logging
+
+----
+logging.pattern.console=%8r %d{yyyy-MM-dd HH:mm:ss.SSS} %5p --- [%15.15t] %-40.40logger{39} : %m%n%wEx
+----

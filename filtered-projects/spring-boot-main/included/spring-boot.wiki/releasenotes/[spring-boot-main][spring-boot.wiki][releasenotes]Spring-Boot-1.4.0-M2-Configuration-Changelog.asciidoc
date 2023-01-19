@@ -1,0 +1,160 @@
+Configuration properties change between `1.4.0.M1` and `1.4.0.M2`
+
+.Deprecated keys in `1.4.0.M2`
+|======================
+|Key  |Replacement |Reason
+|`server.tomcat.max-http-header-size` |`server.max-http-header-size` |
+|`spring.activemq.pooled` |`spring.activemq.pool.enabled` |
+|`spring.git.properties` |`spring.info.git.location` |
+|`spring.jackson.serialization-inclusion` |`spring.jackson.default-property-inclusion` |ObjectMapper.setSerializationInclusion was deprecated in Jackson 2.7
+|`spring.jpa.hibernate.naming-strategy` |`spring.jpa.hibernate.naming.strategy` |
+|`spring.velocity.allow-request-override` | |
+|`spring.velocity.allow-session-override` | |
+|`spring.velocity.cache` | |
+|`spring.velocity.charset` | |
+|`spring.velocity.check-template-location` | |
+|`spring.velocity.content-type` | |
+|`spring.velocity.date-tool-attribute` | |
+|`spring.velocity.enabled` | |
+|`spring.velocity.expose-request-attributes` | |
+|`spring.velocity.expose-session-attributes` | |
+|`spring.velocity.expose-spring-macro-helpers` | |
+|`spring.velocity.number-tool-attribute` | |
+|`spring.velocity.prefer-file-system-access` | |
+|`spring.velocity.prefix` | |
+|`spring.velocity.properties` | |
+|`spring.velocity.request-context-attribute` | |
+|`spring.velocity.resource-loader-path` | |
+|`spring.velocity.suffix` | |
+|`spring.velocity.toolbox-config-location` | |
+|`spring.velocity.view-names` | |
+|======================
+
+.New keys in `1.4.0.M2`
+|======================
+|Key  |Default value |Description
+|`banner.image.height` | |Banner image height (in chars).
+|`banner.image.invert` |`false` |Invert images for dark console themes.
+|`banner.image.location` |`banner.gif` |Banner image file location.
+|`banner.image.margin` | |Left hand image height (in chars).
+|`banner.image.width` | |Banner image width (in chars).
+|`endpoints.metrics.filter.counter-submissions` | |Submissions that should be made to the counter.
+|`endpoints.metrics.filter.gauge-submissions` | |Submissions that should be made to the gauge.
+|`liquibase.rollback-file` | |File to which rollback SQL will be written when an update is performed.
+|`management.info.build.enabled` |`true` |Enable build info.
+|`management.info.build.mode` | |Mode to use to expose build information.
+|`management.info.defaults.enabled` |`true` |Enable default info contributors.
+|`management.info.env.enabled` |`true` |Enable environment info.
+|`management.info.git.enabled` |`true` |Enable git info.
+|`management.info.git.mode` | |Mode to use to expose git information.
+|`server.jetty.acceptors` | |Number of acceptor threads to use.
+|`server.jetty.selectors` | |Number of selector threads to use.
+|`server.max-http-header-size` |`0` |Maximum size in bytes of the HTTP message header.
+|`server.max-http-post-size` |`0` |Maximum size in bytes of the HTTP post content.
+|`server.tomcat.min-spare-threads` |`0` |Minimum amount of worker threads.
+|`spring.activemq.packages.trust-all` | |Trust all packages.
+|`spring.activemq.packages.trusted` | |Comma-separated list of specific packages to trust (when not trusting all packages).
+|`spring.activemq.pool.configuration.block-if-session-pool-is-full` | |
+|`spring.activemq.pool.configuration.block-if-session-pool-is-full-timeout` | |
+|`spring.activemq.pool.configuration.connection-factory` | |
+|`spring.activemq.pool.configuration.create-connection-on-startup` | |
+|`spring.activemq.pool.configuration.expiry-timeout` | |
+|`spring.activemq.pool.configuration.idle-timeout` | |
+|`spring.activemq.pool.configuration.max-connections` | |
+|`spring.activemq.pool.configuration.maximum-active-session-per-connection` | |
+|`spring.activemq.pool.configuration.properties` | |
+|`spring.activemq.pool.configuration.reconnect-on-exception` | |
+|`spring.activemq.pool.configuration.time-between-expiration-check-millis` | |
+|`spring.activemq.pool.configuration.use-anonymous-producers` | |
+|`spring.activemq.pool.enabled` |`false` |Whether a PooledConnectionFactory should be created instead of a regular ConnectionFactory.
+|`spring.activemq.pool.expiry-timeout` |`0` |Connection expiration timeout in milliseconds.
+|`spring.activemq.pool.idle-timeout` |`30000` |Connection idle timeout in milliseconds.
+|`spring.activemq.pool.max-connections` |`1` |Maximum number of pooled connections.
+|`spring.cache.caffeine.spec` | |The spec to use to create caches.
+|`spring.cache.couchbase.expiration` |`0` |Entry expiration in milliseconds.
+|`spring.couchbase.bootstrap-hosts` | |Couchbase nodes (host or IP address) to bootstrap from.
+|`spring.couchbase.bucket.name` |`default` |Name of the bucket to connect to.
+|`spring.couchbase.bucket.password` |`` |Password of the bucket.
+|`spring.couchbase.env.endpoints.key-value` |`1` |Number of sockets per node against the Key/value service.
+|`spring.couchbase.env.endpoints.query` |`1` |Number of sockets per node against the Query (N1QL) service.
+|`spring.couchbase.env.endpoints.view` |`1` |Number of sockets per node against the view service.
+|`spring.couchbase.env.ssl.enabled` | |Enable SSL support.
+|`spring.couchbase.env.ssl.key-store` | |Path to the JVM key store that holds the certificates.
+|`spring.couchbase.env.ssl.key-store-password` | |Password used to access the key store.
+|`spring.couchbase.env.timeouts.connect` |`5000` |Bucket connections timeout in milliseconds.
+|`spring.couchbase.env.timeouts.key-value` |`2500` |Blocking operations performed on a specific key timeout in milliseconds.
+|`spring.couchbase.env.timeouts.query` |`7500` |N1QL query operations timeout in milliseconds.
+|`spring.couchbase.env.timeouts.socket-connect` |`1000` |Socket connect connections timeout in milliseconds.
+|`spring.couchbase.env.timeouts.view` |`7500` |Regular and geospatial view operations timeout in milliseconds.
+|`spring.data.neo4j.compiler` | |Compiler to use.
+|`spring.data.neo4j.embedded.enabled` |`true` |Enable embedded mode if the embedded driver is available.
+|`spring.data.neo4j.password` | |Login password of the server.
+|`spring.data.neo4j.repositories.enabled` |`true` |Enable Neo4j repositories.
+|`spring.data.neo4j.session.scope` |`singleton` |Scope (lifetime) of the session.
+|`spring.data.neo4j.uri` | |URI used by the driver.
+|`spring.data.neo4j.username` | |Login user of the server.
+|`spring.data.redis.repositories.enabled` |`true` |Enable Redis repositories.
+|`spring.h2.console.settings.trace` |`false` |Enable trace output.
+|`spring.h2.console.settings.web-allow-others` |`false` |Enable remote access.
+|`spring.info.build.location` | |Location of the generated build.properties file.
+|`spring.info.git.location` | |Location of the generated git.properties file.
+|`spring.jackson.default-property-inclusion` | |Controls the inclusion of properties during serialization.
+|`spring.jersey.servlet.load-on-startup` |`-1` |Load on startup priority of the Jersey servlet.
+|`spring.jpa.hibernate.naming.implicit-strategy` | |Hibernate 5 implicit naming strategy fully qualified name.
+|`spring.jpa.hibernate.naming.physical-strategy` | |Hibernate 5 physical naming strategy fully qualified name.
+|`spring.jpa.hibernate.naming.strategy` | |Hibernate 4 naming strategy fully qualified name.
+|`spring.jpa.hibernate.use-new-id-generator-mappings` | |Use Hibernate's newer IdentifierGenerator for AUTO, TABLE and SEQUENCE.
+|`spring.jta.narayana.default-timeout` |`60` |Transaction timeout in seconds.
+|`spring.jta.narayana.expiry-scanners` |`com.arjuna.ats.internal.arjuna.recovery.ExpiredTransactionStatusManagerScanner` |Comma-separated list of expiry scanners.
+|`spring.jta.narayana.log-dir` | |Transaction object store directory.
+|`spring.jta.narayana.one-phase-commit` |`true` |Enable one phase commit optimization.
+|`spring.jta.narayana.periodic-recovery-period` |`120` |Interval in which periodic recovery scans are performed in seconds.
+|`spring.jta.narayana.recovery-backoff-period` |`10` |Back off period between first and second phases of the recovery scan in seconds.
+|`spring.jta.narayana.recovery-db-pass` | |Database password to be used by recovery manager.
+|`spring.jta.narayana.recovery-db-user` | |Database username to be used by recovery manager.
+|`spring.jta.narayana.recovery-jms-pass` | |JMS password to be used by recovery manager.
+|`spring.jta.narayana.recovery-jms-user` | |JMS username to be used by recovery manager.
+|`spring.jta.narayana.recovery-modules` | |Comma-separated list of recovery modules.
+|`spring.jta.narayana.transaction-manager-id` |`1` |Unique transaction manager id.
+|`spring.jta.narayana.xa-resource-orphan-filters` | |Comma-separated list of of orphan filters.
+|`spring.messages.always-use-message-format` |`false` |Set whether to always apply the MessageFormat rules, parsing even messages without arguments.
+|`spring.mongodb.embedded.storage.database-dir` | |Directory used for data storage.
+|`spring.mongodb.embedded.storage.oplog-size` | |Maximum size of the oplog in megabytes.
+|`spring.mongodb.embedded.storage.repl-set-name` | |Name of the replica set.
+|`spring.mustache.allow-request-override` | |Set whether HttpServletRequest attributes are allowed to override (hide) controller generated model attributes of the same name.
+|`spring.mustache.allow-session-override` | |Set whether HttpSession attributes are allowed to override (hide) controller generated model attributes of the same name.
+|`spring.mustache.expose-request-attributes` | |Set whether all request attributes should be added to the model prior to merging with the template.
+|`spring.mustache.expose-session-attributes` | |Set whether all HttpSession attributes should be added to the model prior to merging with the template.
+|`spring.mustache.expose-spring-macro-helpers` | |Set whether to expose a RequestContext for use by Spring's macro library, under the name "springMacroRequestContext".
+|`spring.mustache.request-context-attribute` | |Name of the RequestContext attribute for all views.
+|`spring.rabbitmq.cache.channel.checkout-timeout` | |Number of milliseconds to wait to obtain a channel if the cache size has been reached.
+|`spring.rabbitmq.cache.channel.size` | |Number of channels to retain in the cache.
+|`spring.rabbitmq.cache.connection.mode` | |Connection factory cache mode.
+|`spring.rabbitmq.cache.connection.size` | |Number of connections to cache.
+|`spring.rabbitmq.listener.default-requeue-rejected` | |Whether rejected deliveries are requeued by default; default true.
+|`spring.rabbitmq.listener.retry.enabled` | |Whether or not publishing retries are enabled.
+|`spring.rabbitmq.listener.retry.initial-interval` | |Interval between the first and second attempt to publish or deliver a message.
+|`spring.rabbitmq.listener.retry.max-attempts` | |Maximum number of attempts to publish or deliver a message.
+|`spring.rabbitmq.listener.retry.max-interval` | |Maximum interval between attempts.
+|`spring.rabbitmq.listener.retry.multiplier` | |A multiplier to apply to the previous retry interval.
+|`spring.rabbitmq.listener.retry.stateless` |`true` |Whether or not retries are stateless or stateful.
+|`spring.rabbitmq.publisher-confirms` |`false` |Enable publisher confirms.
+|`spring.rabbitmq.publisher-returns` |`false` |Enable publisher returns.
+|`spring.rabbitmq.template.mandatory` | |Enable mandatory messages.
+|`spring.rabbitmq.template.receive-timeout` | |Timeout for receive() operations.
+|`spring.rabbitmq.template.reply-timeout` | |Timeout for sendAndReceive() operations.
+|`spring.rabbitmq.template.retry.enabled` |`false` |Whether or not publishing retries are enabled.
+|`spring.rabbitmq.template.retry.initial-interval` |`1000` |Interval between the first and second attempt to publish or deliver a message.
+|`spring.rabbitmq.template.retry.max-attempts` |`3` |Maximum number of attempts to publish or deliver a message.
+|`spring.rabbitmq.template.retry.max-interval` |`10000` |Maximum interval between attempts.
+|`spring.rabbitmq.template.retry.multiplier` |`1` |A multiplier to apply to the previous retry interval.
+|`trace` |`false` |Enable trace logs.
+|======================
+
+.Removed keys in `1.4.0.M2`
+|======================
+|Key  |Default value |Description
+|`spring.data.couchbase.bootstrap-hosts` | |Couchbase nodes (host or IP address) to bootstrap from.
+|`spring.data.couchbase.bucket.name` | |Name of the bucket to connect to.
+|`spring.data.couchbase.bucket.password` |`` |Password of the bucket.
+|======================

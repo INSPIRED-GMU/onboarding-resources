@@ -1,0 +1,107 @@
+:docs: https://docs.spring.io/spring-boot/docs/2.3.x-SNAPSHOT/reference/html/
+
+= Spring Boot 2.3.0 M1 Release Notes
+
+== Upgrading from Spring Boot 2.2
+
+=== Deprecations from Spring Boot 2.2
+Classes, methods and properties that were deprecated in Spring Boot 2.2 have been removed in this release.
+Please ensure that you aren't calling deprecated methods before upgrading. See https://github.com/spring-projects/spring-boot/pull/19189[#19189] and https://github.com/spring-projects/spring-boot/pull/19699[#19699].
+
+=== Changes to minimum requirements
+
+Spring Boot now requires:
+
+* Gradle 5.6+ (if you are building with Gradle)
+* Jetty 9.4.22+ (if you are using Jetty as the embedded container)
+
+=== Spring Cloud Connectors starter has been removed
+The Spring Cloud Connectors starter was https://github.com/spring-projects/spring-boot/issues/17877[deprecated in 2.2 in favor of Java CFEnv]. This starter has been removed, and Spring Cloud Connectors dependencies are no longer included in Spring Boot's managed dependencies.
+
+=== Validation Starter no longer included in web starters
+As of https://github.com/spring-projects/spring-boot/issues/19550[#19550], Web and WebFlux starters do not depend on the validation starter by default anymore. If your application is using validation features, you'll need to manually add back a dependency on `spring-boot-starter-validation` in your build file.
+
+=== Elasticsearch transports changes
+The Native Elasticsearch transport was deprecated in previous Spring Boot versions, because Elasticsearch and Spring Data themselves won't support it in their next releases. This support has been removed in Spring Boot as of https://github.com/spring-projects/spring-boot/issues/19668[#19668].
+
+Also, Elasticsearch now provides an official HTTP client, which is supported by Spring Data as a transport. Support for the Jest library had been deprecated in Spring Boot 2.2.0 and has been removed from Spring Boot in https://github.com/spring-projects/spring-boot/pull/19681[#19681].
+
+Spring Boot is now using Elasticsearch 7.5+ by default.
+
+=== Cassandra driver upgrade
+Spring Boot is now using Cassandra 4.3+ by default. This new driver has a number of breaking changes and we are still in the process of upgrading the configuration.
+
+If you were relying on `ClusterBuilderCustomizer` to customize the `Cluster`, this concept no longer exists in v4 and has been replaced by two more specific customizers:
+
+* `DriverConfigLoaderBuilderCustomizer` customizes the properties of the driver. Please use this for any property that is not exposed yet.
+* `CqlSessionBuilderCustomizer` customizes the `CqlSession` (former `Session`).
+
+Also, the Cassandra v4 driver does no longer have automatic local DC inference from contact points. As a result, the "local-datacenter" property must be set with the default load balancing policy and the contact points must be of that data center.
+A new `spring.data.cassandra.local-datacenter` property has been added to easily set the local datacenter.
+
+Finally, contact points are now in the form of `host:port`. Make sure to update your configuration to specify the port to use for each contact point.
+
+== New and noteworthy
+TIP: Check link:Spring-Boot-2.3.0-M1-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+=== Build Docker images with Cloud Native Buildpacks
+Support for building Docker images using https://buildpacks.io[Cloud Native Buildpacks] has been added to the Maven and Gradle plugins via the `spring-boot:build-image` goal and the `bootBuildImage` task.
+
+=== Build layered jars for inclusion in a Docker image
+Support for building jar files with contents separated into layers has been added to the Maven and Gradle plugins. The layering separates the jar's contents based on how frequently they will change. This separation allows more efficient Docker images to be built. Existing layers that have not changed can be reused with the layers that have changed being placed on top.
+
+Layered jars also provide built-in support for listing and extracting their layers via a new jar mode. To see the options available, launch a fat jar with `-Djarmode=layertools` as shown in the following example:
+
+```
+$ java -Djarmode=layertools -jar build/libs/layered-app-0.0.1-SNAPSHOT.jar 
+Usage:
+  java -Djarmode=layertools -jar layered-app-0.0.1-SNAPSHOT.jar
+
+Available commands:
+  list     List layers from the jar that can be extracted
+  extract  Extracts layers from the jar for image creation
+  help     Help about any command
+```
+
+=== End-to-end Traceability for Configuration Properties
+As of https://github.com/spring-projects/spring-boot/issues/17886[#17886], the `/actuator/configprops` endpoint provides end-to-end information about configuration properties, aligning its behavior with the environment endpoint. For example, after adding `server.server-header=Spring Boot` in your `application.properties`, the endpoint will show you the following:
+
+```
+"serverHeader": {
+  "origin": "class path resource [application.properties]:2:22",
+  "value": "Spring Boot"
+},
+```
+
+
+=== Predictable Classpath Ordering When Exploding Fat Jars
+Fat jars built with Maven and Gradle now include an index file.
+When the jar is exploded, this index file is used to ensure that the ordering of the classpath is the same as when executing the jar directly.
+
+=== Dependency Upgrades
+Spring Boot 2.3 upgrades to new versions of several Spring projects:
+
+- Spring Data Neumann
+- Spring HATEOAS 1.1
+- Spring Integration 5.3
+- Spring Kafka 2.4
+- Spring Security 
+
+Numerous third-party dependencies have also been updated, some of the more noteworthy of which are the following:
+
+- AssertJ 3.14
+- Elasticsearch 7.5
+- Flyway 6.1
+- Hibernate Validator 6.1
+- Infinispan 10.1
+- Kafka 2.4
+- Mockito 3.2
+
+=== Miscellaneous
+Apart from the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+* Configuration defaults were updated in our JPA support to improve the testing experience, see https://github.com/spring-projects/spring-boot/issues/16230[#16230] and https://github.com/spring-projects/spring-boot/issues/16747[#16747].
+* The output from `spring-boot-autoconfigure-processor` is now repeatable, making it work better with Gradle's build cache.
+
+== Deprecations in Spring Boot 2.3.0 M1
+* The `spring.http.*` properties have been moved to `server.servlet.encoding.*`, `spring.mvc.*` and `spring.codec.*`, see https://github.com/spring-projects/spring-boot/issues/18827[#18827].

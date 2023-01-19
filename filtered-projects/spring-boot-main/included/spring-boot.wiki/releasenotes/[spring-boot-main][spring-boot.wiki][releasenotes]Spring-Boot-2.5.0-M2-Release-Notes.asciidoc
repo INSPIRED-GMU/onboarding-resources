@@ -1,0 +1,104 @@
+:actuator-docs: https://docs.spring.io/spring-boot/docs/2.5.0-SNAPSHOT/actuator-api/html/
+:docs: https://docs.spring.io/spring-boot/docs/2.5.x-SNAPSHOT/reference/html/
+:maven-docs: https://docs.spring.io/spring-boot/docs/2.5.0-SNAPSHOT/maven-plugin/reference/htmlsingle/
+:gradle-docs: https://docs.spring.io/spring-boot/docs/2.5.0-SNAPSHOT/gradle-plugin/reference/htmlsingle/
+
+= Spring Boot 2.5.0 M2 Release Notes
+
+
+
+== Upgrading from Spring Boot 2.4
+
+
+=== Deprecations from Spring Boot 2.3
+Classes, methods and properties that were deprecated in Spring Boot 2.3 have been removed in this release.
+Please ensure that you aren't calling deprecated methods before upgrading.
+
+
+=== Cassandra Throttling Properties
+Spring Boot no longer provides default values for `spring.data.cassandra.request.throttler` properties.
+If you rely on `max-queue-size`, `max-concurrent-requests`, `max-requests-per-second` or `drain-interval` you should set values that make sense for your application.
+
+
+=== Messages in the Default Error View
+The `messsage` attribute in the default error view is now removed rather than blanked when it is not shown.
+If you parse the error response JSON, you may need to deal with the missing item.
+
+You can still use the `server.error.include-message` property if you want messages to be included.
+
+
+=== SQL Script DataSource Initialization
+The underlying method used to support `schema.sql` and `data.sql` scripts has been redesigned in Spring Boot 2.5.
+For most users, the changes will be transparent, but if you do find any issues please report them via https://github.com/spring-project/spring-boot/issues.
+
+If you use both JPA initialization and Spring Boot's SQL script support in the same application you may find an ordering issue with Spring Boot 2.5.
+By default, we now run the `schema.sql` and `data.sql` scripts before JPA initialization occurs.
+If you'd rather run the scripts after JPA initialization you can set the `spring.datasource.initialization-order` property to `after-jpa`.
+
+
+
+=== Minimum requirements changes
+None.
+
+
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.5.0-M2-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+
+=== Layered WARs for use with Docker
+Both the Spring Boot Maven and Gradle plugins now allow you to create layered WARs for use with Docker.
+Layered WARs work in a similar way to the Layered JAR support that was provided in earlier versions of Spring Boot.
+Check out the {gradle-docs}#packaging-layered-archives[Gradle] and {maven-docs}#repackage-layers[Maven] reference documentation for more details.
+
+
+
+=== Custom Buildpack Builder Support
+The Maven and Gradle plugins both now support the use of custom Buildpacks.
+You can set the `buildpacks` property to point at directories, tar.gz files, specific builder references or Docker images.
+
+See the updated {gradle-docs}#packaging-oci-images[Gradle] and {maven-docs}#packaging-oci-images[Maven] reference documentation for more details.
+
+
+
+=== Jetty 10
+Spring Boot 2.5 can now use Jetty 10 as an embedded web server.
+Since Jetty 10 requires Java 11, our default Jetty version will remain as 9.
+
+To upgrade to Jetty 10, declare a dependency directly or use the `jetty.version` property in your pom.xml.
+
+
+=== Liquibase DataSource
+If you define a custom DataSource for use with Liquibase we now configure it using a `SimpleDriverDataSource`.
+We previously used a pooling datasource which was unnecessary and inefficient for database initialization.
+
+
+=== Early Support for Gradle 7
+The Spring Boot Gradle plugin supports and has been tested against Gradle 7.0-M1.
+We plan to fully support Gradle 7 when it is released.
+
+
+
+
+=== Dependency Upgrades
+Spring Boot 2.5 moves to new versions of several Spring projects:
+
+- https://spring.io/blog/2021/02/18/spring-data-2021-0-m4-2020-0-sr5-neumann-sr7-and-moore-sr13-released[Spring Data 2021.0.0-M4]
+- https://docs.spring.io/spring-integration/docs/5.5.0-M2/reference/html/whats-new.html#whats-new[Spring Integration 5.5.0-M2]
+- https://github.com/spring-projects/spring-security/releases/tag/5.5.0-21[Spring Security 5.5.0-M2]
+
+Numerous third-party dependencies have also been updated, some of the more noteworthy of which are the following:
+
+- MongoDB 4.2.0-beta1
+- Lettuce 6.1.0.M1
+- JUnit Jupiter 5.7.1
+
+
+=== Miscellaneous
+Apart from the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+- The `/actuator` discovery page can now be disabled using the `management.endpoints.web.discovery.enabled` property.
+
+
+== Deprecations in Spring Boot 2.5.0 M2
+None

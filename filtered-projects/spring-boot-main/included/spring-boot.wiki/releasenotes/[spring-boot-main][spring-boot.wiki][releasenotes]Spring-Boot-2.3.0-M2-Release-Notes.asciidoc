@@ -1,0 +1,77 @@
+:docs: https://docs.spring.io/spring-boot/docs/2.3.x-SNAPSHOT
+:reference: {docs}/reference/html
+:maven-plugin: {docs}/maven-plugin/html
+:gradle-plugin: {docs}/gradle-plugin/reference/html
+
+
+= Spring Boot 2.3.0 M2 Release Notes
+
+For changes in earlier milestones, please refer to:
+
+ - link:Spring-Boot-2.3.0-M1-Release-Notes[v2.3.0 M1]
+
+== Upgrading from Spring Boot 2.2
+See instructions in the link:Spring-Boot-2.3.0-M1-Release-Notes[2.3.0.M1 release notes] for upgrading from Spring Boot 2.2.
+
+
+=== MongoDB
+This release switches to MongoDB 4 and harmonizes the reactive and imperative drivers.
+This should be pretty transparent to you if you're using the starter.
+
+=== ApplicationContextRunner disables bean overriding by default
+For consistency with `SpringApplication`, `ApplicationContextRunner` now disables bean overriding by default.
+If you need to use bean overriding for a test, `withAllowBeanDefinitionOverriding` can be used to enable it.
+
+=== Neo4j open session in view disabled by default
+The open session in view interceptor for Neo4j is now disabled by default. If you need to enable it again, use the standard `spring.data.neo4j.open-in-view` property.
+
+
+== New and noteworthy
+TIP: Check link:Spring-Boot-2.3.0-M2-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+=== Support of wildcard locations for configuration files
+Spring Boot now supports wildcard locations when loading configuration files. By default, a wildcard location of `config/*/` outside of your jar is supported.
+This is useful in an environment such as Kubernetes when there are multiple sources of config properties.
+For instance, if you have separate mysql and redis configurations, they can be picked automatically if you place them in `/config`, i.e. `/config/mysql/application.properties` and `/config/redis/application.properties`.
+
+=== Improvements to OCI image generation feature
+We've improved the OCI image generation feature https://spring.io/blog/2020/01/27/creating-docker-images-with-spring-boot-2-3-0-m1[introduced in Spring Boot 2.3.0.M1]:
+
+- Added support for generating images on Microsoft Windows
+- Changed the Docker API version requirement (2.14+) so that older version can be used too.
+- Improved the documentation for generating images with the {gradle-plugin}/#build-image[Gradle] and {maven-plugin}/#build-image[Maven] plugins.
+- Fixed a number of issues raised by early testers. Thank you for the feedback.
+
+=== Names in metrics endpoint are ordered alphabetically
+Metrics names available at `/actuator/metrics/` are now ordered alphabetically which makes it easier to find what you are looking for.
+
+=== Dependency Upgrades
+Spring Boot 2.3 M2 upgrades to the latest milestone of several Spring projects:
+
+- Spring Data Neumann-M3
+- Spring HATEOAS 1.1.0.M2
+- Spring Integration 5.3.0.M2
+- Spring Security Security 5.3.0.RC1
+- Spring Session Dragonfruit-M2
+
+Numerous third-party dependencies have been upgraded, some of the more noteworthy of which are the following:
+
+- Artemis 2.11
+- Cassandra Drive 4.4
+- Flyway 6.2
+- HtmlUnit 2.37
+- JUnit Jupiter 5.6
+- Log4j 2.13
+- MongoDB 4.0.0-beta1
+- Solr 8.4
+
+
+=== Miscellaneous
+Apart from the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+* The Couchbase's type key can be configured via `spring.data.couchbase.type-key`
+* OAuth2 parameter binding is now available with `@WebMvcTest`
+
+
+== Deprecations in Spring Boot 2.3.0 M2
+* `SpringApplication#refresh(ApplicationContext)` has been deprecated in favour of `SpringApplication#refresh(ConfigurableApplicationContext)`

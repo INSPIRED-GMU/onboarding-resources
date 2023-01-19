@@ -1,0 +1,136 @@
+:docs: https://docs.spring.io/spring-boot/docs/2.1.0.M1/reference/htmlsingle
+:framework-docs: https://docs.spring.io/spring-framework/docs/5.1.0.RC1/spring-framework-reference
+:actuator-docs: https://docs.spring.io/spring-boot/docs/2.1.0.M1/actuator-api/html
+:maven-docs: https://docs.spring.io/spring-boot/docs/2.1.0.M1/maven-plugin
+
+= Spring Boot 2.1.0 M1 Release Notes
+
+== Upgrading from Spring Boot 2.0
+
+=== Deprecations from Spring Boot 2.0
+Classes, methods and properties that were deprecated in Spring Boot 2.0 have been removed in this release.
+Please ensure that you aren't calling deprecated methods before upgrading.
+
+=== Bean Overriding
+Bean overriding has been disabled by default to prevent a bean being accidentally overridden. If you are relying on overriding, you will need to set `spring.main.allow-bean-definition-overriding` to `true`. 
+
+=== `info` and `health` Insecure by Default
+If `spring-security` is on the classpath without any security configuration, `/info` and `/health` are now exposed publicly for consistency. If you have `spring-security` on your classpath and do not provide any security configuration, you will need to explicitly secure them.
+
+=== Json Simple
+Dependency management for `json-simple` is no longer provided and the `JsonParser` implementation using it has been removed.
+
+=== Jersey 1
+Jersey 1 is no longer supported.
+
+=== `spring.provides`
+A starter could declare a `META-INF/spring.provides` so that an IDE can figure out what dependencies it provides. Scanning the starter POM for the immediate dependencies that it declares should be enough of an indication. If you are responsible of a third-party starter and you declare this file, it can be removed.
+
+=== Servlet Path
+The `server.servlet.path` property has moved to `spring.mvc.servlet.path`. If you were relying on that property programmatically to know the path of the `DispatcherServlet` please use `DispatcherServletPath` instead.
+
+=== Maven Plugin
+The `finalName` property is no longer customizable to align with the behaviour of standard Maven plugins.
+
+=== Hibernate EhCache support
+If you are using `hibernate-ehcache` to use EhCache 2 as a second-level cache provider with Hibernate, it is deprecated as of Hibernate 5.3. 
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.1.0-M1-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+=== Third-party Library Upgrades
+Spring Boot 2.1 builds on and requires Spring Framework 5.1.
+
+We’ve upgraded to the latest stable releases of other third-party jars wherever possible. Some notable dependency upgrades in this release include:
+
+* Tomcat 9
+* Undertow 2
+* Hibernate 5.3
+* JUnit 5.2
+
+=== Profile Expression
+Profile matching has been improved to support {framework-docs}/core.html#beans-definition-profiles[an expression format]. For instance `production & (us-east | eu-central)` indicates a match if the `production` profile is active _and_ either the `us-east` _or_ `eu-central` profiles are active.
+
+Profile expression can be used as follows:
+
+* Enable componets using `@Profile`
+* Load {docs}/#boot-features-external-config-multi-profile-yaml[multi-profile YAML Documents]
+* Enable Logback configuration using `<springProfile>`
+
+=== Actuator
+
+==== Caches Endpoint
+A new `/actuator/caches` endpoint lists the available `CacheManager` instances and their respective caches with basic metadata. See {actuator-docs}/#caches[the API] for more details.
+
+==== Spring Integration Graph Endpoint
+If you are using Spring Integration, a graph representation of all Spring Integration components can be exposed at `/actuator/integrationgraph`. Please see {actuator-docs}/#integrationgraph[the API] for more details.
+
+==== Health Endpoint
+An `HealthIndicatorRegistry` bean is now available to add and remove `HealthIndicator` at runtime. The `health` endpoint has also been improved to query a specific indicator if necessary. For instance `/actuator/health/db` executes only the "db" `HealthIndicator`. Please see {actuator-docs}/#health-retrieving-component[the API] for more details.
+
+A reactive `HealthIndicator` for Apache Cassandra is available.
+
+==== Micrometer
+Common tags can be applied to all meters declaratively as show in the following example:
+
+[source,properties]
+----
+management.metrics.tags.region=us-east-1
+management.metrics.tags.stack=prod
+----
+
+The example above adds a `region` and `stack` tags to all meters with a value of `us-east-1` and `prod` respectively.
+
+Metrics coverage has been improved:
+
+* Hibernate metrics
+* `WebClient`
+
+=== Security
+Support for WebFlux OAuth2 login has been added.
+
+OpenID Connect providers are easier to configure using an `issuer-uri` which is the URI that the it asserts as its Issuer Identifier.
+
+
+=== Elasticsearch REST Clients
+As an alternative option to Jest, auto-configurations for `RestClient` and `RestHighLevelClient` are provided with configurable options from the `spring.elasticsearch.rest.*` namespace.
+
+=== JMS `ConnectionFactory` Caching
+The auto-configured `ConnectionFactory` is cached by default using `CachingConnectionFactory` until the pooling option is enabled or `spring.jms.cache.enabled` is set to `false`. Pooling option has also been extended to Artemis (see `spring.jms.artemis.pool.*`).
+
+=== Quartz
+Several configuration options have been added in the `spring.quartz` namespace.
+
+=== JUnit 5
+All `@...Test` annotations are meta-annotated with `@ExtendedWith(SpringExtension.class)` so this redundant part of the setup can be removed if you're using JUnit 5. Spring Boot also uses a `maven-surefire-plugin` version that does not require any custom setup to use JUnit 5.
+
+
+=== Maven Plugin
+Specifying arguments has been improved with dedicated options for {maven-docs}/examples/run-system-properties.html[system properties] and {maven-docs}/examples/run-env-variables.html[environment variables].
+
+It is also possible to repackage and replace a `classified` artifact, see {maven-docs}/repackage-mojo.html#classifier[the updated documentation] of the `classifier` attribute.
+
+
+
+=== Miscellaneous
+As well as the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+* `@ConditionalOnEnabledEndpoint` can be used on any component (e.g. something that is only required by the endpoint and shouldn't be created if the endpoint is disabled).
+* `@WebMvcTest` auto-configures Spring Data REST as well (e.g. support for `Sort` and `Pageable` request arguments).
+* It is no longer necessary to export a dummy `ResourceConfig` to enable Jersey support.
+* It is easier to create a `WebServiceTemplate` using an auto-configured `WebServiceTemplateBuilder`.
+* Jackson visiblity can be configured using `spring.jackson.visiblity.*`.
+* Error page shows stacktraces when Devtools is in use.
+* JNDI lookups have been improved to enable `resourceRef` by default.
+* Customization of the `RetryTemplate` used by the Rabbit infrastructure is available via `RabbitRetryTemplateCustomizer`.
+* Auto-configuration exclusions are now applied consistently. 
+* Support HTTP/2 with Reactor Netty.
+
+
+== Deprecations in Spring Boot 2.1.0 M1
+
+* `setConnectTimeout(int)` and `setReadTimeout(int)` have been deprecated in favour of similar methods that take a `Duration`.
+
+== Known Issues in Spring Boot 2.1.0.M1
+
+* The pooling implementation for ActiveMQ and Artemis is not compatible with JMS 2.0. We're considering switching to another implementation in M2, watch https://github.com/spring-projects/spring-boot/issues/13927[#13927] for more details.

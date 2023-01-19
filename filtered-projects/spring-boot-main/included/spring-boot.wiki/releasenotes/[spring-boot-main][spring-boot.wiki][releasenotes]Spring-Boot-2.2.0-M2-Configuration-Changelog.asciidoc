@@ -1,0 +1,34 @@
+Configuration properties change between `2.2.0.M1` and `2.2.0.M2`
+
+.Deprecated keys in `2.2.0.M2`
+|======================
+|Key  |Replacement |Reason
+|`server.use-forward-headers` | |
+|`spring.data.elasticsearch.cluster-name` | |The transport client support is deprecated.
+|`spring.data.elasticsearch.cluster-nodes` | |The transport client support is deprecated.
+|`spring.data.elasticsearch.properties` | |The transport client support is deprecated.
+|`spring.elasticsearch.jest.uris` | |The Jest client support is deprecated.
+|======================
+
+.New keys in `2.2.0.M2`
+|======================
+|Key  |Default value |Description
+|`server.forward-headers-strategy` | |Strategy for handling X-Forwarded-* headers.
+|`server.tomcat.accesslog.check-exists` |`false` |Whether to check for log file existence so it can be recreated it if an external process has renamed it.
+|`server.tomcat.accesslog.condition-if` | |Whether logging of the request will only be enabled if "ServletRequest.getAttribute(conditionIf)" does not yield null.
+|`server.tomcat.accesslog.condition-unless` | |Whether logging of the request will only be enabled if "ServletRequest.getAttribute(conditionUnless)" yield null.
+|`server.tomcat.accesslog.encoding` | |Character set used by the log file.
+|`server.tomcat.accesslog.ipv6-canonical` |`false` |Whether to use IPv6 canonical representation format as defined by RFC 5952.
+|`server.tomcat.accesslog.locale` | |Locale used to format timestamps in log entries and in log file name suffix.
+|`spring.data.mongodb.auto-index-creation` | |Whether to enable auto-index creation.
+|`spring.rsocket.server.address` | |Network address to which the server should bind.
+|`spring.rsocket.server.mapping-path` | |Path under which RSocket handles requests (only works with websocket transport).
+|`spring.rsocket.server.port` | |Server port.
+|`spring.rsocket.server.transport` | |RSocket transport protocol.
+|`spring.security.oauth2.resourceserver.jwt.public-key-location` | |Location of the file containing the public key used to verify a JWT.
+|======================
+
+.Removed keys in `2.2.0.M2`
+|======================
+|Key  |Replacement |Reason
+|======================

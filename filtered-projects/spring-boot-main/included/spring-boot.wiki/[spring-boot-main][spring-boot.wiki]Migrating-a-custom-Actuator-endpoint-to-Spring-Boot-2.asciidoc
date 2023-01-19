@@ -1,0 +1,112 @@
+This document describes the new endpoint infrastructure in Spring Boot 2 and, in particular, how existing endpoints should migrate to it.
+
+# General overview
+The purpose of this overhaul is to extend the contract in such a way that writing tech specific code is removed entirely. This allows us to offer actuator support on Servlet-based apps (Spring MVC _and_ Jersey) as well as reactive apps. 
+
+The main contract of an endpoint is defined by a `@Endpoint` annotated class that provides operation(s). Here is a basic example for the well known loggers endpoint:
+
+```java
+@Endpoint(id = "loggers")
+public class LoggersEndpoint {
+
+	@ReadOperation
+	public Map<String, Object> loggers() { ... }
+
+	@ReadOperation
+	public LoggerLevels loggerLevels(@Selector String name) { ... }
+
+	@WriteOperation
+	public void configureLogLevel(@Selector String name, LogLevel configuredLevel) { ... }
+
+}
+```
+
+When such a type is exposed as a bean, it will be automatically deployed as a web and/or jmx endpoints (according to configuration). The id of the endpoint is used to build the path (`/actuator/loggers` by default) and compute the JMX object name (`org.springframework.boot:type=Endpoint,name=Loggers`).
+
+This endpoint exposes three operations:
+
+* A general read operation (as it as no "selector" parameter)
+* A more dedicated read operation (with a `name` selector)
+* A write operation with the same selector and an additional parameter that needs to be mapped by the tech-specific infrastructure
+
+If you need to provide an optional argument, it can be annotated with `@Nullable`. By default, all parameters are mandatory.
+
+## Web endpoint
+
+If we translate to the web endpoint, this would exposes the following:
+
+* `GET` on `/actuator/loggers`: `#loggers`
+* `GET` on `/actuator/loggers/{name}`: `#loggerLevels`, for instance, to get the log levels of `com.example.acme`, you'd initiate a `GET` request on `/actuator/loggers/com.example.acme`
+*  `POST` on `/actuator/loggers/{name}`: `#configureLogLevel`. This operation has an additional parameter that needs to be resolved as it is not used to further select the resource to update. In this particular case, a body with a `configuredLevel` is expected, something like:
+```json
+{
+	"configuredLevel": "WARN"
+}
+```
+
+Additional parameters of read operations will be automatically mapped from request attributes.
+
+## JMX MBean
+
+A JMX MBean can expose the contract as is with a major adaptation. Because a typical JMX client (e.g. `JConsole`) does not have access to third party libraries, any non core types are automatically translated:
+
+* Return types are translated to JSON (as before), either as an array or map depending on the nature of the data
+* Parameters that are non core are translated to `String` and a `ConversionService` is used to convert it back to the rich type. In the example above, `LogLevel` is an enum.
+
+## Configuration
+
+Each endpoint gets automatically a dedicated configuration namespace at `management.endpoint.<endpointId>`. For instance, the `loggers` endpoint above exposes the following properties by default:
+
+* `management.endpoint.loggers.enabled`: control if the endpoint is to be created and exposed
+* `management.endpoint.loggers.cache.time-to-live`: defined the maximum time (in milliseconds) the general read operation should be cached (default to `0`, i.e. no caching)
+
+## Extensions
+
+It could happen that a given endpoint needs one of its operations to be overridden for a given technology. An example of that is the `health` endpoint that needs to change the response's HTTP status according to the computed `Health`. Such an override can be defined using an _extension_, something like:
+
+```java
+@EndpointWebExtension(endpoint = HealthEndpoint.class)
+public class HealthEndpointWebExtension {
+
+	@ReadOperation
+	public WebEndpointResponse<Health> getHealth() {
+		Health health = this.delegate.health();
+		Integer status = getStatus(health);
+		return new WebEndpointResponse<>(health, status);
+	}
+}
+```
+
+In the sample above, the main read operation is overridden to produce a `WebEndpointResponse<Health>` rather that `Health`. This gives a chance to the web extension to provide web specific attributes to the reply. Also, an extension is defined by referring to the actual `Class` of the endpoint.
+
+# Migration guide
+To illustrate what it takes to migrate an existing endpoint, let's reuse our sample above. For reference, the `loggers` endpoint in 1.x is composed of:
+
+1. https://github.com/spring-projects/spring-boot/blob/c73fde31ec87dbcdbf2e8597e5d86cab6e5d1ff6/spring-boot-actuator/src/main/java/org/springframework/boot/actuate/endpoint/LoggersEndpoint.java[An `Endpoint` implementation] that provides most of the functionality but only exposes a _raw_ `invoke` operation (that's the general read operation)
+2. https://github.com/spring-projects/spring-boot/blob/c73fde31ec87dbcdbf2e8597e5d86cab6e5d1ff6/spring-boot-actuator/src/main/java/org/springframework/boot/actuate/endpoint/mvc/LoggersMvcEndpoint.java[`LoggersMvcEndpoint`] exposes the endpoint as a web endpoint
+3. https://github.com/spring-projects/spring-boot/blob/c73fde31ec87dbcdbf2e8597e5d86cab6e5d1ff6/spring-boot-actuator/src/main/java/org/springframework/boot/actuate/endpoint/jmx/LoggersEndpointMBean.java[`LoggersEndpointMBean`] exposes the endpoint as a JMX MBean
+4. Two auto-configuration classes to expose those variants: https://github.com/spring-projects/spring-boot/blob/c73fde31ec87dbcdbf2e8597e5d86cab6e5d1ff6/spring-boot-actuator/src/main/java/org/springframework/boot/actuate/autoconfigure/EndpointAutoConfiguration.java[`EndpointAutoConfiguration`], https://github.com/spring-projects/spring-boot/blob/c73fde31ec87dbcdbf2e8597e5d86cab6e5d1ff6/spring-boot-actuator/src/main/java/org/springframework/boot/actuate/autoconfigure/EndpointWebMvcManagementContextConfiguration.java[`EndpointWebMvcManagementContextConfiguration`] and https://github.com/spring-projects/spring-boot/blob/c73fde31ec87dbcdbf2e8597e5d86cab6e5d1ff6/spring-boot-actuator/src/main/java/org/springframework/boot/actuate/endpoint/jmx/EndpointMBeanExporter.java#L247[`a dedicated JMX exporter`]
+
+
+## Endpoint implementation
+In practice, `LoggersMvcEndpoint` and `LoggersEndpointMBean` are just boiler plate and the new infrastructure is meant to replace them completely. So the first step is to keep the main class and organize it in such a way that all operations are exposed.
+
+TIP: If the endpoint requires some tech-specific attributes that aren't exposed at the moment, please reach out and we will do our best to improve the contract
+
+## Auto-configuration
+Once the endpoint is created, you need to configure it. There is a new `@ConditionalOnEnabledEndpoint` that makes sure that the endpoint is not created (or exposed) according to the current configuration, e.g.:
+
+```java
+@Bean
+@ConditionalOnBean(LoggingSystem.class)
+@ConditionalOnMissingBean
+@ConditionalOnEnabledEndpoint
+public LoggersEndpoint loggersEndpoint(LoggingSystem loggingSystem) {
+	return new LoggersEndpoint(loggingSystem);
+}
+```
+
+## Configuration properties
+We would like to make sure that the configuration of the implementation is separated completely. This was done for the most part but wasn't consistently applied. While all endpoint implementations were flagged with `@ConfigurationProperties`, this is no longer necessary as common features are exposed automatically: if you have `spring-boot-configuration-processor` it will create the metadata for your endpoint (i.e. it will detect `@Endpoint` annotated types).
+
+The endpoint is usually a way to expose a feature that should have its dedicated `Properties` type. Please use that or create an instance if necessary. See also https://github.com/spring-projects/spring-boot/issues/10007[#10007]

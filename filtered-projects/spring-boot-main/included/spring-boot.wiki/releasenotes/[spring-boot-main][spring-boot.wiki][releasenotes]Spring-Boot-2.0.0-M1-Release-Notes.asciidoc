@@ -1,0 +1,170 @@
+:docs: https://docs.spring.io/spring-boot/docs/2.0.x-SNAPSHOT/reference/htmlsingle/
+:maven-docs: https://docs.spring.io/spring-boot/docs/2.0.x-SNAPSHOT/maven-plugin/
+:framework-docs: https://docs.spring.io/spring-framework/docs/5.0.x/spring-framework-reference/htmlsingle/
+
+= Spring Boot 2.0.0 M1 Release Notes
+
+== Upgrading from Spring Boot 1.5
+
+=== Deprecations from Spring Boot 1.5
+Classes, methods and properties that were deprecated in Spring Boot 1.5 have been removed in this release.
+Please ensure that you aren't calling deprecated methods before upgrading.
+
+
+=== Java 8 baseline
+Spring Boot 2.0 requires Java 8 or 9. Java 6 and 7 are no longer supported.
+
+=== Embedded containers package structure
+In order to support reactive use cases, the embedded containers package structure has been refactored quite extensively. `EmbeddedServletContainer` has been renamed to `WebServer` and the `org.springframework.boot.context.embedded` package has been relocated to `org.springframework.boot.web.embedded`. For instance, if you were customizing the embedded Tomcat container using the `TomcatEmbeddedServletContainerFactory` callback interface, you should now use `TomcatServletWebServerFactory`.
+
+=== Servlet-specific server properties
+A number of `server.*` properties that are Servlet-specific have moved to `server.servlet`:
+
+|===
+|Old property | New property
+
+|`server.context-parameters.*`
+|`server.servlet.context-parameters.*`
+
+|`server.context-path`
+|`server.servlet.context-path`
+
+|`server.jsp.class-name`
+|`server.servlet.jsp.class-name`
+
+|`server.jsp.init-parameters.*`
+|`server.servlet.jsp.init-parameters.*`
+
+|`server.jsp.registered`
+|`server.servlet.jsp.registered`
+
+|`server.path`
+|`server.servlet.path`
+
+|===
+
+=== Actuator default mapping
+Actuator endpoints are now mapped under `/application` by default. For instance, the `/info` endpoint is now available at `/application/info`. It is possible to override this default using the `management.context-path` attribute.
+
+=== `@ConditionalOnBean`
+`@ConditionalOnBean` now uses a logical AND rather than a logical OR when determining whether or not the condition has been met.
+
+=== Remote CRaSH shell
+Following its deprecation in 1.5, support for the http://www.crashub.org/[CRaSH project] and remote actuator SSH support that it provided has been removed.
+
+=== Spring Loaded
+As the Spring Loaded project has been moved to the attic, its support has been removed. We advise to use Devtools instead.
+
+=== Dedicated Hazelcast auto-config for Caching
+It is no longer possible to auto-configure both a general `HazelcastInstance` and a dedicated `HazelcastInstance` for caching. As a result, the `spring.cache.hazelcast.config` property is no longer available.
+
+=== Default connection pool
+The default connection pool has switched from Tomcat to HikariCP. If you used `spring.datasource.type` to force the use of Hikari in a Tomcat-based application, you can now remove that override.
+
+=== Servlet Filters
+The default dispatcher types for a Filter are now `DipatcherType.REQUEST` this aligns Spring Boot's default with the Servlet specification's default.
+
+=== Spring Security
+Spring Security's filter is now auto-configured with `ASYNC`, `ERROR`,  and `REQUEST` dispatcher types. This aligns Spring Boot's default configuration with Spring Security's default configuration.
+
+=== Spring Session
+Spring Session's filter is now auto-configured with `ASYNC`, `ERROR`,  and `REQUEST` dispatcher types. This aligns Spring Boot's default configuration with Spring Session's default configuration. Note that as of Spring Session 2.0,  Mongo and GemFire support has been removed.
+
+=== Jetty
+The minimum supported version of Jetty is now 9.4
+
+=== Tomcat
+The minimum supported version of Tomcat is now 8.5
+
+=== Hibernate
+The minimum supported version of Hibernate is now 5.2
+
+=== Gradle
+The minimum supported version of Gradle is now 3.4
+
+=== SendGrid
+The minimum supported version of SendGrid's Java client is now 3.2. In support of this upgrade, the `username` and
+`password` properties have been removed as an API key is now the only supported means of authentication.
+
+=== Starter transitive dependencies
+Previously several Spring Boot starters were transitively depending on Spring MVC with `spring-boot-starter-web`.
+With the new support of Spring WebFlux, `spring-boot-starter-mustache` and `spring-boot-starter-thymeleaf` aren't depending on it anymore. It is the developer's responsibility to choose and add `spring-boot-starter-web` or `spring-boot-starter-webflux` as dependencies.
+
+=== Solr health indicator
+The detail of the health check for Solr no longer defines a `solrStatus` attribute. Rather a `status` property is now defined and corresponds to the integer value of the standard `status` property. 
+
+=== Default Proxying strategy
+Spring Boot now uses CGLIB proxying by default, including for the AOP support. If you need proxy-based proxy, you'll need to set the `spring.aop.proxy-target-class` to `false`.
+
+=== CLI-based testing
+
+Testing support has been removed from Spring Boot's CLI in favour of moving to building the application with Maven or Gradle and using their rich testing support.
+
+=== `@ConfigurationProperties`
+
+The `ignoreNestedProperties` attribute has been removed.
+
+=== Multipart configuration
+
+To better reflect their Servlet-specific nature, the multipart `spring.http.multipart.*` configuration properties have been renamed to `spring.servlet.multipart.*`.
+
+=== Mustache templates default file extension
+
+The default file extension for Mustache templates was `.html`, it is now `.mustache` to align with the official spec and most IDE plugins. You can override this new default by changing the `spring.mustache.suffix` configuration key.
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.0.0-M1-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+=== Spring Framework 5.0
+Spring Boot 2.0 builds on and requires Spring Framework 5.0. There are a number of nice refinements in Spring Framework 5.0 including extensive support for building reactive applications. Please refer to the https://github.com/spring-projects/spring-framework/wiki/What's-New-in-the-Spring-Framework#whats-new-in-spring-framework-5x[Spring Framework Wiki] for details.
+
+=== Relaxed binding
+
+Relaxed binding has been improved. Please see https://github.com/spring-projects/spring-boot/wiki/Relaxed-Binding-2.0[this separate page] for details.
+
+=== WebFlux and WebFlux.fn support
+Spring Boot 2.0 provides a new starter for supporting the Reactive Spring web frameworks, for both annotation and functional based variants. `spring-boot-starter-webflux` brings WebFlux itself, plus Reactor Netty as a default web engine (`spring-boot-starter-reactor-netty`).
+
+=== Reactive data support
+Spring Boot 2.0 provides auto-configuration for the following data store with reactive support:
+
+* MongoDB (`spring-boot-starter-data-mongodb-reactive`)
+* Redis (`spring-boot-starter-data-redis-reactive`)
+* Cassandra (`spring-boot-starter-data-cassandra-reactive`)
+
+`@DataMongoTest` also enables reactive repositories if necessary.
+
+=== `@WebFluxTest` support
+Reactive controllers can be tested using `@WebFluxTest` that provides a similar support than `@WebMvcTest` for Spring MVC. In particular a `WebTestClient` is auto-configured.
+
+=== `WebTestClient` auto-configuration with `@SpringBootTest`
+When using `@SpringBootTest` with an actual server (that is, either `DEFINED_PORT` or `RANDOM_PORT`), a `WebTestClient` is available the same way `TestRestTemplate` is.
+
+=== Gradle plugin
+
+Spring Boot's Gradle plugin has been largely rewritten to enable a https://github.com/spring-projects/spring-boot/issues?utf8=✓&q=label%3A%22theme%3A%20gradle-plugin%22%20milestone%3A2.0.0.M1%20[number of significant improvements]. You can read more about the plugin's capabilities in its https://docs.spring.io/spring-boot/docs/2.0.0.BUILD-SNAPSHOT/gradle-plugin/reference[reference] and https://docs.spring.io/spring-boot/docs/2.0.0.BUILD-SNAPSHOT/gradle-plugin/api[api] documentation.
+
+==== Building executable jars and wars
+
+The `bootRepackage` task has been replaced with `bootJar` and `bootWar` tasks for building executable jars and wars respectively. Both tasks extend their equivalent standard Gradle jar or war task, giving you access to all of the usual configuration options and behaviour.
+
+==== Dependency management
+
+Spring Boot's Gradle plugin no longer automatically applies the https://github.com/spring-gradle-plugins/dependency-management-plugin[dependency management plugin]. Instead, Spring Boot's plugin now reacts to the dependency management plugin being applied by importing the correct version of the `spring-boot-dependencies` bom. This gives you more control over how and when dependency management is configured. For most applications applying the dependency management plugin will be sufficient:
+
+[source,groovy]
+----
+apply plugin: 'io.spring.dependency-management'
+----
+
+Please note that the dependency management plugin remains a transitive dependency of `spring-boot-gradle-plugin` so there's no need for it to be listed as a `classpath` dependency in your `buildscript` configuration.
+
+
+== Known issues
+The current milestone has a few known problems. If you've encountered one of those, please subscribe to those GitHub issues:
+
+* https://github.com/spring-projects/spring-boot/issues/9146[#9146] Devtools restart doesn't work with WebFlux + reactor-netty
+
+== Deprecations in Spring Boot 2.0.0 M1
+
+* The `webEnvironment` flag (`spring.main.web-environment`) is now deprecated in favour of `spring.main.web-application-type` using the `WebApplicationType` enum

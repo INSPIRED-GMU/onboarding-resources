@@ -1,0 +1,158 @@
+Configuration properties change between `1.3.0.M1` and `1.3.0.M2`
+
+The following keys were **added**:
+
+.New keys in `1.3.0.M2`
+|======================
+|Key  |Default value |Description
+|`endpoints.docs.curies.enabled` |`false` |Enable the curie generation (off by default).
+|`endpoints.docs.path` |`/docs` |
+|`endpoints.docs.sensitive` |`false` |
+|`endpoints.flyway.enabled` | |Enable the endpoint.
+|`endpoints.flyway.id` | |Endpoint identifier.
+|`endpoints.flyway.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.hal.path` |`` |
+|`endpoints.hal.sensitive` |`false` |
+|`endpoints.links.path` |`` |
+|`endpoints.links.sensitive` |`false` |
+|`endpoints.liquibase.enabled` | |Enable the endpoint.
+|`endpoints.liquibase.id` | |Endpoint identifier.
+|`endpoints.liquibase.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.logfile.enabled` |`true` |Enable the endpoint.
+|`endpoints.logfile.path` |`/logfile` |Endpoint URL path.
+|`endpoints.logfile.sensitive` |`true` |Enable security on the endpoint.
+|`security.oauth2.client.access-token-uri` | |
+|`security.oauth2.client.access-token-validity-seconds` | |
+|`security.oauth2.client.additional-information` | |
+|`security.oauth2.client.authentication-scheme` | |
+|`security.oauth2.client.authorities` | |
+|`security.oauth2.client.authorized-grant-types` | |
+|`security.oauth2.client.auto-approve-scopes` | |
+|`security.oauth2.client.client-authentication-scheme` | |
+|`security.oauth2.client.client-id` | |
+|`security.oauth2.client.client-secret` | |
+|`security.oauth2.client.grant-type` | |
+|`security.oauth2.client.id` | |
+|`security.oauth2.client.pre-established-redirect-uri` | |
+|`security.oauth2.client.refresh-token-validity-seconds` | |
+|`security.oauth2.client.registered-redirect-uri` | |
+|`security.oauth2.client.resource-ids` | |
+|`security.oauth2.client.scope` | |
+|`security.oauth2.client.token-name` | |
+|`security.oauth2.client.use-current-uri` | |
+|`security.oauth2.client.user-authorization-uri` | |
+|`security.oauth2.resource.id` | |Identifier of the resource.
+|`security.oauth2.resource.jwt.key-uri` | |The URI of the JWT token.
+|`security.oauth2.resource.jwt.key-value` | |The verification key of the JWT token.
+|`security.oauth2.resource.prefer-token-info` |`true` |Use the token info, can be set to false to use the user info.
+|`security.oauth2.resource.service-id` |`resource` |
+|`security.oauth2.resource.token-info-uri` | |URI of the token decoding endpoint.
+|`security.oauth2.resource.token-type` | |The token type to send when using the userInfoUri.
+|`security.oauth2.resource.user-info-uri` | |URI of the user endpoint.
+|`security.oauth2.sso.filter-order` | |Filter order to apply if not providing an explicit WebSecurityConfigurerAdapter (in which case the order can be provided there instead).
+|`security.oauth2.sso.login-path` |`/login` |Path to the login page, i.e. the one that triggers the redirect to the OAuth2 Authorization Server.
+|`server.compression.enabled` | |
+|`server.compression.mime-types` | |
+|`server.compression.min-response-size` | |
+|`server.session.cookie.comment` | |Comment for the session cookie.
+|`server.session.cookie.domain` | |Domain for the session cookie.
+|`server.session.cookie.http-only` | |"HttpOnly" flag for the session cookie.
+|`server.session.cookie.max-age` | |Maximum age of the session cookie in seconds.
+|`server.session.cookie.name` | |Session cookie name.
+|`server.session.cookie.path` | |Path of the session cookie.
+|`server.session.cookie.secure` | |"Secure" flag for the session cookie.
+|`server.session.timeout` | |Session timeout in seconds.
+|`server.session.tracking-modes` | |Session tracking modes (one or more of the following: "cookie", "url", "ssl")
+|`server.tomcat.protocol-header-https-value` |`https` |Value of the protocol header that indicates that the incoming request uses SSL.
+|`spring.artemis.embedded.cluster-password` | |Cluster password.
+|`spring.artemis.embedded.data-directory` | |Journal file directory.
+|`spring.artemis.embedded.enabled` |`true` |Enable embedded mode if the Artemis server APIs are available.
+|`spring.artemis.embedded.persistent` |`false` |Enable persistent store.
+|`spring.artemis.embedded.queues` |`` |Comma-separated list of queues to create on startup.
+|`spring.artemis.embedded.server-id` |`0` |Server id.
+|`spring.artemis.embedded.topics` |`` |Comma-separated list of topics to create on startup.
+|`spring.artemis.host` |`localhost` |Artemis broker host.
+|`spring.artemis.mode` | |Artemis deployment mode, auto-detected by default.
+|`spring.artemis.port` |`61616` |Artemis broker port.
+|`spring.data.mongodb.field-naming-strategy` | |Fully qualified name of the FieldNamingStrategy to use.
+|`spring.freemarker.prefer-file-system-access` |`true` |Prefer file system access for template loading.
+|`spring.groovy.template.allow-request-override` | |Set whether HttpServletRequest attributes are allowed to override (hide) controller generated model attributes of the same name.
+|`spring.groovy.template.expose-request-attributes` | |Set whether all request attributes should be added to the model prior to merging with the template.
+|`spring.groovy.template.expose-session-attributes` | |Set whether all HttpSession attributes should be added to the model prior to merging with the template.
+|`spring.groovy.template.expose-spring-macro-helpers` | |Set whether to expose a RequestContext for use by Spring's macro library, under the name "springMacroRequestContext".
+|`spring.groovy.template.request-context-attribute` | |Name of the RequestContext attribute for all views.
+|`spring.groovy.template.resource-loader-path` |`classpath:/templates/` |Template path.
+|`spring.jmx.server` |`mbeanServer` |MBeanServer bean name.
+|`spring.jooq.sql-dialect` | |SQLDialect JOOQ used when communicating with the configured datasource, for instance "POSTGRES".
+|`spring.mail.test-connection` |`false` |Test that the mail server is available on startup.
+|`spring.metrics.export.aggregate.key-pattern` |`` |Pattern that tells the aggregator what to do with the keys from the source repository.
+|`spring.metrics.export.aggregate.prefix` |`` |Prefix for global repository if active.
+|`spring.mvc.async.request-timeout` | |Amount of time (in milliseconds) before asynchronous request handling times out.
+|`spring.mvc.view.prefix` | |Spring MVC view prefix.
+|`spring.mvc.view.suffix` | |Spring MVC view suffx.
+|`spring.pid.fail-on-write-error` | |Fail if ApplicationPidFileWriter is used but it cannot write the PID file.
+|`spring.pid.file` | |Location of the PID file to write (if ApplicationPidFileWriter is used).
+|`spring.resources.chain.cache` |`true` |Enable caching in the Resource chain.
+|`spring.resources.chain.enabled` | |Enable the Spring Resource Handling chain.
+|`spring.resources.chain.html-application-cache` |`false` |Enable HTML5 application cache manifest rewriting.
+|`spring.resources.chain.strategy.content.enabled` |`false` |Enable the content Version Strategy.
+|`spring.resources.chain.strategy.content.paths` |`/**` |Comma-separated list of patterns to apply to the Version Strategy.
+|`spring.resources.chain.strategy.fixed.enabled` |`false` |Enable the fixed Version Strategy.
+|`spring.resources.chain.strategy.fixed.paths` | |Comma-separated list of patterns to apply to the Version Strategy.
+|`spring.resources.chain.strategy.fixed.version` | |Version string to use for the Version Strategy.
+|`spring.resources.favicon-locations` | |
+|`spring.resources.static-locations` | |Locations of static resources.
+|======================
+
+The following keys were **removed**:
+
+.Removed keys in `1.3.0.M2`
+|======================
+|Key  |Default value |Description
+|`server.tomcat.compressable-mime-types` |`text/html,text/xml,text/plain` |Comma-separated list of MIME types for which compression is used.
+|`server.tomcat.compression` |`off` |Controls response compression.
+|`spring.http.gzip.buffer-size` | |Size of the output buffer in bytes.
+|`spring.http.gzip.deflate-compression-level` | |Level used for deflate compression (0-9).
+|`spring.http.gzip.deflate-no-wrap` | |noWrap setting for deflate compression.
+|`spring.http.gzip.exclude-agent-patterns` | |Comma-separated list of regular expression patterns to control user agents excluded from compression.
+|`spring.http.gzip.exclude-path-patterns` | |Comma-separated list of regular expression patterns to control the paths that are excluded from compression.
+|`spring.http.gzip.exclude-paths` | |Comma-separated list of paths to exclude from compression.
+|`spring.http.gzip.excluded-agents` | |Comma-separated list of user agents to exclude from compression.
+|`spring.http.gzip.excluded-mime-types` | |Comma-separated list of MIME types to exclude from compression.
+|`spring.http.gzip.methods` | |Comma-separated list of HTTP methods for which compression is enabled.
+|`spring.http.gzip.mime-types` | |Comma-separated list of MIME types which should be compressed.
+|`spring.http.gzip.min-gzip-size` | |Minimum content length required for compression to occur.
+|`spring.http.gzip.vary` | |Vary header sent on responses that may be compressed.
+|`spring.jmx.mbean-server` |`mBeanServer` |MBeanServer bean name.
+|`spring.metrics.export.redis.aggregate-key-pattern` |`` |Pattern that tells the aggregator what to do with the keys from the source repository.
+|`spring.oauth2.client.access-token-uri` | |
+|`spring.oauth2.client.access-token-validity-seconds` | |
+|`spring.oauth2.client.additional-information` | |
+|`spring.oauth2.client.authentication-scheme` | |
+|`spring.oauth2.client.authorities` | |
+|`spring.oauth2.client.authorized-grant-types` | |
+|`spring.oauth2.client.auto-approve-scopes` | |
+|`spring.oauth2.client.client-authentication-scheme` | |
+|`spring.oauth2.client.client-id` | |
+|`spring.oauth2.client.client-secret` | |
+|`spring.oauth2.client.grant-type` | |
+|`spring.oauth2.client.id` | |
+|`spring.oauth2.client.pre-established-redirect-uri` | |
+|`spring.oauth2.client.refresh-token-validity-seconds` | |
+|`spring.oauth2.client.registered-redirect-uri` | |
+|`spring.oauth2.client.resource-ids` | |
+|`spring.oauth2.client.scope` | |
+|`spring.oauth2.client.token-name` | |
+|`spring.oauth2.client.use-current-uri` | |
+|`spring.oauth2.client.user-authorization-uri` | |
+|`spring.oauth2.resource.id` | |Identifier of the resource.
+|`spring.oauth2.resource.jwt.key-uri` | |The URI of the JWT token.
+|`spring.oauth2.resource.jwt.key-value` | |The verification key of the JWT token.
+|`spring.oauth2.resource.prefer-token-info` |`true` |Use the token info, can be set to false to use the user info.
+|`spring.oauth2.resource.service-id` |`resource` |
+|`spring.oauth2.resource.token-info-uri` | |URI of the token decoding endpoint.
+|`spring.oauth2.resource.token-type` | |The token type to send when using the userInfoUri.
+|`spring.oauth2.resource.user-info-uri` | |URI of the user endpoint.
+|`spring.oauth2.sso.filter-order` | |Filter order to apply if not providing an explicit WebSecurityConfigurerAdapter (in which case the order can be provided there instead).
+|`spring.oauth2.sso.login-path` |`/login` |Path to the login page, i.e. the one that triggers the redirect to the OAuth2 Authorization Server.
+|======================

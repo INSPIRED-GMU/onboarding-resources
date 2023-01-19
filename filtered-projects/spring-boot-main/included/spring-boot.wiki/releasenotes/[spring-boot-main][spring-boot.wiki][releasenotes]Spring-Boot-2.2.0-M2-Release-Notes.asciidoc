@@ -1,0 +1,99 @@
+:docs: https://docs.spring.io/spring-boot/docs/2.2.x-SNAPSHOT/reference/html/
+
+= Spring Boot 2.2.0 M2 Release Notes
+
+For changes in earlier milestones, please refer to:
+
+ - link:Spring-Boot-2.2.0-M1-Release-Notes[v2.2.0 M1]
+
+
+
+== Upgrading from Spring Boot 2.2.0 M1
+See instructions in the link:Spring-Boot-2.2.0-M1-Release-Notes[2.2.0.M1 release notes] for upgrading from Spring Boot 2.1.
+
+
+
+=== Spring Framework 5.2
+This release upgrades to Spring Framework 5.2 M1. Please refer to https://github.com/spring-projects/spring-framework/wiki/Upgrading-to-Spring-Framework-5.x#upgrading-to-version-52[Spring Framework's upgrade documentation] for further details.
+
+
+
+=== Elasticsearch
+This release upgrades to Elasticsearch 6.7 which contains some breaking API changes. Please see the https://www.elastic.co/guide/en/elasticsearch/reference/6.7/breaking-changes-6.5.html[6.5], https://www.elastic.co/guide/en/elasticsearch/reference/6.7/breaking-changes-6.6.html[6.6] and https://www.elastic.co/guide/en/elasticsearch/reference/6.7/breaking-changes-6.7.html[6.7] breaking changes pages for details.
+
+As of Spring Boot 2.2.0, both Elasticsearch transport and Jest clients are deprecated in favor of other options, such as `RestHighLevelClient`. The {docs}/spring-boot-features.html#boot-features-elasticsearch[reference docs on Elasticsearch support] have been updated.
+
+
+
+=== Hibernate Dialect
+Spring Boot now lets Hibernate chose the dialect to use rather than applying a default dialect based on the detected database. If you had a dialect configured previously, you may want to remove your customization.
+
+
+
+=== Configuration property scanning
+The https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.2.0-M2-Release-Notes/_edit#configuration-property-scanning[new support for `@ConfigurationProperties` scanning] means that two beans may be created for a class that is annotated with both `@Component` and `@ConfigurationProperties`. In such cases, `@Component` should be removed. Please see the note at the end of https://docs.spring.io/spring-boot/docs/2.2.0.M2/reference/html/spring-boot-features.html#boot-features-external-config-enabling[the relevant section] in the reference documentation for further details.
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.2.0-M2-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+
+
+=== `@ConfigurationProperties` scanning
+Classes annotated with `@ConfigurationProperties` can now be found via classpath scanning as an alternative to using `@EnableConfigurationProperties` or `@Component`. If you use `@SpringBootApplication`, scanning is enabled by default for the package that contains the `@SpringBootApplication`-annotated class.
+Scanning can be enabled manually, and the scanned packages can be customized, using `@ConfigurationPropertiesScan`.
+
+
+
+=== Immutable `@ConfigurationProperties` binding
+Configuration properties now support constructor-based binding, which allows a `@ConfigurationProperties`-annotated class to be immutable. Please see {docs}spring-boot-features.html#boot-features-external-config-constructor-binding[the relevant section] of the reference documentation for further details.
+
+
+
+=== RSocket Server Support
+A new Spring Boot starter has been added in this release, `spring-boot-starter-rsocket`. This starter brings the required dependencies for building an application with RSocket support.
+
+For more on that, check out the {docs}/spring-boot-features.html#boot-features-rsocket[reference docs on RSocket support].
+
+
+
+=== Lazy Initialization Improvements
+The support for lazy initialization that was introduced in 2.2.0.M1 has been improved. It is now possible to force a bean to be initialised eagerly by annotating its definition with `@Lazy(false)`.
+
+
+
+=== Performance Improvements
+Startup time and memory usage have been reduced by making use of `proxyBeanMethods=false` in Spring Boot's `@Configuration` classes. `proxyBeanMethods` is a new attribute on `@Configuration` introduced in Spring Framework 5.2 M1. `proxyBeanMethods` is also available as an attribute on `@SpringBootApplication` and `@SpringBootConfiguration`.
+
+
+
+=== ApplicationContextRunner simple bean registration
+The `ApplicationContextRunner` test utility now allows to register bean inline, see `withBean` for more details.
+
+=== Dependency Upgrades
+Spring Boot 2.2.0.M2 moves to new versions of several Spring projects:
+
+- Spring AMQP 2.2.0.M1
+- Spring Batch 4.2.0.M1
+- https://spring.io/blog/2019/04/11/spring-data-moore-m3-released[Spring Data Moore-M3]
+- https://spring.io/blog/2019/04/10/spring-framework-5-2-0-m1-available-now[Spring Framework 5.2.0.M1]
+- Spring Integration 5.2.0.M1
+- Spring Kafka 2.3.0.M1
+- https://spring.io/blog/2019/04/16/spring-security-5-2-0-m2-released[Spring Security 5.2.0.M2]
+- Spring Session Corn-M1
+
+Numerous third-party dependencies have also been updated, some of the more noteworthy of which are the following:
+
+- Artemis 2.7
+- Elasticsearch 6.7
+- Kafka 2.2
+- Hazelcast 3.12
+- Solr 8.0
+
+=== Miscellaneous
+Apart from the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+* Prometheus push gateway can now be configured using `https`
+* The actuator and gradle plugin documentation use the same styling as the main reference guide
+
+
+== Deprecations in Spring Boot 2.2.0 M2

@@ -1,0 +1,151 @@
+:actuator-docs: https://docs.spring.io/spring-boot/docs/2.6.0-SNAPSHOT/actuator-api/html/
+:docs: https://docs.spring.io/spring-boot/docs/2.6.0-SNAPSHOT/reference/html/
+
+= Spring Boot 2.6.0 M1 Release Notes
+
+
+
+== Upgrading from Spring Boot 2.5
+
+
+=== Embedded Mongo
+To use embedded mongo, the `spring.mongodb.embedded.version` property must now be set.
+This helps to ensure that the MongoDB version that is used by the embedded support matches the MongoDB version that your application will use in production.
+
+
+
+=== Nimbus DS Dependency Management Removed
+Dependency management for `com.nimbusds:oauth2-oidc-sdk` and `com.nimbusds:nimbus-jose-jwt` has been removed.
+If you are using Spring Security you should rely on the versions that it will pull in as transitive dependencies.
+If you are not using Spring Security you should define your own dependency management that meets your application's needs.
+
+
+
+=== HAL Browser Dependency Management Removed
+Dependency management for `org.webjars:hal-browser` has been removed.
+If you are using `org.webjars:hal-browser` you should define your own dependency management that meets your application's needs.
+
+
+
+=== Maven Build Info's Default Time
+The Maven plugin's build info support now uses the value of the `project.build.outputTimestamp` property as the default build time.
+If the property is not set, the the build session's start time is used as it was previously.
+As before, the time can be disabled entirely by setting it to `off`.
+
+
+
+=== Prometheus Version Property
+The property to control the version of Prometheus has changed from `prometheus-pushgateway.version` to `prometheus-client.version`. This is to reflect the fact that the property manages the version of every module in Prometheus's client, not just the pushgateway.
+
+
+
+=== Deprecations from Spring Boot 2.4
+Classes, methods and properties that were deprecated in Spring Boot 2.4 have been removed in this release.
+Please ensure that you aren't calling deprecated methods before upgrading.
+
+
+
+=== Minimum Requirements Changes
+None.
+
+
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.6.0-M1-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+
+
+=== Auto-configuration for Spring Data Envers
+Auto-configuration for Spring Data Envers is now provided.
+To use it, add a dependency on `org.springframework.data:spring-data-envers` and update your JPA repositories to extend from `RevisionRepository`.
+
+
+
+=== Exporting Metrics to the Dynatrace v2 API
+Support for exporting metrics to the Dynatrace v2 API has been added.
+With a local OneAgent running on the host, a dependency on `io.micrometer:micrometer-registry-dynatrace` is all that is required.
+Without a local OneAgent, the `management.metrics.export.dynatrace.uri` and `management.metrics.export.dynatrace.api-token` properties must be configured.
+Other settings that are specific to the v2 API can be configured using the `management.metrics.export.dynatrace.v2` properties.
+Please refer to the {docs}/actuator.html#actuator.metrics.export.dynatrace[updated reference documentation] for further details.
+
+
+
+=== Task Execution and Scheduling Metrics
+Micrometer's `ExecutorServiceMetrics` are now auto-configured for all `ThreadPoolTaskExecutor` and `ThreadPoolTaskScheduler` beans, as long as the underlying `ThreadPoolExecutor` is available.
+Metrics are tagged with the name of the executor derived from its bean name.
+
+
+
+=== Disk Space Metrics
+Micrometer's `DiskSpaceMetrics` are now auto-configured.
+`disk.free` and `disk.total` metrics are provided for the partition identified by the current working directory.
+To change the path that is used, define your own `DiskSpaceMetrics` bean.
+
+
+
+=== Jetty Connection and SSL Metrics
+Micrometer's `JettyConnectionMetrics` are now auto-configured.
+Additionally, when `server.ssl.enabled` is set to `true`, Micrometer's `JettySslHandshakeMetrics` are also auto-configured.
+
+
+
+=== Redis Connection Pooling
+Redis (both Jedis and Lettuce) will now automatically enable pooling when `commons-pool2` is on the classpath.
+Set `spring.redis.jedis.pool.enabled` or `spring.redis.lettuce.pool.enabled` to `false` to disable pooling if required.
+
+
+
+=== Improved Configuration of the Maven Plugin's Start Goal
+The Maven Plugin's `start` goal has been made more configurable from the command line.
+Its `wait` and `maxAttempts` properties can be specified using `spring-boot.start.wait` and `spring-boot.start.maxAttempts` respectively.
+
+
+
+=== Auto-configured Spring Web Service Server Tests
+A new annotation, `@WebServiceServerTest`, that can be used to test Web Service `@Endpoint` beans has been introduced.
+The annotation creates a test slice containing `@Endpoint` beans and auto-configures a `MockWebServiceClient` bean that can be used to test your web service endpoints.
+
+
+
+=== Dependency Upgrades
+Spring Boot 2.6 moves to new versions of several Spring projects:
+
+* https://spring.io/blog/2021/07/19/spring-security-5-6-0-m1-released[Spring Security 5.6.0-M1]
+* https://spring.io/blog/2021/07/16/spring-data-2021-1-0-m1-released[Spring Data 2021.1.0-M1]
+* https://github.com/spring-projects/spring-hateoas/releases/tag/1.4.0-M1[Spring HATEOAS 1.4.0-M1]
+* https://github.com/spring-projects/spring-kafka/releases/tag/v2.8.0-M1[Spring Kafka 2.8.0-M1]
+* https://github.com/spring-projects/spring-amqp/releases/tag/v2.4.0-M1[Spring AMQP 2.4.0-M1]
+
+Numerous third-party dependencies have also been updated, some of the more noteworthy of which are the following:
+
+* Micrometer 1.8.0-M1
+* QueryDSL 5.0.0.M1
+* SnakeYAML 1.29
+* Cassandra Driver 4.12.0
+* Kafka 2.8.0
+
+
+
+=== Miscellaneous
+Apart from the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+- The failure analysis for a `NoSuchMethodError` now includes information about the location from which the calling class was loaded.
+- A `ClientResourcesBuilderCustomizer` bean can now be defined to customize Lettuce's `ClientResources` will retaining the default auto-configuration.
+- Configuration properties for Flyway's `detectEncoding`, `failOnMissingLocations`, and `ignoreMigrationPatterns` configuration settings have been added.
+- A custom `ResourceLoader` to be used by the application can be provided when creating a `SpringApplicationBulder`.
+- A `WebSessionIdResolver` can now be defined to customize the resolver that will be used by the auto-configured `WebSessionManager`.
+- Any `RSocketConnectorConfigurer` beans are now automatically applied to the auto-configured `RSocketRequester.Builder`.
+- `spring-boot-configuration-processor` can now generate metadata for classes annotated with Lombok's `@Value`.
+- A new `server.tomcat.reject-illegal-header` configuration property can be set to true to configure Tomcat to accept illegal headers.
+- When using Stackdriver, labels can now be configured on the monitor resource by setting `management.metrics.export.stackdriver.resource-labels.*` configuration properties.
+- `@EntityScan` now supports comma-separated values in its `basePackages` attribute.
+- A new configuration property, `server.netty.idle-timeout`, that can be used to control Reactor Netty's idle timeout has been added.
+- The location from which Devtools loads its global settings can now be configured using the `spring.devtools.home` system property or the `SPRING_DEVTOOLS_HOME` environment variable.
+- The setter methods on `RabbitTemplateConfigurer` are now `public`
+
+
+== Deprecations in Spring Boot 2.6.0 M1
+
+- `AbstractDataSourceInitializer` has been deprecated in favor of `DataSourceScriptDatabaseInitializer`.
+  Similarly, subclasses of `AbstractDataSourceInitializer` have been deprecated in favour of new `DataSourceScriptDatabaseInitializer`-based equivalents.
+- `SpringPhysicalNamingStrategy` has been deprecated in favor of Hibernate 5.5's `CamelCaseToUnderscoresNamingStrategy`

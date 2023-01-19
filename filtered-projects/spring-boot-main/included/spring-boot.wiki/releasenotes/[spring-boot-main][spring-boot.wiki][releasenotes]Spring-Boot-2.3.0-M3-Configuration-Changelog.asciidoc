@@ -1,0 +1,26 @@
+Configuration properties change between `2.3.0.M2` and `2.3.0.M3`
+
+.New keys in `2.3.0.M3`
+|======================
+|Key  |Default value |Description
+|`server.jetty.max-queue-capacity` | |Maximum capacity of the thread pool's backing queue.
+|`server.shutdown.grace-period` | |
+|`spring.data.r2dbc.repositories.enabled` |`true` |Whether to enable R2DBC repositories.
+|`spring.integration.rsocket.client.host` | |TCP RSocket server host to connect to.
+|`spring.integration.rsocket.client.port` | |TCP RSocket server port to connect to.
+|`spring.integration.rsocket.client.uri` | |WebSocket RSocket server uri to connect to.
+|`spring.integration.rsocket.server.message-mapping-enabled` |`false` |Whether to handle message mapping for RSocket via Spring Integration.
+|`spring.liquibase.clear-checksums` |`false` |Whether to clear all checksums in the current changelog, so they will be recalculated upon the next update.
+|`spring.liquibase.tag` | |Tag name to use when applying database changes.
+|`spring.r2dbc.generate-unique-name` |`false` |Whether to generate a random database name.
+|`spring.r2dbc.name` | |Database name.
+|`spring.r2dbc.password` | |Login password of the database.
+|`spring.r2dbc.pool.enabled` | |Whether pooling is enabled.
+|`spring.r2dbc.pool.initial-size` |`10` |Initial connection pool size.
+|`spring.r2dbc.pool.max-idle-time` |`30m` |Idle timeout.
+|`spring.r2dbc.pool.max-size` |`10` |Maximal connection pool size.
+|`spring.r2dbc.pool.validation-query` | |Validation query.
+|`spring.r2dbc.properties` | |Additional R2DBC options.
+|`spring.r2dbc.url` | |R2DBC URL of the database. database name, username, password and pooling options specified in the url take precedence over individual options.
+|`spring.r2dbc.username` | |Login username of the database.
+|======================

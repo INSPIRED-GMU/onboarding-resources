@@ -1,0 +1,287 @@
+:guide: https://docs.spring.io/spring-boot/docs/2.4.0-SNAPSHOT/reference/html
+:actuator-api: https://docs.spring.io/spring-boot/docs/2.0.9.RELEASE/actuator-api/html
+:gradle: https://docs.spring.io/spring-boot/docs/2.0.9.RELEASE/gradle-plugin/reference/html/
+:issue: https://github.com/spring-projects/spring-boot/issues
+
+This document is meant to help you migrate your `application.properties` and `application.yml` files for use with Spring Boot 2.4 and above.
+
+== Overview
+Spring Boot 2.4 has provided an overhaul of the way that `application.properties` and `application.yml` files are processed.
+The updated logic has been designed to simplify and rationalize the way that external configuration is loaded.
+It has also allowed us to provide new features, such as `spring.config.import` support.
+
+The updated design intentionally restricts certain property combinations.
+This means that you may need to change a few things when upgrading from Spring Boot 2.3 or earlier.
+
+
+
+== Legacy Mode
+If you're not yet ready to migrate your application to use the new config data processing logic, you'll need to switch back to the legacy mode.
+To do this, you should set the `spring.config.use-legacy-processing` property to `true`.
+
+The property needs to be set in the Spring `Environment`.
+The easiest way is usually to to add it to the `application.properties` or `application.yml` inside your jar.
+
+For example, you can have a `src/main/resources/application.properties` as follows:
+
+[source,properties]
+----
+spring.config.use-legacy-processing=true
+
+# any other properties
+
+----
+
+
+
+== Simple Scenarios
+For many applications, you won't need to make any changes to your existing properties files.
+Specifically, if you only have a single `application.properties` or `application.yml` file, you don't use `spring.profiles<.*>` properties and you don't make use of multi-document YAML, then upgrading should just work.
+
+If you do have a more advanced set-up, then you should follow the advice in the rest of this document.
+
+
+
+== Multi-document YAML Ordering
+If you use multi-document YAML files (files with `---` separators) then you need to be aware that property sources are now added in the order that documents are declared.
+With Spring Boot 2.3 and earlier, the order that the individual documents were added was based on profile activation order.
+
+If you have properties that override each other, you need to make sure that the property you want to "win" is lower in the file.
+This means that you may need to reorder the documents inside your YAML.
+
+
+
+== Profile Specific External Configuration
+If you use configuration outside of your jar, and you make use of profile-specific configuration files, you should check that your properties are loaded as expected.
+In earlier versions of Spring Boot, an `application.properties` file outside of your jar would not override a `application-<profile>.properties` file inside your jar.
+
+As of Spring Boot 2.4, external file always override packaged files (profile-specific or not).
+You can read more about the rationale for this change in https://github.com/spring-projects/spring-boot/issues/3845[Issue 3845 on GitHub].
+You can also check the {guide}/spring-boot-features.html#boot-features-external-config-files[update documentation] which describes the new ordering.
+
+
+
+== Profile Specific Documents
+If you use the `spring.profiles` property, for example in multi-document YAML files, you should migrate to `spring.config.activate.on-profile`.
+As with the previous property, you can specify a list of profiles that need to be active for the properties to apply.
+You can also use profile expressions such as `(prod & cloud)`
+
+For example, if you have the following `application.yaml`:
+
+[source,yaml]
+----
+spring:
+  profiles: "prod"
+secret: "production-password"
+----
+
+It would be migrated as follows:
+
+[source,yaml]
+----
+spring:
+  config:
+    activate:
+      on-profile: "prod"
+secret: "production-password"
+----
+
+
+
+== Profile Activation
+The `spring.profiles.active` property should still be used to active specific profiles.
+For example, from the command line you can run:
+
+----
+$ java -jar myapp.jar --spring.profiles.active=prod
+----
+
+You can also set it in your `application.properties` or `application.yaml`, but as of Spring Boot 2.4 you cannot set the property in a profile-specific document.
+In other words, you can no longer combine it with a document that has a `spring.config.activate.on-profile` property.
+
+Likewise, you can still use the `spring.profiles.include` property, but only in non profile-specific documents.
+
+For example, the second document following configuration is invalid:
+
+[source,yaml]
+----
+# this document is valid
+spring:
+  profiles:
+    active: "prod"
+
+---
+
+# this document is invalid
+spring:
+  config:
+    activate:
+      on-profile: "prod"
+  profiles:
+    include: "metrics"
+----
+
+NOTE: The reason we have introduced this restriction is so that `on-profile` conditions are only evaluated once.
+Without this limitation, it would be possible for a `spring.config.activate.on-profile` expression to return a different result depending on when it was evaluated.
+
+
+
+=== Profile Groups
+With Spring Boot 2.3 and earlier, users would often combine `spring.profiles` with `spring.profiles.include` to expand active profiles.
+
+For example, they might have the following `application.yaml` file:
+
+[source,yaml]
+----
+spring.profiles: "debug"
+spring.profiles.include: "debugdb,debugcloud"
+----
+
+This allowed them to run `java -jar --spring.profiles.active=debug` and automatically have the `debug`, `debugdb` and `debugcloud` profiles activated.
+
+If we migrate this example to a Spring Boot 2.4 `application.yaml` we get:
+
+[source,yaml]
+----
+spring:
+  config:
+    activate:
+      on-profile: "debug"
+  profiles:
+    include: "debugdb,debugcloud"
+----
+
+As discussed above, it's no longer possible to use `spring.profiles.include` in a profile-specific document so this file isn't valid.
+
+Since this use-case is quite common, we've tried to provide another way to support it.
+In Spring Boot 2.4 you can use the {guide}/spring-boot-features.html#boot-features-profiles-groups["`profile groups`"] feature.
+
+Profile groups allow you to say:
+
+> if you see profile 'x', also activate profiles 'y' & 'z'
+
+Profile groups are defined with the `spring.profiles.group.<source>` property.
+For example, the configuration above would be written as follows:
+
+[source,yaml]
+----
+spring:
+  profiles:
+    group:
+      "debug": "debugdb,debugcloud"
+----
+
+NOTE: The `spring.profile.group` property cannot be used in profile-specific documents.
+You can't use it in a document that also has a `spring.config.activate.on-profile` property.
+
+
+
+== Migration Example
+Let's walk through an example migration for a Spring Boot 2.3 application.
+Say that we have an application ships with an `application.yaml` inside the jar that looks like this:
+
+[source,yaml]
+----
+spring.application.name: "customers"
+---
+spring.profiles: "production"
+spring.profiles.include: "mysql,rabbitmq"
+---
+spring:
+  profiles: "mysql"
+  datasource:
+    url: "jdbc:mysql://localhost/test"
+    username: "dbuser"
+    password: "dbpass"
+---
+spring:
+  profiles: "rabbitmq"
+  rabbitmq:
+    host: "localhost"
+    port: 5672
+    username: "admin"
+    password: "secret"
+----
+
+In addition, a `application-prod.yaml` file is included next to the jar when the app is deployed:
+
+[source,yaml]
+----
+spring:
+  datasource:
+    username: "proddbuser"
+    password: "proddbpass"
+  rabbitmq:
+    username: "prodadmin"
+    password: "prodsecret"
+----
+
+To migrate the application, we can start by updating the `application.yaml` packaged in the jar to use the new property names:
+
+[source,yaml]
+----
+spring.application.name: "customers"
+---
+spring:
+  config:
+    activate:
+      on-profile: "production"
+  profiles:
+    include: "mysql,rabbitmq"
+---
+spring:
+  config:
+    activate:
+      on-profile: "mysql"
+  datasource:
+    url: "jdbc:mysql://localhost/test"
+    username: "dbuser"
+    password: "dbpass"
+---
+spring:
+  config:
+    activate:
+      on-profile: "rabbitmq"
+    rabbitmq:
+      host: "localhost"
+      port: 5672
+      username: "admin"
+      password: "secret"
+----
+
+This almost works, except that we've tried to use `spring.profiles.include` in a profile-specific document.
+We can migrate that property by using profile groups:
+
+[source,yaml]
+----
+spring:
+  application:
+    name: "customers"
+  profiles:
+    group:
+      "production": "mysql,rabbitmq"
+---
+spring:
+  config:
+    activate:
+      on-profile: "mysql"
+  datasource:
+    url: "jdbc:mysql://localhost/test"
+    username: "dbuser"
+    password: "dbpass"
+---
+spring:
+  config:
+    activate:
+      on-profile: "rabbitmq"
+    rabbitmq:
+      host: "localhost"
+      port: 5672
+      username: "admin"
+      password: "secret"
+----
+
+At this point our migration is complete and things should behave as before.
+The production instance can set the profile in the usual way (for example with a `SPRING_PROFILES_ACTIVE=prod` system environment variable) and the previous `application-prod.yaml` file will be picked up.
+
+If we want to, we can rename `application-prod.yaml` to `application.yaml` since with Spring Boot 2.4 all external files override internal ones.

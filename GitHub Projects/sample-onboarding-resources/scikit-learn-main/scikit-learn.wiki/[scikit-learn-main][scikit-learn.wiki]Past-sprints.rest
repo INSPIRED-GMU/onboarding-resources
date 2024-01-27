@@ -1,0 +1,1192 @@
+==================
+Past sprints
+==================
+`Data Umbrella Latin America (LATAM) Scikit-learn Sprint <https://latam2021.dataumbrella.org/>`_
+==============================================================================
+*2021 June 26*
+
+`Data Umbrella Africa & Middle East (AFME) Scikit-learn Sprint <https://afme2021.dataumbrella.org/>`_
+==============================================================================
+*2021 February 6*
+
+`EuroPython2020 Sprint <https://wiki.python.org/moin/EuroPython2020/Sprints>`_
+==============================================================================
+*2020 July 25 - 26*
+
+`Scipy2020 Sprint <https://www.scipy2020.scipy.org/sprints-schedule>`_
+=======================================================================
+*2020 July 11 - 12*
+
+`Data Umbrella + NYC PyLadies Scikit-learn Online Sprint <https://sites.google.com/view/nyc-2020-scikit-sprint/home>`_
+================================================================================================================
+*2020 June 6*
+
+[[Paris scikit-learn Sprint of the Decade|Paris-scikit-learn-Sprint-of-the-Decade]]
+===================================================================================
+*2020 January 28 - 31*
+
+`WiMLDS Berlin 2020 Sprint <https://github.com/WiMLDS/berlin-2020-scikit-sprint>`_
+==================================================================================
+*2020 January 25*
+
+[[Sprint @Paris - 25 Feb, 1 Mar 2019|Paris-Sprint-25-Feb,-1-Mar-2019]]
+======================================================================
+
+Sprint @Paris - 6-10 June 2017
+=================================
+
+We will be holding a sprint in Paris, June 6th to 10th. Each day, the sprint will start at 9.30 am until 6.30 pm.
+
+**Location**
+
+The sprint will be hosted by Criteo ([Google Maps](https://goo.gl/maps/jMW4bHrE4vP2)) from Tuesday to Friday and in La Paillasse ([Google Maps](https://goo.gl/maps/eqUZmtMEwqw)) for Saturday
+http://www.criteo.com/fr/ - http://lapaillasse.org/
+
+**Social event**
+
+To be decided.
+
+**People present:**
+
+Indicate on what you want to work on.
+
+- Alex Gramfort
+- Loïc Estève
+- Olivier Grisel
+- Lemaitre Guillaume #8350, #8363, sampler
+- Andreas Mueller multiple metrics, one-hot encoder, average precision, estimator tags / estimator checks for instances
+- Vlad Niculae (linear models / matrix factorization / sklearn-contrib--friendly common tests / docs)
+- Jan Margeta
+- Raghav RV
+- Bertrand Thirion (June 7)
+- Elvis Dohmatob
+- Nicolas Goix
+- Roman Yurchak
+- Tom Dupré la Tour
+- Albert Thomas (June 7-10) --> [outlier detection consistency issue #8693](https://github.com/scikit-learn/scikit-learn/issues/8693), [SVDD PR #7910](https://github.com/scikit-learn/scikit-learn/pull/7910)
+- Mohamed Maskani Filali
+- Arthur Imbert
+- Joan Massich
+- Paul Lagrée
+- Manoj Kumar
+- Joris Van den Bossche
+- Nicolas Cordier
+- Alexandre Abadie
+- Aurélien Bellet (June 7) --> metric learning, [#8602](https://github.com/scikit-learn/scikit-learn/pull/8602)
+- Nathalie Vauquier (June 7)
+- Thomas Moreau
+- Patricio Cerda
+- Denis Engemann (day not yet settled). Help merging the quantile normalizer and related documentation and testing #8363.
+- Thierry Guillemot
+
+**Suggested tasks**
+
+* The most important tasks are to finish off pull requests, fix bugs and close issues. For this, it can be useful to look at tickets labeled 'easy': https://github.com/scikit-learn/scikit-learn/issues?page=2&q=is%3Aopen+label%3Aeasy
+
+* Investigate memory usage of T-SNE (https://twitter.com/aparrish/status/869678010919727105)
+
+
+Sprint @ ODSC-West - Monday, November 16, 2015
+==============================================
+
+We will be holding a one-day sprint after ODSC-West in San Francisco on Monday, November 16, 2015.
+
+**Venue**
+
+The sprint will be hosted by Galvanize
+at
+44 Tehama Street , San Francisco, CA
+http://www.galvanize.com/
+
+**Registration**
+
+Registration is required on the meetup page: http://www.meetup.com/San-Francisco-ODSC/events/225950983/
+
+Further information about the sprint and the conference can be found at: http://opendatascicon.com/scikit-learn-code-sprint/
+
+**People present:**
+ 
+- Andreas Mueller
+- Trevor Stephens
+
+**Suggested tasks**
+
+The most important tasks are to finish off pull requests, fix bugs and close issues. For this, it can be useful to look at tickets labelled 'easy': https://github.com/scikit-learn/scikit-learn/issues?page=2&q=is%3Aopen+label%3Aeasy
+
+**Welcoming new contributors**
+
+The sprint is a great time for new contributors to become familiar with the project. We welcome newcomers. Please be sure to read the contributing section of the documentation http://scikit-learn.org/dev/developers/index.html, and to have a development environment ready in which you can install scikit-learn from scratch, build it, and use git to push changes to github.
+
+Sprint @ Paris
+======================
+
+We will be holding a sprint in Paris, October 19th to 23rd.
+
+Olivier Grisel phone number: +33 6 88 59 78 91
+
+**Venue**
+
+The sprint will be hosted by Critéo
+at
+32 Rue Blanche, 75009 Paris, France
+http://www.criteo.com/fr/
+
+Attendees should present themselves at the lobby and then directed towards the meeting room (CritEvent for the first 4 days, and the Boardroom for the last).
+Food & drinks will be provided throughout the entire event by Criteo.
+
+**Social event:** We will go for drinks Wednesday, 7pm at Roy's pub 
+73, rue Blanche
+Paris 75009
+http://www.royspub.com/
+
+
+**People present:** (please also indicate if you need funding, accommodation and what you would like to work on)
+ 
+- Alex Gramfort, no funding needed
+- Raghav R V, no funding needed. Will work on the grid search with Andy.
+- Tom Dupré, no funding needed
+- Andreas Mueller, no funding needed. Staying with the rest would be nice, though. I plan to work on API, grid searches, bug fixes, reviews.
+- Tejas Nikumbh, funding needed for travel and stay. I would be a new contributor.
+- Arthur Mensch, no funding needed
+- Fabian Pedregosa, no funding needed. ~~I can provide accommodation for 1 person (Paris 13th, metro Glaciere), reach me at f@bianp.net if you are interested~~ I'll host Andreas Mueller. I'd like to work on [gaussian process for hyperparameter optimization](https://github.com/scikit-learn/scikit-learn/pull/5185).
+- Shraddha Barke, New Contributor. Funding needed for travel and stay
+- Olivier Grisel, no funding needed.
+- Giorgio Patrini, no funding needed. 
+- Djalel Benbouzid, no funding needed.
+- Prosper Burq, new contributor, no funding needed. I'll be there for the first three days.
+- Maryan Morel, new contributor, no funding needed. I'll be there for the first three days.
+- Martin Bompaire, new contributor, no funding needed. I'll be there for the first three days.
+- Loïc Estève, no funding needed.
+- Vighnesh Birodkar, funding needed for travel and stay. I can work on bug fixes.
+- Arnaud Joly, a priori no funding needed (will work on tree based methods, metrics and multi-label tasks).
+- Gaël Varoquaux, no funding needed (will work on API and meta-estimators).
+- Alexandre Abraham, no funding needed. I'll be there for one or two days to revive an old PR.
+- Kyle Kastner, no funding needed for travel or stay. Bug fixes, reviews, testing of GP and one or two new ideas.
+- Johanna Hansen, no funding needed for travel or stay. New contributor.
+- Kamalakar Dadi, no funding needed. New contributor. I will work on easy labelled issues.
+- Perrine Letellier, no funding needed. New contributor. I'll be there for the first three days.
+- Thomas Moreau, no funding needed. New contribution.
+- Arnaud Rachez, no funding needed. New contributor.
+- Michael Eickenberg, no funding needed.
+- Nicolas Goix, no funding needed. I will work on IsolationForest and LocalOutlierFactor PR.
+- Anna Korba, new contributor, no funding needed.
+- Charles Truong, no funding needed, new contributor.
+- Massil Achab, no funding needed, new contributor.
+- Alexandre Abadie, no funding needed, new contributor.
+- Pierre Houssin, no funding needed, new contributor.
+- Aina Frau Pascual, no funding needed, new contributor.
+- Elvis Dohmatob, no funding needed, new contributor. Available from october 21.
+
+**Suggested tasks**
+
+The most important tasks are to finish off pull requests, fix bugs and close issues. For this, it can be useful to look at tickets labelled 'easy': https://github.com/scikit-learn/scikit-learn/issues?page=2&q=is%3Aopen+label%3Aeasy
+
+MLP Experts, please review the MLP: https://github.com/scikit-learn/scikit-learn/pull/5214
+
+**Welcoming new contributors**
+
+The sprint is a great time for new contributors to become familiar with the project. We welcome newcomers. Please be sure to read the contributing section of the documentation http://scikit-learn.org/dev/developers/index.html, and to have a development environment ready in which you can install scikit-learn from scratch, build it, and use git to push changes to github.
+
+**Sponsoring**
+
+Some contributors need funding for travel and accommodation. If you would like to sponsor some of us to attend, please contact nelle dot varoquaux at gmail dot com.
+
+_____
+
+Sprint @ Pydata Paris
+======================
+
+We will be holding a sprint at [Pydata Paris](http://pydataparis.joinux.org/), April 2nd. Venue: C48, Télécom Paris, 46 rue Barrault. Le sprint est sponsorisé par Rakuten.
+
+We start at 9:15am !
+
+**Registration is mandatory. You will not be able to enter the building otherwise.**
+
+**People present:** (please also indicate what you would like to work on)
+
+* Nelle
+* Gilles
+* Gael
+* Alex
+* Vincent
+* Lowik
+* David
+* Robin
+* Michael (@eickenberg, chunk and cherry pick old ridge regression refactoring  PR)
+* Loïc (@lesteve)
+* Danilo (@banilo)
+* Tim Head (@betatim)
+* Joseph
+* Eugene Ndiaye
+* Tim V-G
+* Jair (@jmontoyam, new contributor)
+* Konstantin Shmelkov
+* Denis (@dengemann, update ICA pull request; misc fixes)
+* Olivier Grisel (@ogrisel, review some `[MRG]`-level PRs) 
+
+**Suggested tasks**
+
+The most important tasks are to finish off pull requests, fix bugs and close issues. For this, it can be useful to look at tickets labelled 'easy': https://github.com/scikit-learn/scikit-learn/issues?page=2&q=is%3Aopen+label%3Aeasy
+
+**Welcoming new contributors**
+
+The sprint is a great time for new contributors to become familiar with the project. We welcome newcomers. Please be sure to read the contributing section of the documentation http://scikit-learn.org/dev/developers/index.html, and to have a development environment ready in which you can install scikit-learn from scratch, build it, and use git to push changes to github.
+
+_____
+
+
+Sprint @ Euroscipy
+==================
+
+We will be holding a sprint at Euroscipy in Cambridge, on August 31st. Venue: https://www.euroscipy.org/2014/program/sprints/
+
+**People present:** (please also indicate what you would like to work on)
+
+* Gael Varoquaux: bug fixing, merging GSOC-related work
+
+* Olivier Grisel: bug fixing, merging GSOC-related work
+
+* Federico Vaggi: general help.  Tests for better Pandas integration?
+
+* Max Linke: general help
+
+* Camilla Montonen : general help (+methods for calculating ROC AUC confidence intervals?)
+
+**Suggested tasks**
+
+* The most important tasks are to finish off pull requests, fix bugs and close issues. For this, it can be useful to look at tickets labelled 'easy': https://github.com/scikit-learn/scikit-learn/issues?page=2&q=is%3Aopen+label%3Aeasy
+
+**Welcoming new contributors**
+
+The sprint is a great time for new contributors to become familiar with the project. We welcome newcomers. Please be sure to read the contributing section of the documentation http://scikit-learn.org/dev/developers/index.html, and to have a development environment ready in which you can install scikit-learn from scratch, build it, and use git to push changes to github.
+
+Sprint - Paris - 14th-20th of July 2014
+=======================================
+
+This will be a week-long sprint. It will be a great moment of fun and productivity as we are going to try to gather all the core developers (non core developers with a high motivation are more than welcome) in the fantastic city of Paris.
+
+For this sprint, we will try to find money to pay for people's trip. We thus need people to register on this page and tell us if they need funding, and what for (accommodation, travel, and from where).
+
+**If you are interested in sponsoring the sprint, please contact Nelle Varoquaux (firstname.lastname@gmail.com)**
+
+Location
+--------
+
+Monday 14: La Paillasse, 226 rue Saint Denis 75002 Paris, http://lapaillasse.org
+
+Tuesday 15 : Grace Hopper room at [INRIA Saclay](http://www.inria.fr/en/centre/saclay/overview/practical-info/how-to-reach-the-centre), (Bat. Alan Turing)
+
+The other days, the sprint will take place at Criteo head quarters located::
+
+   32 Rue Blanche, 75009 Paris, France
+
+Saturday 19 and Sunday 20 at tinyclues office located::
+
+   15, rue du Caire, 75002 Paris, France
+
+
+
+People & Funding
+----------------
+
+- Alex Gramfort (no funding needed, no accommodation needed)
+- Gaël Varoquaux (no funding needed, no accommodation needed)
+- Olivier Grisel (no funding needed, no accommodation needed)
+- Fabian Pedregosa (no funding needed, no accommodation needed)
+- Denis Engemann (no funding needed, no accommodation needed)
+- Adrien Guillo (no funding needed, no accommodation needed)
+- Arnaud Joly (no funding needed, accommodation needed)
+- Andreas Mueller (no funding needed, accommodation needed)
+- Kyle Kastner (no funding needed, no accommodation needed)
+- Danny Sullivan (no funding needed, no accommodation needed)
+- Loïc Estève (no funding needed, no accommodation needed)
+- Manoj Kumar (no funding needed, no accommodation needed)
+- Gabriel Synnaeve (no funding needed, no accommodation needed)
+- Vlad Niculae (no funding needed, no accommodation needed)
+- Michael Eickenberg (no funding needed, no accommodation needed)
+- Roland Thiolliere (no funding needed, no accommodation needed)
+- Balazs Kegl (no funding needed, no accommodation needed)
+- Amir Sani (no funding needed, no accommodation needed)
+
+Topics
+-------
+
+- RELEASE
+
+
+scikit-learn / PySpark integration sprint - Friday 14 February 2014
+===================================================================
+
+Cloudera offered to host a coding sprint at their SF offices right after Strataconf 2014: 
+
+http://strataconf.com/strata2014/
+
+**Location**
+
+    Cloudera
+    433 California Street
+    San Francisco, CA
+
+We can start at 9.30am, the sprint room is on the 6th floor.
+
+**Objectives**
+
+The goal is to prototype some PySpark + scikit-learn integration layer as a new project on github in the spirit of this example gist by @MLnick:
+
+https://gist.github.com/MLnick/4707012
+
+We plan to limit the attendance to ~10 people to make sure that we stay focused on that scope.
+
+**Prerequisites**
+
+- strong coding experience with Apache Spark & PySpark and prior experience with NumPy, scikit-learn or familiarity with ML concepts (feature extraction, model fitting, parameter tuning via cross-validation, building ensembles...)
+
+or:
+
+- strong coding experience with scikit-learn and prior experience with Spark and PySpark.
+
+**Resources**
+
+For sklearners here are some resources to learn about PySpark:
+
+- Video presentation of PySpark by Josh Rosen: http://www.youtube.com/watch?v=xc7Lc8RA8wE
+- PySpark - programming guide: http://spark.incubator.apache.org/docs/latest/python-programming-guide.html
+- Wiki page on PySpark internals: https://cwiki.apache.org/confluence/display/SPARK/PySpark+Internals
+
+**Ideas for Projects / Goals**
+
+- Parsing & feature extraction (e.g. svmllight to RDD parsing: https://gist.github.com/MLnick/7880766)
+- Flesh out the linear models PoC above into something more production-ready
+- Distributed cross-validation (e.g. a version of cross-validation for online learning that trains all models in parallel with the same data)
+- Integrating scikit-learn pipelines into Spark
+- Training models in parallel for bagging ensembles (e.g. for decision trees: [this blog post](http://cornercases.wordpress.com/2013/10/23/example-python-machine-learning-algorithm-on-spark/) and [this gist](https://gist.github.com/wpm/6454814) 
+
+**List of people planning to attend the coding sprint**
+
+- Olivier Grisel @ogrisel (scikit-learn contributor, I played a bit with Spark and PySpark in local mode)
+- Horia Margarit @margarit (data scientist, I'm combining scikit-learn and PySpark into my work pipeline)
+- Sandy Ryza (Hadoop committer now working on Spark, experience with scikit-learn and playing with PySpark)
+- Josh Rosen (Spark committer, original author of PySpark)
+- Jey Kottalam @jey (PySpark contributor, quasi-ML guy, currently at UC Berkeley AMPLab)
+- Nick Pentreath @MLnick - attending remotely at this stage (Spark committer, experience with scikit-learn and machine learning)
+- Fred Mailhot @fmailhot (ML/NLP, sklearn experience, playing w/ PySpark, integrating Spark/Sklearn at work)
+- Stoney Vintson @castillonis (ML, NLP scikit-learn, NLTK, PySpark )
+- Uri Laserson @laserson (experience with scikit-learn, playing with PySpark)
+- Jeremy Freeman @thefreemanlab (computational neuroscientist, developing ML-style analysis [library](http://github.com/freeman-lab/thunder) in PySpark)
+- Mohitdeep Singh ( Experience with scikit-learn, ramping up on spark/pyspark, currently Research Scientist - Intel Labs)
+- Matei Zaharia @mateiz (Databricks; can only come late afternoon)
+- Ahir Reddy @ahirreddy (Databricks)
+- Diana Hu @sdhu (scikit-learn experience, and tested spark and pyspark, currently Data Scientist - Intel Media)
+- [Please add your name here - github account required]
+
+The resulting code for this sprint is available at:
+
+https://github.com/ogrisel/spylearn
+
+
+Sprint - Paris - 22nd-28th of July 2013
+=======================================
+
+**Update!** The sprint is on. For those following at home, join us on #scikit-learn at Freenode, and follow along with our active topics on the scratchpad: https://etherpad.mozilla.org/sklearn-sprint
+
+This will be a week-long sprint. It will be a great moment of fun and productivity as we are going to try to gather all the core developers (non core developers with a high motivation are more than welcome) in the fantastic city of Paris.
+
+For this sprint, we will try to find money to pay for people's trip. We thus need people to register on this page and tell us if they need funding, and what for (accommodation, travel, and from where).
+
+**If you are interested in sponsoring the sprint, please contact Nelle Varoquaux (firstname.lastname@gmail.com)**
+
+Location
+--------
+
+The sprint will take place at Telecom ParisTech http://www.telecom-paristech.fr
+located::
+
+   46 Rue Barrault, 75013 Paris, France
+
+Google Maps link : http://goo.gl/maps/k6QPL
+
+We'll be in room B312 from 9am to 6pm everyday.
+
+People & Funding
+----------------
+
+- Nelle Varoquaux (no funding needed, no accommodation needed)
+- Gaël Varoquaux (no funding needed, no accommodation needed)
+- Andreas Mueller (probably nothing needed, I take whisky donations and a couch, though -- Edit by Gael: Andy has found a bed and whisky)
+- Olivier Grisel (no funding needed, no accommodation needed)
+- Alex Gramfort (no funding needed, no accommodation needed)
+- Vlad Niculae (funding settled, accom. settled thanks to Fabian) topics: PR review (especially gsoc), bugfixes, maintenance,  #930, #543
+- Fabian Pedregosa (nothing needed, I'll be hosting Vlad)
+- Gilles Louppe (funding and accomodation settled)
+- Vincent Michel (no funding needed, no accommodation needed)
+- Arnaud Joly (accomodation settled)
+- Peter Prettenhofer (funding and accomodation settled)
+- Lars Buitinck (funding and accomodation settled)
+- Gabriel Synnaeve (no funding needed, no accommodation needed)
+- Philippe Gervais (no funding needed, no accomodation needed)
+- Nicolas Tréségnie (funding and accomodation settled)
+- Denis Engemann (funding settled, accommodation settled thanks to Alex) topics: FastICA improvements #2113, maintenance, memory profiling + improvements for sklearn.decomposition objects.
+- Jaques Grobler (no funding needed, no accommodation needed)
+- Federico Vaggi (no funding needed, no accommodation needed)
+
+
+Won't make it
+-------------
+- Wei Li
+- Kemal
+- Joël
+
+Who will be there during the week-end?
+------------------------------------------
+http://www.doodle.com/gvh778u37v3qvuwf
+
+Topics
+-------
+Summary: https://etherpad.mozilla.org/sklearn-sprint
+
+- Finish py3k port
+- Isotonic regression with l1 norm
+- Hierarchical clustering (Gaël's PR)
+- Parallel processing with shared memory and joblib and / or IPython.parallel: application to bagged ensembles of trees
+- Faster decision tree implementation
+- Merge gradient boosting PRs (#1689, #1806)
+- Probability Calibration by Isotonic Regression (see PR #1176) and Platt's method (see branch by Paolo Losi)
+- Ranking/Ordinal regression models (SVM Rank with SGD, Proportional odds)
+- Finish #2113 on ICA issues.
+- OrthogonalMatchingPursuitCV issue #930
+- model persistence documentation issue #1332
+- ridge path issue #582
+- ridge bias term in sparse case issue #1389
+- ridge sample_weight issue #1190
+- pairwise_distances_argmin issue #325
+- Finish simpler scorer API, #2123
+
+PyconFR - Paris 13th-14th Sep 2012
+==================================
+
+We are organizing a sprint before the `PyconFR 2012 <http://pycon.fr>`_
+conference.
+
+People & tasks
+--------------
+
+* Nelle Varoquaux - Isotonic regression
+
+* Olivier Grisel (working with Gaël Varoquaux on joblib parallelism)
+
+* Alexandre Gramfort
+
+* Fabian Pedregosa (Things I could work on: Implement ranking algorithms (RankSVM, IntervalRank), help with the isotonic regression and group lasso pull request)
+
+* Bertrand Thirion 
+
+* Gaël Varoquaux (working with Olivier Grisel on joblib parallelism)
+
+* Alexandre Abraham
+
+* Virgile Fritsch
+
+* Nicolas Le Roux (providing machine learning expertise for RBM and DBN coding)
+
+Location
+---------
+
+`La Villette, Paris <http://www.villette.com/fr/>`_, the 13th & 14th of September, from 10:00 until 18:00. The sprint will take place in the 'Carrefour Numerique', floor -1 of the 'cité des sciences': http://www.pycon.fr/2012/venue/
+
+
+Tasks
+=====
+
+Top priorities are merging: pull requests, fixing easyfix issues and improving documentation consistency.
+
+In addition to the tasks listed below, it is useful to consider any issue in this list : https://github.com/scikit-learn/scikit-learn/issues
+
+Easy
+------
+
+* **Improve test coverage**: Run 'make test-coverage' after installing the coverage module, find low hanging fruits to improve coverage, and add tests. Try to test the logic, and not simple aim for augmenting the number of lines covered.
+
+* Finish estimator summary PR: https://github.com/scikit-learn/scikit-learn/pull/804
+
+Branch merging
+-----------------
+
+Improving and merging existing pull requests is the number one priority: 
+https://github.com/scikit-learn/scikit-learn/pulls
+
+There is a lot of very good code lying there, it often just needs a small amount of polishing
+
+Not requiring expertise in machine learning
+----------------------------------------------
+
+  * **Affinity propagation using sparse matrices**: the affinity propagation algorithm (scikits.learn.cluster.affinity_propagation_) should be able to work on sparse input affinity matrices without converting them to dense. A good implementation should make this efficient on very large data.
+
+Machine learning tasks
+-------------------------
+  * **Improve the documentation**: You understand some aspects machine-learning. You can help making the scikit rock without writing a line of code: http://scikit-learn.org/dev/developers/index.html#documentation. See also Documentation-related issues in the issue tracker.
+
+  * **Text feature extraction** (refactoring / API simplification) + hashing vectorizer: Olivier Grisel
+
+  * **Nearest Neighbors Classification/Regression** : allowing more flexible Bayesian priors (currently only a flat prior is used); implementing alternative distance metrics: Jake Vanderplas
+
+  * **Group Lasso**: Continue with pull request https://github.com/scikit-learn/scikit-learn/pull/947. Participants: @fabianp
+
+K-means improvements
+--------------------
+
+Participants: @mblondel
+
+- Code clean up
+- Speed improvements: don't reallocate clusters, track clusters that didn't change, triangular inequality
+- L1 distance: use L1 distance in e step and median (instead of mean) in m step
+- Fuzzy K-means: k-means with fuzzy cluster membership (not the same as GMM)
+- Move argmin and average operators to pairwise module (for L1/L2)
+- Support chunk size argument in argmin operator
+- Merge @ogrisel's branch
+- Add a score function (opposite of the kmeans objective)
+- Sparse matrices
+- fit_transform
+- more output options in transform (hard, soft, dense)
+
+Semisupervised learning
+-----------------------
+Participants: @larsmans
+
+- EM algorithm for Naive Bayes (there is a pull request linguering)
+- Fix utility code to handle partially labeled data sets
+
+More ambitious/long term tasks
+--------------------------------
+
+- Patch liblinear to have warm restart + LogisticRegressionCV. 
+        Comment (by Fabian): I tried this, take a look here: [[liblinear fork]]
+- Locality Sensitive Hashing, talk to Brian Holt
+- Fused Lasso
+- Group Lasso, talk to Alex Gramfort (by email), or Fabian Pedregosa
+- Manifold learning: improve MDS (talk to Nelle Varoquaux), t-SNE (talk to DWF)
+- Sparse matrix support in dictionary learning module
+
+Euroscipy - Bruxelles, Mon Aug 27 - Tue Aug 28, 2012
+========================================================
+
+People & tasks
+--------------
+
+* Jaques Grobler
+* Fabian Pedregosa. I'll be working on improving test coverage and implementing Group Lasso. Also, I can introduce newcomers into the scikit-learn workflow.
+
+Places
+------
+
+* Université libre de Bruxelles
+
+Contributors might find useful the `coding guidelines <http://scikit-learn.org/dev/developers/index.html#coding-guidelines>`_ .
+
+Granada 19th-21th Dec 2011
+==========================
+
+We are organizing a coding sprint after the `NIPS 2011 <http://nips.cc/>`_ conference.
+
+People, tasks and funding
+--------------------------
+
+For this sprint, we are trying to gather funding for contributors to fly in. Please list your name and who is funding your trip.
+
+* Gael Varoquaux: Funding: INRIA_
+
+* Bertrand Thirion: Funding: INRIA_
+
+* Fabian Pedregosa: Funding: INRIA_
+
+* Alex Gramfort: Funding: INRIA_
+
+* Olivier Grisel: Funding: Google_ + tinyclues_
+
+* Jake Vanderplas: Funding: Google_ + tinyclues_
+
+* David Warde-Farley: Funding: LISA_
+
+* Gilles Louppe: Funding: `University of Liège`_
+
+* Lars Buitinck: Funding: Google_ + tinyclues_
+
+* Vlad Niculae: Funding: Google_ + tinyclues_
+
+* Andreas Mueller: Funding: Google_ + tinyclues_
+
+* Mathieu Blondel: Funding: Google_ + tinyclues_ + private
+
+* Nicolás Della Penna: private.
+
+.. _Google: http://google.com
+.. _tinyclues: http://www.tinyclues.com
+.. _INRIA: http://inria.fr/en/
+.. _LISA: http://www.iro.umontreal.ca/~lisa
+.. _`University of Liège`: http://www.ulg.ac.be
+
+Places
+------
+
+  * `Granada University, Instituto de la Paz y los Conflictos <http://www.ugr.es/~eirene/main.html>`_, Centro de Documentación Científica de la Universidad de Granada, first floor Campoamor classroom `(map) <http://maps.google.com/maps/place?q=granada,+instituto+de+la+paz+y+los+conflictos&hl=en&cid=9774673672502768790>`_ , from 10:00 until 18:00
+
+Contributors might find useful the `coding guidelines <http://scikit-learn.org/dev/developers/index.html#coding-guidelines>`_ .
+
+Tasks
+=====
+
+Top priorities are merging: pull requests, fixing easyfix issues and improving documentation consistency.
+
+In addition to the tasks listed below, it is useful to consider any issue in this list : https://github.com/scikit-learn/scikit-learn/issues
+
+* Merge in Randomized linear models (branch 'randomized_lasso' on GaelVaroquaux's github (Gael Varoquaux and Alex Gramfort working on this)
+
+Easy
+------
+
+* **Improve test coverage**: Run 'make test-coverage' after installing the coverage module, find low hanging fruits to improve coverage, and add tests. Try to test the logic, and not simple aim for augmenting the number of lines covered.
+
+* **Py3k support**: First test joblib on Python3, then scikit-learn. Both generate sources that are python3 compatible, but these have not been tested.
+
+Branch merging
+-----------------
+
+Improving and merging existing pull requests is the number one priority: 
+https://github.com/scikit-learn/scikit-learn/pulls
+
+There is a lot of very good code lying there, it often just needs a small amount of polishing
+
+Not requiring expertise in machine learning
+----------------------------------------------
+
+  * **Rationalize images in documentation**: we have 56Mo of images generated in the documentation (doc/_build/html/_images). First we should save jpg instead of pngs: it shrinks this directory to 45Mo (not a huge gain, granted). Second there is many times the same file saved. I need to understand what is going on, and fix that.
+  * **Affinity propagation using sparse matrices**: the affinity propagation algorithm (scikits.learn.cluster.affinity_propagation_) should be able to work on sparse input affinity matrices without converting them to dense. A good implementation should make this efficient on very large data.
+
+Machine learning tasks
+-------------------------
+  * **Improve the documentation**: You understand some aspects machine-learning. You can help making the scikit rock without writing a line of code: http://scikit-learn.org/dev/developers/index.html#documentation. See also Documentation-related issues in the issue tracker.
+
+  * **Text feature extraction** (refactoring / API simplification) + hashing vectorizer: Olivier Grisel
+
+  * **Nearest Neighbors Classification/Regression** : allowing more flexible Bayesian priors (currently only a flat prior is used); implementing alternative distance metrics: Jake Vanderplas
+
+K-means improvements
+--------------------
+
+Participants: @mblondel
+
+- Code clean up
+- Speed improvements: don't reallocate clusters, track clusters that didn't change, triangular inequality
+- L1 distance: use L1 distance in e step and median (instead of mean) in m step
+- Fuzzy K-means: k-means with fuzzy cluster membership (not the same as GMM)
+- Move argmin and average operators to pairwise module (for L1/L2)
+- Support chunk size argument in argmin operator
+- Merge @ogrisel's branch
+- Add a score function (opposite of the kmeans objective)
+- Sparse matrices
+- fit_transform
+- more output options in transform (hard, soft, dense)
+
+Random projections
+--------------------
+
+Participants: @mblondel
+
+- Merge random SVD PR
+- Merge sparse RP PR
+- Cython utils for fast and memory-efficient projection
+
+Kernel Approximation
+--------------------
+
+Participants: @amueller
+
+- Move to random projection module
+
+Dictionary Learning
+-------------------
+
+Participants: @vene
+
+- Fix (document) alpha scaling
+- Merge SparseCoder pull request
+- Merge KMeansCoder pull request
+- Begin work on supervised image classification
+
+Semisupervised learning
+-----------------------
+Participants: @larsmans
+
+- EM algorithm for Naive Bayes
+- Fix utility code to handle partially labeled data sets
+
+More ambitious/long term tasks
+--------------------------------
+
+- Patch liblinear to have warm restart + LogisticRegressionCV. 
+        Comment (by Fabian): I tried this, take a look here: [[liblinear fork]]
+- Decision Tree (support boosted trees, loss matrix, multivariate regression)
+- Ensemble classifiers
+        Comment (by Gilles): I plan to review @pprett PR on Gradient Boosted Trees. I also want to implement parallel tree construction and prediction in the current implementation of forest of trees.
+- Locality Sensitive Hashing, talk to Brian Holt
+- Fused Lasso
+- Group Lasso, talk to Alex Gramfort (by email)
+- Manifold learning: MDS, t-SNE (talk to DWF)
+- Bayesian classification (e.g. RVM)
+- Sparse matrix support in dictionary learning module
+
+Accommodation
+-------------
+
+Some of us are planning to stay at a Guest House in Granada to reduce the Hotel costs. If you are interested add your name and arrival and departure dates below:
+
+========================== ================== ===================
+Name                       From               To
+========================== ================== ===================
+Olivier Grisel             Dec. 11            Dec. 21
+-------------------------- ------------------ -------------------
+Gael Varoquaux             Dec. 11            Dec. 21
+-------------------------- ------------------ -------------------
+David Warde-Farley         Dec. 18            Dec. 21
+-------------------------- ------------------ -------------------
+Alex Gramfort              Dec. 11            Dec. 21
+-------------------------- ------------------ -------------------
+Jake Vanderplas            Dec. 15            Dec. 22
+-------------------------- ------------------ -------------------
+Bertrand Thirion           Dec 12             Dec. 20  
+-------------------------- ------------------ -------------------
+Gilles Louppe              Dec 18             Dec. 21 
+-------------------------- ------------------ -------------------
+Mathieu Blondel            Dec 18             Dec. 22 
+-------------------------- ------------------ -------------------
+Lars Buitinck              Dec 18             Dec 22
+-------------------------- ------------------ -------------------
+Vlad Niculae               Dec 18             Dec 22
+-------------------------- ------------------ -------------------
+Andreas Mueller            Dec 11             Dec 22
+-------------------------- ------------------ -------------------
+Nicolás Della Penna        Dec 18             Dec 22
+-------------------------- ------------------ -------------------
+(add your name here)
+========================== ================== ===================
+
+
+23, 24 August 2011
+==================
+
+We are organizing a coding sprint the days before `EuroScipy 2011 <http://www.euroscipy.org/conference/euroscipy2011>`_
+
+People and tasks
+------------------
+
+* Olivier Grisel: review code (esp. related to Vlad's GSoC), doc improvements, maybe work on finalizing Power Iteration Clustering or the text feature extraction
+
+* Gael Varoquaux: merging pull requests
+
+* Vlad Niculae: merge remaining DictionaryLearning code, doc improvements, maybe work on SGD matrix fact. w/ someone?
+
+* Satra Ghosh: work on the ensemble/tree/random forest (only on the 24th)
+
+* Brian Holt: tree and random forest code, improve test coverage, doc improvements
+
+* Bertrand Thirion: reviewing GMM and related stuff or manifold learning (probably 24th only).
+
+* Ralf Gommers: work on joblib (only 24th, from ~12.00)
+
+* Vincent Michel: work on bi-clustering, doc improvements, code review.
+
+* Mathieu Blondel: multi-class reductions (only 24th, GMT+9)
+
+* Fabian Pedregosa : strong-rules for coordinate descent, grouped lasso or related stuff, py3k support.
+
+* Alexandre Gramfort : reviewing commits and sending negative comments to harass Fabian while he is away because he kind of likes that
+
+* Jean Kossaifi
+
+* Virgile Fritsch (only 24th): working on issues (pairwise distances, incompatibility with scipy 0.8, ...) and pull requests merging.
+
+Places
+------
+
+  * In Paris: at ENS, in the physics department (24 rue Lhomond), probably in some classrooms on the 3rd floor.
+
+
+Scipy 2011 sprinting: July 15-16
+=================================
+
+**Location** At the scipy conference (Austin)
+
+People and tasks
+------------------
+
+* Gael Varoquaux: review code, merge
+* Marcel Caraciolo: review code, easyfix issues.
+* David Warde-Farley: review
+
+1st April 2011
+==============
+
+Places
+------
+
+  * In Paris: at Logilab's (`104 boulevard blanqui, Paris <http://maps.google.fr/maps?q=104%20boulevard%20blanqui,%20paris>`_) - Metro 6 - Glacière
+  * In Boston at MIT (36-537: 5th floor of `building 36 <http://whereis.mit.edu/?go=36>`_)
+  * On IRC (#scikit-learn on irc.freenode.net)
+
+People present
+--------------
+
+Please add skills/interests or planned task, to facilitate the sprint organization and pairing of people on tasks. To share knowledge as much as possible, it would be ideal to have pair-like programming of 2 people on a task, with different skills.
+
+At Logilab, Paris (from 9H to 19H):
+
+* Gaël Varoquaux: task: code review, pair programming on specific task where needed.
+* Julien Miotte
+* Feth Arezki: could help with coding (w/ the logger?), LaTeX. Interested in learning about scikit.
+* Nelle Varoquaux: task: minibatch k-means
+* Fabian Pedregosa
+* Vincent Michel: task: code review, pair programming. features: ward's clustering.
+* Luis Belmar-Letelier 
+* Thouis Jones: task: BallTree cython wrapper, documentation, whatever.
+
+At MIT, Boston:
+
+* Alexandre Gramfort: task: code review and pair programming
+* Demian Wassermann: task: Gaussian Processes with sparse data
+* Satra Ghosh: task: Ensemble Learning, random forests
+* Nico Pinto
+* Pietro Berkes
+
+At IRC (from around 9am Brasília time (GMT-3):
+
+* Alexandre Passos: task: dirichlet process mixture of gaussian models (In progress)
+* Vlad Niculae: task: matrix factorization (In progress)
+* Marcel Caraciolo: task: help in docs and bug fixes (beginner in the project).
+
+
+Paris coding Sprint,  8-9 Sept. 2010
+======================================
+
+Place:
+
+  INRIA research center in Saclay-Ile de France, also in channel #scikit-learn, on irc.freenode.org. Room to be determined.
+
+Some ideas:
+
+  * extend the tutorial with features selection, cross-validation, etc
+
+  * design a sphinx template for the main web page [here http://www.flickr.com/photos/fseoane/4573612893/] is a temptative design, but was not translated into a sphinx template.
+
+  * Group lasso with coordinate descent in GLM module
+
+  * Covariance estimators (Ledoit-Wolf) -> Regularized LDA
+
+  * Add transform in LDA
+
+  * PCA with fit + transform
+
+  * preprocessing routines (center, standardize) with fit transform
+
+  * K-means with Pybrain heuristic
+
+  * Make Pipeline object work for real
+
+  * FastICA
+
+ **Anything you can think of, such as:**
+
+  * Spectral Clustering + manifold learning (MDS/PCA, Isomap, Diffusion maps, tSNE)
+
+  * Canonical Correlation Analysis
+
+  * Kernel PCA
+
+  * Gaussian Process regression
+
+----
+
+
+0.4 Coding Sprint,  16 & 17  June 2010
+========================================
+
+Place:
+
+ channel #scikit-learn, on irc.freenode.org. If you do not have an IRC client or behind a firewall, check out http://webchat.freenode.net/
+
+Some ideas:
+
+  * adapt the plotting features from the em module into gmm module.
+
+  * incorporate more datasets : the diabetes from the lars R package, featured datasets from http://archive.ics.uci.edu/ml/datasets.html , etc.
+
+  * anything from the issue tracker.
+
+  * extend the tutorial with features selection, cross-validation, etc
+
+  * profile and improve the performance of the gmm module.
+
+  * submit some new classifier
+
+  * refactor the ann module (artificial neural networks) to conform to the API in the rest of the modules, or submit a new ann module.
+
+  * make it compatible with python3 (shouldn't be hard now that there's a numpy python3 relase)
+
+  * design a sphinx template for the main web page [here http://www.flickr.com/photos/fseoane/4573612893/] is a temptative design, but was not translated into a sphinx template.
+
+  * anything you can think of.
+
+----
+
+Documentation Week, 14-18 March 2010
+=====================================
+
+Place:
+
+ channel #learn, on irc.freenode.org. If you do not have an IRC client or behind a firewall, check out http://webchat.freenode.net/
+
+Possible Tasks:
+
+  * Document our design choices (methods in each class, convention for estimated parameters, etc.). Most of this is in ApiDiscussion.
+  * Documentation for neural networks (nonexistent)
+  * Examples. We currently only have a few of them. Expand and integrate them into the web page.
+  * Write a Tutorial.
+  * Write a FAQ.
+  * Documentation and Examples for Support Vector Machines. What's in the web is totally outdated. Integrate the documentation from gumpy, see ticket:27 (assigned: Fabian Pedregosa)
+  * Review documentation.
+  * Customize the sphinx generated html.
+  * Create some cool images/logos for the web page.
+  * Create some benchmark plots.
+
+-----
+
+Code sprint in Paris, 3 March 2010
+====================================
+
+Terminated, see http://fseoane.net/blog/2010/scikitslearn-coding-spring-in-paris/
+
+Participants
+-------------
+
+ * Alexandre Gramfort
+ * Olivier Grisel
+ * Vincent Michel
+ * Fabian Pedregosa
+ * Bertrand Thirion
+ * Gaël Varoquaux
+
+**Goals**
+
+Implement a few targeted functionalities for penalized regressions.
+
+**Target functionalities**
+
+ 1. GLMnet
+
+ 2. Bayesian Regression (Ridge, ARD)
+
+ 3. Univariate feature selection function
+
+Edouard: Most of things we need are already in datamind, the main main issue is to cut the dependance with FFF(nipy)
+ 
+
+Extras, if time permits:
+
+ 4. LARS
+
+**Proposed workflow**
+
+Pair programming:
+
+ 1. GLMNet (AG, OG)
+ 
+ 2. Bayesian regression (FP, VM)
+
+ 3. Feature selection (BT, GV)
+
+ 4. LARS: Whoever is finished first.
+
+**Place in the repository**
+
+ 1. I think GLMNet goes well in scikits.learn.glm.
+
+Edouard: The GLM term is confusing: Indeed in GLMNet the G means "generalized", however in neuroimaging people understand "general" which is in fact a linear model
+
+ 2. Bayessian regression: scikits.learn.bayes . It's short and explicit.
+
+Edouard: Again the term Bayes might not lead to a clear organization of algorithms.
+_____
+
+**Past sprints**
+
+Paris coding Sprint,  8-9 Sept. 2010
+=======================================
+
+Place:
+
+  INRIA research center in Saclay-Ile de France, also in channel #scikit-learn, on irc.freenode.org. Room to be determined.
+
+Some ideas:
+
+  * extend the tutorial with features selection, cross-validation, etc
+
+  * design a sphinx template for the main web page [here http://www.flickr.com/photos/fseoane/4573612893/] is a temptative design, but was not translated into a sphinx template.
+
+  * Group lasso with coordinate descent in GLM module
+
+  * Covariance estimators (Ledoit-Wolf) -> Regularized LDA
+
+  * Add transform in LDA
+
+  * PCA with fit + transform
+
+  * preprocessing routines (center, standardize) with fit transform
+
+  * K-means with Pybrain heuristic
+
+  * Make Pipeline object work for real
+
+  * FastICA
+
+ **Anything you can think of, such as:**
+
+  * Spectral Clustering + manifold learning (MDS/PCA, Isomap, Diffusion maps, tSNE)
+
+  * Canonical Correlation Analysis
+
+  * Kernel PCA
+
+  * Gaussian Process regression
+
+----
+
+
+0.4 Coding Sprint,  16 & 17  June 2010
+=======================================
+
+Place:
+
+ channel #scikit-learn, on irc.freenode.org. If you do not have an IRC client or behind a firewall, check out http://webchat.freenode.net/
+
+Some ideas:
+
+  * adapt the plotting features from the em module into gmm module.
+
+  * incorporate more datasets : the diabetes from the lars R package, featured datasets from http://archive.ics.uci.edu/ml/datasets.html , etc.
+
+  * anything from the issue tracker.
+
+  * extend the tutorial with features selection, cross-validation, etc
+
+  * profile and improve the performance of the gmm module.
+
+  * submit some new classifier
+
+  * refactor the ann module (artificial neural networks) to conform to the API in the rest of the modules, or submit a new ann module.
+
+  * make it compatible with python3 (shouldn't be hard now that there's a numpy python3 relase)
+
+  * design a sphinx template for the main web page [here http://www.flickr.com/photos/fseoane/4573612893/] is a temptative design, but was not translated into a sphinx template.
+
+  * anything you can think of.
+
+----
+
+**Documentation Week, 14-18 March 2010**
+
+Place:
+
+ channel #learn, on irc.freenode.org. If you do not have an IRC client or behind a firewall, check out http://webchat.freenode.net/
+
+Possible Tasks:
+
+  * Document our design choices (methods in each class, convention for estimated parameters, etc.). Most of this is in ApiDiscussion.
+  * Documentation for neural networks (nonexistent)
+  * Examples. We currently only have a few of them. Expand and integrate them into the web page.
+  * Write a Tutorial.
+  * Write a FAQ.
+  * Documentation and Examples for Support Vector Machines. What's in the web is totally outdated. Integrate the documentation from gumpy, see ticket:27 (assigned: Fabian Pedregosa)
+  * Review documentation.
+  * Customize the sphinx generated html.
+  * Create some cool images/logos for the web page.
+  * Create some benchmark plots.
+
+-----
+
+Code sprint in Paris, 3 March 2010
+=====================================
+
+Terminated, see http://fseoane.net/blog/2010/scikitslearn-coding-spring-in-paris/
+
+Participants
+----------------
+
+ * Alexandre Gramfort
+ * Olivier Grisel
+ * Vincent Michel
+ * Fabian Pedregosa
+ * Bertrand Thirion
+ * Gaël Varoquaux
+
+Goals
+-------
+
+Implement a few targeted functionalities for penalized regressions.
+
+Target functionalities
+-----------------------
+
+ 1. GLMnet
+
+ 2. Bayesian Regression (Ridge, ARD)
+
+ 3. Univariate feature selection function
+
+Edouard: Most of things we need are already in datamind, the main main issue is to cut the dependance with FFF(nipy)
+ 
+
+Extras, if time permits:
+
+ 4. LARS
+
+Proposed workflow
+-------------------
+
+Pair programming:
+
+ 1. GLMNet (AG, OG)
+ 
+ 2. Bayesian regression (FP, VM)
+
+ 3. Feature selection (BT, GV)
+
+ 4. LARS: Whoever is finished first.
+
+Place in the repository
+------------------------
+
+ 1. I think GLMNet goes well in scikits.learn.glm.
+
+Edouard: The GLM term is confusing: Indeed in GLMNet the G means "generalized", however in neuroimaging people understand "general" which is in fact a linear model
+
+ 2. Bayessian regression: scikits.learn.bayes . It's short and explicit.
+
+Edouard: Again the term Bayes might not lead to a clear organization of algorithms.
+
+ 3. Feature selection: featsel? selection ? I'm not sure about this one.
+AG : maybe univ?
+
+Edouard: 
+Maybe it is to early to decide the structure of the repository during your coding sprint.
+I think this organization should follow discussion we had we Fabian, Gael and Bertand.
+Next I tried to synthesize those discussions, however its just a proposition and many things are missing:
+
+
+
+If there's code that we want to share and it does not fit into any of these schemes, it's ok to put it into sandbox/ (it does not yet exist)
+
+ 3. Feature selection: featsel? selection ? I'm not sure about this one.
+AG : maybe univ?
+
+Edouard: 
+Maybe it is to early to decide the structure of the repository during your coding sprint.
+I think this organization should follow discussion we had we Fabian, Gael and Bertand.
+Next I tried to synthesize those discussions, however its just a proposition and many things are missing:

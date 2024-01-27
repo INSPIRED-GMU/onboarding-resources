@@ -1,0 +1,169 @@
+= Spring Boot 2.6.0 M3 Release Notes
+
+
+
+== Upgrading from Spring Boot 2.5
+
+
+
+=== Deprecations from Spring Boot 2.4
+Classes, methods and properties that were deprecated in Spring Boot 2.4 have been removed in this release.
+Please ensure that you aren't calling deprecated methods before upgrading.
+
+
+
+=== Oracle Database Driver Dependency Management
+The dependency management for the Oracle database driver has been streamlined.
+If you are still relying on the old `com.oracle.ojdbc` groupId, you need to upgrade to the `com.oracle.database.jdbc` group as we have removed dependency management for the former.
+
+
+
+=== PathPattern Based Path Matching Strategy for Spring MVC
+The default strategy for matching request paths against registered Spring MVC handler mappings has changed from `AntPathMatcher` to `PathPatternParser`.
+If you need to switch the default back to `AntPathMatcher`, you can set `spring.mvc.pathmatch.matching-strategy` to `ant-path-matcher`.
+The actuator endpoints now also use `PathPattern` based URL matching. 
+Note that the path matching strategy for actuator endpoints is not configurable via a configuration property.
+
+
+
+=== Elasticsearch Property Consolidation
+The configuration properties used to configure an Elasticsearch client have been consolidated.
+Previously, a number of common properties for configuring the blocking high-level REST client and the reactive REST client were duplicated across `spring.elasticsearch.rest` and `spring.data.elasticsearch.clients.reactive`.
+
+If you are using the blocking REST client, the following table lists the old properties and their replacements:
+
+[cols="1,1"]
+|===
+| Deprecated Property | Replacement
+
+| `spring.elasticsearch.rest.uris`
+| `spring.elasticsearch.uris`
+
+| `spring.elasticsearch.rest.username`
+| `spring.elasticsearch.username`
+
+| `spring.elasticsearch.rest.password`
+| `spring.elasticsearch.password`
+
+| `spring.elasticsearch.rest.connection-timeout`
+| `spring.elasticsearch.connection-timeout`
+
+| `spring.elasticsearch.rest.read-timeout`
+| `spring.elasticsearch.socket-timeout`
+
+| `spring.elasticsearch.rest.sniffer.interval`
+| `spring.elasticsearch.restclient.sniffer.interval`
+
+| `spring.elasticsearch.rest.sniffer.delay-after-failure`
+| `spring.elasticsearch.restclient.sniffer.delay-after-failure`
+
+If you are using the reactive client, the following table lists the old properties and their replacements:
+|===
+
+[cols="1, 1"]
+|===
+| Deprecated Property | Replacement
+
+| `spring.data.elasticsearch.client.reactive.endpoints`
+| `spring.elasticsearch.uris`
+
+| `spring.data.elasticsearch.client.reactive.use-ssl`
+| `https` scheme when configuring `spring.elasticsearch.uris`
+
+| `spring.data.elasticsearch.client.reactive.username`
+| `spring.elasticsearch.username`
+
+| `spring.data.elasticsearch.client.reactive.password`
+| `spring.elasticsearch.password`
+
+| `spring.data.elasticsearch.client.reactive.connection-timeout`
+| `spring.elasticsearch.connection-timeout`
+
+| `spring.data.elasticsearch.client.reactive.socket-timeout`
+| `spring.elasticsearch.socket-timeout`
+
+| `spring.data.elasticsearch.client.reactive.max-in-memory-size`
+| `spring.elasticsearch.webclient.max-in-memory-size`
+
+|===
+
+
+
+=== Application Startup
+The `spring.boot.application.running` startup step logged to `ApplicationStartup` has been renamed to `spring.boot.application.ready`.
+If you are processing files generated from `FlightRecorderApplicationStartup` or `BufferingApplicationStartup` you will need to use the new name.
+
+
+
+=== Minimum Requirements Changes
+None.
+
+
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.6.0-M3-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+
+
+=== Pluggable Sanitization Rules
+Spring Boot sanitizes sensitive values present in the `/env` and `/configprops` endpoints. 
+While it was possible to configure which properties get sanitized via configuration properties, users might want to apply sanitization rules based on which `PropertySource` the property originated from. 
+For example, Spring Cloud Vault uses vault to store encrypted values and load them into the Spring environment. 
+Since all values are encrypted, it would make sense to blank the values of every key in an entire property source.
+Such sanitization customizations can be configured by adding a `@Bean` of type `SanitizingFunction`.
+
+
+
+=== ApplicationStartupMetrics
+Auto-configuration exposes two metrics related to application startup:
+* `application.started.time`: time taken to start the application.
+* `application.ready.time`: time taken for the application to be ready to service requests.
+
+
+
+=== Spring Integration PollerMetadata Properties
+Spring Integration `PollerMetadata` (poll unbounded number of messages every second) can now be customized with `spring.integration.poller.*` configuration properties.
+
+
+
+=== Dependency Upgrades
+Spring Boot 2.6 M3 moves to new versions of several Spring projects:
+
+* Spring AMQP 2.4.0-M3
+* Spring Data 2021.1.0-M3
+* Spring Framework 5.3.10
+* Spring HATEOAS 1.4.0-M3
+* Spring Kafka 2.8.0-M3
+* Spring Security 5.6.0-M3
+* Micrometer 1.8.0-M3
+
+Numerous third-party dependencies have also been updated, some of the more noteworthy of which are the following:
+
+* AssertJ 3.21
+* Cassandra Driver 4.13
+* Elasticsearch 7.14
+* Flyway 7.15
+* HtmlUnit 2.53
+* Jedis 3.7
+* Jersey 2.35
+* JUnit Jupiter 5.8
+* Oracle Database 21.3
+* Selenium HtmlUnit 2.53
+* Thymeleaf Layout Dialect 3.0
+
+
+
+=== Miscellaneous
+Apart from the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+- Command Latency metrics for Lettuce are now auto-configured.
+- Disk space metrics can be configured with one or more paths using the `management.metrics.system.diskspace.paths` property.
+- Users can take control over the Redis auto-configuration by providing a `RedisStandaloneConfiguration` bean. 
+
+
+
+== Deprecations in Spring Boot 2.6.0 M3
+
+* The `started` and `running` methods in `SpringApplicationRunListener` have been replaced with versions that accept a `Duration`.
+* Constructors in `ApplicationStartedEvent` and `ApplicationReadyEvent` have been replaced with versions that accept a `Duration`.
+* The `EnvironmentEndpoint.sanitize` has been deprecated for removal.

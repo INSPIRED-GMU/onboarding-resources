@@ -1,0 +1,49 @@
+Configuration properties change between `2.6.0-M3` and `2.6.0-RC1`
+
+== Deprecated in `2.6.0-RC1`
+|======================
+|Key  |Replacement |Reason
+|`spring.flyway.ignore-future-migrations` |`spring.flyway.ignore-migration-patterns` |
+|`spring.flyway.ignore-ignored-migrations` |`spring.flyway.ignore-migration-patterns` |
+|`spring.flyway.ignore-missing-migrations` |`spring.flyway.ignore-migration-patterns` |
+|`spring.flyway.ignore-pending-migrations` |`spring.flyway.ignore-migration-patterns` |
+|`spring.webflux.session.cookie.same-site` |`server.reactive.session.cookie.same-site` |
+|======================
+
+
+
+== New in `2.6.0-RC1`
+|======================
+|Key  |Default value |Description
+|`logging.log4j2.config.override` | |Overriding configuration files used to create a composite configuration.
+|`management.info.java.enabled` |`false` |Whether to enable Java info.
+|`management.metrics.export.elastic.api-key-credentials` | |Base64-encoded credentials string.
+|`server.reactive.session.timeout` |`30m` |Session timeout.
+|`server.servlet.session.cookie.same-site` | |
+|`spring.flyway.baseline-migration-prefix` |`B` |Filename prefix for baseline migrations.
+|`spring.integration.management.default-logging-enabled` |`true` |Whether Spring Integration components should perform logging in the main message flow.
+|`spring.kafka.admin.ssl.key-store-certificate-chain` | |Certificate chain in PEM format with a list of X.509 certificates.
+|`spring.kafka.admin.ssl.key-store-key` | |Private key in PEM format with PKCS#8 keys.
+|`spring.kafka.admin.ssl.trust-store-certificates` | |Trusted certificates in PEM format with X.509 certificates.
+|`spring.kafka.consumer.ssl.key-store-certificate-chain` | |Certificate chain in PEM format with a list of X.509 certificates.
+|`spring.kafka.consumer.ssl.key-store-key` | |Private key in PEM format with PKCS#8 keys.
+|`spring.kafka.consumer.ssl.trust-store-certificates` | |Trusted certificates in PEM format with X.509 certificates.
+|`spring.kafka.producer.ssl.key-store-certificate-chain` | |Certificate chain in PEM format with a list of X.509 certificates.
+|`spring.kafka.producer.ssl.key-store-key` | |Private key in PEM format with PKCS#8 keys.
+|`spring.kafka.producer.ssl.trust-store-certificates` | |Trusted certificates in PEM format with X.509 certificates.
+|`spring.kafka.ssl.key-store-certificate-chain` | |Certificate chain in PEM format with a list of X.509 certificates.
+|`spring.kafka.ssl.key-store-key` | |Private key in PEM format with PKCS#8 keys.
+|`spring.kafka.ssl.trust-store-certificates` | |Trusted certificates in PEM format with X.509 certificates.
+|`spring.kafka.streams.ssl.key-store-certificate-chain` | |Certificate chain in PEM format with a list of X.509 certificates.
+|`spring.kafka.streams.ssl.key-store-key` | |Private key in PEM format with PKCS#8 keys.
+|`spring.kafka.streams.ssl.trust-store-certificates` | |Trusted certificates in PEM format with X.509 certificates.
+|`spring.webflux.session.timeout` |`30m` |
+|======================
+
+
+
+== Removed in `2.6.0-RC1`
+|======================
+|Key  |Replacement |Reason
+|`spring.flyway.state-script-prefix` | |
+|======================

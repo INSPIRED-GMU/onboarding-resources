@@ -1,0 +1,47 @@
+= Spring Boot 2.0.0 M3 Release Notes
+
+For changes in earlier milestones, please refer to:
+
+ - link:Spring-Boot-2.0.0-M1-Release-Notes[v2.0.0 M1]
+ - link:Spring-Boot-2.0.0-M2-Release-Notes[v2.0.0 M2]
+
+== Upgrading from Spring Boot 2.0.0 M2
+See instructions in the link:Spring-Boot-2.0.0-M2-Release-Notes[2.0.0.M2 release notes] for upgrading from v2.0.0.M1 and earlier.
+
+=== Maven plugin properties
+
+The plugin configuration attributes that are exposed as properties now all start with a `spring-boot` prefix for consistency and to avoid clashes with other plugins.
+
+For instance, the following command enables the `foo` profile using the command line:
+
+```
+mvn spring-boot:run -Dspring-boot.run.profiles=foo
+```
+
+=== Devtools Remote Debug Tunnel
+
+The support for tunnelling remote debugging over HTTP has been removed from Devtools. (https://github.com/spring-projects/spring-boot/issues/9489[#9489])
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.0.0-M3-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+=== Jetty
+
+Aligning with Tomcat and Undertow, Jetty will now compress responses to all requests, not just `GET` requests. (https://github.com/spring-projects/spring-boot/issues/8184[#8184])
+
+=== Reactive server customisation
+
+Customizers for Jetty, Tomcat, and Undertow are now called when configuring a reactive web server. (https://github.com/spring-projects/spring-boot/issues/9572[#9572])
+
+=== Kafka
+
+Consumer- and producer-specific properties can now be configured via the environment. (https://github.com/spring-projects/spring-boot/pull/9775[#9775])
+
+=== WebTestClient codecs
+
+The codecs of the auto-configured `WebTestClient` are now customised in the same way as those of `WebClient`. (https://github.com/spring-projects/spring-boot/issues/9577[#9577])
+
+=== Spring Session
+
+The session repository filter's order and dispatcher types can be be configured via the environment using the `spring.session.servlet.filter-order` and `spring.session.servlet.filter-dispatcher-types` properties respectively. (https://github.com/spring-projects/spring-boot/issues/8301[#8301])
+

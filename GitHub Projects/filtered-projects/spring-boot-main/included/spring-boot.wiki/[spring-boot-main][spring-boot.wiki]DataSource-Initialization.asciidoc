@@ -1,0 +1,43 @@
+== Boot's current behaviour
+. when the `DataSource` is post-processed
+.. if DDL (schema) scripts are available:
+... they are applied to the `DataSource`
+... if DML (data) scripts are available they are applied to the `DataSource`
+. when the `LocalContainerEntityManagerFactoryBean` is post-processed
+.. if Hibernate initialised the schema publish `DataSourceSchemaCreatedEvent`
+. when the `DataSourceSchemaCreatedEvent` is received
+.. if the schema hasn't been initialised and DML (data) scripts are available they are applied to the `DataSource`
+
+The presence or absence of DDL (schema) scripts changes when DML (data) scripts are run. When DDL scripts are present, DML scripts are run immediately after the DDL scripts. When there are no DDL scripts, DML scripts are run once Hibernate has created the schema. If Hibernate isn't being used, DML scripts are never run irrespective of any other component that may have created the schema. If you want to use a DDL script to manage parts of the schema that Hibernate won't touch, your DML scripts cannot interact with parts of the schema that Hibernate creates as they'll be run too soon.
+
+The auto-configurations for Flyway and Liquibase create various `…DependsOnPostProcessor` beans to ensure that `JdbcOperations`, `NamedParameterJdbcOperations`, and `EntityManagerFactory` beans cannot be used until the database has been migrated. There are no `…DependsOnPostProcessor` beans created for jOOQ. This means that the database may not have been initialized when accessed with jOOQ during application context refresh.
+
+The Hibernate auto-configuration does not create any `…DependsOnPostProcessor` beans. If there are no DDL scripts – so Hibernate will create the schema and cause DML scripts to be applied – the database may not have been initialised when accessed during application context refresh using anything other than Hibernate.
+
+== Hibernate and JPA
+
+=== Schema creation (DDL)
+
+`javax.persistence.schema-generation.create-source` controls how the schema is created. Possible values are the following:
+
+- `metadata`
+- `script`
+- `metadata-then-script`
+- `script-then-metadata`
+
+These settings allow the schema to be created using:
+
+- metadata in the persistence unit
+- a user-provided script
+- metadata in the persistence unit and then a user-provided script
+- a user provided script and then the metadata in the persistence unit
+
+`javax.persistence.schema-generation.create-script-source` is used to provide the script. The default for `create-source` is `metadata` if `create-script-source` is not set or `script` when it is set. The source can be a `Reader` instance, otherwise it's treated as a `String` (via a call to `toString()`) and then handled as a URL, or a relative file path, or an absolute file path.
+
+=== Schema initialization (DML)
+
+`javax.persistence.sql-load-script-source` is used to provide a script that loads data into the database.  The source can be a `Reader` instance, otherwise it's treated as a `String` (via a call to `toString()`) and then handled as a classpath resources, or a relative file path, or an absolute file path. A source's presence is optional but a warning is logged when a source is absent.
+
+`hibernate.hbm2ddl.import_files` is also used to provide a script that loads data into the database. The source can only be loaded as a classpath resource. A resource's presence is optional and absent resources are silently skipped. The property's value value is `/import.sql`.
+
+Schema initialization is only performed if schema creation has been performed.

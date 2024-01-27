@@ -1,0 +1,570 @@
+Configuration properties change between `1.3.7.RELEASE` and `1.4.0.RELEASE`
+
+.Deprecated keys in `1.4.0.RELEASE`
+|======================
+|Key  |Replacement |Reason
+|`management.security.role` |`management.security.roles` |
+|`server.tomcat.max-http-header-size` |`server.max-http-header-size` |
+|`spring.activemq.pooled` |`spring.activemq.pool.enabled` |
+|`spring.git.properties` |`spring.info.git.location` |
+|`spring.hornetq.host` | |
+|`spring.hornetq.mode` | |
+|`spring.hornetq.port` | |
+|`spring.jackson.serialization-inclusion` |`spring.jackson.default-property-inclusion` |ObjectMapper.setSerializationInclusion was deprecated in Jackson 2.7
+|`spring.jpa.hibernate.naming-strategy` |`spring.jpa.hibernate.naming.strategy` |
+|`spring.velocity.allow-request-override` | |
+|`spring.velocity.allow-session-override` | |
+|`spring.velocity.cache` | |
+|`spring.velocity.charset` | |
+|`spring.velocity.check-template-location` | |
+|`spring.velocity.content-type` | |
+|`spring.velocity.date-tool-attribute` | |
+|`spring.velocity.enabled` | |
+|`spring.velocity.expose-request-attributes` | |
+|`spring.velocity.expose-session-attributes` | |
+|`spring.velocity.expose-spring-macro-helpers` | |
+|`spring.velocity.number-tool-attribute` | |
+|`spring.velocity.prefer-file-system-access` | |
+|`spring.velocity.prefix` | |
+|`spring.velocity.properties` | |
+|`spring.velocity.request-context-attribute` | |
+|`spring.velocity.resource-loader-path` | |
+|`spring.velocity.suffix` | |
+|`spring.velocity.toolbox-config-location` | |
+|`spring.velocity.view-names` | |
+|======================
+
+.New keys in `1.4.0.RELEASE`
+|======================
+|Key  |Default value |Description
+|`banner.image.height` | |Banner image height (in chars).
+|`banner.image.invert` |`false` |Invert images for dark console themes.
+|`banner.image.location` |`banner.gif` |Banner image file location (jpg/png can also be used).
+|`banner.image.margin` | |Left hand image margin (in chars).
+|`banner.image.width` | |Banner image width (in chars).
+|`endpoints.heapdump.enabled` | |Enable the endpoint.
+|`endpoints.heapdump.path` | |Endpoint URL path.
+|`endpoints.heapdump.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.logfile.external-file` | |External Logfile to be accessed.
+|`endpoints.metrics.filter.counter-submissions` | |Submissions that should be made to the counter.
+|`endpoints.metrics.filter.gauge-submissions` | |Submissions that should be made to the gauge.
+|`liquibase.rollback-file` | |File to which rollback SQL will be written when an update is performed.
+|`management.info.build.enabled` |`true` |Enable build info.
+|`management.info.defaults.enabled` |`true` |Enable default info contributors.
+|`management.info.env.enabled` |`true` |Enable environment info.
+|`management.info.git.enabled` |`true` |Enable git info.
+|`management.info.git.mode` | |Mode to use to expose git information.
+|`management.security.roles` |`ADMIN` |Comma-separated list of roles that can access the management endpoint.
+|`management.shell.auth.jaas.domain` |`my-domain` |JAAS domain.
+|`management.shell.auth.key.path` | |Path to the authentication key.
+|`management.shell.auth.simple.user.name` |`user` |Login user.
+|`management.shell.auth.simple.user.password` | |Login password.
+|`management.shell.auth.spring.roles` |`ADMIN` |Comma-separated list of required roles to login to the CRaSH console.
+|`management.shell.auth.type` |`simple` |Authentication type.
+|`management.shell.command-path-patterns` |`classpath*:/commands/**,classpath*:/crash/commands/**` |Patterns to use to look for commands.
+|`management.shell.command-refresh-interval` |`-1` |Scan for changes and update the command if necessary (in seconds).
+|`management.shell.config-path-patterns` |`classpath*:/crash/*` |Patterns to use to look for configurations.
+|`management.shell.disabled-commands` |`jpa*,jdbc*,jndi*` |Comma-separated list of commands to disable.
+|`management.shell.disabled-plugins` |`` |Comma-separated list of plugins to disable.
+|`management.shell.ssh.auth-timeout` |`600000` |Number of milliseconds after user will be prompted to login again.
+|`management.shell.ssh.enabled` |`true` |Enable CRaSH SSH support.
+|`management.shell.ssh.idle-timeout` |`600000` |Number of milliseconds after which unused connections are closed.
+|`management.shell.ssh.key-path` | |Path to the SSH server key.
+|`management.shell.ssh.port` |`2000` |SSH port.
+|`management.shell.telnet.enabled` |`false` |Enable CRaSH telnet support.
+|`management.shell.telnet.port` |`5000` |Telnet port.
+|`management.ssl.ciphers` | |
+|`management.ssl.client-auth` | |
+|`management.ssl.enabled` | |
+|`management.ssl.enabled-protocols` | |
+|`management.ssl.key-alias` | |
+|`management.ssl.key-password` | |
+|`management.ssl.key-store` | |
+|`management.ssl.key-store-password` | |
+|`management.ssl.key-store-provider` | |
+|`management.ssl.key-store-type` | |
+|`management.ssl.protocol` | |
+|`management.ssl.trust-store` | |
+|`management.ssl.trust-store-password` | |
+|`management.ssl.trust-store-provider` | |
+|`management.ssl.trust-store-type` | |
+|`server.connection-timeout` | |Time in milliseconds that connectors will wait for another HTTP request before closing the connection.
+|`server.jetty.acceptors` | |Number of acceptor threads to use.
+|`server.jetty.selectors` | |Number of selector threads to use.
+|`server.max-http-header-size` |`0` |Maximum size in bytes of the HTTP message header.
+|`server.max-http-post-size` |`0` |Maximum size in bytes of the HTTP post content.
+|`server.ssl.enabled-protocols` | |
+|`server.tomcat.accesslog.rename-on-rotate` |`false` |Defer inclusion of the date stamp in the file name until rotate time.
+|`server.tomcat.min-spare-threads` |`0` |Minimum amount of worker threads.
+|`server.tomcat.redirect-context-root` | |Whether requests to the context root should be redirected by appending a / to the path.
+|`spring.activemq.packages.trust-all` | |Trust all packages.
+|`spring.activemq.packages.trusted` | |Comma-separated list of specific packages to trust (when not trusting all packages).
+|`spring.activemq.pool.configuration.block-if-session-pool-is-full` | |
+|`spring.activemq.pool.configuration.block-if-session-pool-is-full-timeout` | |
+|`spring.activemq.pool.configuration.connection-factory` | |
+|`spring.activemq.pool.configuration.create-connection-on-startup` | |
+|`spring.activemq.pool.configuration.expiry-timeout` | |
+|`spring.activemq.pool.configuration.idle-timeout` | |
+|`spring.activemq.pool.configuration.max-connections` | |
+|`spring.activemq.pool.configuration.maximum-active-session-per-connection` | |
+|`spring.activemq.pool.configuration.properties` | |
+|`spring.activemq.pool.configuration.reconnect-on-exception` | |
+|`spring.activemq.pool.configuration.time-between-expiration-check-millis` | |
+|`spring.activemq.pool.configuration.use-anonymous-producers` | |
+|`spring.activemq.pool.enabled` |`false` |Whether a PooledConnectionFactory should be created instead of a regular ConnectionFactory.
+|`spring.activemq.pool.expiry-timeout` |`0` |Connection expiration timeout in milliseconds.
+|`spring.activemq.pool.idle-timeout` |`30000` |Connection idle timeout in milliseconds.
+|`spring.activemq.pool.max-connections` |`1` |Maximum number of pooled connections.
+|`spring.artemis.password` | |Login password of the broker.
+|`spring.artemis.user` | |Login user of the broker.
+|`spring.cache.caffeine.spec` | |The spec to use to create caches.
+|`spring.cache.couchbase.expiration` |`0` |Entry expiration in milliseconds.
+|`spring.couchbase.bootstrap-hosts` | |Couchbase nodes (host or IP address) to bootstrap from.
+|`spring.couchbase.bucket.name` |`default` |Name of the bucket to connect to.
+|`spring.couchbase.bucket.password` |`` |Password of the bucket.
+|`spring.couchbase.env.endpoints.key-value` |`1` |Number of sockets per node against the key/value service.
+|`spring.couchbase.env.endpoints.query` |`1` |Number of sockets per node against the query (N1QL) service.
+|`spring.couchbase.env.endpoints.view` |`1` |Number of sockets per node against the view service.
+|`spring.couchbase.env.ssl.enabled` | |Enable SSL support.
+|`spring.couchbase.env.ssl.key-store` | |Path to the JVM key store that holds the certificates.
+|`spring.couchbase.env.ssl.key-store-password` | |Password used to access the key store.
+|`spring.couchbase.env.timeouts.connect` |`5000` |Bucket connections timeout in milliseconds.
+|`spring.couchbase.env.timeouts.key-value` |`2500` |Blocking operations performed on a specific key timeout in milliseconds.
+|`spring.couchbase.env.timeouts.query` |`7500` |N1QL query operations timeout in milliseconds.
+|`spring.couchbase.env.timeouts.socket-connect` |`1000` |Socket connect connections timeout in milliseconds.
+|`spring.couchbase.env.timeouts.view` |`7500` |Regular and geospatial view operations timeout in milliseconds.
+|`spring.data.cassandra.schema-action` |`none` |Schema action to take at startup.
+|`spring.data.couchbase.auto-index` |`false` |Automatically create views and indexes.
+|`spring.data.couchbase.consistency` | |Consistency to apply by default on generated queries.
+|`spring.data.couchbase.repositories.enabled` |`true` |Enable Couchbase repositories.
+|`spring.data.neo4j.compiler` | |Compiler to use.
+|`spring.data.neo4j.embedded.enabled` |`true` |Enable embedded mode if the embedded driver is available.
+|`spring.data.neo4j.password` | |Login password of the server.
+|`spring.data.neo4j.repositories.enabled` |`true` |Enable Neo4j repositories.
+|`spring.data.neo4j.session.scope` |`singleton` |Scope (lifetime) of the session.
+|`spring.data.neo4j.uri` | |URI used by the driver.
+|`spring.data.neo4j.username` | |Login user of the server.
+|`spring.data.redis.repositories.enabled` |`true` |Enable Redis repositories.
+|`spring.datasource.data-password` | |Password of the database to execute DML scripts.
+|`spring.datasource.data-username` | |User of the database to execute DML scripts.
+|`spring.datasource.dbcp.access-to-underlying-connection-allowed` | |
+|`spring.datasource.dbcp.connection-init-sqls` | |
+|`spring.datasource.dbcp.default-auto-commit` | |
+|`spring.datasource.dbcp.default-catalog` | |
+|`spring.datasource.dbcp.default-read-only` | |
+|`spring.datasource.dbcp.default-transaction-isolation` | |
+|`spring.datasource.dbcp.driver-class-name` | |
+|`spring.datasource.dbcp.initial-size` | |
+|`spring.datasource.dbcp.log-abandoned` | |
+|`spring.datasource.dbcp.login-timeout` | |
+|`spring.datasource.dbcp.max-active` | |
+|`spring.datasource.dbcp.max-idle` | |
+|`spring.datasource.dbcp.max-open-prepared-statements` | |
+|`spring.datasource.dbcp.max-wait` | |
+|`spring.datasource.dbcp.min-evictable-idle-time-millis` | |
+|`spring.datasource.dbcp.min-idle` | |
+|`spring.datasource.dbcp.num-tests-per-eviction-run` | |
+|`spring.datasource.dbcp.password` | |
+|`spring.datasource.dbcp.pool-prepared-statements` | |
+|`spring.datasource.dbcp.remove-abandoned` | |
+|`spring.datasource.dbcp.remove-abandoned-timeout` | |
+|`spring.datasource.dbcp.test-on-borrow` | |
+|`spring.datasource.dbcp.test-on-return` | |
+|`spring.datasource.dbcp.test-while-idle` | |
+|`spring.datasource.dbcp.time-between-eviction-runs-millis` | |
+|`spring.datasource.dbcp.url` | |
+|`spring.datasource.dbcp.username` | |
+|`spring.datasource.dbcp.validation-query` | |
+|`spring.datasource.dbcp.validation-query-timeout` | |
+|`spring.datasource.dbcp2.abandoned-usage-tracking` | |
+|`spring.datasource.dbcp2.access-to-underlying-connection-allowed` | |
+|`spring.datasource.dbcp2.cache-state` | |
+|`spring.datasource.dbcp2.connection-init-sqls` | |
+|`spring.datasource.dbcp2.default-auto-commit` | |
+|`spring.datasource.dbcp2.default-catalog` | |
+|`spring.datasource.dbcp2.default-query-timeout` | |
+|`spring.datasource.dbcp2.default-read-only` | |
+|`spring.datasource.dbcp2.default-transaction-isolation` | |
+|`spring.datasource.dbcp2.disconnection-sql-codes` | |
+|`spring.datasource.dbcp2.driver` | |
+|`spring.datasource.dbcp2.driver-class-name` | |
+|`spring.datasource.dbcp2.enable-auto-commit-on-return` | |
+|`spring.datasource.dbcp2.eviction-policy-class-name` | |
+|`spring.datasource.dbcp2.fast-fail-validation` | |
+|`spring.datasource.dbcp2.initial-size` | |
+|`spring.datasource.dbcp2.jmx-name` | |
+|`spring.datasource.dbcp2.lifo` | |
+|`spring.datasource.dbcp2.log-abandoned` | |
+|`spring.datasource.dbcp2.log-expired-connections` | |
+|`spring.datasource.dbcp2.login-timeout` | |
+|`spring.datasource.dbcp2.max-conn-lifetime-millis` | |
+|`spring.datasource.dbcp2.max-idle` | |
+|`spring.datasource.dbcp2.max-open-prepared-statements` | |
+|`spring.datasource.dbcp2.max-total` | |
+|`spring.datasource.dbcp2.max-wait-millis` | |
+|`spring.datasource.dbcp2.min-evictable-idle-time-millis` | |
+|`spring.datasource.dbcp2.min-idle` | |
+|`spring.datasource.dbcp2.num-tests-per-eviction-run` | |
+|`spring.datasource.dbcp2.password` | |
+|`spring.datasource.dbcp2.pool-prepared-statements` | |
+|`spring.datasource.dbcp2.remove-abandoned-on-borrow` | |
+|`spring.datasource.dbcp2.remove-abandoned-on-maintenance` | |
+|`spring.datasource.dbcp2.remove-abandoned-timeout` | |
+|`spring.datasource.dbcp2.rollback-on-return` | |
+|`spring.datasource.dbcp2.soft-min-evictable-idle-time-millis` | |
+|`spring.datasource.dbcp2.test-on-borrow` | |
+|`spring.datasource.dbcp2.test-on-create` | |
+|`spring.datasource.dbcp2.test-on-return` | |
+|`spring.datasource.dbcp2.test-while-idle` | |
+|`spring.datasource.dbcp2.time-between-eviction-runs-millis` | |
+|`spring.datasource.dbcp2.url` | |
+|`spring.datasource.dbcp2.username` | |
+|`spring.datasource.dbcp2.validation-query` | |
+|`spring.datasource.dbcp2.validation-query-timeout` | |
+|`spring.datasource.hikari.allow-pool-suspension` | |
+|`spring.datasource.hikari.auto-commit` | |
+|`spring.datasource.hikari.catalog` | |
+|`spring.datasource.hikari.connection-customizer-class-name` | |
+|`spring.datasource.hikari.connection-init-sql` | |
+|`spring.datasource.hikari.connection-test-query` | |
+|`spring.datasource.hikari.connection-timeout` | |
+|`spring.datasource.hikari.data-source-class-name` | |
+|`spring.datasource.hikari.data-source-j-n-d-i` | |
+|`spring.datasource.hikari.data-source-properties` | |
+|`spring.datasource.hikari.driver-class-name` | |
+|`spring.datasource.hikari.health-check-properties` | |
+|`spring.datasource.hikari.health-check-registry` | |
+|`spring.datasource.hikari.idle-timeout` | |
+|`spring.datasource.hikari.initialization-fail-fast` | |
+|`spring.datasource.hikari.isolate-internal-queries` | |
+|`spring.datasource.hikari.jdbc-url` | |
+|`spring.datasource.hikari.jdbc4-connection-test` | |
+|`spring.datasource.hikari.leak-detection-threshold` | |
+|`spring.datasource.hikari.login-timeout` | |
+|`spring.datasource.hikari.max-lifetime` | |
+|`spring.datasource.hikari.maximum-pool-size` | |
+|`spring.datasource.hikari.metric-registry` | |
+|`spring.datasource.hikari.minimum-idle` | |
+|`spring.datasource.hikari.password` | |
+|`spring.datasource.hikari.pool-name` | |
+|`spring.datasource.hikari.read-only` | |
+|`spring.datasource.hikari.register-mbeans` | |
+|`spring.datasource.hikari.transaction-isolation` | |
+|`spring.datasource.hikari.username` | |
+|`spring.datasource.hikari.validation-timeout` | |
+|`spring.datasource.schema-password` | |Password of the database to execute DDL scripts (if different).
+|`spring.datasource.schema-username` | |User of the database to execute DDL scripts (if different).
+|`spring.datasource.tomcat.abandon-when-percentage-full` | |
+|`spring.datasource.tomcat.access-to-underlying-connection-allowed` | |
+|`spring.datasource.tomcat.alternate-username-allowed` | |
+|`spring.datasource.tomcat.commit-on-return` | |
+|`spring.datasource.tomcat.connection-properties` | |
+|`spring.datasource.tomcat.data-source` | |
+|`spring.datasource.tomcat.data-source-j-n-d-i` | |
+|`spring.datasource.tomcat.db-properties` | |
+|`spring.datasource.tomcat.default-auto-commit` | |
+|`spring.datasource.tomcat.default-catalog` | |
+|`spring.datasource.tomcat.default-read-only` | |
+|`spring.datasource.tomcat.default-transaction-isolation` | |
+|`spring.datasource.tomcat.driver-class-name` | |
+|`spring.datasource.tomcat.fair-queue` | |
+|`spring.datasource.tomcat.ignore-exception-on-pre-load` | |
+|`spring.datasource.tomcat.init-s-q-l` | |
+|`spring.datasource.tomcat.initial-size` | |
+|`spring.datasource.tomcat.jdbc-interceptors` | |
+|`spring.datasource.tomcat.jmx-enabled` | |
+|`spring.datasource.tomcat.log-abandoned` | |
+|`spring.datasource.tomcat.log-validation-errors` | |
+|`spring.datasource.tomcat.login-timeout` | |
+|`spring.datasource.tomcat.max-active` | |
+|`spring.datasource.tomcat.max-age` | |
+|`spring.datasource.tomcat.max-idle` | |
+|`spring.datasource.tomcat.max-wait` | |
+|`spring.datasource.tomcat.min-evictable-idle-time-millis` | |
+|`spring.datasource.tomcat.min-idle` | |
+|`spring.datasource.tomcat.name` | |
+|`spring.datasource.tomcat.num-tests-per-eviction-run` | |
+|`spring.datasource.tomcat.password` | |
+|`spring.datasource.tomcat.propagate-interrupt-state` | |
+|`spring.datasource.tomcat.remove-abandoned` | |
+|`spring.datasource.tomcat.remove-abandoned-timeout` | |
+|`spring.datasource.tomcat.rollback-on-return` | |
+|`spring.datasource.tomcat.suspect-timeout` | |
+|`spring.datasource.tomcat.test-on-borrow` | |
+|`spring.datasource.tomcat.test-on-connect` | |
+|`spring.datasource.tomcat.test-on-return` | |
+|`spring.datasource.tomcat.test-while-idle` | |
+|`spring.datasource.tomcat.time-between-eviction-runs-millis` | |
+|`spring.datasource.tomcat.url` | |
+|`spring.datasource.tomcat.use-disposable-connection-facade` | |
+|`spring.datasource.tomcat.use-equals` | |
+|`spring.datasource.tomcat.use-lock` | |
+|`spring.datasource.tomcat.username` | |
+|`spring.datasource.tomcat.validation-interval` | |
+|`spring.datasource.tomcat.validation-query` | |
+|`spring.datasource.tomcat.validation-query-timeout` | |
+|`spring.datasource.tomcat.validator-class-name` | |
+|`spring.elasticsearch.jest.connection-timeout` |`3000` |Connection timeout in milliseconds.
+|`spring.elasticsearch.jest.password` | |Login password.
+|`spring.elasticsearch.jest.proxy.host` | |Proxy host the HTTP client should use.
+|`spring.elasticsearch.jest.proxy.port` | |Proxy port the HTTP client should use.
+|`spring.elasticsearch.jest.read-timeout` |`3000` |Read timeout in milliseconds.
+|`spring.elasticsearch.jest.uris` |`http://localhost:9200` |Comma-separated list of the Elasticsearch instances to use.
+|`spring.elasticsearch.jest.username` | |Login user.
+|`spring.h2.console.settings.trace` |`false` |Enable trace output.
+|`spring.h2.console.settings.web-allow-others` |`false` |Enable remote access.
+|`spring.hornetq.password` | |Login password of the broker.
+|`spring.hornetq.user` | |Login user of the broker.
+|`spring.http.encoding.force-request` | |Force the encoding to the configured charset on HTTP requests.
+|`spring.http.encoding.force-response` | |Force the encoding to the configured charset on HTTP responses.
+|`spring.http.encoding.mapping` | |Locale to Encoding mapping.
+|`spring.http.multipart.enabled` |`true` |Enable support of multi-part uploads.
+|`spring.http.multipart.file-size-threshold` |`0` |Threshold after which files will be written to disk.
+|`spring.http.multipart.location` | |Intermediate location of uploaded files.
+|`spring.http.multipart.max-file-size` |`1Mb` |Max file size.
+|`spring.http.multipart.max-request-size` |`10Mb` |Max request size.
+|`spring.info.build.location` | |Location of the generated build-info.properties file.
+|`spring.info.git.location` | |Location of the generated git.properties file.
+|`spring.jackson.default-property-inclusion` | |Controls the inclusion of properties during serialization.
+|`spring.jersey.servlet.load-on-startup` |`-1` |Load on startup priority of the Jersey servlet.
+|`spring.jpa.hibernate.naming.implicit-strategy` | |Hibernate 5 implicit naming strategy fully qualified name.
+|`spring.jpa.hibernate.naming.physical-strategy` | |Hibernate 5 physical naming strategy fully qualified name.
+|`spring.jpa.hibernate.naming.strategy` | |Hibernate 4 naming strategy fully qualified name.
+|`spring.jpa.hibernate.use-new-id-generator-mappings` | |Use Hibernate's newer IdentifierGenerator for AUTO, TABLE and SEQUENCE.
+|`spring.jta.atomikos.properties.checkpoint-interval` |`500` |Interval between checkpoints.
+|`spring.jta.atomikos.properties.console-file-count` |`1` |Number of debug logs files that can be created.
+|`spring.jta.atomikos.properties.console-file-limit` |`-1` |How many bytes can be stored at most in debug logs files.
+|`spring.jta.atomikos.properties.console-file-name` |`tm.out` |Debug logs file name.
+|`spring.jta.atomikos.properties.console-log-level` | |Console log level.
+|`spring.jta.atomikos.properties.default-jta-timeout` |`10000` |Default timeout for JTA transactions.
+|`spring.jta.atomikos.properties.enable-logging` |`true` |Enable disk logging.
+|`spring.jta.atomikos.properties.force-shutdown-on-vm-exit` |`false` |Specify if a VM shutdown should trigger forced shutdown of the transaction core.
+|`spring.jta.atomikos.properties.log-base-dir` | |Directory in which the log files should be stored.
+|`spring.jta.atomikos.properties.log-base-name` |`tmlog` |Transactions log file base name.
+|`spring.jta.atomikos.properties.max-actives` |`50` |Maximum number of active transactions.
+|`spring.jta.atomikos.properties.max-timeout` |`300000` |Maximum timeout (in milliseconds) that can be allowed for transactions.
+|`spring.jta.atomikos.properties.output-dir` | |Directory in which to store the debug log files.
+|`spring.jta.atomikos.properties.serial-jta-transactions` |`true` |Specify if sub-transactions should be joined when possible.
+|`spring.jta.atomikos.properties.service` | |Transaction manager implementation that should be started.
+|`spring.jta.atomikos.properties.threaded-two-phase-commit` |`true` |Use different (and concurrent) threads for two-phase commit on the participating resources.
+|`spring.jta.atomikos.properties.transaction-manager-unique-name` | |Transaction manager's unique name.
+|`spring.jta.bitronix.properties.allow-multiple-lrc` |`false` |Allow multiple LRC resources to be enlisted into the same transaction.
+|`spring.jta.bitronix.properties.asynchronous2-pc` |`false` |Enable asynchronously execution of two phase commit.
+|`spring.jta.bitronix.properties.background-recovery-interval` |`1` |Interval in minutes at which to run the recovery process in the background.
+|`spring.jta.bitronix.properties.background-recovery-interval-seconds` |`60` |Interval in seconds at which to run the recovery process in the background.
+|`spring.jta.bitronix.properties.current-node-only-recovery` |`true` |Recover only the current node.
+|`spring.jta.bitronix.properties.debug-zero-resource-transaction` |`false` |Log the creation and commit call stacks of transactions executed without a single enlisted resource.
+|`spring.jta.bitronix.properties.default-transaction-timeout` |`60` |Default transaction timeout in seconds.
+|`spring.jta.bitronix.properties.disable-jmx` |`false` |Enable JMX support.
+|`spring.jta.bitronix.properties.exception-analyzer` | |Set the fully qualified name of the exception analyzer implementation to use.
+|`spring.jta.bitronix.properties.filter-log-status` |`false` |Enable filtering of logs so that only mandatory logs are written.
+|`spring.jta.bitronix.properties.force-batching-enabled` |`true` |Set if disk forces are batched.
+|`spring.jta.bitronix.properties.forced-write-enabled` |`true` |Set if logs are forced to disk.
+|`spring.jta.bitronix.properties.graceful-shutdown-interval` |`60` |Maximum amount of seconds the TM will wait for transactions to get done before aborting them at shutdown time.
+|`spring.jta.bitronix.properties.jndi-transaction-synchronization-registry-name` | |JNDI name of the TransactionSynchronizationRegistry.
+|`spring.jta.bitronix.properties.jndi-user-transaction-name` | |JNDI name of the UserTransaction.
+|`spring.jta.bitronix.properties.journal` |`disk` |Name of the journal.
+|`spring.jta.bitronix.properties.log-part1-filename` |`btm1.tlog` |Name of the first fragment of the journal.
+|`spring.jta.bitronix.properties.log-part2-filename` |`btm2.tlog` |Name of the second fragment of the journal.
+|`spring.jta.bitronix.properties.max-log-size-in-mb` |`2` |Maximum size in megabytes of the journal fragments.
+|`spring.jta.bitronix.properties.resource-configuration-filename` | |ResourceLoader configuration file name.
+|`spring.jta.bitronix.properties.server-id` | |ASCII ID that must uniquely identify this TM instance.
+|`spring.jta.bitronix.properties.skip-corrupted-logs` |`false` |Skip corrupted transactions log entries.
+|`spring.jta.bitronix.properties.warn-about-zero-resource-transaction` |`true` |Log a warning for transactions executed without a single enlisted resource.
+|`spring.jta.narayana.default-timeout` |`60` |Transaction timeout in seconds.
+|`spring.jta.narayana.expiry-scanners` |`com.arjuna.ats.internal.arjuna.recovery.ExpiredTransactionStatusManagerScanner` |Comma-separated list of expiry scanners.
+|`spring.jta.narayana.log-dir` | |Transaction object store directory.
+|`spring.jta.narayana.one-phase-commit` |`true` |Enable one phase commit optimization.
+|`spring.jta.narayana.periodic-recovery-period` |`120` |Interval in which periodic recovery scans are performed in seconds.
+|`spring.jta.narayana.recovery-backoff-period` |`10` |Back off period between first and second phases of the recovery scan in seconds.
+|`spring.jta.narayana.recovery-db-pass` | |Database password to be used by recovery manager.
+|`spring.jta.narayana.recovery-db-user` | |Database username to be used by recovery manager.
+|`spring.jta.narayana.recovery-jms-pass` | |JMS password to be used by recovery manager.
+|`spring.jta.narayana.recovery-jms-user` | |JMS username to be used by recovery manager.
+|`spring.jta.narayana.recovery-modules` | |Comma-separated list of recovery modules.
+|`spring.jta.narayana.transaction-manager-id` |`1` |Unique transaction manager id.
+|`spring.jta.narayana.xa-resource-orphan-filters` | |Comma-separated list of orphan filters.
+|`spring.messages.always-use-message-format` |`false` |Set whether to always apply the MessageFormat rules, parsing even messages without arguments.
+|`spring.mongodb.embedded.storage.database-dir` | |Directory used for data storage.
+|`spring.mongodb.embedded.storage.oplog-size` | |Maximum size of the oplog in megabytes.
+|`spring.mongodb.embedded.storage.repl-set-name` | |Name of the replica set.
+|`spring.mustache.allow-request-override` | |Set whether HttpServletRequest attributes are allowed to override (hide) controller generated model attributes of the same name.
+|`spring.mustache.allow-session-override` | |Set whether HttpSession attributes are allowed to override (hide) controller generated model attributes of the same name.
+|`spring.mustache.expose-request-attributes` | |Set whether all request attributes should be added to the model prior to merging with the template.
+|`spring.mustache.expose-session-attributes` | |Set whether all HttpSession attributes should be added to the model prior to merging with the template.
+|`spring.mustache.expose-spring-macro-helpers` | |Set whether to expose a RequestContext for use by Spring's macro library, under the name "springMacroRequestContext".
+|`spring.mustache.request-context-attribute` | |Name of the RequestContext attribute for all views.
+|`spring.mvc.locale-resolver` | |Define how the locale should be resolved.
+|`spring.mvc.log-resolved-exception` |`false` |Enable warn logging of exceptions resolved by a "HandlerExceptionResolver".
+|`spring.mvc.servlet.load-on-startup` |`-1` |Load on startup priority of the dispatcher servlet.
+|`spring.rabbitmq.cache.channel.checkout-timeout` | |Number of milliseconds to wait to obtain a channel if the cache size has been reached.
+|`spring.rabbitmq.cache.channel.size` | |Number of channels to retain in the cache.
+|`spring.rabbitmq.cache.connection.mode` | |Connection factory cache mode.
+|`spring.rabbitmq.cache.connection.size` | |Number of connections to cache.
+|`spring.rabbitmq.connection-timeout` | |Connection timeout, in milliseconds; zero for infinite.
+|`spring.rabbitmq.listener.default-requeue-rejected` | |Whether rejected deliveries are requeued by default; default true.
+|`spring.rabbitmq.listener.retry.enabled` | |Whether or not publishing retries are enabled.
+|`spring.rabbitmq.listener.retry.initial-interval` | |Interval between the first and second attempt to publish or deliver a message.
+|`spring.rabbitmq.listener.retry.max-attempts` | |Maximum number of attempts to publish or deliver a message.
+|`spring.rabbitmq.listener.retry.max-interval` | |Maximum interval between attempts.
+|`spring.rabbitmq.listener.retry.multiplier` | |A multiplier to apply to the previous retry interval.
+|`spring.rabbitmq.listener.retry.stateless` |`true` |Whether or not retries are stateless or stateful.
+|`spring.rabbitmq.publisher-confirms` |`false` |Enable publisher confirms.
+|`spring.rabbitmq.publisher-returns` |`false` |Enable publisher returns.
+|`spring.rabbitmq.template.mandatory` | |Enable mandatory messages.
+|`spring.rabbitmq.template.receive-timeout` | |Timeout for receive() operations.
+|`spring.rabbitmq.template.reply-timeout` | |Timeout for sendAndReceive() operations.
+|`spring.rabbitmq.template.retry.enabled` |`false` |Whether or not publishing retries are enabled.
+|`spring.rabbitmq.template.retry.initial-interval` |`1000` |Interval between the first and second attempt to publish or deliver a message.
+|`spring.rabbitmq.template.retry.max-attempts` |`3` |Maximum number of attempts to publish or deliver a message.
+|`spring.rabbitmq.template.retry.max-interval` |`10000` |Maximum interval between attempts.
+|`spring.rabbitmq.template.retry.multiplier` |`1` |A multiplier to apply to the previous retry interval.
+|`spring.redis.cluster.max-redirects` | |Maximum number of redirects to follow when executing commands across the cluster.
+|`spring.redis.cluster.nodes` | |Comma-separated list of "host:port" pairs to bootstrap from.
+|`spring.resources.chain.gzipped` |`false` |Enable resolution of already gzipped resources.
+|`spring.sendgrid.api-key` | |SendGrid api key.
+|`spring.session.hazelcast.map-name` |`spring:session:sessions` |Name of the map used to store sessions.
+|`spring.session.jdbc.initializer.enabled` |`true` |Create the required session tables on startup if necessary.
+|`spring.session.jdbc.schema` |`classpath:org/springframework/session/jdbc/schema-@@platform@@.sql` |Path to the SQL file to use to initialize the database schema.
+|`spring.session.jdbc.table-name` |`SPRING_SESSION` |Name of database table used to store sessions.
+|`spring.session.mongo.collection-name` |`sessions` |Collection name used to store sessions.
+|`spring.session.redis.flush-mode` | |Flush mode for the Redis sessions.
+|`spring.session.redis.namespace` |`` |Namespace for keys used to store sessions.
+|`spring.session.store-type` | |Session store type.
+|`spring.webservices.path` |`/services` |Path that serves as the base URI for the services.
+|`spring.webservices.servlet.init` | |Servlet init parameters to pass to Spring Web Services.
+|`spring.webservices.servlet.load-on-startup` |`-1` |Load on startup priority of the Spring Web Services servlet.
+|`trace` |`false` |Enable trace logs.
+|======================
+
+.Removed keys in `1.4.0.RELEASE`
+|======================
+|Key  |Default value |Description
+|`multipart.enabled` |`true` |Enable support of multi-part uploads.
+|`multipart.file-size-threshold` |`0` |Threshold after which files will be written to disk.
+|`multipart.location` | |Intermediate location of uploaded files.
+|`multipart.max-file-size` |`1Mb` |Max file size.
+|`multipart.max-request-size` |`10Mb` |Max request size.
+|`server.session-timeout` | |
+|`server.tomcat.access-log-enabled` | |
+|`server.tomcat.access-log-pattern` | |
+|`server.undertow.access-log-dir` | |
+|`server.undertow.access-log-enabled` | |
+|`server.undertow.access-log-pattern` | |
+|`shell.auth` |`simple` |Authentication type.
+|`shell.auth.jaas.domain` |`my-domain` |JAAS domain.
+|`shell.auth.key.path` | |Path to the authentication key.
+|`shell.auth.simple.user.name` |`user` |Login user.
+|`shell.auth.simple.user.password` | |Login password.
+|`shell.auth.spring.roles` |`ADMIN` |Comma-separated list of required roles to login to the CRaSH console.
+|`shell.command-path-patterns` |`classpath*:/commands/**,classpath*:/crash/commands/**` |Patterns to use to look for commands.
+|`shell.command-refresh-interval` |`-1` |Scan for changes and update the command if necessary (in seconds).
+|`shell.config-path-patterns` |`classpath*:/crash/*` |Patterns to use to look for configurations.
+|`shell.disabled-commands` |`jpa*,jdbc*,jndi*` |Comma-separated list of commands to disable.
+|`shell.disabled-plugins` |`` |Comma-separated list of plugins to disable.
+|`shell.ssh.auth-timeout` |`600000` |Number of milliseconds after user will be prompted to login again.
+|`shell.ssh.enabled` |`true` |Enable CRaSH SSH support.
+|`shell.ssh.idle-timeout` |`600000` |Number of milliseconds after which unused connections are closed.
+|`shell.ssh.key-path` | |Path to the SSH server key.
+|`shell.ssh.port` |`2000` |SSH port.
+|`shell.telnet.enabled` |`false` |Enable CRaSH telnet support.
+|`shell.telnet.port` |`5000` |Telnet port.
+|`spring.datasource.abandon-when-percentage-full` | |
+|`spring.datasource.access-to-underlying-connection-allowed` | |
+|`spring.datasource.allow-pool-suspension` | |
+|`spring.datasource.alternate-username-allowed` | |
+|`spring.datasource.auto-commit` | |
+|`spring.datasource.catalog` | |
+|`spring.datasource.commit-on-return` | |
+|`spring.datasource.connection-customizer-class-name` | |
+|`spring.datasource.connection-init-sql` | |
+|`spring.datasource.connection-init-sqls` | |
+|`spring.datasource.connection-properties` | |
+|`spring.datasource.connection-test-query` | |
+|`spring.datasource.connection-timeout` | |
+|`spring.datasource.data-source` | |
+|`spring.datasource.data-source-class-name` | |
+|`spring.datasource.data-source-j-n-d-i` | |
+|`spring.datasource.data-source-properties` | |
+|`spring.datasource.db-properties` | |
+|`spring.datasource.default-auto-commit` | |
+|`spring.datasource.default-catalog` | |
+|`spring.datasource.default-read-only` | |
+|`spring.datasource.default-transaction-isolation` | |
+|`spring.datasource.fair-queue` | |
+|`spring.datasource.health-check-properties` | |
+|`spring.datasource.health-check-registry` | |
+|`spring.datasource.idle-timeout` | |
+|`spring.datasource.ignore-exception-on-pre-load` | |
+|`spring.datasource.init-s-q-l` | |
+|`spring.datasource.initial-size` | |
+|`spring.datasource.initialization-fail-fast` | |
+|`spring.datasource.isolate-internal-queries` | |
+|`spring.datasource.jdbc-interceptors` | |
+|`spring.datasource.jdbc-url` | |
+|`spring.datasource.jdbc4-connection-test` | |
+|`spring.datasource.leak-detection-threshold` | |
+|`spring.datasource.log-abandoned` | |
+|`spring.datasource.log-validation-errors` | |
+|`spring.datasource.login-timeout` | |
+|`spring.datasource.max-active` | |
+|`spring.datasource.max-age` | |
+|`spring.datasource.max-idle` | |
+|`spring.datasource.max-lifetime` | |
+|`spring.datasource.max-open-prepared-statements` | |
+|`spring.datasource.max-wait` | |
+|`spring.datasource.maximum-pool-size` | |
+|`spring.datasource.metric-registry` | |
+|`spring.datasource.min-evictable-idle-time-millis` | |
+|`spring.datasource.min-idle` | |
+|`spring.datasource.minimum-idle` | |
+|`spring.datasource.num-tests-per-eviction-run` | |
+|`spring.datasource.pool-name` | |
+|`spring.datasource.pool-prepared-statements` | |
+|`spring.datasource.propagate-interrupt-state` | |
+|`spring.datasource.read-only` | |
+|`spring.datasource.register-mbeans` | |
+|`spring.datasource.remove-abandoned` | |
+|`spring.datasource.remove-abandoned-timeout` | |
+|`spring.datasource.rollback-on-return` | |
+|`spring.datasource.suspect-timeout` | |
+|`spring.datasource.test-on-borrow` | |
+|`spring.datasource.test-on-connect` | |
+|`spring.datasource.test-on-return` | |
+|`spring.datasource.test-while-idle` | |
+|`spring.datasource.time-between-eviction-runs-millis` | |
+|`spring.datasource.transaction-isolation` | |
+|`spring.datasource.use-disposable-connection-facade` | |
+|`spring.datasource.use-equals` | |
+|`spring.datasource.use-lock` | |
+|`spring.datasource.validation-interval` | |
+|`spring.datasource.validation-query` | |
+|`spring.datasource.validation-query-timeout` | |
+|`spring.datasource.validation-timeout` | |
+|`spring.datasource.validator-class-name` | |
+|`spring.jta.allow-multiple-lrc` | |
+|`spring.jta.asynchronous2-pc` | |
+|`spring.jta.background-recovery-interval` | |
+|`spring.jta.background-recovery-interval-seconds` | |
+|`spring.jta.current-node-only-recovery` | |
+|`spring.jta.debug-zero-resource-transaction` | |
+|`spring.jta.default-transaction-timeout` | |
+|`spring.jta.disable-jmx` | |
+|`spring.jta.exception-analyzer` | |
+|`spring.jta.filter-log-status` | |
+|`spring.jta.force-batching-enabled` | |
+|`spring.jta.forced-write-enabled` | |
+|`spring.jta.graceful-shutdown-interval` | |
+|`spring.jta.jndi-transaction-synchronization-registry-name` | |
+|`spring.jta.jndi-user-transaction-name` | |
+|`spring.jta.journal` | |
+|`spring.jta.log-part1-filename` | |
+|`spring.jta.log-part2-filename` | |
+|`spring.jta.max-log-size-in-mb` | |
+|`spring.jta.resource-configuration-filename` | |
+|`spring.jta.server-id` | |
+|`spring.jta.skip-corrupted-logs` | |
+|`spring.jta.warn-about-zero-resource-transaction` | |
+|`spring.view.prefix` | |Spring MVC view prefix.
+|`spring.view.suffix` | |Spring MVC view suffix.
+|======================

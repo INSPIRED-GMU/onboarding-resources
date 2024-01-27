@@ -1,0 +1,95 @@
+# Building on Spring Boot
+
+This page provides some general advice and recommendations for projects that build on top of Spring Boot.
+These suggestions are considered best practices for most projects.
+
+
+
+## Auto-configuration and Starters
+
+
+
+### Concepts
+The concept of auto-configuration and starter-POMs are related, but not directly tied:
+
+* Auto-configuration is responsible for reacting to the current state of an application and configuring appropriate Spring Beans. 
+More often than not, the primary driver for auto-configuration will be the users classpath.
+* Starter POMs are responsible for pulling in dependencies that are commonly used together.
+
+In other words, Starter POMs configure the classpath, and auto-configuration reacts to it.
+
+### Separation
+We generally find that keeping these two concepts separate helps for the following reasons:
+
+* There is clean separation of concerns between auto-configuration and dependency management.
+* Users can still take advantage of auto-configuration without starter POMs.
+  For example if they use an Application Server that provides dependencies, or if they are in a highly regulated industry where all dependencies must be vetted.
+* Auto-configuration works if a dependency is available for another reason. 
+  For example, if the user already has Tomcat, it makes sense to provide specific Tomcat support without requiring a new starter.
+* It can help to reduce the number of starters that are required.
+
+### Naming
+First of all, please follow the current https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-custom-starter-naming[recommended module naming conventions]. If you are supporting several generations of Spring Boot, extra recommendations apply that are detailed below.
+
+If the Spring Boot support is the primary target of your project, use different major versions to support separate Spring Boot generations: Let's assume that `2.4.2` is the current version of your project (using Spring Boot `1.x`): switch to `3.0.0` on `master` to support Spring Boot 2 and create a `2.4.x` branch for the Spring Boot 1 support. In particular, do not create another module in the same `master` area as it makes naming hard and your build more complicated for little benefit for your users.
+
+If the Spring Boot support is an integration of many in your project, you cannot apply the same principles. We recommend you to chose one generation you want to support, and one generation only. The reasoning is that when your users upgrade to the next version of your project, they get to upgrade to a newer version of Spring Boot as well. If they can't or won't do that at the moment, they can stay with the previous version of your library.
+
+If you don't want to do that, the support for the previous generation can be located in a separate `auto-configuration` module and a separate `starter`. When naming those new projects, do not include the Spring Boot generation in its name. For instance if you have `acme-spring-boot-starter`, you can switch to Spring Boot 2 and create an `acme-legacy-spring-boot-starter` for the support of Spring Boot 1. Once you decide you don't want to support Spring Boot 1 any longer, the starter and auto-configuration modules can be removed.
+
+
+### Recommendations
+The following recommendations can help if you are building a Spring Boot extension:
+
+* Use optional dependencies in your auto-configure module and guard with `@ConditionalOnClass`
+* Do not put any code in starter-POMs
+* Do not attempt to support several Spring Boot generations (i.e. Spring Boot 1 and Spring Boot 2) in the same starter
+* Do not create starter POMs that are already covered by Spring Boot. 
+  For example, do not a `my-project-starter-tomcat` Starter when `my-project-autoconfigure` + `spring-boot-starter-web` will suffice.
+* If your project is large, consider splitting auto-configuration out from general Spring support.
+  For example, Spring Boot itself is split this way with the `spring-boot` JAR containing classes that can be used without _any_ auto-configuration.
+* Name your auto-configuration module `...-autoconfigure` and not `...-autoconfiguration`.
+* Name your auto-configuration package `...autoconfigure.` and not `...autoconfiguration`.
+
+
+## Dependencies
+
+### Depending on starter POMs
+Spring Boot starter POMs offer a convenient way for users to quickly fetch dependencies.
+If you are a library developer, it can be tempting to also consider using starter POMs, however, we generally recommend that you instead you directly depend on the libraries that you need.
+
+For example, if you offer Spring MVC extensions, you should declare a dependency on `spring-webmvc` and not `spring-boot-starter-web`.
+
+The only exception to this rule, is that starters themselves can depend on other starters if necessary.
+Spring Boot uses this arrangement in several places, the most common being the main `spring-boot-starter` which is used by almost all other starters.
+
+### Third-party Versions
+A library that targets a specific version of Spring Boot should ensure any required third-party dependencies it requires are compatible.
+A library should ideally not raise the minimum version of managed dependency since that might cause compatibility issues.
+
+### Dependency management
+If you need to provide additional `<dependencyManagement>` elements, you should offer a `-dependencies` POM that can be imported.
+For convenience, Spring Boot provides the `spring-boot-starter-parent` POM, but downstream projects should not require a different parent.
+Adding additional parent POMs causes confusion for the user, and makes it harder to combine multiple projects together.
+
+Here's an example from Spring Cloud that shows the correct way to offer additional dependency management:
+
+[source,xml]
+----
+<parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.0.3.RELEASE</version>
+</parent>
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-dependencies</artifactId>
+            <version>Finchley.RELEASE</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+----

@@ -1,0 +1,54 @@
+Configuration properties change between `2.1.0.M2` and `2.1.0.M3`
+
+.Deprecated keys in `2.1.0.M3`
+|======================
+|Key  |Replacement |Reason
+|`management.metrics.binders.files.enabled` |`management.metrics.enable.process.files` |Instead, filter 'process.files' metrics.
+|`management.metrics.binders.jvm.enabled` |`management.metrics.enable.jvm` |Instead, disable JvmMetricsAutoConfiguration or filter 'jvm' metrics.
+|`management.metrics.binders.logback.enabled` |`management.metrics.enable.logback` |Instead, disable LogbackMetricsAutoConfiguration or filter 'logback' metrics.
+|`management.metrics.binders.processor.enabled` | |Instead, filter 'system.cpu' and 'process.cpu' metrics.
+|`management.metrics.binders.uptime.enabled` | |Instead, filter 'process.uptime' and 'process.start.time' metrics.
+|`server.tomcat.max-http-header-size` |`server.max-http-header-size` |
+|`spring.security.oauth2.client.registration` |`spring.security.oauth2.client.registration.login` |
+|======================
+
+.New keys in `2.1.0.M3`
+|======================
+|Key  |Default value |Description
+|`logging.group` | |Log groups to quickly change multipe loggers at the same time.
+|`management.metrics.web.server.max-uri-tags` |`100` |Maximum number of unique URI tag values allowed.
+|`spring.devtools.add-properties` |`true` |Whether to enable devtool property defaults.
+|`spring.http.log-request-details` |`false` |Whether logging of (potentially sensitive) request details at DEBUG and TRACE level is allowed.
+|`spring.kafka.streams.application-id` | |Kafka streams application.id property; default spring.application.name.
+|`spring.kafka.streams.auto-startup` |`true` |Whether or not to auto-start the streams factory bean.
+|`spring.kafka.streams.bootstrap-servers` | |Comma-delimited list of host:port pairs to use for establishing the initial connections to the Kafka cluster.
+|`spring.kafka.streams.cache-max-bytes-buffering` | |Maximum number of memory bytes to be used for buffering across all threads.
+|`spring.kafka.streams.client-id` | |ID to pass to the server when making requests.
+|`spring.kafka.streams.properties` | |Additional Kafka properties used to configure the streams.
+|`spring.kafka.streams.replication-factor` | |The replication factor for change log topics and repartition topics created by the stream processing application.
+|`spring.kafka.streams.ssl.key-password` | |Password of the private key in the key store file.
+|`spring.kafka.streams.ssl.key-store-location` | |Location of the key store file.
+|`spring.kafka.streams.ssl.key-store-password` | |Store password for the key store file.
+|`spring.kafka.streams.ssl.key-store-type` | |Type of the key store.
+|`spring.kafka.streams.ssl.protocol` | |SSL protocol to use.
+|`spring.kafka.streams.ssl.trust-store-location` | |Location of the trust store file.
+|`spring.kafka.streams.ssl.trust-store-password` | |Store password for the trust store file.
+|`spring.kafka.streams.ssl.trust-store-type` | |Type of the trust store.
+|`spring.kafka.streams.state-dir` | |Directory location for the state store.
+|`spring.rabbitmq.listener.direct.missing-queues-fatal` |`false` |Whether to fail if the queues declared by the container are not available on the broker.
+|`spring.rabbitmq.listener.simple.missing-queues-fatal` |`true` |Whether to fail if the queues declared by the container are not available on the broker and/or whether to stop the container if one or more queues are deleted at runtime.
+|`spring.rabbitmq.ssl.validate-server-certificate` |`true` |Whether to enable server side certificate validation.
+|`spring.rabbitmq.ssl.verify-hostname` |`true` |Whether to enable hostname verification.
+|`spring.security.oauth2.client.registration.authorization-code` | |OAuth2 authorization_code client registrations.
+|`spring.security.oauth2.client.registration.login` | |OpenID Connect client registrations.
+|`spring.security.oauth2.resourceserver.jwt.issuer-uri` | |URI that an OpenID Connect Provider asserts as its Issuer Identifier.
+|`spring.security.oauth2.resourceserver.jwt.jwk-set-uri` | |JSON Web Key URI to use to verify the JWT token.
+|======================
+
+.Removed keys in `2.1.0.M3``
+|======================
+|Key  |Replacement |Reason
+|`management.metrics.binders.integration.enabled` |`true` |Whether to enable Spring Integration metrics.
+|`spring.insights.web.log-request-details` |`false` |Whether logging of (potentially sensitive) request details at DEBUG and TRACE level is allowed.
+|`spring.security.oauth2.resource.jwt.jwk.set-uri` | |JSON Web Key URI to use to verify the JWT token.
+|======================

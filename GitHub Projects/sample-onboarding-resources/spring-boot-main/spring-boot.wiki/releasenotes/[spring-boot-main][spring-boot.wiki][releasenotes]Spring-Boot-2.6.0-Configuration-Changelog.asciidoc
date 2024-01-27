@@ -1,0 +1,152 @@
+Configuration properties change between `2.5.7` and `2.6.0`
+
+== Deprecated in `2.6.0`
+|======================
+|Key  |Replacement |Reason
+|`management.metrics.export.dynatrace.device-id` |`management.metrics.export.dynatrace.v1.device-id` |
+|`management.metrics.export.dynatrace.group` |`management.metrics.export.dynatrace.v1.group` |
+|`management.metrics.export.dynatrace.technology-type` |`management.metrics.export.dynatrace.v1.technology-type` |
+|`spring.data.elasticsearch.client.reactive.connection-timeout` |`spring.elasticsearch.connection-timeout` |
+|`spring.data.elasticsearch.client.reactive.endpoints` |`spring.elasticsearch.uris` |
+|`spring.data.elasticsearch.client.reactive.max-in-memory-size` |`spring.elasticsearch.webclient.max-in-memory-size` |
+|`spring.data.elasticsearch.client.reactive.password` |`spring.elasticsearch.password` |
+|`spring.data.elasticsearch.client.reactive.socket-timeout` |`spring.elasticsearch.socket-timeout` |
+|`spring.data.elasticsearch.client.reactive.use-ssl` | |Use of SSL should be indicated through an https URI scheme
+|`spring.data.elasticsearch.client.reactive.username` |`spring.elasticsearch.username` |
+|`spring.elasticsearch.rest.connection-timeout` |`spring.elasticsearch.connection-timeout` |
+|`spring.elasticsearch.rest.password` |`spring.elasticsearch.password` |
+|`spring.elasticsearch.rest.read-timeout` |`spring.elasticsearch.socket-timeout` |
+|`spring.elasticsearch.rest.sniffer.delay-after-failure` |`spring.elasticsearch.restclient.sniffer.delay-after-failure` |
+|`spring.elasticsearch.rest.sniffer.interval` |`spring.elasticsearch.restclient.sniffer.interval` |
+|`spring.elasticsearch.rest.uris` |`spring.elasticsearch.uris` |
+|`spring.elasticsearch.rest.username` |`spring.elasticsearch.username` |
+|`spring.flyway.ignore-future-migrations` |`spring.flyway.ignore-migration-patterns` |
+|`spring.flyway.ignore-ignored-migrations` |`spring.flyway.ignore-migration-patterns` |
+|`spring.flyway.ignore-missing-migrations` |`spring.flyway.ignore-migration-patterns` |
+|`spring.flyway.ignore-pending-migrations` |`spring.flyway.ignore-migration-patterns` |
+|`spring.flyway.oracle-kerberos-config-file` |`spring.flyway.kerberos-config-file` |
+|`spring.webflux.session.cookie.same-site` |`server.reactive.session.cookie.same-site` |
+|======================
+
+
+
+== New in `2.6.0`
+|======================
+|Key  |Default value |Description
+|`logging.log4j2.config.override` | |Overriding configuration files used to create a composite configuration.
+|`management.info.java.enabled` |`false` |Whether to enable Java info.
+|`management.metrics.distribution.buffer-length` | |Number of histograms for meter IDs starting with the specified name to keep in the ring buffer.
+|`management.metrics.distribution.expiry` | |Maximum amount of time that samples for meter IDs starting with the specified name are accumulated to decaying distribution statistics before they are reset and rotated.
+|`management.metrics.export.dynatrace.v1.device-id` | |ID of the custom device that is exporting metrics to Dynatrace.
+|`management.metrics.export.dynatrace.v1.group` | |Group for exported metrics.
+|`management.metrics.export.dynatrace.v1.technology-type` |`java` |Technology type for exported metrics.
+|`management.metrics.export.dynatrace.v2.default-dimensions` | |Default dimensions that are added to all metrics in the form of key-value pairs.
+|`management.metrics.export.dynatrace.v2.enrich-with-dynatrace-metadata` |`true` |Whether to enable Dynatrace metadata export.
+|`management.metrics.export.dynatrace.v2.metric-key-prefix` | |Prefix string that is added to all exported metrics.
+|`management.metrics.export.elastic.api-key-credentials` | |Base64-encoded credentials string.
+|`management.metrics.export.stackdriver.resource-labels` | |Monitored resource's labels.
+|`management.metrics.system.diskspace.paths` |`.` |Comma-separated list of paths to report disk metrics for.
+|`server.netty.idle-timeout` | |Idle timeout of the Netty channel.
+|`server.reactive.session.timeout` |`30m` |Session timeout.
+|`server.servlet.session.cookie.same-site` | |
+|`server.tomcat.reject-illegal-header` |`true` |Whether to reject requests with illegal header names or values.
+|`spring.elasticsearch.connection-timeout` |`1s` |Connection timeout used when communicating with Elasticsearch.
+|`spring.elasticsearch.password` | |Password for authentication with Elasticsearch.
+|`spring.elasticsearch.path-prefix` | |Prefix added to the path of every request sent to Elasticsearch.
+|`spring.elasticsearch.restclient.sniffer.delay-after-failure` |`1m` |Delay of a sniff execution scheduled after a failure.
+|`spring.elasticsearch.restclient.sniffer.interval` |`5m` |Interval between consecutive ordinary sniff executions.
+|`spring.elasticsearch.socket-timeout` |`30s` |Socket timeout used when communicating with Elasticsearch.
+|`spring.elasticsearch.uris` |`http://localhost:9200` |Comma-separated list of the Elasticsearch instances to use.
+|`spring.elasticsearch.username` | |Username for authentication with Elasticsearch.
+|`spring.elasticsearch.webclient.max-in-memory-size` | |Limit on the number of bytes that can be buffered whenever the input stream needs to be aggregated.
+|`spring.flyway.baseline-migration-prefix` |`B` |Filename prefix for baseline migrations.
+|`spring.flyway.connect-retries-interval` |`120` |Maximum time between retries when attempting to connect to the database.
+|`spring.flyway.detect-encoding` | |Whether to attempt to automatically detect SQL migration file encoding.
+|`spring.flyway.fail-on-missing-locations` |`false` |Whether to fail if a location of migration scripts doesn't exist.
+|`spring.flyway.ignore-migration-patterns` | |Ignore migrations that match this comma-separated list of patterns when validating migrations.
+|`spring.flyway.kerberos-config-file` | |Path of the Kerberos config file.
+|`spring.flyway.oracle-wallet-location` | |Location of the Oracle Wallet, used to sign-in to the database automatically.
+|`spring.flyway.script-placeholder-prefix` |`FP__` |Prefix of placeholders in migration scripts.
+|`spring.flyway.script-placeholder-suffix` |`__` |Suffix of placeholders in migration scripts.
+|`spring.flyway.sql-server-kerberos-login-file` | |Path to the SQL Server Kerberos login file.
+|`spring.integration.management.default-logging-enabled` |`true` |Whether Spring Integration components should perform logging in the main message flow.
+|`spring.integration.poller.cron` | |Cron expression for polling.
+|`spring.integration.poller.fixed-delay` | |Polling delay period.
+|`spring.integration.poller.fixed-rate` | |Polling rate period.
+|`spring.integration.poller.initial-delay` | |Polling initial delay.
+|`spring.integration.poller.max-messages-per-poll` | |Maximum number of messages to poll per polling cycle.
+|`spring.integration.poller.receive-timeout` |`1s` |How long to wait for messages on poll.
+|`spring.jackson.constructor-detector` |`default` |Strategy to use to auto-detect constructor, and in particular behavior with single-argument constructors.
+|`spring.jackson.default-leniency` | |Global default setting (if any) for leniency.
+|`spring.kafka.admin.ssl.key-store-certificate-chain` | |Certificate chain in PEM format with a list of X.509 certificates.
+|`spring.kafka.admin.ssl.key-store-key` | |Private key in PEM format with PKCS#8 keys.
+|`spring.kafka.admin.ssl.trust-store-certificates` | |Trusted certificates in PEM format with X.509 certificates.
+|`spring.kafka.consumer.ssl.key-store-certificate-chain` | |Certificate chain in PEM format with a list of X.509 certificates.
+|`spring.kafka.consumer.ssl.key-store-key` | |Private key in PEM format with PKCS#8 keys.
+|`spring.kafka.consumer.ssl.trust-store-certificates` | |Trusted certificates in PEM format with X.509 certificates.
+|`spring.kafka.producer.ssl.key-store-certificate-chain` | |Certificate chain in PEM format with a list of X.509 certificates.
+|`spring.kafka.producer.ssl.key-store-key` | |Private key in PEM format with PKCS#8 keys.
+|`spring.kafka.producer.ssl.trust-store-certificates` | |Trusted certificates in PEM format with X.509 certificates.
+|`spring.kafka.ssl.key-store-certificate-chain` | |Certificate chain in PEM format with a list of X.509 certificates.
+|`spring.kafka.ssl.key-store-key` | |Private key in PEM format with PKCS#8 keys.
+|`spring.kafka.ssl.trust-store-certificates` | |Trusted certificates in PEM format with X.509 certificates.
+|`spring.kafka.streams.ssl.key-store-certificate-chain` | |Certificate chain in PEM format with a list of X.509 certificates.
+|`spring.kafka.streams.ssl.key-store-key` | |Private key in PEM format with PKCS#8 keys.
+|`spring.kafka.streams.ssl.trust-store-certificates` | |Trusted certificates in PEM format with X.509 certificates.
+|`spring.main.allow-circular-references` |`false` |Whether to allow circular references between beans and automatically try to resolve them.
+|`spring.rabbitmq.listener.stream.auto-startup` |`true` |Whether to start the container automatically on startup.
+|`spring.rabbitmq.listener.stream.native-listener` |`false` |Whether the container will support listeners that consume native stream messages instead of Spring AMQP messages.
+|`spring.rabbitmq.stream.host` |`localhost` |Host of a RabbitMQ instance with the Stream plugin enabled.
+|`spring.rabbitmq.stream.password` | |Login password to authenticate to the broker.
+|`spring.rabbitmq.stream.port` | |Stream port of a RabbitMQ instance with the Stream plugin enabled.
+|`spring.rabbitmq.stream.username` | |Login user to authenticate to the broker.
+|`spring.redis.jedis.pool.enabled` | |Whether to enable the pool.
+|`spring.redis.lettuce.pool.enabled` | |Whether to enable the pool.
+|`spring.webflux.multipart.file-storage-directory` | |Directory used to store file parts larger than 'maxInMemorySize'.
+|`spring.webflux.multipart.headers-charset` |`UTF-8` |Character set used to decode headers.
+|`spring.webflux.multipart.max-disk-usage-per-part` |`-1B` |Maximum amount of disk space allowed per part.
+|`spring.webflux.multipart.max-headers-size` |`10KB` |Maximum amount of memory allowed per headers section of each part.
+|`spring.webflux.multipart.max-in-memory-size` |`256KB` |Maximum amount of memory allowed per part before it's written to disk.
+|`spring.webflux.multipart.max-parts` |`-1` |Maximum number of parts allowed in a given multipart request.
+|`spring.webflux.multipart.streaming` |`false` |Whether to stream directly from the parsed input buffer stream without storing in memory nor file.
+|`spring.webflux.session.timeout` |`30m` |
+|======================
+
+
+
+== Removed in `2.6.0`
+|======================
+|Key  |Replacement |Reason
+|`management.server.servlet.context-path` |`management.server.base-path` |
+|`spring.data.mongodb.grid-fs-database` | |
+|`spring.datasource.oracleucp.password` | |
+|`spring.flyway.vault-secrets` | |Removed in the open source release of Flyway 7.12.
+|`spring.flyway.vault-token` | |Removed in the open source release of Flyway 7.12.
+|`spring.flyway.vault-url` | |Removed in the open source release of Flyway 7.12.
+|`spring.mvc.locale` |`spring.web.locale` |
+|`spring.mvc.locale-resolver` |`spring.web.locale-resolver` |
+|`spring.resources.add-mappings` |`spring.web.resources.add-mappings` |
+|`spring.resources.cache.cachecontrol.cache-private` |`spring.web.resources.cache.cachecontrol.cache-private` |
+|`spring.resources.cache.cachecontrol.cache-public` |`spring.web.resources.cache.cachecontrol.cache-public` |
+|`spring.resources.cache.cachecontrol.max-age` |`spring.web.resources.cache.cachecontrol.max-age` |
+|`spring.resources.cache.cachecontrol.must-revalidate` |`spring.web.resources.cache.cachecontrol.must-revalidate` |
+|`spring.resources.cache.cachecontrol.no-cache` |`spring.web.resources.cache.cachecontrol.no-cache` |
+|`spring.resources.cache.cachecontrol.no-store` |`spring.web.resources.cache.cachecontrol.no-store` |
+|`spring.resources.cache.cachecontrol.no-transform` |`spring.web.resources.cache.cachecontrol.no-transform` |
+|`spring.resources.cache.cachecontrol.proxy-revalidate` |`spring.web.resources.cache.cachecontrol.proxy-revalidate` |
+|`spring.resources.cache.cachecontrol.s-max-age` |`spring.web.resources.cache.cachecontrol.s-max-age` |
+|`spring.resources.cache.cachecontrol.stale-if-error` |`spring.web.resources.cache.cachecontrol.stale-if-error` |
+|`spring.resources.cache.cachecontrol.stale-while-revalidate` |`spring.web.resources.cache.cachecontrol.stale-while-revalidate` |
+|`spring.resources.cache.period` |`spring.web.resources.cache.period` |
+|`spring.resources.cache.use-last-modified` |`spring.web.resources.cache.use-last-modified` |
+|`spring.resources.chain.cache` |`spring.web.resources.chain.cache` |
+|`spring.resources.chain.compressed` |`spring.web.resources.chain.compressed` |
+|`spring.resources.chain.enabled` |`spring.web.resources.chain.enabled` |
+|`spring.resources.chain.html-application-cache` | |
+|`spring.resources.chain.strategy.content.enabled` |`spring.web.resources.chain.strategy.content.enabled` |
+|`spring.resources.chain.strategy.content.paths` |`spring.web.resources.chain.strategy.content.paths` |
+|`spring.resources.chain.strategy.fixed.enabled` |`spring.web.resources.chain.strategy.fixed.enabled` |
+|`spring.resources.chain.strategy.fixed.paths` |`spring.web.resources.chain.strategy.fixed.paths` |
+|`spring.resources.chain.strategy.fixed.version` |`spring.web.resources.chain.strategy.fixed.version` |
+|`spring.resources.static-locations` |`spring.web.resources.static-locations` |
+|======================

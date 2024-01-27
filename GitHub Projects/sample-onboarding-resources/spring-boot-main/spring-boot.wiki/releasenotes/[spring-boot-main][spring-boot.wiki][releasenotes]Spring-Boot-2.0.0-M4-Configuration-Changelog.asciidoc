@@ -1,0 +1,253 @@
+Configuration properties change between `2.0.0.M3` and `2.0.0.BUILD-SNAPSHOT`
+
+.New keys in `2.0.0.BUILD-SNAPSHOT`
+|======================
+|Key  |Default value |Description
+|`endpoints.all.enabled` |`true` |Enable all endpoints.
+|`endpoints.all.jmx.enabled` |`true` |Enable all endpoints as JMX MBeans.
+|`endpoints.all.web.enabled` |`true` |Enable all endpoints as Web endpoints.
+|`endpoints.auditevents.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.auditevents.jmx.enabled` |`true` |Expose the auditevents endpoint as a JMX MBean.
+|`endpoints.auditevents.web.enabled` |`true` |Expose the auditevents endpoint as a Web endpoint.
+|`endpoints.autoconfig.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.autoconfig.jmx.enabled` |`true` |Expose the autoconfig endpoint as a JMX MBean.
+|`endpoints.autoconfig.web.enabled` |`true` |Expose the autoconfig endpoint as a Web endpoint.
+|`endpoints.beans.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.beans.jmx.enabled` |`true` |Expose the beans endpoint as a JMX MBean.
+|`endpoints.beans.web.enabled` |`true` |Expose the beans endpoint as a Web endpoint.
+|`endpoints.configprops.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.configprops.jmx.enabled` |`true` |Expose the configprops endpoint as a JMX MBean.
+|`endpoints.configprops.web.enabled` |`true` |Expose the configprops endpoint as a Web endpoint.
+|`endpoints.env.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.env.jmx.enabled` |`true` |Expose the env endpoint as a JMX MBean.
+|`endpoints.env.web.enabled` |`true` |Expose the env endpoint as a Web endpoint.
+|`endpoints.flyway.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.flyway.jmx.enabled` |`true` |Expose the flyway endpoint as a JMX MBean.
+|`endpoints.flyway.web.enabled` |`true` |Expose the flyway endpoint as a Web endpoint.
+|`endpoints.health.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.health.jmx.enabled` |`true` |Expose the health endpoint as a JMX MBean.
+|`endpoints.health.web.enabled` |`true` |Expose the health endpoint as a Web endpoint.
+|`endpoints.heapdump.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.heapdump.web.enabled` |`true` |Expose the heapdump endpoint as a Web endpoint.
+|`endpoints.info.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.info.jmx.enabled` |`true` |Expose the info endpoint as a JMX MBean.
+|`endpoints.info.web.enabled` |`true` |Expose the info endpoint as a Web endpoint.
+|`endpoints.liquibase.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.liquibase.jmx.enabled` |`true` |Expose the liquibase endpoint as a JMX MBean.
+|`endpoints.liquibase.web.enabled` |`true` |Expose the liquibase endpoint as a Web endpoint.
+|`endpoints.logfile.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.logfile.web.enabled` |`true` |Expose the logfile endpoint as a Web endpoint.
+|`endpoints.loggers.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.loggers.jmx.enabled` |`true` |Expose the loggers endpoint as a JMX MBean.
+|`endpoints.loggers.web.enabled` |`true` |Expose the loggers endpoint as a Web endpoint.
+|`endpoints.mappings.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.mappings.jmx.enabled` |`true` |Expose the mappings endpoint as a JMX MBean.
+|`endpoints.mappings.web.enabled` |`true` |Expose the mappings endpoint as a Web endpoint.
+|`endpoints.metrics.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.metrics.jmx.enabled` |`true` |Expose the metrics endpoint as a JMX MBean.
+|`endpoints.metrics.web.enabled` |`true` |Expose the metrics endpoint as a Web endpoint.
+|`endpoints.shutdown.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.shutdown.jmx.enabled` |`false` |Expose the shutdown endpoint as a JMX MBean.
+|`endpoints.shutdown.web.enabled` |`false` |Expose the shutdown endpoint as a Web endpoint.
+|`endpoints.status.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.status.enabled` |`true` |Enable the status endpoint.
+|`endpoints.status.jmx.enabled` |`true` |Expose the status endpoint as a JMX MBean.
+|`endpoints.status.web.enabled` |`true` |Expose the status endpoint as a Web endpoint.
+|`endpoints.threaddump.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.threaddump.enabled` |`true` |Enable the threaddump endpoint.
+|`endpoints.threaddump.jmx.enabled` |`true` |Expose the threaddump endpoint as a JMX MBean.
+|`endpoints.threaddump.web.enabled` |`true` |Expose the threaddump endpoint as a Web endpoint.
+|`endpoints.trace.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.trace.jmx.enabled` |`true` |Expose the trace endpoint as a JMX MBean.
+|`endpoints.trace.web.enabled` |`true` |Expose the trace endpoint as a Web endpoint.
+|`management.endpoints.cors.allow-credentials` | |Set whether credentials are supported.
+|`management.endpoints.cors.allowed-headers` | |Comma-separated list of headers to allow in a request. '*' allows all headers.
+|`management.endpoints.cors.allowed-methods` | |Comma-separated list of methods to allow. '*' allows all methods.
+|`management.endpoints.cors.allowed-origins` | |Comma-separated list of origins to allow. '*' allows all origins.
+|`management.endpoints.cors.exposed-headers` | |Comma-separated list of headers to include in a response.
+|`management.endpoints.cors.max-age` |`1800` |How long, in seconds, the response from a pre-flight request can be cached by clients.
+|`management.endpoints.jmx.domain` |`org.springframework.boot` |Endpoints JMX domain name.
+|`management.endpoints.jmx.static-names` | |Additional static properties to append to all ObjectNames of MBeans representing Endpoints.
+|`management.endpoints.jmx.unique-names` |`false` |Ensure that ObjectNames are modified in case of conflict.
+|`management.health.status.http-mapping` | |Mapping of health statuses to HttpStatus codes.
+|`management.jolokia.config` | |Jolokia settings.
+|`management.jolokia.enabled` |`true` |Enable Jolokia.
+|`management.jolokia.path` |`/jolokia` |Path at which Jolokia will be available.
+|`spring.batch.initialize-schema` | |Database schema initialization mode.
+|`spring.flyway.baseline-description` | |
+|`spring.flyway.baseline-on-migrate` | |
+|`spring.flyway.baseline-version` | |
+|`spring.flyway.check-location` |`false` |Check that migration scripts location exists.
+|`spring.flyway.clean-disabled` | |
+|`spring.flyway.clean-on-validation-error` | |
+|`spring.flyway.enabled` |`true` |Enable flyway.
+|`spring.flyway.encoding` | |
+|`spring.flyway.group` | |
+|`spring.flyway.ignore-future-migrations` | |
+|`spring.flyway.ignore-missing-migrations` | |
+|`spring.flyway.init-sqls` | |SQL statements to execute to initialize a connection immediately after obtaining it.
+|`spring.flyway.installed-by` | |
+|`spring.flyway.locations` | |Locations of migrations scripts.
+|`spring.flyway.mixed` | |
+|`spring.flyway.out-of-order` | |
+|`spring.flyway.password` | |Login password of the database to migrate.
+|`spring.flyway.placeholder-prefix` | |
+|`spring.flyway.placeholder-replacement` | |
+|`spring.flyway.placeholder-suffix` | |
+|`spring.flyway.placeholders` | |
+|`spring.flyway.repeatable-sql-migration-prefix` | |
+|`spring.flyway.schemas` | |
+|`spring.flyway.skip-default-callbacks` | |
+|`spring.flyway.skip-default-resolvers` | |
+|`spring.flyway.sql-migration-prefix` | |
+|`spring.flyway.sql-migration-separator` | |
+|`spring.flyway.sql-migration-suffix` | |
+|`spring.flyway.table` | |
+|`spring.flyway.target` | |
+|`spring.flyway.url` | |JDBC url of the database to migrate.
+|`spring.flyway.user` | |Login user of the database to migrate.
+|`spring.flyway.validate-on-migrate` | |
+|`spring.integration.jdbc.initialize-schema` | |Database schema initialization mode.
+|`spring.liquibase.change-log` |`classpath:/db/changelog/db.changelog-master.yaml` |Change log configuration path.
+|`spring.liquibase.check-change-log-location` |`true` |Check the change log location exists.
+|`spring.liquibase.contexts` | |Comma-separated list of runtime contexts to use.
+|`spring.liquibase.default-schema` | |Default database schema.
+|`spring.liquibase.drop-first` |`false` |Drop the database schema first.
+|`spring.liquibase.enabled` |`true` |Enable liquibase support.
+|`spring.liquibase.labels` | |Comma-separated list of runtime labels to use.
+|`spring.liquibase.parameters` | |Change log parameters.
+|`spring.liquibase.password` | |Login password of the database to migrate.
+|`spring.liquibase.rollback-file` | |File to which rollback SQL will be written when an update is performed.
+|`spring.liquibase.url` | |JDBC url of the database to migrate.
+|`spring.liquibase.user` | |Login user of the database to migrate.
+|`spring.session.jdbc.initialize-schema` | |Database schema initialization mode.
+|======================
+
+.Removed keys in `2.0.0.BUILD-SNAPSHOT`
+|======================
+|Key  |Default value |Description
+|`endpoints.actuator.enabled` | |Enable the endpoint.
+|`endpoints.actuator.path` | |Endpoint URL path.
+|`endpoints.actuator.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.auditevents.path` | |Endpoint URL path.
+|`endpoints.auditevents.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.autoconfig.id` | |Endpoint identifier.
+|`endpoints.autoconfig.path` | |Endpoint URL path.
+|`endpoints.autoconfig.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.beans.id` | |Endpoint identifier.
+|`endpoints.beans.path` | |Endpoint URL path.
+|`endpoints.beans.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.configprops.id` | |Endpoint identifier.
+|`endpoints.configprops.path` | |Endpoint URL path.
+|`endpoints.configprops.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.cors.allow-credentials` | |Set whether credentials are supported.
+|`endpoints.cors.allowed-headers` | |Comma-separated list of headers to allow in a request. '*' allows all headers.
+|`endpoints.cors.allowed-methods` | |Comma-separated list of methods to allow. '*' allows all methods.
+|`endpoints.cors.allowed-origins` | |Comma-separated list of origins to allow. '*' allows all origins.
+|`endpoints.cors.exposed-headers` | |Comma-separated list of headers to include in a response.
+|`endpoints.cors.max-age` |`1800` |How long, in seconds, the response from a pre-flight request can be cached by clients.
+|`endpoints.docs.curies.enabled` |`false` |Enable the curie generation.
+|`endpoints.docs.enabled` | |Enable the endpoint.
+|`endpoints.docs.path` | |Endpoint URL path.
+|`endpoints.docs.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.dump.enabled` | |Enable the endpoint.
+|`endpoints.dump.id` | |Endpoint identifier.
+|`endpoints.dump.path` | |Endpoint URL path.
+|`endpoints.dump.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.enabled` |`true` |Enable endpoints.
+|`endpoints.env.id` | |Endpoint identifier.
+|`endpoints.env.path` | |Endpoint URL path.
+|`endpoints.env.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.flyway.id` | |Endpoint identifier.
+|`endpoints.flyway.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.health.id` | |Endpoint identifier.
+|`endpoints.health.mapping` | |Mapping of health statuses to HttpStatus codes.
+|`endpoints.health.path` | |Endpoint URL path.
+|`endpoints.health.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.health.time-to-live` |`1000` |Time to live for cached result, in milliseconds.
+|`endpoints.heapdump.path` | |Endpoint URL path.
+|`endpoints.heapdump.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.hypermedia.enabled` |`false` |Enable hypermedia support for endpoints.
+|`endpoints.info.id` | |Endpoint identifier.
+|`endpoints.info.path` | |Endpoint URL path.
+|`endpoints.info.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.jmx.domain` | |JMX domain name.
+|`endpoints.jmx.enabled` |`true` |Enable JMX export of all endpoints.
+|`endpoints.jmx.static-names` | |Additional static properties to append to all ObjectNames of MBeans representing Endpoints.
+|`endpoints.jmx.unique-names` |`false` |Ensure that ObjectNames are modified in case of conflict.
+|`endpoints.jolokia.enabled` | |Enable the endpoint.
+|`endpoints.jolokia.path` | |Endpoint URL path.
+|`endpoints.jolokia.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.liquibase.id` | |Endpoint identifier.
+|`endpoints.liquibase.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.logfile.path` | |Endpoint URL path.
+|`endpoints.logfile.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.loggers.id` | |Endpoint identifier.
+|`endpoints.loggers.path` | |Endpoint URL path.
+|`endpoints.loggers.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.mappings.id` | |Endpoint identifier.
+|`endpoints.mappings.path` | |Endpoint URL path.
+|`endpoints.mappings.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.metrics.id` | |Endpoint identifier.
+|`endpoints.metrics.path` | |Endpoint URL path.
+|`endpoints.metrics.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.sensitive` | |Default endpoint sensitive setting.
+|`endpoints.shutdown.id` | |Endpoint identifier.
+|`endpoints.shutdown.path` | |Endpoint URL path.
+|`endpoints.shutdown.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.trace.id` | |Endpoint identifier.
+|`endpoints.trace.path` | |Endpoint URL path.
+|`endpoints.trace.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`error.path` | |Path of the error controller.
+|`flyway.allow-mixed-migrations` | |
+|`flyway.baseline-description` | |
+|`flyway.baseline-on-migrate` | |
+|`flyway.baseline-version` | |
+|`flyway.check-location` |`false` |Check that migration scripts location exists.
+|`flyway.clean-disabled` | |
+|`flyway.clean-on-validation-error` | |
+|`flyway.enabled` |`true` |Enable flyway.
+|`flyway.encoding` | |
+|`flyway.group` | |
+|`flyway.ignore-failed-future-migration` | |
+|`flyway.ignore-future-migrations` | |
+|`flyway.ignore-missing-migrations` | |
+|`flyway.init-sqls` | |SQL statements to execute to initialize a connection immediately after obtaining it.
+|`flyway.installed-by` | |
+|`flyway.locations` | |Locations of migrations scripts.
+|`flyway.mixed` | |
+|`flyway.out-of-order` | |
+|`flyway.password` | |Login password of the database to migrate.
+|`flyway.placeholder-prefix` | |
+|`flyway.placeholder-replacement` | |
+|`flyway.placeholder-suffix` | |
+|`flyway.placeholders` | |
+|`flyway.repeatable-sql-migration-prefix` | |
+|`flyway.schemas` | |
+|`flyway.skip-default-callbacks` | |
+|`flyway.skip-default-resolvers` | |
+|`flyway.sql-migration-prefix` | |
+|`flyway.sql-migration-separator` | |
+|`flyway.sql-migration-suffix` | |
+|`flyway.table` | |
+|`flyway.target` | |
+|`flyway.url` | |JDBC url of the database to migrate.
+|`flyway.user` | |Login user of the database to migrate.
+|`flyway.validate-on-migrate` | |
+|`jolokia.config` | |Jolokia settings.
+|`liquibase.change-log` |`classpath:/db/changelog/db.changelog-master.yaml` |Change log configuration path.
+|`liquibase.check-change-log-location` |`true` |Check the change log location exists.
+|`liquibase.contexts` | |Comma-separated list of runtime contexts to use.
+|`liquibase.default-schema` | |Default database schema.
+|`liquibase.drop-first` |`false` |Drop the database schema first.
+|`liquibase.enabled` |`true` |Enable liquibase support.
+|`liquibase.labels` | |Comma-separated list of runtime labels to use.
+|`liquibase.parameters` | |Change log parameters.
+|`liquibase.password` | |Login password of the database to migrate.
+|`liquibase.rollback-file` | |File to which rollback SQL will be written when an update is performed.
+|`liquibase.url` | |JDBC url of the database to migrate.
+|`liquibase.user` | |Login user of the database to migrate.
+|`spring.batch.initializer.enabled` | |Create the required batch tables on startup if necessary.
+|`spring.integration.jdbc.initializer.enabled` |`false` |Create the required integration tables on startup.
+|`spring.session.jdbc.initializer.enabled` | |Create the required session tables on startup if necessary.
+|======================

@@ -1,0 +1,116 @@
+The purpose of this page is to describe in details the kind of content assistance that is expected from an IDE. It is primarily targeted to IDE developers though anyone interested in understanding these features will find valuable resources in this document.
+
+TIP: This document is heavily based on https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-Configuration-Binding[Spring Boot Configuration Binding].
+
+At the time of writing, Eclips] 3.6.3+ (via STS), Intellij IDEA Ultimate Edition 14.1+ and NetBeans have all support for Spring Boot configuration.
+
+NOTE: There are other Spring Boot-related features that we could consider. This document focus on configuration assistance only.
+
+[[features-ide-canonical-representation]]
+== Canonical key representation
+
+Spring Boot uses the lower-case hyphen format to represent a key (i.e. acme.foo.my-super-property) but as described in https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-Configuration-Binding[Spring Boot Configuration Binding] a set of other formats are supported as well.
+
+Ideally, the IDE should allow the user to define _his_ or _her_ canonical format and auto-complete values accordingly. While in theory there is nothing wrong mixing different formats within the same file or the same project, some combinations may be troublesome, especially with the YAML format.
+
+[[features-ide-auto-completion]]
+== Keys auto-completion
+
+The IDE could provide some sort of auto-completion based on the context that would list the keys that are valid. IDEs are currently supporting this so we won't cover it any further. It is important however to cover corner cases.
+
+[[binding-ide-auto-completion-pojo]]
+=== Simple POJO
+
+If we take our `Bar` example above, the relevant meta-data will be generated for it as long as it's detected as nested property. But such pojo can be used in more complex scenario such as collections (`List<Bar> bars`) or maps (`Map<String,Bar> bars`).
+
+It would be nice if the IDE could still support some assistance once the first portion of the key has been built (`prefix.bars[0].` or `prefix.bars.myKey.` respectively). The binding rules that we use for such object are exactly the same as the ones that we use to build the meta-data.
+
+It's obviously much more challenging since any property can be a _single value_ or _nested_. The IDE would have to discover those objects at runtime. Immutable objects can be safely considered as single value. Similarly, if the current object exposes one or more properties (as defined by the binding rules above), it can be considered _nested_.
+
+[[features-ide-auto-completion-enum]]
+=== Enum
+
+Enums are often used as a way to propose a list of value for a configuration option. When an enum is the target of the value or the type of a `Map` property, the IDE should inspect it and propose an auto-completion of values based on its definition. 
+
+Let's consider the following `Gender` enum:
+
+```java
+public enum Gender { 
+
+   MALE, FEMALE, UH_OH
+}
+```
+
+and some _POJO_ that uses that `Gender`
+
+```java
+public class FooProperties {
+  
+  private final Map<Gender, Status> statuses = new HashMap<>();
+
+  public Map<Gender, Status> getStatuses() { ... }
+
+}
+```
+
+Let's assume now that you write `foo.statuses.`. Auto-completion should show up and display in theory a list with `male`, `female`, `uh-oh`.
+
+TIP: `Enums` are to be considered a special case here as well since Spring Boot binds them regardless of the case. To comply with the canonical format, auto-completed enum values may be represented in that style as well (e.g. kebab-case) 
+
+NOTE: As for any type of runtime discovery, the actual class of the `Enum` may not be available in the current project. In that case, the property should be considered as a simple `String` value with no further content assistance.
+
+[[features-ide-auto-completion-types]]
+=== Special types
+
+There are also some special types that may trigger some smart auto-completion:
+
+* `java.nio.charset.Charset`: auto-completion of charset values
+* `java.util.Locale`: auto-completion of locales
+* `org.springframework.util.MimeType`: auto-completion of content type values
+* `org.springframework.core.io.Resource`: auto-completion of Spring's `Resource` abstraction (see `org.springframework.boot.cli.util.ResourceUtils` for the general structure of the String value that it parses)
+
+NOTE: These special auto-completion should not try to validate anything (i.e. if the user types a mime-type that is not in that list, it shouldn't be considered as an error or a warning).
+
+[[features-ide-documentation]]
+== Documentation
+
+There are various cases where the meta-data does not contain any documentation. Either because the Javadoc is not available when the meta-data is generated or for cases where we navigate the hierarchy at runtime (see the _Simple POJO_ and _Enum_ use cases above).
+
+However, the sources of those classes may be available in the IDE so it would be very nice if it could alleviate that limitation by retrieving the documentation at runtime for the keys that don't have one. 
+
+For consistency, the IDE should look for field Javadoc (if the field exists), then getter Javadoc and finally setter Javadoc. This gives a chance to any 3rd party to write the key description with the same logic as regular `@ConfigurationProperties` annotated POJO. Enums are usually documented and are also affected by this requirement.
+
+[[features-ide-hints]]
+== Hints
+
+Spring Boot 1.3 introduces the concept of `hints` in the meta-data. Hints are meant to help an IDE to discover the values applicable to an element (i.e. property, map key, map value, collection value, etc).
+
+Potential values can be provided with an optional description. That information should be used to build an auto-complete list for the related element.
+
+A hint _provider_ may also be specified. The purpose of the provider is to define the semantics behind the value so that the tools can offer dedicated content assistance for it. Spring Boot defines a set of providers that the IDE could implement.
+
+Several providers may be specified but only one is active at a time. The IDE must try them in the order in which they are defined in the meta-data and apply the first one they support. If none are supported, no special content assistance should be provider either.
+
+[[deprecation]]
+== Deprecation
+
+It is possible to flag a property as _deprecated_. The `deprecation` element contains a `reason`, a `replacement` and (as of Spring Boot 2.0) a `level`.
+
+The `reason` is a text (same as the `description`) that indicates why the property has been deprecated. The `reason` is the key (in canonical form) that now defines that property. The IDE could provide a "quick-fix" action to automatically replace the property if a `replacement` attribute exists and if the value type matches (or can be converted).
+
+Finally, the `level` provides a way to define if the configuration property is still bound. By default (`warning`) means the property is still bound and can be used (but will be removed in a future release). If the value is set to `error` the property should be displayed with an error indicator (it will not be bound). If the `level` has any other value (including `null`) it should be considered equal to `warning`.
+
+It is advisable that deprecated keys aren't displayed first in auto-completion (since they aren't supposed to be used). Keys that are deprecated with `error` level should not show up at all or if they show in auto-completion, it should be clear that they are no longer usable.
+
+== Wrapping Up
+
+These are the additional features that an IDE may implement to further improve the code assistance for Spring Boot apps:
+
+* Propose a set of formats and allow the user to chose which one to use for the project. All keys should be auto-completed according to that format
+* Harvest _Simple POJO_ used in configuration keys to discover their properties at runtime. Offer auto-completion for them
+* Harvest documentation at runtime if the `description` field in the meta-data is empty and if the source code of the related class is available. 
+* Harvest enum documentation
+* Harvest _Simple POJO_ properties documentation
+* Support hint values and hint providers
+* Provides smart auto-completion for known types and enums
+* Displays deprecated properties in a different way and offer an assistance to rename them if a `replacement` exists

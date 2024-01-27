@@ -1,0 +1,73 @@
+This page gathers the things that you need to know if you want to run Spring Boot apps on Java 9 and above.
+
+# Requirements
+
+Refer to the https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html#getting-started-system-requirements[system requirements] of the reference guide to know if your target Java version is supported. Make sure you use the versioned URL that matches the Spring Boot generation you are using.
+
+# Java 17 specific
+
+## Kotlin
+
+Kotlin 1.5.x does not support Java 17.
+
+## Gradle
+
+You need Gradle 7.2 or later to use it with Java 17. If you can't upgrade you can use https://docs.gradle.org/current/userguide/toolchains.html[Gradle's toolchain support] to build your project with Java 17.
+
+
+# Java 16 specific
+
+## Spring LDAP
+
+Spring LDAP `2.3.3` and earlier requires `--add-exports=java.naming/com.sun.jndi.ldap=ALL-UNNAMED`.
+
+## Spring Boot CLI
+
+The Spring Boot CLI does not work with Spring Boot `2.4.x` as it still uses Groovy  `2.5.x`.
+
+## Groovy
+
+Java 16 requires Groovy `3.x`. You may need to override the version using `groovy.version`.
+
+## Gradle
+
+Gradle does not yet support Java 16. Gradle projects that wish to use Java 16 should use https://docs.gradle.org/current/userguide/toolchains.html[Gradle's toolchain support] to do so.
+
+## Illegal access
+
+Some components which Spring Boot can auto-configure, such as Hazelcast, require `--illegal-access=warn`.
+
+## Kotlin
+
+Kotlin does not yet support Java 16.
+
+# Previous Java generations (Java 9 - 15) 
+
+## AspectJ
+
+With Java 9, if you need to weave classes from the JDK, you need to use AspectJ 1.9. Spring AOP should work fine in most cases with AspectJ 1.8 (the default in Spring Boot 2.0).
+
+## JAXB
+When upgrading you may face the following:
+
+```
+java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException
+```
+
+Hibernate typically requires JAXB that's no longer provided by default. You can add the `java.xml.bind` module to restore this functionality with Java9 or Java10 (even if the module is deprecated). 
+
+As of Java11, the module is not available so your only option is to add the JAXB RI (you can do that as of Java9 in place of adding the `java.xml.bind` module:
+
+```xml
+<dependency>
+    <groupId>org.glassfish.jaxb</groupId>
+    <artifactId>jaxb-runtime</artifactId>
+</dependency>
+```
+
+
+## Lombok
+If you are using lombok, the managed version of Spring Boot may not work with the latest JDK. Check the Lombok web site https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#howto-customize-dependency-versions[and override its version] if necessary.
+
+## Reflection APIs and WildFly
+When deployed as a WAR application on WildFly, Spring Boot applications might require some advanced JDK reflection API for proxying, included in the `sun.reflect` package. For that, your application needs to list `jdk.unsupported` as a Dependency in its `MANIFEST.MF` file (see the https://docs.jboss.org/author/display/WFLY/Class+Loading+in+WildFly[WildFly wiki about this]).

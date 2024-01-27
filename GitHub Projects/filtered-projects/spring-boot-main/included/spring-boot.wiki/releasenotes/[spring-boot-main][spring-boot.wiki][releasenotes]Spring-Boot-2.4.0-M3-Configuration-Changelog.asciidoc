@@ -1,0 +1,41 @@
+Configuration properties change between `2.4.0-M2` and `2.4.0-M3`
+
+== Deprecated in `2.4.0-M3`
+|======================
+|Key  |Replacement |Reason
+|`spring.data.mongodb.grid-fs-database` |`spring.data.mongodb.gridfs.database` |
+|`spring.resources.chain.html-application-cache` | |The appcache manifest feature is being removed from browsers.
+|======================
+
+
+
+== New in `2.4.0-M3`
+|======================
+|Key  |Default value |Description
+|`management.endpoint.startup.enabled` |`true` |Whether to enable the startup endpoint.
+|`spring.data.mongodb.gridfs.bucket` | |GridFS bucket name.
+|`spring.data.mongodb.gridfs.database` | |GridFS database name.
+|`spring.kafka.listener.idle-between-polls` |`0` |Sleep interval between Consumer.poll(Duration) calls.
+|`spring.rabbitmq.address-shuffle-mode` |`none` |Mode used to shuffle configured addresses.
+|`spring.redis.connect-timeout` | |Connection timeout.
+|`spring.rsocket.server.ssl.ciphers` | |
+|`spring.rsocket.server.ssl.client-auth` | |
+|`spring.rsocket.server.ssl.enabled` | |
+|`spring.rsocket.server.ssl.enabled-protocols` | |
+|`spring.rsocket.server.ssl.key-alias` | |
+|`spring.rsocket.server.ssl.key-password` | |
+|`spring.rsocket.server.ssl.key-store` | |
+|`spring.rsocket.server.ssl.key-store-password` | |
+|`spring.rsocket.server.ssl.key-store-provider` | |
+|`spring.rsocket.server.ssl.key-store-type` | |
+|`spring.rsocket.server.ssl.protocol` | |
+|`spring.rsocket.server.ssl.trust-store` | |
+|`spring.rsocket.server.ssl.trust-store-password` | |
+|`spring.rsocket.server.ssl.trust-store-provider` | |
+|`spring.rsocket.server.ssl.trust-store-type` | |
+|======================
+
+
+
+== Removed in `2.4.0-M3`
+None.

@@ -1,0 +1,55 @@
+=The information below will no longer be updated.  Please visit the original page at http://steamforge.net/wiki/index.php/How_to_Install_Scrapy_in_64-bit_Windows_7=
+
+
+
+=== Notes ===
+*Scrapy must be installed with Python 2.5, 2.6, or 2.7 (NOT 3.x)
+*Python 2.7 (and 3.2) do not load the correct 32-bit compatible Windows Registry Keys
+
+
+=== Install Procedure ===
+#Download the Python 2.7.2 Windows Installer from http://www.python.org/getit/
+#Go to the ''Search programs and files'' bar at the bottom of the start menu and type "regedit" and hit enter
+#Using the left pane navigate to "HKEY_LOCAL_MACHINE\SOFTWARE\Python" & click on it (highlighting it in blue)
+##With the branch selected go to File --> Export
+##Save the file somewhere you can get to it easily
+##Open the file in your favorite text editor
+##Insert "\Wow6432Node" inbetween "SOFTWARE" and "\Python" on every line (an easy way to do this is to do a find and replace with "SOFTWARE" in the Find Field and "SOFTWARE\Wow6432Node" in the Replace Field
+##Save the file
+##Navigate to where you saved said file and double click on it to initiate a Registry Modification
+#Now download the Scrapy 0.14 Windows installer from http://pypi.python.org/pypi/Scrapy
+#Double click the Scrapy Installer and everything should work fine.
+#Download and install Twisted 11.1.0 for Python 2.7 64 bits from http://twistedmatrix.com/trac/wiki/Downloads
+#Download and install Zope.Interface
+##Download distribute_setup.py from http://python-distribute.org/distribute_setup.py (right click & save), then double click it to install
+##Download zope.interface-3.8.0-py2.6-win-amd64.egg from http://pypi.python.org/pypi/zope.interface/3.8.0#downloads
+##Open a command prompt (type "cmd" into the same ''Search programs and files'' pane as above) and navigate to your Python Scripts folder (something like "cd C:\Python27\Scripts")
+##type "easy_install C:\Downloads\zope.interface-3.8.0-py2.6-win-amd64.egg" (replacing C:\Downloads\ with wherever you downloaded Zope.Interface to) and hit enter
+#Download and install lxml-2.3.2.win-amd64-py2.7.‌exe from http://www.lfd.uci.edu/~gohlke/pythonlibs/
+#Download and install pyOpenSSL-0.9.win32-py2.6.msi from http://sourceforge.net/projects/pyopenssl/files/pyopenssl-win/0.9/
+#*When it ask you to navigate to a Python 2.6 Directory, just point it to your Python 2.7 Directory (C:\Python27 by default)
+#Install w3lib
+##Open a command prompt (Start -> ''Search programs and files'' -> "cmd")
+##Navigate to your Python Scripts Folder (nominally "C:\Python27\Scripts")
+##Type "easy_install w3lib" and hit enter
+#Now we just need to add the Python Scripts folder to the System Path so we can use scrapy
+##Click the "Start Menu" button and Right Click on "Computer" and select "Properties"
+##Click "Advanced system settings" in the left bar
+##Click "Environment Variables..."
+##Find the "Path" variable in the (lower) System variables Pane and double click on it
+##Click in the "Variable value:" pane and hit the "End" button
+##Type, or paste, ";C:\Python27\Scripts\" (modify for wherever you installed Python) at the end of the line
+##*Be sure not to disturb or change any of the existing information there
+##Hit OK, OK,OK, X
+
+*You MIGHT have to install PyWin32.  I did so in an effort to fix another problem as it was recommended by the Scrapy Installation Guide.  Although it didn't fix the problem I was targeting it may have prevent other problems from arising.  Install PyWin32 if you are having problems
+*#Download pywin32-216.win-amd64-py2.7.exe from http://sourceforge.net/projects/pywin32/files/pywin32/Build216/
+*#Double click the downloaded file & install the software
+
+
+=== References ===
+* http://steamforge.net/wiki/index.php/How_to_Install_Scrapy_in_64-bit_Windows_7 (Check here for any possible updates)
+* http://readthedocs.org/docs/scrapy/en/0.14/intro/install.html
+* http://selfsolved.com/problems/setuptools-06c11-fails-to-instal/s/63 (Thanks for the comment Lathrop)
+* http://readthedocs.org/docs/scrapy/en/0.14/faq.html#does-scrapy-work-with-python-3-0
+* http://www.onnraves.com/2008/01/07/how-to-install-a-python-egg-egg-file/

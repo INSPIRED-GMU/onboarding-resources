@@ -1,0 +1,5 @@
+Full release notes will be available when 3.0 has been released. For now you can check out the release notes for the individual milestones:
+
+- https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.0.0-M3-Release-Notes[v3.0.0-M3 (preview)]
+- https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.0.0-M2-Release-Notes[v3.0.0-M2]
+- https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.0.0-M1-Release-Notes[v3.0.0-M1]

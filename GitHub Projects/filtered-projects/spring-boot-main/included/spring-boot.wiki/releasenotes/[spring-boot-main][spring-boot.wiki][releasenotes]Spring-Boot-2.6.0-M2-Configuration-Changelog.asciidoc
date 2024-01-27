@@ -1,0 +1,37 @@
+Configuration properties change between `2.6.0-M1` and `2.6.0-M2`
+
+== Deprecated in `2.6.0-M2`
+None.
+
+
+
+== New in `2.6.0-M2`
+|======================
+|Key  |Default value |Description
+|`spring.flyway.oracle-wallet-location` | |Location of the Oracle Wallet, used to sign-in to the database automatically.
+|`spring.flyway.state-script-prefix` | |Filename prefix of state scripts.
+|`spring.jackson.default-leniency` | |Global default setting (if any) for leniency.
+|`spring.rabbitmq.listener.stream.auto-startup` |`true` |Whether to start the container automatically on startup.
+|`spring.rabbitmq.listener.stream.native-listener` |`false` |Whether the container will support listeners that consume native stream messages instead of Spring AMQP messages.
+|`spring.rabbitmq.stream.host` |`localhost` |Host of a RabbitMQ instance with the Stream plugin enabled.
+|`spring.rabbitmq.stream.password` | |Login password to authenticate to the broker.
+|`spring.rabbitmq.stream.port` | |Stream port of a RabbitMQ instance with the Stream plugin enabled.
+|`spring.rabbitmq.stream.username` | |Login user to authenticate to the broker.
+|`spring.webflux.multipart.file-storage-directory` | |Directory used to store file parts larger than 'maxInMemorySize'.
+|`spring.webflux.multipart.headers-charset` |`UTF-8` |Character set used to decode headers.
+|`spring.webflux.multipart.max-disk-usage-per-part` |`-1B` |Maximum amount of disk space allowed per part.
+|`spring.webflux.multipart.max-headers-size` |`8KB` |Maximum amount of memory allowed per headers section of each part.
+|`spring.webflux.multipart.max-in-memory-size` |`256KB` |Maximum amount of memory allowed per part before it's written to disk.
+|`spring.webflux.multipart.max-parts` |`-1` |Maximum number of parts allowed in a given multipart request.
+|`spring.webflux.multipart.streaming` |`false` |Whether to stream directly from the parsed input buffer stream without storing in memory nor file.
+|======================
+
+
+
+== Removed in `2.6.0-M2`
+|======================
+|Key  |Replacement |Reason
+|`spring.flyway.vault-secrets` | |Removed in the open source release of Flyway 7.12.
+|`spring.flyway.vault-token` | |Removed in the open source release of Flyway 7.12.
+|`spring.flyway.vault-url` | |Removed in the open source release of Flyway 7.12.
+|======================

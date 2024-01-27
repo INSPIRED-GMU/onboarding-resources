@@ -1,0 +1,93 @@
+:docs: https://docs.spring.io/spring-boot/docs/2.3.x-SNAPSHOT
+:reference: {docs}/reference/html
+:maven-plugin: {docs}/maven-plugin/html
+:gradle-plugin: {docs}/gradle-plugin/reference/html
+
+
+= Spring Boot 2.3.0 M3 Release Notes
+
+For changes in earlier milestones, please refer to:
+
+ - link:Spring-Boot-2.3.0-M2-Release-Notes[v2.3.0 M2]
+
+ - link:Spring-Boot-2.3.0-M1-Release-Notes[v2.3.0 M1]
+
+== Upgrading from Spring Boot 2.2
+In addition to the below, please see the instructions in the link:Spring-Boot-2.3.0-M1-Release-Notes[2.3.0.M1] and link:Spring-Boot-2.3.0-M2-Release-Notes[2.3.0.M2] release notes for upgrading from Spring Boot 2.2.
+
+=== Neo4j health indicator
+The details of the Neo4j health indicator now contains the version and edition of the server:
+
+```xml
+neo4j: {
+  status: "UP",
+  details: {
+    edition: "community",
+    version: "4.0.0"
+  }
+}
+```
+
+== Upgrading from Spring Boot 2.3.0.M2
+
+=== Maven layered configuration
+The configuration for layers in the Maven Plugin has been renamed from `layered` to `layers`.
+
+== New and noteworthy
+TIP: Check link:Spring-Boot-2.3.0-M3-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+=== Graceful shutdown
+Graceful shutdown is supported with all four embedded web servers (Jetty, Reactor Netty, Tomcat, and Undertow) and with both reactive and Servlet-based web applications.
+When a grace period is configured using `server.shutdown.grace-period`, upon shutdown, the web server will no longer permit new requests and will wait for up to the grace period for active requests to complete.
+
+=== R2DBC support
+When r2dbc is on the classpath, a `ConnectionFactory` is auto-configured with a similar arrangement than a jdbc `DataSource`.
+If Spring Data is on the classpath, repositories are auto-configured as well, as usual.
+
+R2DBC support also adds an health indicator for the connection factory, metrics for `ConnectionPool` and a test slice, `@DataR2dbcTest`.
+
+=== Custom layers configuration with Maven
+The layers that are created when repackaging a layered jar is configurable with the Maven Plugin and we expect similar support for Gradle in the next milestone.
+For more details, see {maven-plugin}/#repackage-layers-configuration[the updated reference documentation].
+
+=== Query-less datasource health indicator
+In the absence of a validation query, the datasource `HealthIndicator` now operates in query-less mode, using `java.sql.Connection#isValid` to validate the connection.
+
+=== RSocket support for Spring Integration
+Spring Boot now provides auto-configuration for Spring Integration's RSocket support.
+
+If `spring-integration-rsocket` is available, developers can configure an RSocket server using `"spring.rsocket.server.*"` properties and let it use `IntegrationRSocketEndpoint` or `RSocketOutboundGateway` components to handle incoming RSocket messages.
+
+
+
+=== Actuator-specific ObjectMapper support
+The support for the Actuator-specific `ObjectMapper` that was introduced in M2 has been reverted as it introduced a https://github.com/spring-projects/spring-boot/issues/20211[regression]. The feature is now being tracked by https://github.com/spring-projects/spring-boot/issues/20291[this issue].
+
+
+=== Dependency Upgrades
+Spring Boot 2.3 M3 upgrades to the latest milestone of several Spring projects:
+
+- Spring Data Neumann-M4
+- Spring Integration 5.3.0.M3
+- Spring Security 5.3.0.RELEASE
+
+Numerous third-party dependencies have been upgraded, some of the more noteworthy of which are the following:
+
+- Elasticsearch 7.6.1
+- Flyway 6.3
+- Kotlin 1.3.70
+
+
+=== Miscellaneous
+Apart from the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+* Jetty's backing queue can be configured using `server.jetty.max-queue-capacity`.
+* Liquibase's tag support can be configured using `spring.liquibase.tag`. Clearing all checksums in the current changelog is now available via the `spring.liquibase.clear-checksums` property.
+* The build plugins offer an option to not include the layers tools jar in a layered archive.
+* Gradle metadata is now published.
+* The Java version used to build is used to set the Java version the buildpack should use.
+* `DataSourceBuilder` can be used to configure a `SimpleDriverDataSource`.
+* `DataSource` metrics have now a description.
+
+== Deprecations in Spring Boot 2.3.0 M3
+None

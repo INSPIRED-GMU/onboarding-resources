@@ -1,0 +1,97 @@
+:docs: https://docs.spring.io/spring-boot/docs/2.2.x-SNAPSHOT/reference/html/
+
+= Spring Boot 2.2.0 M4 Release Notes
+
+For changes in earlier milestones, please refer to:
+
+ - link:Spring-Boot-2.2.0-M3-Release-Notes[v2.2.0 M3]
+ - link:Spring-Boot-2.2.0-M2-Release-Notes[v2.2.0 M2]
+ - link:Spring-Boot-2.2.0-M1-Release-Notes[v2.2.0 M1]
+
+
+
+== Upgrading from Spring Boot 2.1
+See instructions in the link:Spring-Boot-2.2.0-M1-Release-Notes[2.2.0.M1 release notes] for upgrading from Spring Boot 2.1.
+
+
+
+=== Hamcrest 2.1
+This release upgrades to Hamcrest 2.1. This should be a drop-in replacement for most users. If you have a direct dependency on `org.hamcrest:hamcrest-core` or `org.hamcrest:hamcrest-library`, please use the new combined module, `org.hamcrest:hamcrest`, instead. If you depend on Hamcrest via `spring-boot-starter-test` no action is required.
+
+
+
+=== Freemarker templates configuration
+This release changes the default template file extension for Freemarker templates. This aligns Spring Boot with safe configuration defaults for web applications. Please rename existing templates from `+*.ftl+` to `*.ftlh` when upgrading. https://github.com/spring-projects/spring-boot/issues/15131[(#15131)]
+
+
+
+=== Tomcat's MBean Registry
+Tomcat's MBean Registry is now disabled by default, saving approximately 2MB of heap.  If you want to use Tomcat's MBeans, for example so that they can be used to expose metrics via Micrometer, set the `server.tomcat.mbeanregistry.enabled` to `true`.
+
+
+
+=== Logback max history
+The `<rollingPolicy>` in the default Logback configuration has been updated to use a `<maxHistory>` of 7 days. It can be tuned using the `logging.file.max-history` configuration property.
+
+
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.2.0-M4-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration. 
+
+
+
+=== Configuration property constructor parameter binding
+Annotations such as `@DefaultValue` and `DateTimeFormat` can now be used on constructor parameters that are provided by configuration property binding. https://github.com/spring-projects/spring-boot/issues/17109[(#17109)]
+
+
+
+=== `RestTemplateBuilder` request customisation
+Methods have been added to `RestTemplateBuilder` to add default headers to all requests and to enable generation request customization.  https://github.com/spring-projects/spring-boot/pull/17091[(#17091)]
+
+
+
+=== Performance improvements
+When launching an application at development time with `bootRun` in Gradle or `spring-boot:run` in Maven, the JVM will be configured with flags (`-Xverify:none` and `-XX:TieredStopAtLevel=1`) to optimise it for reduced launch time. https://github.com/spring-projects/spring-boot/issues/16222[(#16222)] https://github.com/spring-projects/spring-boot/pull/16941[(#16941)] 
+
+Configuration property binding has been optimized, particularly when binding an unusually large number of properties. https://github.com/spring-projects/spring-boot/issues/16401[(#16401)] https://github.com/spring-projects/spring-boot/pull/16717[(#16717)]
+
+Conditions on codec auto-configuration have been improved so that the codecs are no longer configured when they won't be used. https://github.com/spring-projects/spring-boot/issues/15690[(#15690)]
+
+Tomcat's MBean Registry has been disabled by default, reducing Tomcat's memory footprint by approximately 2MB. https://github.com/spring-projects/spring-boot/issues/16498[(#16498)]
+
+
+
+=== Reactive Elasticsearch Auto-configuration
+Auto-configuration has been added for the reactive Elasticsearch components introduced in Spring Data Moore. A `ReactiveElasticSearchTemplate` is auto-configured with the `spring.data.elasticsearch.client.reactive.*` properties. Auto-configured support for reactive Elasticsearch repositories is also provided. https://github.com/spring-projects/spring-boot/issues/16214[(#16214)]
+
+
+
+=== Dependency Upgrades
+Spring Boot 2.2.0.M4 moves to new versions of several Spring projects:
+
+- Reactor Dysprosium-M2
+- Spring AMQP 2.2.0.M3
+- https://spring.io/blog/2019/06/17/spring-data-moore-rc1-and-lovelace-sr9-released[Spring Data Moore-RC1]
+- https://spring.io/blog/2019/06/13/spring-framework-5-2-0-m3-and-5-1-8-available-now[Spring Framework 5.2.0.M3]
+- Spring HATEOAS 1.0.0.M3
+- Spring Integration 5.2.0.M3
+- Spring Kafka 2.3.0.M3
+- https://spring.io/blog/2019/06/17/spring-security-5-2-0-m3-released[Spring Security 5.2.0.M3]
+- https://spring.io/blog/2019/06/18/spring-session-corn-m2-and-spring-session-bean-sr6-released[Spring Session Corn-M2]
+
+Numerous third-party dependencies have also been updated, some of the more noteworthy of which are the following:
+
+- Artemis 2.9
+- HSQLDB 2.5
+
+=== Miscellaneous
+
+In addition to the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+- `Printer` and `Parser` beans are automatically registered with the application conversion service. https://github.com/spring-projects/spring-boot/pull/17064[(#17064)]
+- When using the H2 console auto-configuration, JDBC connection URL is now logged at startup for ease of connection. https://github.com/spring-projects/spring-boot/issues/17063[(#17063)]
+- Couchbase role-based access is now supported via `spring.couchbase.username` and `spring.couchbase.password`. https://github.com/spring-projects/spring-boot/pull/16389[(#16389)] 
+- Support for OAuth2 resource server opaque token authentication has been added and can be configured using the `spring.security.oauth2.resourceserver.opaquetoken` configuration properties. https://github.com/spring-projects/spring-boot/issues/15872[(#15872)]
+
+== Deprecations in Spring Boot 2.2.0 M4
+- None

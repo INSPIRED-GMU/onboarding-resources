@@ -1,0 +1,510 @@
+As a team we are constantly refining the practices that we use to manage the Spring Boot project.
+This document provides an overview of the most important ones.
+
+If you're an external contributor, you might find this document interesting, but you probably want to read link:Working-with-the-Code[Working with the Code] instead.
+
+
+
+== Team Principles
+The overriding principal adopted by the team is that it should be possible for any member to work on any aspect of the project.
+Most of the processes and practices that we have implemented are driven by this vision.
+
+We believe it's important that no single individual ever owns a specific part of the project.
+We don't want a single point of failure.
+As much as possible, we try to automate things away.
+
+
+
+== Overview
+
+
+
+== Inclusivity
+We strive to make Spring Boot an inclusive project and include a https://github.com/spring-projects/spring-boot/blob/main/CODE_OF_CONDUCT.adoc[code of conduct] that we enforce.
+Whenever possible we avoid oppressive language and follow https://tools.ietf.org/id/draft-knodel-terminology-05.html[IEFT recommendations].
+This extends to the issue tracker where we will routinely edit issue descriptions, for example, replacing "Hi Guys" with "Hi Team".
+
+
+
+== Versioning
+It's not really possible for Spring Boot to use semantic versioning since every release would have to be a major.
+Instead we try to use the version number as an indicator of the amount of pain that an upgrade will cause.
+
+The version number format used by Spring Boot is `<major>.<minor>.<patch>(-<qualifier>)`.
+
+
+
+=== Patch Releases
+Patch releases should be API compatible drop-in replacements for users.
+They should only contain bug fixes.
+
+
+
+=== Minor Versions
+Minor versions contain new features.
+It should generally be possible to upgrade from a previous minor release without too much effort as long as the major version has not changes and no deprecated methods are being used.
+
+
+
+=== Major Versions
+Major versions are reserved for large breaking changes.
+It's expected that users will need to do some work when upgrading major versions.
+
+
+
+=== Upgrade Empathy
+It's important to remember that upgrades are not an enjoyable task for most users.
+As a team we should always provide as much help as possible and have empathy for our users.
+
+We should always carefully consider the reasons behind any change that we make.
+It's sometimes better for us to take on the pain that we'd otherwise inflict on our users.
+For example, we often choose to support older versions of Java even though we'd like to use newer language features ourselves.
+
+
+=== Deprecation Policy
+Deprecated classes and methods must be annotated with `@Deprecated` _and_ include a `@deprecated` javadoc tag.
+
+See link:Deprecations[Deprecations] for more details about our deprecation policy.
+
+
+
+=== New Features vs Bugs
+New features should target the upcoming minor release and should not be included in patch releases.
+Bugs should be targeted to the oldest supported release, unless they are particularly risky or hard to fix in an older branch.
+
+
+
+=== Third-party Dependency Upgrades
+The upgrade policy for third-party dependencies is documented link:Supported-Versions#third-party-dependencies[here].
+We use a tool called Bomr to upgrade dependencies.
+
+Patch releases of Spring Boot will upgrade the patch versions of third-party dependencies.
+We do not upgrade third-party dependencies to new minor or major versions during a patch release of Spring Boot.
+
+Major and minor releases of Spring Boot will try to upgrade third-party dependencies to their latest release.
+A minor version of Spring Boot could include a major or minor version upgrade of a third-party dependency.
+
+
+
+=== Using SNAPSHOT Dependencies
+We try to move dependencies on other Spring projects to their SNAPSHOT versions about a week or two before we release.
+This helps us identify issues early to fix them, but not suffer too much instability in our own build.
+
+The https://github.com/spring-projects/spring-boot/tree/main/spring-boot-tests/spring-boot-smoke-tests[smoke tests] are particularly helpful in ensuring that all Spring dependencies work well together.
+
+
+
+=== Release Cadence
+Spring Boot releases minor versions every 6 months.
+We release on the Thursday after the third Monday of the month.
+This is usually, but not always, the third Thursday of the month.
+
+Details of the schedule are available https://github.com/spring-projects/spring-boot/wiki/Supported-Versions#releases[here].
+
+
+
+== Managing Issues and Pull Requests
+Spring Boot is a popular project and as a result it has a lot of issues raised against it.
+In order to deal with the volume of issues, we have had to put in several processes to help with issue management.
+
+
+
+=== Dealing With Issues
+Our issue process is documented link:GitHub-Issues[in this wiki page].
+It covers the triage process, the labels we use and the milestone that have.
+
+
+
+=== Forward Port Issues
+In order to generate release notes we add `status: forward-port`
+
+
+
+=== Canned Responses
+We used GitHub's "saved replies" feature to quickly provide common respones in issues.
+For example, it's common for us to close issues that are questions rather than bugs.
+
+A list of our saved replies are available link:Saved-Replies[here].
+
+
+
+=== First Timers Only
+Every now and then we like to try and find an issue that is suitable for someone that hasn't contributed to Spring Boot before.
+Our aim is to encourage people that wouldn't usually contribute to open source to give it a go.
+
+First timer issues are labeled `for: first-timers-only` and usually have a much more detailed description than regular issues.
+The first person to claim the issue is assigned and we then work with them so that they can contribute a pull-request.
+
+
+
+=== Pull Requests
+Spring Boot has a vibrant community of contributors the regularly send pull requests.
+We triage pull requests in the same way as issues and will assign them to a specific milestone.
+
+Once we assign a pull request to a milestone, any related issue is labeled as `status: superseded` and closed.
+
+Details on how to merge a pull request are link:Merging-Pull-Requests[documented here].
+
+
+
+== Git Practices
+
+
+
+=== Commit Messages
+Commit messages are a vital tool when trying to debug a regression.
+Spring Boot follows these 7 rules for commit messages:
+
+. Separate subject from body with a blank line
+. Limit the subject line to 72 characters (use shorter if possible)
+. Capitalize the subject line
+. Do not end the subject line with a period
+. Use the imperative mood in the subject line
+. Wrap the body at 72 characters
+. Use the body to explain what and why vs. how
+
+In addition, almost all commit messages include a reference to a GitHub issue or pull request.
+We reference issues using `See`, `Fixes` or `Closes` then `gh-NNNN`.
+
+For example:
+
+----
+Allow optional ConfigDataLocationResolver results
+
+Update `ConfigData` so that it signal if is considered optional. This
+update allows `ConfigDataLocationResolvers` to return results that
+behave in the same way as `optional:` prefixed locations without the
+user themselves needing to prefix the location string.
+
+Closes gh-25894
+----
+
+The following blogs are worth reading on the subject:
+
+* https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
+* https://chris.beams.io/posts/git-commit/
+
+
+
+=== Maintenance Branches
+The `main` branch of the Spring Boot repository contains the latest version of Spring Boot.
+This is usually the next minor or major version, but it may also be the next patch release if a maintenance branch has not yet been created.
+
+We keep maintenance branches in form `<major>.<minor>.x` for all active versions.
+For example, if `main` is for an upcoming `2.3.0` version, we'd have (at a minimum) `2.2.x` and `2.1.x` maintenance branches.
+
+Spring Boot uses forward-merges to apply fixes from maintenance branches forward.
+Please read link:Working-with-Git-branches[Working with Git Branches] for more details.
+
+
+
+== Code
+As much as possible we try to make the Spring Boot codebase appear as if it were written in a single voice.
+To do this, we rely on tools such as checkstyle and the `spring-javaformat` code formatter.
+We also regularly "polish" code to improve it and bring consistency.
+
+We hope that by having a consistent code style, it will be easier for contributors and the team to work on difference areas of the codebase.
+
+
+
+=== IDEs
+We want to ensure that Spring Boot works well with any IDE but we're especially invested in Eclipse and IntelliJ.
+See link:Working-with-the-Code[Working with the Code] for detailed instructions on how to setup your IDE.
+
+
+
+=== Formatting
+Our codebase is automatically formatted using the `spring-javaformat` project.
+Whilst there are pros and cons to auto-formatting, we've found it to be most beneficial for our project.
+
+Even with auto-formatting, there are still a few things that require manual tweaks.
+Some important ones are listed below.
+
+
+
+==== Fluent APIs
+Fluent APIs are often very hard to read when auto-formatted.
+To fix this, you can try moving to a one-statement-per-line style rather than chaining calls.
+Some fluent APIs also offer lambda callback variants which will look much better.
+
+If those tips don't work, using `@formatter: off`/`@formatter: on` can be used as a last resort.
+
+
+==== Whitespace
+Our code formatter will not touch whitespace in a method body, but we generally like to remove it.
+Removing body whitespace helps to make it easier to see where methods begin and end.
+
+If you have method body that is becoming long and hard to read, you might want to extract some private methods from it.
+
+[NOTE]
+====
+Other Spring projects have different opinions on whitespace.
+Spring Framework has additional lines around constructors and when method signatures wrap.
+Spring Data uses whitespace liberally within the method body.
+====
+
+
+
+=== Checkstyle
+We use checkstyle to bring as much consistency as possible to our codebase and catch potential programming issue early.
+We will add new rules to the `spring-javaformat` project if we find things that we can enforce.
+
+Although checkstyle can be a pain sometimes, we found it helpful overall and it's especially useful for contributors.
+
+
+
+=== Naming Classes/Methods
+Naming classes and methods is something that cannot be automated so we generally rely on team review.
+We try to follow the conventions already established by the Spring Framework team.
+
+Class and method names in Spring Boot can be quite long, especially for classes that are somewhat internal.
+
+
+
+=== Polish Commits
+Every member of the team is encouraged to make "Polish" commits whenvever they find code that could be improved.
+A polish commit is a commit that makes the code easier to read or reason about, but does not change functionality.
+
+
+
+=== Testing
+Spring Boot relies heavily on tests to ensure that code works as expected.
+Test are written using JUnit 5 and assertions are made using AssertJ.
+We use Mockito for mocking.
+
+
+
+==== Test Organization
+Mostly there's a 1-1 mapping between a class and its unit tests.
+For example, `SpringApplication.java` will have a related `SpringApplicationTests.java` file.
+
+The top comment of the `+++*Tests+++` file has a `+++{@link ...}+++` so that it's easy to navigate back to the class being tested:
+
+[source,java]
+----
+/**
+ * Tests for {@link SpringApplication}.
+ *
+ * @author ...
+ */
+class SpringApplicationTests {
+
+  ...
+
+}
+----
+
+Sometimes we need to test the interactions between several classes.
+In these situations, we'll use `+++*IntegrationTests+++` as the test suffix.
+
+We also have "smoke test" projects that we use for high level integration tests.
+
+
+
+==== Test Method Naming
+We like to use BDD (behavior driven development) style method names whenever possible.
+These are of the form: `<method-under-test>[when<condition>]<expecation>`.
+
+For example: `readLoadsFile` might test that the `read` method loads file contents.
+Or `readWhenFileIsEmptyThrowsException` might check that the `read` method throws an exception if the file is empty.
+
+NOTE: Over the years we've refined out test naming conventions so things aren't as consistent as we'd like.
+Polish commits can be used if you find an older set of tests that need migrating.
+
+
+
+=== Javadoc
+Javadoc is a very important part of the Spring Boot API.
+All classes and all public methods should have high quality documentation.
+
+Advice that code should be "self documenting" is rarely applicable for our code so we tend have quite a lot of duplication in our javadoc.
+For example, a method javadoc may include a "Returns ..." comment and have a `@returns` tag as well.
+
+Often writing javadoc is a good way to verify that a class or method is named correctly.
+If you find yourself writing different terms in the javadoc, then perhaps the code should be renamed.
+
+
+
+==== Author Tags
+We like to include `@author` tags in order to give recognition to contributors.
+Although this is also available in git, it's nice to have the `@author` tag as well since it appears when browsing jar contents in an IDE.
+
+
+
+==== Since Tags
+We add `@since` tags to public classes and public methods to help users know when something was added.
+The tags are not required for package-private classes.
+
+
+
+==== ConfigurationProperties
+Javadoc for `@ConfigurationProperties` is a little unusual because we document that fields rather than the getters/setters.
+This allows the comments to be saved in the meta-data json file.
+
+The field javadoc must also be plain text.
+Don't use html markup or `{@link ...}` items.
+
+
+
+== Documentation
+We publish reference documentation for Spring Boot, the Maven plugin and the Gradle plugin.
+We also publish actuator REST API documentation.
+
+There are also additional ancillary documents and release notes that are maintained on the wiki.
+
+
+
+=== Asciidoctor
+Reference documentation, README files and wiki pages are all written using Asciidoctor markup.
+
+We try to follow https://asciidoctor.org/docs/asciidoc-recommended-practices/[the recommended practices] suggested by the Asciidoctor team.
+In particular, using "one sentence per line" has been most beneficial.
+
+In addition, we also do the following:
+
+* Use three blank spaces to separate headings from previous text.
+* Add anchors above each heading (rather than relying on generated anchors)
+* Use hierarchical `.` separated anchor names, with `-` used to split words.
+
+For example, here's some typical markup:
+
+[source,asciidoc]
+----
+[[some-title]]
+== Some Title
+A line of text.
+Another line of text.
+
+
+
+[[some-title.running-the-code]]
+=== Running the Code
+To run the code you need an IDE.
+----
+
+We also try to follow the suggestions in the https://github.com/spring-io/spring-asciidoctor-backends/blob/main/guides/style-guide.adoc[Spring Style Guide].
+
+
+
+==== Example Code
+All sample code should be extracted from the `.adoc` file to a distinct class that will be compiled during the build.
+This helps ensure that samples in the documentation don't contain any obvious errors.
+Some samples also include JUnit tests to ensure they work as expected.
+
+Samples are always extract to a package that matches the title anchor.
+For example, a sample under `+++[[some-title.running-the-code]]+++` would be in a package named `org.springframework.boot.docs.sometitle.runningthecode`.
+
+
+==== Extensions
+Spring Boot uses https://github.com/spring-io/spring-asciidoctor-extensions[spring-asciidoctor-extensions] and https://github.com/spring-io/asciidoctor-spring-backends[asciidoctor-spring-backends] to extend Asciidoctor functionailty.
+The https://github.com/spring-io/spring-asciidoctor-extensions#spring-boot[Spring Boot Extension] is particularly useful to ensure that configuration properties exist.
+
+
+
+=== Wiki
+We use the GitHub project wiki to host general purpose documentation and documentation that might need to change after a version has been released.
+For example, we use it to host project release notes.
+
+Wiki pages should be written in Asciidoctor rather than Markdown.
+
+
+
+== CI
+A Concourse instance hosted at ci.spring.io is used to produce CI builds.
+Builds are triggered on a commit and result in a new set of SNAPSHOT jars being published to https://repo.spring.io/snapshot.
+
+CI builds are very important as allow bug reporters to try builds before they are published.
+
+Our Concourse pipeline is structured using a `pipeline.yml` file which is combined with `parameters.yml`.
+The aim is to keep the pipeline file as similar as possible across branches and keep the differences in the parameters file.
+
+We also perform releases using the CI infrastructure.
+
+
+
+== Releases
+Spring Boot minor releases are made every 6 months and patch releases are made as necessary.
+Everyone on the Spring Boot team can perform releases.
+
+We use the internal https://github.com/spring-projects/spring-release-checklist[spring-release-checklist] tool to generate a checklist for each release.
+This checklist provides detailed instructions for all the steps that we perform during the release.
+
+Some of things that we do include:
+
+* Checking that issue titles are consistent
+* Checking that dependencies are up to date
+* Staging the release to https://repo.spring.io/staging
+* Sanity testing the staged binaries
+* Checking the documentation
+* Promoting the release to https://repo.spring.io/release and to Maven central
+* Cleaning up GitHub
+* Sending announcements
+
+
+
+=== Generate Changelog
+The CI release script makes use of the https://github.com/spring-io/github-changelog-generator[github-changelog-generator] project to automatically generate a changelog page.
+This page is generated for all released versions and is automatically attached to the release.
+
+For major and minor releases we will manually edit the changelog and provide a link to the release notes.
+
+
+=== Release Notes
+Release notes are a vitally important part of any Spring Boot minor or major release.
+They are user-centric documents aimed at helping with upgrades.
+
+A writers guide for release notes and other release documentation is available https://github.com/spring-io/github-changelog-generator/wiki/Writing-Release-Documentation[here].
+
+One aspect that is unique to Spring Boot is that we also generate a config-diff document to attach to the release notes.
+We currently do this using https://github.com/snicoll-scratches/spring-boot-config/blob/main/spring-boot-config-diff/src/main/java/net/nicoll/boot/config/diff/ConfigDiffSample.java[this tool].
+
+
+
+== Team Communication
+Working on a distributed team with members in different timezones makes communication a particular challenge.
+
+As much as possible, we try to rely on asynchronous public communication.
+This usually means using GitHub issues, email and Slack.
+
+We've found from experience that asynchronous communication alone often isn't as productive as face-to-face video chat.
+For this reason we have three meetings each week where we try to focus on specific aspects of the project.
+Each meeting is 1 hour long and we try to stick to that schedule.
+
+Every two weeks we spend one of the meetings on a retro.
+This allows a fairly natural way for us to discuss a wide range of issues and topics.
+We use https://github.com/pivotal/postfacto[Postfacto] to manage our retros.
+
+
+
+== Other Notes
+
+
+
+=== Regressions
+GitHub issues marked as `type: regression` are used to indicate functionality that we've broken between releases.
+These tend to be the issues that we want to fix quickly.
+
+Generally with a regression we'll first add a failing test case to prove the problem exists.
+The tests usually include a reference to the GitHub issue, e.g:
+
+[source,java]
+----
+@Test // gh-12345
+void somethingWhenSomeConditionDoesIt() {
+  // ...
+}
+----
+
+
+
+=== CVE Processes
+We follow the standard Spring CVE process and use a private issue tracker to track security problems.
+GitHub issues should not be used for security problems.
+
+
+
+=== Gradle Build
+Spring Boot 2.3 switched our build system from Maven to Gradle.
+Gradle has provided a big performance boost thanks to its intelligent caching and avoidance algorithms.
+
+Conventions used in the build script are provided in the `buildSrc` folder.

@@ -1,0 +1,155 @@
+Configuration properties change between `2.1.9.RELEASE` and `2.2.0.RELEASE`
+
+.Deprecated keys in `2.2.0.RELEASE`
+|======================
+|Key  |Replacement |Reason
+|`logging.file` |`logging.file.name` |
+|`logging.path` |`logging.file.path` |
+|`management.health.elasticsearch.indices` | |Upstream elasticsearch transport is deprected
+|`management.health.elasticsearch.response-timeout` | |Upstream elasticsearch transport is deprected
+|`management.health.status.http-mapping` |`management.endpoint.health.status.http-mapping` |
+|`management.health.status.order` |`management.endpoint.health.status.order` |
+|`management.metrics.export.humio.repository` | |No longer used as repository is resolved from the api token.
+|`management.metrics.web.client.requests-metric-name` |`management.metrics.web.client.request.metric-name` |
+|`management.metrics.web.server.auto-time-requests` |`management.metrics.web.server.request.autotime.enabled` |
+|`management.metrics.web.server.requests-metric-name` |`management.metrics.web.server.request.metric-name` |
+|`server.use-forward-headers` |`server.forward-headers-strategy` |replaced to support additional strategies
+|`spring.data.elasticsearch.cluster-name` | |The transport client support is deprecated.
+|`spring.data.elasticsearch.cluster-nodes` | |The transport client support is deprecated.
+|`spring.data.elasticsearch.properties` | |The transport client support is deprecated.
+|`spring.datasource.dbcp2.enable-auto-commit-on-return` | |
+|`spring.elasticsearch.jest.uris` | |The Jest client support is deprecated.
+|`spring.jackson.joda-date-time-format` |`dateFormat` |Auto-configuration for Jackson's Joda-Time integration is deprecated in favor of its Java 8 Time integration
+|`spring.rabbitmq.listener.simple.transaction-size` |`spring.rabbitmq.listener.simple.batch-size` |
+|`spring.rabbitmq.publisher-confirms` |`spring.rabbitmq.publisher-confirm-type` |replaced to support additional confirm types
+|`spring.reactor.stacktrace-mode.enabled` |`spring.reactor.debug-agent.enabled` |
+|======================
+
+.New keys in `2.2.0.RELEASE`
+|======================
+|Key  |Default value |Description
+|`logging.file.clean-history-on-start` |`false` |Whether to clean the archive log files on startup.
+|`logging.file.name` | |Log file name (for instance, `myapp.log`).
+|`logging.file.path` | |Location of the log file.
+|`logging.file.total-size-cap` |`0B` |Total size of log backups to be kept.
+|`logging.pattern.rolling-file-name` |`${LOG_FILE}.%d{yyyy-MM-dd}.%i.gz` |Pattern for rolled-over log file names.
+|`management.auditevents.enabled` |`true` |Whether to enable storage of audit events.
+|`management.endpoint.health.group` | |Health endpoint groups.
+|`management.endpoint.health.show-components` | |When to show components.
+|`management.endpoint.health.status.http-mapping` | |Mapping of health statuses to HTTP status codes.
+|`management.endpoint.health.status.order` |`DOWN,OUT_OF_SERVICE,UP,UNKNOWN` |Comma-separated list of health statuses in order of severity.
+|`management.endpoints.migrate-legacy-ids` |`false` |Whether to transparently migrate legacy endpoint IDs.
+|`management.health.ping.enabled` |`true` |Whether to enable ping health check.
+|`management.metrics.export.newrelic.event-type` |`SpringBootSample` |The event type that should be published.
+|`management.metrics.export.newrelic.meter-name-event-type-enabled` |`false` |Whether to send the meter name as the event type instead of using the 'event-type' configuration property value.
+|`management.metrics.web.client.request.autotime.enabled` |`true` |Whether to automatically time web client requests.
+|`management.metrics.web.client.request.autotime.percentiles` | |Computed non-aggregable percentiles to publish.
+|`management.metrics.web.client.request.autotime.percentiles-histogram` |`false` |Whether percentile histograms should be published.
+|`management.metrics.web.client.request.metric-name` |`http.client.requests` |Name of the metric for sent requests.
+|`management.metrics.web.server.request.autotime.enabled` |`true` |Whether to automatically time web server requests.
+|`management.metrics.web.server.request.autotime.percentiles` | |Computed non-aggregable percentiles to publish.
+|`management.metrics.web.server.request.autotime.percentiles-histogram` |`false` |Whether percentile histograms should be published.
+|`management.metrics.web.server.request.metric-name` |`http.server.requests` |Name of the metric for received requests.
+|`server.forward-headers-strategy` | |Strategy for handling X-Forwarded-* headers.
+|`server.jetty.accesslog.custom-format` | |Custom log format, see org.eclipse.jetty.server.CustomRequestLog.
+|`server.jetty.accesslog.format` | |Log format.
+|`server.jetty.accesslog.ignore-paths` | |Request paths that should not be logged.
+|`server.jetty.idle-timeout` |`60000ms` |Maximum thread idle time.
+|`server.jetty.max-threads` |`200` |Maximum number of threads.
+|`server.jetty.min-threads` |`8` |Minimum number of threads.
+|`server.tomcat.accesslog.check-exists` |`false` |Whether to check for log file existence so it can be recreated it if an external process has renamed it.
+|`server.tomcat.accesslog.condition-if` | |Whether logging of the request will only be enabled if "ServletRequest.getAttribute(conditionIf)" does not yield null.
+|`server.tomcat.accesslog.condition-unless` | |Whether logging of the request will only be enabled if "ServletRequest.getAttribute(conditionUnless)" yield null.
+|`server.tomcat.accesslog.encoding` | |Character set used by the log file.
+|`server.tomcat.accesslog.ipv6-canonical` |`false` |Whether to use IPv6 canonical representation format as defined by RFC 5952.
+|`server.tomcat.accesslog.locale` | |Locale used to format timestamps in log entries and in log file name suffix.
+|`server.tomcat.accesslog.max-days` |`-1` |Number of days to retain the access log files before they are removed.
+|`server.tomcat.host-header` |`X-Forwarded-Host` |Name of the HTTP header from which the remote host is extracted.
+|`server.tomcat.mbeanregistry.enabled` |`false` |Whether Tomcat's MBean Registry should be enabled.
+|`server.tomcat.processor-cache` |`200` |Maximum number of idle processors that will be retained in the cache and reused with a subsequent request.
+|`server.tomcat.relaxed-path-chars` | |Comma-separated list of additional unencoded characters that should be allowed in URI paths.
+|`server.tomcat.relaxed-query-chars` | |Comma-separated list of additional unencoded characters that should be allowed in URI query strings.
+|`server.undertow.allow-encoded-slash` |`false` |Whether the server should decode percent encoded slash characters.
+|`server.undertow.always-set-keep-alive` |`true` |Whether the 'Connection: keep-alive' header should be added to all responses, even if not required by the HTTP specification.
+|`server.undertow.decode-url` |`true` |Whether the URL should be decoded.
+|`server.undertow.max-cookies` |`200` |Maximum number of cookies that are allowed.
+|`server.undertow.max-headers` | |Maximum number of headers that are allowed.
+|`server.undertow.max-parameters` | |Maximum number of query or path parameters that are allowed.
+|`server.undertow.options.server` | |
+|`server.undertow.options.socket` | |
+|`server.undertow.url-charset` |`UTF-8` |Charset used to decode URLs.
+|`spring.banner.image.bitdepth` |`4` |The bit depth to use for ANSI colors.
+|`spring.banner.image.pixelmode` |`TEXT` |The pixel mode to use when rendering the image.
+|`spring.couchbase.password` | |Cluster password when using role based access.
+|`spring.couchbase.username` | |Cluster username when using role based access.
+|`spring.data.elasticsearch.client.reactive.connection-timeout` | |Connection timeout.
+|`spring.data.elasticsearch.client.reactive.endpoints` | |Comma-separated list of the Elasticsearch endpoints to connect to.
+|`spring.data.elasticsearch.client.reactive.password` | |Credentials password.
+|`spring.data.elasticsearch.client.reactive.socket-timeout` | |Read and Write Socket timeout.
+|`spring.data.elasticsearch.client.reactive.use-ssl` |`false` |Whether the client should use SSL to connect to the endpoints.
+|`spring.data.elasticsearch.client.reactive.username` | |Credentials username.
+|`spring.data.mongodb.auto-index-creation` | |Whether to enable auto-index creation.
+|`spring.data.neo4j.use-native-types` |`false` |Whether to use Neo4j native types wherever possible.
+|`spring.datasource.dbcp2.auto-commit-on-return` | |
+|`spring.datasource.dbcp2.connection-factory-class-name` | |
+|`spring.elasticsearch.rest.connection-timeout` |`1s` |Connection timeout.
+|`spring.elasticsearch.rest.read-timeout` |`30s` |Read timeout.
+|`spring.flyway.batch` | |Whether to batch SQL statements when executing them.
+|`spring.flyway.error-overrides` | |Rules for the built-in error handling to override specific SQL states and error codes.
+|`spring.flyway.license-key` | |Licence key for Flyway Pro or Flyway Enterprise.
+|`spring.flyway.oracle-sqlplus` | |Whether to enable support for Oracle SQL*Plus commands.
+|`spring.flyway.oracle-sqlplus-warn` | |Whether to issue a warning rather than an error when a not-yet-supported Oracle SQL*Plus statement is encountered.
+|`spring.flyway.stream` | |Whether to stream SQL migrations when executing them.
+|`spring.flyway.tablespace` | |Tablespace in which the schema history table is created.
+|`spring.jms.listener.receive-timeout` |`1s` |Timeout to use for receive calls.
+|`spring.kafka.consumer.isolation-level` | |Isolation level for reading messages that have been written transactionally.
+|`spring.kafka.listener.missing-topics-fatal` |`true` |Whether the container should fail to start if at least one of the configured topics are not present on the broker.
+|`spring.main.lazy-initialization` |`false` |Whether initialization should be performed lazily.
+|`spring.main.register-shutdown-hook` |`true` |Whether the application should have a shutdown hook registered.
+|`spring.mvc.publish-request-handled-events` |`true` |Whether to publish a ServletRequestHandledEvent at the end of each request.
+|`spring.profiles` | |Comma-separated list of profile expressions that at least one should match for the document to be included.
+|`spring.rabbitmq.listener.simple.batch-size` | |Batch size, expressed as the number of physical messages, to be used by the container.
+|`spring.rabbitmq.publisher-confirm-type` | |Type of publisher confirms to use.
+|`spring.reactor.debug-agent.enabled` |`true` |Whether the Reactor Debug Agent should be enabled when reactor-tools is present.
+|`spring.redis.client-name` | |Client name to be set on connections with CLIENT SETNAME.
+|`spring.rsocket.server.address` | |Network address to which the server should bind.
+|`spring.rsocket.server.mapping-path` | |Path under which RSocket handles requests (only works with websocket transport).
+|`spring.rsocket.server.port` | |Server port.
+|`spring.rsocket.server.transport` | |RSocket transport protocol.
+|`spring.security.oauth2.resourceserver.jwt.jws-algorithm` |`RS256` |JSON Web Algorithm used for verifying the digital signatures.
+|`spring.security.oauth2.resourceserver.jwt.public-key-location` | |Location of the file containing the public key used to verify a JWT.
+|`spring.security.oauth2.resourceserver.opaquetoken.client-id` | |Client id used to authenticate with the token introspection endpoint.
+|`spring.security.oauth2.resourceserver.opaquetoken.client-secret` | |Client secret used to authenticate with the token introspection endpoint.
+|`spring.security.oauth2.resourceserver.opaquetoken.introspection-uri` | |OAuth 2.0 endpoint through which token introspection is accomplished.
+|`spring.security.saml2.relyingparty.registration` | |SAML2 relying party registrations.
+|`spring.session.hazelcast.save-mode` | |Sessions save mode.
+|`spring.session.jdbc.flush-mode` | |Sessions flush mode.
+|`spring.session.jdbc.save-mode` | |Sessions save mode.
+|`spring.session.redis.configure-action` | |The configure action to apply when no user defined ConfigureRedisAction bean is present.
+|`spring.session.redis.save-mode` | |Sessions save mode.
+|`spring.task.execution.shutdown.await-termination` |`false` |Whether the executor should wait for scheduled tasks to complete on shutdown.
+|`spring.task.execution.shutdown.await-termination-period` | |Maximum time the executor should wait for remaining tasks to complete.
+|`spring.task.scheduling.shutdown.await-termination` |`false` |Whether the executor should wait for scheduled tasks to complete on shutdown.
+|`spring.task.scheduling.shutdown.await-termination-period` | |Maximum time the executor should wait for remaining tasks to complete.
+|======================
+
+.Removed keys in `2.2.0.RELEASE`
+|======================
+|Key  |Replacement |Reason
+|`management.endpoints.jmx.unique-names` | |
+|`server.jetty.accesslog.date-format` |`server.jetty.accesslog.custom-format` |
+|`server.jetty.accesslog.extended-format` |`server.jetty.accesslog.format` |
+|`server.jetty.accesslog.locale` |`server.jetty.accesslog.custom-format` |
+|`server.jetty.accesslog.log-cookies` |`server.jetty.accesslog.custom-format` |
+|`server.jetty.accesslog.log-latency` |`server.jetty.accesslog.custom-format` |
+|`server.jetty.accesslog.log-server` |`server.jetty.accesslog.custom-format` |
+|`server.jetty.accesslog.time-zone` |`server.jetty.accesslog.custom-format` |
+|`server.tomcat.max-http-header-size` |`0B` |
+|`spring.data.cassandra.load-balancing-policy` | |
+|`spring.data.cassandra.reconnection-policy` | |
+|`spring.data.cassandra.retry-policy` | |
+|`spring.datasource.jmx-enabled` |`spring.datasource.tomcat.jmx-enabled` |
+|`spring.kafka.streams.cache-max-bytes-buffering` | |
+|`spring.mvc.favicon.enabled` |`true` |
+|`spring.rabbitmq.template.queue` | |
+|======================

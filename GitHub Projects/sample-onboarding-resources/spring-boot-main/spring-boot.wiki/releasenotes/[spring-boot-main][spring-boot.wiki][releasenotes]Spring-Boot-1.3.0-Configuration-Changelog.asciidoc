@@ -1,0 +1,301 @@
+Configuration properties change between `1.2.7.RELEASE` and `1.3.0.RELEASE`
+
+.Deprecated keys in `1.3.0.RELEASE`
+|======================
+|Key  |Replacement |Reason
+|`server.session-timeout` |`server.session.timeout` |
+|`server.tomcat.access-log-enabled` |`server.tomcat.accesslog.enabled` |
+|`server.tomcat.access-log-pattern` |`server.tomcat.accesslog.pattern` |
+|`spring.datasource.connection-customizer-class-name` | |
+|`spring.main.show-banner` |`spring.main.banner-mode` |
+|`spring.pidfile` |`spring.pid.file` |
+|`spring.view.prefix` |`spring.mvc.view.prefix` |
+|`spring.view.suffix` |`spring.mvc.view.suffix` |
+|======================
+
+.New keys in `1.3.0.RELEASE`
+|======================
+|Key  |Default value |Description
+|`endpoints.actuator.enabled` |`true` |Enable the endpoint.
+|`endpoints.actuator.path` | |Endpoint URL path.
+|`endpoints.actuator.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.cors.allow-credentials` | |Set whether credentials are supported.
+|`endpoints.cors.allowed-headers` | |Comma-separated list of headers to allow in a request. '*' allows all headers.
+|`endpoints.cors.allowed-methods` | |Comma-separated list of methods to allow. '*' allows all methods.
+|`endpoints.cors.allowed-origins` | |Comma-separated list of origins to allow. '*' allows all origins.
+|`endpoints.cors.exposed-headers` | |Comma-separated list of headers to include in a response.
+|`endpoints.cors.max-age` |`1800` |How long, in seconds, the response from a pre-flight request can be cached by clients.
+|`endpoints.docs.curies.enabled` |`false` |Enable the curie generation.
+|`endpoints.docs.enabled` |`true` |Enable the endpoint.
+|`endpoints.docs.path` |`/docs` |
+|`endpoints.docs.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.flyway.enabled` | |Enable the endpoint.
+|`endpoints.flyway.id` | |Endpoint identifier.
+|`endpoints.flyway.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.liquibase.enabled` | |Enable the endpoint.
+|`endpoints.liquibase.id` | |Endpoint identifier.
+|`endpoints.liquibase.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.logfile.enabled` |`true` |Enable the endpoint.
+|`endpoints.logfile.path` |`/logfile` |Endpoint URL path.
+|`endpoints.logfile.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.sensitive` | |Default endpoint sensitive setting.
+|`error.path` | |Path of the error controller.
+|`flyway.placeholder-replacement` | |
+|`liquibase.labels` | |Comma-separated list of runtime labels to use.
+|`liquibase.parameters` | |Change log parameters.
+|`logging.exception-conversion-word` |`%wEx` |Conversion word used when logging exceptions.
+|`logging.pattern.console` | |Appender pattern for output to the console.
+|`logging.pattern.file` | |Appender pattern for output to the file.
+|`logging.pattern.level` | |Appender pattern for log level (default %5p).
+|`logging.register-shutdown-hook` | |Register a shutdown hook for the logging system when it is initialized.
+|`management.health.defaults.enabled` |`true` |Enable default health indicators.
+|`management.health.elasticsearch.enabled` |`true` |Enable elasticsearch health check.
+|`management.health.elasticsearch.indices` | |Comma-separated index names.
+|`management.health.elasticsearch.response-timeout` |`100` |The time, in milliseconds, to wait for a response from the cluster.
+|`management.health.jms.enabled` |`true` |Enable JMS health check.
+|`management.health.mail.enabled` |`true` |Enable Mail health check.
+|`management.trace.include` | |Items to be included in the trace.
+|`security.oauth2.authorization.check-token-access` | |
+|`security.oauth2.authorization.realm` | |
+|`security.oauth2.authorization.token-key-access` | |
+|`security.oauth2.client.access-token-uri` | |
+|`security.oauth2.client.access-token-validity-seconds` | |
+|`security.oauth2.client.additional-information` | |
+|`security.oauth2.client.authentication-scheme` | |
+|`security.oauth2.client.authorities` | |
+|`security.oauth2.client.authorized-grant-types` | |
+|`security.oauth2.client.auto-approve-scopes` | |
+|`security.oauth2.client.client-authentication-scheme` | |
+|`security.oauth2.client.client-id` | |
+|`security.oauth2.client.client-secret` | |
+|`security.oauth2.client.grant-type` | |
+|`security.oauth2.client.id` | |
+|`security.oauth2.client.pre-established-redirect-uri` | |
+|`security.oauth2.client.refresh-token-validity-seconds` | |
+|`security.oauth2.client.registered-redirect-uri` | |
+|`security.oauth2.client.resource-ids` | |
+|`security.oauth2.client.scope` | |
+|`security.oauth2.client.token-name` | |
+|`security.oauth2.client.use-current-uri` | |
+|`security.oauth2.client.user-authorization-uri` | |
+|`security.oauth2.resource.id` | |Identifier of the resource.
+|`security.oauth2.resource.jwt.key-uri` | |The URI of the JWT token.
+|`security.oauth2.resource.jwt.key-value` | |The verification key of the JWT token.
+|`security.oauth2.resource.prefer-token-info` |`true` |Use the token info, can be set to false to use the user info.
+|`security.oauth2.resource.service-id` |`resource` |
+|`security.oauth2.resource.token-info-uri` | |URI of the token decoding endpoint.
+|`security.oauth2.resource.token-type` | |The token type to send when using the userInfoUri.
+|`security.oauth2.resource.user-info-uri` | |URI of the user endpoint.
+|`security.oauth2.sso.filter-order` | |Filter order to apply if not providing an explicit WebSecurityConfigurerAdapter (in which case the order can be provided there instead).
+|`security.oauth2.sso.login-path` |`/login` |Path to the login page, i.e. the one that triggers the redirect to the OAuth2 Authorization Server.
+|`server.compression.enabled` | |
+|`server.compression.excluded-user-agents` | |
+|`server.compression.mime-types` | |
+|`server.compression.min-response-size` | |
+|`server.display-name` |`application` |Display name of the application.
+|`server.error.include-stacktrace` | |When to include a "stacktrace" attribute.
+|`server.error.path` |`/error` |Path of the error controller.
+|`server.error.whitelabel.enabled` |`true` |Enable the default error page displayed in browsers in case of a server error.
+|`server.jsp-servlet.class-name` | |
+|`server.jsp-servlet.init-parameters` | |
+|`server.jsp-servlet.registered` | |
+|`server.session.cookie.comment` | |Comment for the session cookie.
+|`server.session.cookie.domain` | |Domain for the session cookie.
+|`server.session.cookie.http-only` | |"HttpOnly" flag for the session cookie.
+|`server.session.cookie.max-age` | |Maximum age of the session cookie in seconds.
+|`server.session.cookie.name` | |Session cookie name.
+|`server.session.cookie.path` | |Path of the session cookie.
+|`server.session.cookie.secure` | |"Secure" flag for the session cookie.
+|`server.session.persistent` |`false` |Persist session data between restarts.
+|`server.session.store-dir` | |Directory used to store session data.
+|`server.session.timeout` | |Session timeout in seconds.
+|`server.session.tracking-modes` | |Session tracking modes (one or more of the following: "cookie", "url", "ssl").
+|`server.tomcat.accesslog.directory` |`logs` |Directory in which log files are created.
+|`server.tomcat.accesslog.enabled` |`false` |Enable access log.
+|`server.tomcat.accesslog.pattern` |`common` |Format pattern for access logs.
+|`server.tomcat.accesslog.prefix` |`access_log` |Log file name prefix.
+|`server.tomcat.accesslog.suffix` |`.log` |Log file name suffix.
+|`server.undertow.access-log-dir` | |
+|`server.undertow.access-log-enabled` | |
+|`server.undertow.access-log-pattern` | |
+|`server.undertow.accesslog.dir` | |Undertow access log directory.
+|`server.undertow.accesslog.enabled` |`false` |Enable access log.
+|`server.undertow.accesslog.pattern` |`common` |Format pattern for access logs.
+|`server.use-forward-headers` | |If X-Forwarded-* headers should be applied to the HttpRequest.
+|`shell.ssh.auth-timeout` |`600000` |Number of milliseconds after user will be prompted to login again.
+|`shell.ssh.idle-timeout` |`600000` |Number of milliseconds after which unused connections are closed.
+|`spring.application.admin.enabled` |`false` |Enable admin features for the application.
+|`spring.application.admin.jmx-name` |`org.springframework.boot:type=Admin,name=SpringApplication` |JMX name of the application admin MBean.
+|`spring.artemis.embedded.cluster-password` | |Cluster password.
+|`spring.artemis.embedded.data-directory` | |Journal file directory.
+|`spring.artemis.embedded.enabled` |`true` |Enable embedded mode if the Artemis server APIs are available.
+|`spring.artemis.embedded.persistent` |`false` |Enable persistent store.
+|`spring.artemis.embedded.queues` |`` |Comma-separated list of queues to create on startup.
+|`spring.artemis.embedded.server-id` |`0` |Server id.
+|`spring.artemis.embedded.topics` |`` |Comma-separated list of topics to create on startup.
+|`spring.artemis.host` |`localhost` |Artemis broker host.
+|`spring.artemis.mode` | |Artemis deployment mode, auto-detected by default.
+|`spring.artemis.port` |`61616` |Artemis broker port.
+|`spring.autoconfigure.exclude` | |Auto-configuration classes to exclude.
+|`spring.batch.table-prefix` | |Table prefix for all the batch meta-data tables.
+|`spring.beaninfo.ignore` |`true` |Skip search of BeanInfo classes.
+|`spring.cache.cache-names` | |Comma-separated list of cache names to create if supported by the underlying cache manager.
+|`spring.cache.ehcache.config` | |The location of the configuration file to use to initialize EhCache.
+|`spring.cache.guava.spec` | |The spec to use to create caches.
+|`spring.cache.hazelcast.config` | |The location of the configuration file to use to initialize Hazelcast.
+|`spring.cache.infinispan.config` | |The location of the configuration file to use to initialize Infinispan.
+|`spring.cache.jcache.config` | |The location of the configuration file to use to initialize the cache manager.
+|`spring.cache.jcache.provider` | |Fully qualified name of the CachingProvider implementation to use to retrieve the JSR-107 compliant cache manager.
+|`spring.cache.type` | |Cache type, auto-detected according to the environment by default.
+|`spring.data.cassandra.cluster-name` | |Name of the Cassandra cluster.
+|`spring.data.cassandra.compression` | |Compression supported by the Cassandra binary protocol.
+|`spring.data.cassandra.connect-timeout-millis` | |Socket option: connection time out.
+|`spring.data.cassandra.consistency-level` | |Queries consistency level.
+|`spring.data.cassandra.contact-points` |`localhost` |Comma-separated list of cluster node addresses.
+|`spring.data.cassandra.fetch-size` | |Queries default fetch size.
+|`spring.data.cassandra.keyspace-name` | |Keyspace name to use.
+|`spring.data.cassandra.load-balancing-policy` | |Class name of the load balancing policy.
+|`spring.data.cassandra.password` | |Login password of the server.
+|`spring.data.cassandra.port` | |Port of the Cassandra server.
+|`spring.data.cassandra.read-timeout-millis` | |Socket option: read time out.
+|`spring.data.cassandra.reconnection-policy` | |Reconnection policy class.
+|`spring.data.cassandra.retry-policy` | |Class name of the retry policy.
+|`spring.data.cassandra.serial-consistency-level` | |Queries serial consistency level.
+|`spring.data.cassandra.ssl` |`false` |Enable SSL support.
+|`spring.data.cassandra.username` | |Login user of the server.
+|`spring.data.mongodb.field-naming-strategy` | |Fully qualified name of the FieldNamingStrategy to use.
+|`spring.data.rest.base-path` | |Base path to be used by Spring Data REST to expose repository resources.
+|`spring.data.rest.enable-enum-translation` | |Enable enum value translation via the Spring Data REST default resource bundle.
+|`spring.datasource.allow-pool-suspension` | |
+|`spring.datasource.health-check-properties` | |
+|`spring.datasource.health-check-registry` | |
+|`spring.datasource.type` | |Fully qualified name of the connection pool implementation to use.
+|`spring.datasource.validation-timeout` | |
+|`spring.devtools.livereload.enabled` |`true` |Enable a livereload.com compatible server.
+|`spring.devtools.livereload.port` |`35729` |Server port.
+|`spring.devtools.remote.context-path` |`/.~~spring-boot!~` |Context path used to handle the remote connection.
+|`spring.devtools.remote.debug.enabled` |`true` |Enable remote debug support.
+|`spring.devtools.remote.debug.local-port` |`8000` |Local remote debug server port.
+|`spring.devtools.remote.proxy.host` | |The host of the proxy to use to connect to the remote application.
+|`spring.devtools.remote.proxy.port` | |The port of the proxy to use to connect to the remote application.
+|`spring.devtools.remote.restart.enabled` |`true` |Enable remote restart.
+|`spring.devtools.remote.secret` | |A shared secret required to establish a connection (required to enable remote support).
+|`spring.devtools.remote.secret-header-name` |`X-AUTH-TOKEN` |HTTP header used to transfer the shared secret.
+|`spring.devtools.restart.additional-exclude` | |Additional patterns that should be excluded from triggering a full restart.
+|`spring.devtools.restart.additional-paths` | |Additional paths to watch for changes.
+|`spring.devtools.restart.enabled` |`true` |Enable automatic restart.
+|`spring.devtools.restart.exclude` |`META-INF/maven/**,META-INF/resources/**,resources/**,static/**,public/**,templates/**,**/*Test.class,**/*Tests.class,git.properties` |Patterns that should be excluded from triggering a full restart.
+|`spring.devtools.restart.poll-interval` |`1000` |Amount of time (in milliseconds) to wait between polling for classpath changes.
+|`spring.devtools.restart.quiet-period` |`400` |Amount of quiet time (in milliseconds) required without any classpath changes before a restart is triggered.
+|`spring.devtools.restart.trigger-file` | |Name of a specific file that when changed will trigger the restart check.
+|`spring.freemarker.prefer-file-system-access` |`true` |Prefer file system access for template loading.
+|`spring.groovy.template.allow-request-override` | |Set whether HttpServletRequest attributes are allowed to override (hide) controller generated model attributes of the same name.
+|`spring.groovy.template.allow-session-override` | |Set whether HttpSession attributes are allowed to override (hide) controller generated model attributes of the same name.
+|`spring.groovy.template.expose-request-attributes` | |Set whether all request attributes should be added to the model prior to merging with the template.
+|`spring.groovy.template.expose-session-attributes` | |Set whether all HttpSession attributes should be added to the model prior to merging with the template.
+|`spring.groovy.template.expose-spring-macro-helpers` | |Set whether to expose a RequestContext for use by Spring's macro library, under the name "springMacroRequestContext".
+|`spring.groovy.template.request-context-attribute` | |Name of the RequestContext attribute for all views.
+|`spring.groovy.template.resource-loader-path` |`classpath:/templates/` |Template path.
+|`spring.h2.console.enabled` |`false` |Enable the console.
+|`spring.h2.console.path` |`/h2-console` |Path at which the console will be available.
+|`spring.hateoas.use-hal-as-default-json-media-type` |`true` |Specify if application/hal+json responses should be sent to requests that accept application/json.
+|`spring.hazelcast.config` | |The location of the configuration file to use to initialize Hazelcast.
+|`spring.jackson.locale` | |Locale used for formatting.
+|`spring.jackson.serialization-inclusion` | |Controls the inclusion of properties during serialization.
+|`spring.jackson.time-zone` | |Time zone used when formatting dates.
+|`spring.jersey.application-path` | |Path that serves as the base URI for the application.
+|`spring.jms.listener.acknowledge-mode` | |Acknowledge mode of the container.
+|`spring.jms.listener.auto-startup` |`true` |Start the container automatically on startup.
+|`spring.jms.listener.concurrency` | |Minimum number of concurrent consumers.
+|`spring.jms.listener.max-concurrency` | |Maximum number of concurrent consumers.
+|`spring.jmx.default-domain` | |JMX domain name.
+|`spring.jmx.server` |`mbeanServer` |MBeanServer bean name.
+|`spring.jooq.sql-dialect` | |SQLDialect JOOQ used when communicating with the configured datasource, for instance "POSTGRES".
+|`spring.mail.jndi-name` | |Session JNDI name.
+|`spring.mail.protocol` |`smtp` |Protocol used by the SMTP server.
+|`spring.mail.test-connection` |`false` |Test that the mail server is available on startup.
+|`spring.main.banner-mode` |`console` |Mode used to display the banner when the application runs.
+|`spring.messages.fallback-to-system-locale` |`true` |Set whether to fall back to the system Locale if no files for a specific Locale have been found. if this is turned off, the only fallback will be the default file (e.g.
+|`spring.metrics.export.aggregate.key-pattern` |`` |Pattern that tells the aggregator what to do with the keys from the source repository.
+|`spring.metrics.export.aggregate.prefix` |`` |Prefix for global repository if active.
+|`spring.metrics.export.delay-millis` | |Delay in milliseconds between export ticks.
+|`spring.metrics.export.enabled` | |Flag to enable metric export (assuming a MetricWriter is available).
+|`spring.metrics.export.excludes` | |List of patterns for metric names to exclude.
+|`spring.metrics.export.includes` | |List of patterns for metric names to include.
+|`spring.metrics.export.redis.key` |`keys.spring.metrics` |Key for redis repository export (if active).
+|`spring.metrics.export.redis.prefix` |`spring.metrics` |Prefix for redis repository if active.
+|`spring.metrics.export.send-latest` | |Flag to switch off any available optimizations based on not exporting unchanged metric values.
+|`spring.metrics.export.statsd.host` | |Host of a statsd server to receive exported metrics.
+|`spring.metrics.export.statsd.port` |`8125` |Port of a statsd server to receive exported metrics.
+|`spring.metrics.export.statsd.prefix` | |Prefix for statsd exported metrics.
+|`spring.metrics.export.triggers` | |Specific trigger properties per MetricWriter bean name.
+|`spring.mobile.devicedelegatingviewresolver.enable-fallback` |`false` |Enable support for fallback resolution.
+|`spring.mongodb.embedded.features` | |Comma-separated list of features to enable.
+|`spring.mongodb.embedded.version` |`2.6.10` |Version of Mongo to use.
+|`spring.mvc.async.request-timeout` | |Amount of time (in milliseconds) before asynchronous request handling times out.
+|`spring.mvc.dispatch-options-request` |`false` |Dispatch OPTIONS requests to the FrameworkServlet doService method.
+|`spring.mvc.dispatch-trace-request` |`false` |Dispatch TRACE requests to the FrameworkServlet doService method.
+|`spring.mvc.favicon.enabled` |`true` |Enable resolution of favicon.ico.
+|`spring.mvc.media-types` | |Maps file extensions to media types for content negotiation, e.g. yml->text/yaml.
+|`spring.mvc.static-path-pattern` |`/**` |Path pattern used for static resources.
+|`spring.mvc.throw-exception-if-no-handler-found` |`false` |If a "NoHandlerFoundException" should be thrown if no Handler was found to process a request.
+|`spring.mvc.view.prefix` | |Spring MVC view prefix.
+|`spring.mvc.view.suffix` | |Spring MVC view suffix.
+|`spring.pid.fail-on-write-error` | |Fail if ApplicationPidFileWriter is used but it cannot write the PID file.
+|`spring.pid.file` | |Location of the PID file to write (if ApplicationPidFileWriter is used).
+|`spring.rabbitmq.listener.acknowledge-mode` | |Acknowledge mode of container.
+|`spring.rabbitmq.listener.auto-startup` |`true` |Start the container automatically on startup.
+|`spring.rabbitmq.listener.concurrency` | |Minimum number of consumers.
+|`spring.rabbitmq.listener.max-concurrency` | |Maximum number of consumers.
+|`spring.rabbitmq.listener.prefetch` | |Number of messages to be handled in a single request.
+|`spring.rabbitmq.listener.transaction-size` | |Number of messages to be processed in a transaction.
+|`spring.rabbitmq.requested-heartbeat` | |Requested heartbeat timeout, in seconds; zero for none.
+|`spring.rabbitmq.ssl.enabled` |`false` |Enable SSL support.
+|`spring.rabbitmq.ssl.key-store` | |Path to the key store that holds the SSL certificate.
+|`spring.rabbitmq.ssl.key-store-password` | |Password used to access the key store.
+|`spring.rabbitmq.ssl.trust-store` | |Trust store that holds SSL certificates.
+|`spring.rabbitmq.ssl.trust-store-password` | |Password used to access the trust store.
+|`spring.redis.timeout` |`0` |Connection timeout in milliseconds.
+|`spring.resources.chain.cache` |`true` |Enable caching in the Resource chain.
+|`spring.resources.chain.enabled` | |Enable the Spring Resource Handling chain.
+|`spring.resources.chain.html-application-cache` |`false` |Enable HTML5 application cache manifest rewriting.
+|`spring.resources.chain.strategy.content.enabled` |`false` |Enable the content Version Strategy.
+|`spring.resources.chain.strategy.content.paths` |`/**` |Comma-separated list of patterns to apply to the Version Strategy.
+|`spring.resources.chain.strategy.fixed.enabled` |`false` |Enable the fixed Version Strategy.
+|`spring.resources.chain.strategy.fixed.paths` | |Comma-separated list of patterns to apply to the Version Strategy.
+|`spring.resources.chain.strategy.fixed.version` | |Version string to use for the Version Strategy.
+|`spring.resources.static-locations` | |Locations of static resources.
+|`spring.sendgrid.password` | |SendGrid password.
+|`spring.sendgrid.proxy.host` | |SendGrid proxy host.
+|`spring.sendgrid.proxy.port` | |SendGrid proxy port.
+|`spring.sendgrid.username` | |SendGrid username.
+|`spring.thymeleaf.template-resolver-order` | |Order of the template resolver in the chain.
+|======================
+
+.Removed keys in `1.3.0.RELEASE`
+|======================
+|Key  |Default value |Description
+|`http.mappers.json-pretty-print` | |Enable json pretty print.
+|`http.mappers.json-sort-keys` | |Enable key sorting.
+|`server.tomcat.compressable-mime-types` |`text/html,text/xml,text/plain` |Comma-separated list of MIME types for which compression is used.
+|`server.tomcat.compression` |`off` |Controls response compression.
+|`spring.data.rest.base-uri` | |
+|`spring.freemarker.char-set` | |
+|`spring.groovy.template.char-set` | |
+|`spring.hateoas.apply-to-primary-object-mapper` |`true` |Specify if HATEOAS support should be applied to the primary ObjectMapper.
+|`spring.http.gzip.buffer-size` | |Size of the output buffer in bytes.
+|`spring.http.gzip.deflate-compression-level` | |Level used for deflate compression (0-9).
+|`spring.http.gzip.deflate-no-wrap` | |noWrap setting for deflate compression.
+|`spring.http.gzip.enabled` | |Enable gzip filter support.
+|`spring.http.gzip.exclude-agent-patterns` | |Comma-separated list of regular expression patterns to control user agents excluded from compression.
+|`spring.http.gzip.exclude-path-patterns` | |Comma-separated list of regular expression patterns to control the paths that are excluded from compression.
+|`spring.http.gzip.exclude-paths` | |Comma-separated list of paths to exclude from compression.
+|`spring.http.gzip.excluded-agents` | |Comma-separated list of user agents to exclude from compression.
+|`spring.http.gzip.excluded-mime-types` | |Comma-separated list of MIME types to exclude from compression.
+|`spring.http.gzip.methods` | |Comma-separated list of HTTP methods for which compression is enabled.
+|`spring.http.gzip.mime-types` | |Comma-separated list of MIME types which should be compressed.
+|`spring.http.gzip.min-gzip-size` | |Minimum content length required for compression to occur.
+|`spring.http.gzip.vary` | |Vary header sent on responses that may be compressed.
+|`spring.mustache.char-set` | |
+|`spring.velocity.char-set` | |
+|======================

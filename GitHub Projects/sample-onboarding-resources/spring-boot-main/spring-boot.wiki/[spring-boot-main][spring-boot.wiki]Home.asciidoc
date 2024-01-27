@@ -1,0 +1,28 @@
+Spring Boot takes an opinionated view of building production-ready Spring applications. Favors convention over configuration and is designed to get you up and running as quickly as possible.
+
+See https://spring.io/projects/spring-boot[spring.io/projects/spring-boot] for details.
+
+
+
+== Supported Versions
+Spring Boot 2.5 and 2.6 are the actively maintained versions.
+See the link:Supported-Versions["Supported Versions"] page for further details and EOL dates.
+
+
+
+== Release Notes
+See the following release notes for upgrade instructions and _new and noteworthy_ features:
+
+- link:Spring-Boot-3.0-Release-Notes[v3.0 (preview)]
+- link:Spring-Boot-2.7-Release-Notes[v2.7 (preview)]
+- link:Spring-Boot-2.6-Release-Notes[v2.6]
+- link:Spring-Boot-2.5-Release-Notes[v2.5]
+- link:Spring-Boot-2.4-Release-Notes[v2.4]
+- link:Spring-Boot-2.3-Release-Notes[v2.3]
+- link:Spring-Boot-Older-Release-Notes[Older Versions]
+
+
+
+== Useful Links
+
+- link:Spring-Boot-with-Java-9-and-above[Running Spring Boot on Java 9 and above]

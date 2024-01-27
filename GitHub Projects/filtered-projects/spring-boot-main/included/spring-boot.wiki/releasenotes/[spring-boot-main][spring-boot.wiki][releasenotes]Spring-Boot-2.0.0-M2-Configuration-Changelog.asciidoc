@@ -1,0 +1,40 @@
+Configuration properties change between `2.0.0.M1` and `2.0.0.M2`
+
+.New keys in `2.0.0.M2`
+|======================
+|Key  |Default value |Description
+|`server.undertow.eager-filter-init` |`true` |Whether servlet filters should be initialized on startup.
+|`spring.data.cassandra.pool.heartbeat-interval` |`30` |Heartbeat interval (in seconds) after which a message is sent on an idle connection to make sure it's still alive.
+|`spring.data.cassandra.pool.idle-timeout` |`120` |Idle timeout (in seconds) before an idle connection is removed.
+|`spring.data.cassandra.pool.max-queue-size` |`256` |Maximum number of requests that get enqueued if no connection is available.
+|`spring.data.cassandra.pool.pool-timeout` |`5000` |Pool timeout (in milliseconds) when trying to acquire a connection from a host's pool.
+|`spring.data.web.pageable.default-page-size` |`20` |Default page size.
+|`spring.data.web.pageable.page-parameter` |`page` |Page index parameter name.
+|`spring.data.web.pageable.size-parameter` |`size` |Page size parameter name.
+|`spring.data.web.sort.sort-parameter` |`sort` |Sort parameter name.
+|`spring.influx.password` | |Login password.
+|`spring.influx.url` | |Url of the InfluxDB instance to connect to.
+|`spring.influx.user` | |Login user.
+|`spring.jdbc.template.fetch-size` |`-1` |Number of rows that should be fetched from the database when more rows are needed.
+|`spring.jdbc.template.max-rows` |`-1` |Maximum number of rows.
+|`spring.jdbc.template.query-timeout` |`-1` |Query timeout in seconds.
+|`spring.jta.atomikos.properties.allow-sub-transactions` |`true` |Specify if sub-transactions are allowed.
+|`spring.jta.atomikos.properties.recovery.delay` |`10000` |Delay between two recovery scans.
+|`spring.jta.atomikos.properties.recovery.forget-orphaned-log-entries-delay` |`86400000` |Delay after which recovery can cleanup pending ('orphaned') log entries.
+|`spring.jta.atomikos.properties.recovery.max-retries` |`5` |Number of retries attempts to commit the transaction before throwing an exception.
+|`spring.jta.atomikos.properties.recovery.retry-interval` |`10000` |Delay between retry attempts.
+|`spring.kafka.listener.type` |`single` |Listener type.
+|`spring.quartz.jdbc.initialize-schema` |`false` |Create the required Quartz Scheduler tables on startup.
+|`spring.quartz.jdbc.schema` |`classpath:org/quartz/impl/jdbcjobstore/tables_@@platform@@.sql` |Path to the SQL file to use to initialize the database schema.
+|`spring.quartz.job-store-type` |`memory` |Quartz job store type.
+|`spring.quartz.properties` | |Additional Quartz Scheduler properties.
+|======================
+
+.Removed keys in `2.0.0.M2`
+|======================
+|Key  |Default value |Description
+|`spring.jta.atomikos.properties.console-file-count` |`1` |Number of debug logs files that can be created.
+|`spring.jta.atomikos.properties.console-file-limit` |`-1` |How many bytes can be stored at most in debug logs files.
+|`spring.jta.atomikos.properties.console-file-name` |`tm.out` |Debug logs file name.
+|`spring.jta.atomikos.properties.output-dir` | |Directory in which to store the debug log files.
+|======================

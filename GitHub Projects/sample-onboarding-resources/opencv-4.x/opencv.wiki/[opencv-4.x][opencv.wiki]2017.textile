@@ -1,0 +1,1133 @@
+h1. 2017  OpenCV Meeting notes
+
+Template is at "http://code.opencv.org/projects/opencv/wiki/Template":http://code.opencv.org/projects/opencv/wiki/Template
+"http://code.opencv.org/help/wiki_syntax":http://code.opencv.org/help/wiki_syntax
+
+[[Meeting_notes]]
+
+<pre>
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-mm-dd
+
+h3. _*Agenda*_
+* 
+
+h3. *_Minutes_*
+*
+
+h3. *_To Dos_*
+* 
+
+<pre>
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-12-18
+
+h3. _*Agenda*_
+* new release
+* GSoC
+* Org
+
+h3. *_Minutes_*
+* Release
+** 3.4 release is out
+*** Some GSoC is in, especially
+**** Background subtraction techniques
+**** Python documentation
+**** Dynamic fusion ... lots of problems with the code. Have to decide if we can re-write or abandon
+* Org
+** Have a chance for bigger funding. On Gary to put it together
+** Goal is to get funding for full time staff
+** Fenwick and West legal team
+** Run workshops, education course
+* ROS
+** 3.4 to be incorporated in next version of ROS ... April or May
+
+* *Vacations*
+** We are all off to the 4 corners of the world (even though it doesn't have corners)
+*** Next meeting is Jan 8th 2018!
+
+h3. *_To Dos_*
+* Gary Make GSoC'18 Wiki
+** Payments'17
+** complete org
+* Vadim find mail from guy who implemented many QT like features in OpenGL
+
+
+
+<pre>
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-12-11
+
+h3. _*Agenda*_
+* Code release
+* GSoC
+
+h3. *_Minutes_*
+* Releases
+** Final release 3.4 on 22nd on Dec
+*** Dynamic fusion ... has run issues (uber GPU card, or there are memory leaks)
+*** Multi language bindings
+**** Python function signatures for documentation
+*** background subtraction is in
+*** Tiny-dnn:
+**** Refactoring tensor backend (opencv mat, extended)
+***** Using Extensor (C++ header only numpy like)
+***** Refactoring of the library
+****** Integrate with OpenCV CVM project
+*** Javascript bindings in
+*** Text detection (deep net based)
+*** learning compact models for object detection (pending)
+*** deep gaze (pending)
+*** obstruction free photometric calibration
+*** AKAZE feature optimization
+** May be last 3.X release, on to 4
+*** Work in Halide
+**** Much more limited, but fast
+**** Make more like functional language
+** Better doc for contrib
+* GSoC'18
+** make page
+** ideas
+*** highGUI
+*** ONNX
+* Foundation
+** Set up and pay
+
+h3. *_To Dos_*
+* Gary Make GSoC'18 Wiki
+** Payments'17
+** complete org
+* Vadim find mail from guy who implemented many QT like features in OpenGL
+
+
+<pre>
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-12-04
+
+h3. _*Agenda*_
+* GSoC
+
+h3. *_Minutes_*
+
+*  New release
+** December 15 3.4 release candidate
+** December 22 Final Christmass present release
+** GSoC projects integrated
+** Background segmentation
+** Multi-language documentation
+** OpenCL improvements, especially deepnets
+** deepnets
+*** If it uses OpenCL accelerations (now, kernels only have to be compiled once)
+*** More topologies support for DNN
+*** Mobile nets, SSD object detectors
+*** Face detection ... much better than Viola Jones 5MB in 16 bit floating point
+**** Next year: text, face
+***** Compression tool w/in tensor flow framework, maybe submitted back to TensorFlow
+****** Train model, factorization compression tool, tuning pass
+****** Keras
+****** TNTK
+
+h3. *_To Dos_*
+* Gary Make GSoC'18 Wiki
+** Payments'17
+** complete org
+* Vadim find mail from guy who implemented many QT like features in OpenGL
+
+
+<pre>
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-11-27
+
+h3. _*Agenda*_
+* Next release
+* GSoC
+* Deep plans
+
+h3. *_Minutes_*
+* 3.4 scheduled for December 4th
+* GSoC
+** Halide
+*** We will develop samples of Halide's use
+** Better media support
+*** Better video capture and writing
+*** HW accelerated decoding and encoding
+** Improvements to HighGUI
+*** Based on OpenGL?
+** DNN
+*** Curated networks, memory reduced
+**** Almost any compression involves tuning
+***** Convert float to fixed point
+***** Then must tune (addons to tensor flow)
+****** Maybe we will contribute these back to tensorflow
+***** Factorized networks
+*** Compression algorithms
+* OpenCV 4.0
+** Many nets require specialized layers
+*** Method to just run these layers w/o modification
+
+h3. *_To Dos_*
+* Gary Make GSoC'18 Wiki
+** Payments'17
+** complete org
+* Vadim find mail from guy who implemented many QT like features in OpenGL
+
+
+<pre>
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-11-13
+
+h3. _*Agenda*_
+* Report
+* GSoC 2018
+
+* Vadim back from vacation
+* Gary back from NYC
+
+h3. *_Minutes_*
+* Report
+** 3.3.1 is now out and working
+** 3.4 is due out end of year, maybe early Jan
+*** Stabilize DNN
+**** Support for new topologies
+*** Optimized for GPU, but mainly Intel... 
+**** We could use NVidia people to carry this through, it is not meant to be specific
+** 4.0 in summer
+*** Halide support
+*** DNN expansion
+*** Move from traditional algorithms to optimized in speed and size dnn
+**** face detection
+**** pedestrian detection
+* Better support for data sets?
+** Deal with Unity or Unreal??
+* Pull request ONNX in TensorFlow ... if accepted, makes exchange much easier
+** Probably should support
+*** https://github.com/onnx/onnx
+* GSoC
+** Take some area
+*** Prepare some dataset in a standard format
+*** Evaluate models
+*** Use DNN to run pretrained model to collect performance statistics over these datasets
+
+
+h3. *_To Dos_*
+* Gary Make GSoC Wiki
+** Payments
+
+<pre>
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-11-06
+
+h3. _*Agenda*_
+* Back again after some mutual scheduling missmatches. Meetings moved to Monday, 9:30am California time
+* 3.3.1 release
+* GSoC 2018
+** Ideas for next year
+
+h3. *_Minutes_*
+
+* OpenCV 3.3.1 has been finally released! 
+** https://github.com/opencv/opencv/wiki/ChangeLog  
+** quite a lot of good stuff there, including: 
+*** results of a few GSoC projects. 
+**** A few more have been merged in right after the release, and other are still being evaluated.
+*** the new deep learning-based face detection
+*** YOLO support
+*** OpenCL acceleration of DNN (for now it support Intel GPUs only)
+*** We are slowly advancing in developing our "mini Halide" thing: 
+**** https://github.com/vpisarev/Halide/tree/mini_master
+** OpenCV 3.4 should be out in December. The main goals for it are:
+*** merge most of the remaining GSoC PRs (partly done already).
+*** further improve deep learning module in terms of supported topologies. 
+*** polish OpenCL acceleration; 
+*** improve CPU performance as well.
+*** make it solid enough, as it will possibly be the last major OpenCV 3.x release.
+*** deprecate C API and 
+*** maybe some other things that will be removed from OpenCV 4.0.
+** Some other highlights
+*** R3 of Intel SDK
+*** Deep learning face detector
+*** GPU accelerations
+*** Some of Google of Code
+*** Some security fixes finally
+* Ideas for 2018
+** Start the wiki for this
+** Medial Axis transform
+** Gamma correction
+** HighGUI QT: LGPL. Add improvements, maybe replace the QT dependency
+** Documentation for opencv_contrib! Need better organization and to toss non-supported stuff
+** Pre-trained, memory reduced
+** More docs on use of DNN
+
+h3. *_To Dos_*
+* Gary Make GSoC Wiki
+** Payments
+
+
+<pre>
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-10-10
+
+h3. _*Agenda*_
+* General progress
+* Accelerations
+
+h3. *_Minutes_*
+
+1. In September we've set a record on the number of PRs merged and issues closed, 6.1 and 5.5 per working day, respectively.
+2. We will release OpenCV 3.3.1 this or next week.
+3. OpenCL acceleration of dnn module has been integrated, and its performance is better than Halide or previous OpenCL backend offer, but it's still not as fast as the best implementations (e.g. clDNN). But we clearly see where the performance can be improved. In particular, layer fusion can give some noticeable performance improvements.
+4. We've added support for networks with FP16 (half-precision) weights to DNN model importers. In Caffe such models are supported through experimental patch from NVidia. In TF there is official support for FP16. We only support the latter. Since there is no full support for FP16 in OpenCV in general and in DNN in particular, we convert such models to FP32 on-fly. This let us to compress some of the models, e.g. object detection (MobileNet-SSD) and face detection (Reset-10+SSD) by factor of 2. E.g. face detection network is just 5Mb. We measured the detection accuracy on some popular databases and found no differences in results. So far so good. Processing the networks in FP16 arithmetics on GPUs with FP16 support (most modern GPUs from Intel, AMD and NVidia support FP16) could be the logical next step.
+
+
+* Checkout the "Amazon--Microsoft compiler work":https://aws.amazon.com/it/blogs/ai/introducing-nnvm-compiler-a-new-open-end-to-end-compiler-for-ai-frameworks/ called NNVM Compiler
+** This flow looks very similar to TensorFlow framework -- graph, optimize, compile, but is completely centric to TensorFlow
+** Washington U wanted to standardize PyTorch, Tiny-DNN, Caffe ... but after GSoC ended, lost momentum. 
+* But, also see "clDNN for working on Intel and AMD architectures":https://github.com/01org/clDNN
+* In general, we'll want OpenCV to run on as many frameworks as possible. Halide seems a possible, write once run many, but there are many people doing many things and there is also TensorFlow which was once part of the Amazon post.
+
+h3. *_To Dos_*
+* Complete legal transformation of OpenCV. Take Fenwick and West up on their offer
+* Drive
+
+<pre>
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-09-26
+
+h3. _*Agenda*_
+* GSoC starts again
+* Javascript
+* DNN
+
+h3. *_Minutes_*
+* *GSoC*
+** Basic themes
+*** _Ever better Python integration -- pybind next for cv::Mat to make it seemless_
+*** _ Vision kernels to Halide -- ever more optimized_
+*** _More support for DNN -- more kernels, functionality, moved to learned, memory efficient nets_
+** Payoneer payment is in ... didn't miss the deadline!
+** Image processing kernels => Halide
+*** So that we can automatically generate vectorized code
+*** And an OpenCL backend
+*** Can generate OpenGL, Cuda, and many more kernals
+** Python bindings ... boost python
+*** C++ bindings OpenCV cv::Mat to pybind so that we are more seemless in Python
+**** Exposing more of cv::Mat
+**** computational photography
+** Waiting for final videos from GSoC
+* *Javascript bindings are now integrated into OpenCV main supported code!* 
+** ... big win from this years GSoC and lots of thanks to *Intel* And... 
+** Super thanks to *Mohammad Haghighat* for kicking this off and seeing it through
+* *16b floating point format*
+** We are adding for OpenCV so that it can run more memory efficient floating point operations, particularly for deepnets
+* *DNN*
+** TensorFlow, Caffe, Torch, and some darknet
+** For GSoC, theme of squeezing memory down for model zoo of very memory efficient nets
+*** Fixed point networks, memory tuning, etc. (last CVPR). 100Mb down to 5Mb
+**** Not just quantization. Represent each product of weights as product of 3 factorized matrices UVD
+***** U and V consist of -1, 0, 1 and diagonal 
+** CPU optimization already
+** GPU optimization merged soon ... OpenCL, but tuned so far for integrated GPU
+*** So, if there is OpenCL optimization, it can be backported in
+
+h3. *_To Dos_*
+* Complete legal transformation of OpenCV. Take Fenwick and West up on their offer
+
+
+
+<pre>
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-09-19
+
+h3. _*Agenda*_
+* Next GSoC
+* Python documentation
+
+h3. *_Minutes_*
+* Advance Tiny-dnn
+* Replace things with DNN
+* Shrinking nets in 2 different ways
+** Need something for loading third party data/nets
+** Support for vectorized matrices
+** Want standardized compressed model
+** Then: Tensorflow vs Pytorch ... Keras
+* Python interface
+** Pybind 11 ... interfacing C++ code w/Python
+*** They may need to expose more Mat functionality to Python
+** numpy w/OpenCV
+** Conda ... need to support old Visual Studio version???
+* GSoC getting projects in
+** Mentors can contact Vadim for accepted pulls
+*** About 60 pull requests in main and in contrib, going through them now
+
+h3. *_To Dos_*
+* --W9 form-- Done! Payoneer payments are in
+
+
+<pre>
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-09-12
+
+h3. _*Agenda*_
+* Python
+* deep connection cv
+* GSoC
+
+h3. *_Minutes_*
+* Python
+** Can build for opencv_contrib
+** make sure ffmpeg found for highgui
+** pip didn't install opencv that could read mp4... on linux,
+*** might have to do it from scratch
+* deep connection with cv
+** take simple operators and train deep net on them
+*** optimize
+*** replace functionality
+** see "Vladlen Koltun's work":http://vladlen.info/
+*** "Fast Image Processing with Fully-Convolutional Networks":http://vladlen.info/publications/fast-image-processing-fully-convolutional-networks/
+*** "Learning to inpaint":http://vladlen.info/publications/learning-inpaint-image-compression/
+** Need to think of what form this should be and where to store networks
+** Think about "low level optimization for networks (TVM)":https://github.com/tqchen/tvm/blob/master/docs/faq.md
+*** people have already forked tiny-dnn for FPGA
+*** ways to express kernels on different hardware
+*** "Exchanging networks between frameworks":https://github.com/onnx/onnx
+* GSoC
+** Waiting on tax form W9
+** "Final spreadsheet":https://docs.google.com/spreadsheets/d/1xq8G2CqKvPzomBwsslNr2sP0FBygBVpfUQyOUtZ-Nro/edit#gid=1645794771 (not public, for mentors):
+*** 
+
+h3. *_To Dos_*
+* Gary, finish W9
+* Vincent to solicit videos from people
+
+<pre>
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-06-27
+
+h3. _*Agenda*_
+* GSoC
+* CVPR
+* DNN (Deep Neural Network) module
+
+h3. *_Minutes_*
+* *GSOC*
+** Evaluations due by, Friday, June 30. 
+** "See the Google timeline":https://summerofcode.withgoogle.com/how-it-works/
+** "Start evaluations here":https://summerofcode.withgoogle.com/dashboard/
+** "OpenCV Google Summer of Code 2017 page":https://github.com/opencv/opencv/wiki/GSoC_2017
+* *"CVPR":http://cvpr2017.thecvf.com/program/main_conference*
+** Most of us get in the Thursday before the tutorials. Meet up!
+** We will have a sponsored bar meet somewhere for collected students, professionals etc, TBD
+** OpenCV will be running a tutorial: "OpenCV 3.x New Functionality & Optimizations":http://cvpr2017.thecvf.com/program/tutorials
+* *OpenCV 3.3 Release*
+** It planned to be out middle of July
+** But it's ahead of schedule!
+*** Maybe out next week or week after, early part of week
+** Major news is that DNN Module is moving out of "opencv_contrib":https://github.com/opencv/opencv_contrib joining the core of "OpenCV":https://github.com/opencv/opencv in this uppcoming release 3.3
+*** DNN is a module that reads deep net models trained by other frameworks and runs them efficiently
+**** This is especially true on Intel CPUs and Intel GPUs (*Thanks Intel for the support!!!*), but 
+**** DNN will run other networks efficiently in general due to optimized C++ and increasing use of Halide. 
+***** This is still a work in progress (the Halide parts are not intensively optimized yet, still they perform well), but advancing rapidly.
+**** DNN now reads and optimizes run times for the following major CNN libraries:
+***** Caffe
+***** TensorFlow
+***** Torch
+***** By end of summer, it should also cover OpenCV's "tiny_dnn library":https://github.com/tiny-dnn/tiny-dnn
+*** "See the wiki page for DNN Module performance":https://github.com/opencv/opencv/wiki/DNN-efficiency-measurements
+*** For comparison (and we might start to contribute to this) see below:
+**** *NOTE:*
+***** These numbers are either much slower because they on mobile chips, or
+***** they are faster because they use a more powerful GPU.
+**** Excellent site: "Overall performance of CNNs":http://cknowledge.org/repo/web.php?action=index&module_uoa=wfe&native_action=show&native_module_uoa=program.optimization
+
+* Discussed deep neural network frameworks:
+
+|   Framework| State                                                                                   |
+|-----------:|-----------------------------------------------------------------------------------------|
+|     OpenCV | https://github.com/opencv/opencv/commit/d27009c775307e18d28da430862665ef1934d400        |
+|        DNN | https://github.com/opencv/opencv_contrib/commit/e551d15c2b58edce36fe5a5c23072cbe6ce74a93|
+|    clCaffe | https://github.com/BVLC/caffe/commit/483c58f5f46b5959dc0a978882843713daae18f6           |
+| TensorFlow | https://github.com/tensorflow/tensorflow/commit/1ec6ed51182adf8f1b03a3188c16cd8a45ca6c85|
+|      Torch | https://github.com/torch/distro/tree/748f5e3c5c804eebf5715c0b47b1519d60ef4409           |
+|     Halide | https://github.com/halide/Halide/commit/abef1d9bf6cb3f866393fa4c5f48726f728285ee        |
+| LLVM/Clang | 4.0.0                                                                                   |
+
+
+h3. *_To Dos_*
+* -Send out notice to review your student-
+
+
+<pre>
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-06-20
+
+h3. _*Agenda*_
+* GSoC
+* Meeting time
+
+h3. *_Minutes_*
+* GSoC
+** All projects going, send in pull request reminder
+* Vadim won't make it, might want to move these meeetings half an hour later
+* DNN next year
+** Might focus on DNN reading tiny-dnn output
+** Model zoo for pragmatic things
+
+h3. *_To Dos_*
+* Send out pull request reminder
+
+
+<pre>
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-06-13
+
+h3. _*Agenda*_
+* GSoC
+* Contributors
+* DNN
+
+h3. *_Minutes_*
+* GSoC
+** June 26 is phase 1 evaluations
+* DNN (runs embedded deep nets optimized for the hardware)
+** Moving to core
+** Theano group joined to the backend project, tiny-dnn involved in discussion
+*** Common effort for interfaces for kernels, lead by Tianqi Chen with Caffe2 (Yang Qing) etc
+** Halide type backend, University of Washington (also involved with MXNet
+*** "dmlc/dlpack":https://github.com/dmlc/dlpack
+* tiny-dnn
+** Moving to dmlc/dlpack backend
+** Work well with cv::Mat back and forth
+*** dlpack doesn't seem to like OpenVX
+**** OpenVX closer to 
+** OpenCL kernel for Caffe is involved in dlpack but DNN new kernel in Halide
+* Squeeze net 
+
+h3. *_To Dos_*
+* -Note out to get ready-
+* -Check with student-
+* -Ask Vadim about dlpack Halide kernels vs DNN Halide kernels-
+
+<pre>
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-06-06
+
+h3. _*Agenda*_
+* OpenCV
+* GSoC  template
+
+h3. *_Minutes_*
+* OpenCV
+** Tutorial at CVPR
+** 2 releases will come out
+** 3.3 release candidate out w/in 2 weeks (hope it includes openvx backend, allows flowgraph for dnn modules)
+** At least 8 core people
+*** DNN from contrib to main
+**** pytorch different from torch
+**** Caffe1 but not yet 2  difference in padding of arrays
+**** Tensorflow and Caffe use different layouts ... need tricks ... also flattened layers
+***** 1D representations have different orderings. Might be better to wait
+***** Then, there are kernel specializations for specialized hardware ... might take years to settle out
+**** Then there is research in shrinking kernels
+**** Support various blas version, openvx, 
+***** Regression tests run over many implementations which help insure capability/similarity to run most backends
+** support ganz opencl 
+*** Halide patches in. Block tensors into "voxels" for efficient convolution 
+**** MKL dnn approach
+**** opencl kernels
+*** tiny_dnn, 
+**** maybe Halide with some of the upstream engine nnpack
+* Halide
+** Might want a better cross integration
+** cudnn
+** might have larger impact across 
+** difference from openvx approach?
+* GSoC
+** Maksim Shabunin sent out a pull request template
+** Weekly reports on mailing list
+** Get a git summary out to everyone
+* Git 
+** Sourcetreee (mac)
+** Smartgit (cross platform)
+** tortoise (windows)
+** gitkraken  (cross platform)
+** atom editor, git and github
+
+h3. *_To Dos_*
+* -Ask student to send summary reports regularly (encouraged) ... short-
+* -Refine the pull request summary-
+* 
+
+
+
+<pre>
+<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-05-30
+
+h3. _*Agenda*_
+
+* GSoC
+* Foundation
+
+h3. *_Minutes_*
+
+* GSoC
+** Contribution template out
+* Foundation
+** Can OpenCV.org hold the domain for tiny_dnn?
+** OpenCV/tiny_dnn.org
+*** Github?
+**** Build bots for github: 
+***** Travis OS X, Linux,
+***** For windows: https://www.appveyor.com/
+** Kernels for near metal applications
+*** Tensor Flow optimization on Intel "TensorFlow On Intel":https://software.intel.com/en-us/articles/tensorflow-optimizations-on-modern-intel-architecture
+*** GTech -- minimum tensor data structure for optimization access across architectures
+**** "Dlpack":https://github.com/dmlc/dlpack
+**** NNVM computation graph for deep nets "NNVM":https://github.com/dmlc/nnvm
+***** "_computation graph optimization such as memory reduction, device allocation and more while being agnostic to the operator interface definition and how operators are executed_"
+***** "Tianqi Chen":https://homes.cs.washington.edu/~tqchen/ driving this https://github.com/tqchen
+** Halide framework for opencv, deep in Intel. Best to relate
+** "Intel Scheme (see figure 1)":https://software.intel.com/en-us/articles/accelerating-deep-learning-inference-with-intel-processor-graphics
+
+
+h3. *_To Dos_*
+
+* Write Vadim about tiny_dnn under the opencv domain/github cross links
+
+<pre>
+      <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-05-23
+
+h3. _*Agenda*_
+
+* GSoC needs
+
+h3. *_Minutes_*
+
+* Deep NN students need GPU cycles
+*** For text detection etc
+** Lambda Labs?
+** Google?
+
+* MRF code
+
+
+h3. *_To Dos_*
+
+* Ask about Intel release of Halide Deep network kernels
+* 501c3 filing
+* Notice to prime students to begin GSoC!
+** Who might need GPU access?
+* Ask for GPU resources for tiny_dnn students
+** Lambda labs with pre-trained model zoo?
+
+<pre>
+      <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-05-16
+
+h3. _*Agenda*_
+
+* GSoC pull template
+* Image corruption bug
+
+h3. *_Minutes_*
+
+* GSoC pull template
+** Need to create a template of how to do a pull request with all unit tests, examples 
+* Image corruption bug
+** We could get money ! (And maybe that would have found the security bug)
+*** https://opensource.googleblog.com/2017/05/oss-fuzz-five-months-later-and.html
+** Vadim on it
+** Need to see Coverity checks
+*** https://scan.coverity.com/
+** Foundation will need to consider all this
+* Projects
+** Docs for all languages, 
+** Doc writer got accepted in MIT
+* tiny_dnn
+** Where does it sit in the deepnet ecosystem?
+*** Simple front end
+*** Reach to good backends
+**** Use xtensor to extend
+***** https://github.com/QuantStack/xtensor
+*** ARM, GPU, Intel ...Easy to use the best for each
+** Will be integrated with GPU for training after this summer of code.
+** Auto difference engine with GPU backend, cudadnn, libdnn, 
+* Projects, OpenCV GSoC 2017:
+
+# API for Facial Landmark Detector
+# Computational Occlusion Removal in Image Inpainting
+# Create Web-based Interactive Tutorials and Examples for OpenCV
+# Documentation Improvement
+# End to End text detection and recognition
+# Face alignment with opencv
+# GPU enabled deep learning framework
+# Implementing and extending DynamicFusion (Newcombe et al 2015)
+# Improve and Extend the JavaScript Bindings for OpenCV
+# Improve Background Subtraction with Aggregated Saliency
+# Improvement of the background subtraction algorithm
+# Learning compact models for object detection
+# Photometric Calibration
+# Recurrent Neural Networks on tiny-dnn
+# Speeding-up AKAZE features
+# The Fast Bilateral Solver
+
+h3. *_To Dos_*
+
+* Gary
+** Get in the pull template for students
+** Get cash amount for schwag to Vincent
+** Maxim emails for docs
+** -Check on tiny_dnn-
+
+
+<pre>
+      <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-05-09
+
+h3. _*Agenda*_
+
+* GSoC pull requests
+
+h3. *_Minutes_*
+
+* Need to contact Vadim to put together a pull request template.
+* Get students and mentors going
+* Create tracking spreadsheet
+
+
+
+h3. *_To Dos_*
+
+* Gary
+** Get in the pull template for students
+** -Projects and mentors list onto site-
+** Get cash amount for schwag to Vincent
+** -Contact G about $ for "event"-
+** -Vadim, dinner-
+
+<pre>
+      <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-04-18
+
+h3. _*Agenda*_
+
+* Slot requests are in
+* Hallide
+
+h3. *_Minutes_*
+
+* Experiments are ongoing with "Halide":http://halide-lang.org/
+
+<pre><code>Func blur_3x3(Func input) {
+  Func blur_x, blur_y;
+  Var x, y, xi, yi;
+
+  // The algorithm - no storage or order
+  blur_x(x, y) = (input(x-1, y) + input(x, y) + input(x+1, y))/3;
+  blur_y(x, y) = (blur_x(x, y-1) + blur_x(x, y) + blur_x(x, y+1))/3;
+
+  // The schedule - defines order, locality; implies storage
+  blur_y.tile(x, y, xi, yi, 256, 32)
+        .vectorize(xi, 8).parallel(y);
+  blur_x.compute_at(blur_y, x).vectorize(x, 8);
+
+  return blur_y;
+}</code></pre>
+
+*** It's library in C++, but limited operators
+*** Good for image processing, deep nets
+*** Not good if your code needs logical operators w/in the processing loop
+**** The gradients of Canny operator yes, not the line thinning
+** Maybe something out by CVPR
+** Ability to implement kernels in Halide
+* GSoC 2017
+** Our slot asks are in
+** We find out allocation tomorrow, April 19
+** We will then have an email conference of the admins
+*** We will scrape the list, if we feel we have too many slots, we'll try to return unneeded ones quickly.
+* CVPR 2017
+** Vadim will give a tutorial there
+** Several of us will be there (Vincent, Vadim, Gary)
+
+h3. *_To Dos_*
+
+* -Book CVPR-
+ 
+<pre>
+      <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-04-11
+
+h3. _*Agenda*_
+
+* GSoC reviews by mentors
+
+h3. *_Minutes_*
+
+* Mentors need to rate the proposals and select people 
+
+
+h3. *_To Dos_*
+
+* 
+
+
+<pre>
+      <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-03-28
+
+h3. _*Agenda*_
+
+* GSoC decisions
+
+h3. *_Minutes_*
+
+* For DNN (just reading and running nets trained in Torch, TenserFlow, Caffe etc), it will translate to Halide and then run taking advantage of the architecture.
+** Going to OpenCL straight can result in unstable code, this way you generate efficient OpenCL for GPU.
+* We have a strong mentor for SLAM this year ... might go with it if we can find the right student.
+* Stereo via flow net
+* Support for Halide? Seems great for basic deepnet stuff, simple image processing
+** See Idea 17 https://github.com/opencv/opencv/wiki/GSoC_2017#2017-project-ideas
+* Would be great to get a model zoo of squeezed, high performance deep nets for DNN or for tiny-dnn, these are highly useful.
+*
+
+
+h3. *_To Dos_*
+
+* -Gary to send out reminder for students to apply to the GSoC site-
+* -Gary to remind mentors to start reviewing/deciding on possible/students/topics ... commit.-
+
+
+<pre>
+      <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-03-21
+
+h3. _*Agenda*_
+
+* GSoC -- gather in the mentors
+* Ideas
+
+h3. *_Minutes_*
+
+* GSoC
+** Can we develop radically smaller deep networks for text detection. Squeeze nets?
+**
+* DNN will read Torch, Caffe, TensorFlow and run it fast.
+* "Colormap for SFM and multi-view":https://github.com/colmap/colmap is "cool":https://colmap.github.io/ , but its GPL.
+
+* Gary to send out another announcement to post on GSOC site
+** Submit via google doc
+** 
+
+<pre>
+      <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-03-14
+
+h3. _*Agenda*_
+
+* GSoC -- gather in the mentors
+* Ideas
+
+h3. *_Minutes_*
+
+* Admins were screwed up by daylight savings, so most of the team missed the meeting. It was decided anyhow that the main useful activity is to review student proposals. Go to:
+** "https://groups.google.com/forum/#!forum/opencv-gsoc-2017":https://groups.google.com/forum/#!forum/opencv-gsoc-2017
+* JPEGXS (sequences) https://jpeg.org/jpegxs/
+* JPEG lightfield https://jpeg.org/items/20170208_cfp_pleno.html
+* GSOC
+** Curved edge detection
+*
+
+h3. *_Reports_*
+
+
+
+
+<pre>
+      <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-03-07
+
+h3. _*Agenda*_
+
+* GSoC -- gather in the mentors
+* Ideas
+
+h3. *_Minutes_*
+
+* Gathering mentors
+
+   # Vincent
+   # Vadim
+   # Gary
+   # Stefano
+   # Grace
+   # Pras?
+   # Reza?
+   # Edgar
+   # Ethan?
+   # Michael?
+   # Yida?
+   # Antonella
+   # Delia
+   # Maksim
+   # StevenP
+   # Manuele?
+   # noumi?
+
+* Ideas
+** Generalized ROI
+*** see https://github.com/kokkos/array_ref/blob/master/proposals/P0331.rst
+** Optimizations
+** Improve 3D viewer for colorized normals
+** vis improvements
+*** http://www.vtk.org/Wiki/VTK/Examples/Cxx/Points/NormalEstimation
+** Normals might be here
+*** http://www.docs.opencv.org/master/d5/dd8/classcv_1_1viz_1_1WCloudNormals.html
+** Can we encourage improving or developing simpler but important functionality
+** Intel DNN
+*** "Halide language":http://halide-lang.org/
+
+h3. *_Reports_*
+
+
+<pre>
+      <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-02-18
+
+h3. _*Agenda*_
+
+* GSoC
+
+h3. *_Minutes_*
+
+* GSoC
+* RGBD
+** 3D visualizer add normals and colorized normals
+** VTK toolkit has all the "tools" to do whatever
+*** For example, expose: http://www.vtk.org/Wiki/VTK/Examples/Cxx/Visualization/ElevationBandsWithGlyphs
+* Tiny-dnn
+** Needs mentor
+* Recruit mentors
+** Edgar
+** Original tiny-dnn author
+
+h3. *_Reports_*
+
+<pre>
+      <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-02-14
+
+h3. _*Agenda*_
+
+* GSoC
+
+
+
+h3. *_Minutes_*
+
+* 
+
+* GSoC
+* focusing on organizing tiny_dnn group
+
+h3. *_Reports_*
+
+<pre>
+      <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-02-07
+
+h3. _*Agenda*_
+
+* GSoC
+* OpenCV.js very interesting
+
+
+h3. *_Minutes_*
+
+* OpenCV.js  OpenCV in javascript. Looks very interesting
+** [[https://github.com/ucisysarch]]
+** Examples
+*** [[http://ucisysarch.github.io/opencvjs/examples/img_proc.html]]
+*** [[http://ucisysarch.github.io/opencvjs/examples/face_detect.html]]
+
+* GSoC
+* Our application is complete
+* Developers can put ideas into the "OpenCV ideas page":https://github.com/opencv/opencv/wiki/GSoC_2017
+* Halide? [[http://halide-lang.org/]]
+
+
+h3. *_Reports_*
+
+* . Vadim
+
+
+
+h3. *_Action Items_*
+
+*Gary*
+
+* .
+
+*Vincent*
+
+* .
+
+*Vadim*
+
+* .
+
+*Grace*
+
+* .
+
+
+
+
+<pre>
+      <><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>
+</pre>
+
+h2. 2017-01-30
+
+h3. _*Agenda*_
+
+* GSoC
+
+
+h3. *_Minutes_*
+
+* GSoC
+** DNN Intel contributing 
+*** Training mini-batch -- can be pluralized across samples
+*** Inference -- one sample
+** Project to detect useful objects
+*** Face
+*** Pedestrian 
+*** Car
+*** Smaller architectures is 50x smaller than Alex net for example
+**** Optimization on mobile -- model has to be compact, just a few GFLOPs, run quantized, code flow should be optimized for the architecture but this is beyond scope for a student
+** Squeeze net ... tiny_dnn
+*** Gam low power
+** Improving Tutorials
+*** How to use the deep learning
+*** Update existing tutorials
+*** Tracking
+*** Computational photography
+*** Camera calibration
+*** Video stabilization ... or improve it
+*** Image stitching 
+** April tags or Aruco to make a true checkerboard as tags 
+** Improve Aruco and Charuco code
+** SLAM ? All efforts have failed. Only if we can find someone far along in a related thesis
+** Better background subtraction
+*** Deep?  
+*** Current MoG has a flaw -- all pixels independently -- no smoothness, spacial constraints
+** --We have better optical flow now--
+** Better saliency model. Improve saliency API
+** Video stabilization, or just improve tutorial
+** Labeling module ...
+*** Improve VATIC (contact authors?)
+**** [[https://github.com/cvondrick/vatic]]
+**** [[http://web.mit.edu/vondrick/vatic/]]
+** OpenCV for artistic interaction
+*** Natural interaction 
+*** Hand pose? 
+** Text detection improvement ... better datasets. 
+
+* Hard to know quality level of different code in contrib
+** Put quality, optimization, GPU optimiztion, in Wiki
+** computational photography
+** SFM
+** Make a Wiki to track
+** Tracking with CNN doesn't have GPU optimization
+
+
+h3. *_Reports_*
+
+* . Vadim
+
+
+
+h3. *_Action Items_*
+
+*Gary*
+
+* .
+
+*Vincent*
+
+* .
+
+*Vadim*
+
+* .
+
+*Grace*
+
+* .
+
+
+
+
+
+***
+
+
+
+[[Meeting_notes]]

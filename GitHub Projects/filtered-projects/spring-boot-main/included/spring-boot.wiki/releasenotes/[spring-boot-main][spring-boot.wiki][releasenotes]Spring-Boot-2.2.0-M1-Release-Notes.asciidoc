@@ -1,0 +1,76 @@
+:docs: https://docs.spring.io/spring-boot/docs/2.2.x-SNAPSHOT/reference/html/
+
+= Spring Boot 2.2.0 M1 Release Notes
+
+== Upgrading from Spring Boot 2.1
+
+=== Deprecations from Spring Boot 2.1
+Classes, methods and properties that were deprecated in Spring Boot 2.1 have been removed in this release.
+Please ensure that you aren't calling deprecated methods before upgrading.
+
+=== JMX now disabled by default
+As of https://github.com/spring-projects/spring-boot/issues/16090[#16090], JMX is not enabled by default anymore. This feature can be enabled with the configuration property `spring.jmx.enabled=true`. If you're using IDE features to administer your applications, you may want to enable that flag there as well.
+
+=== Jakarta EE dependencies
+Where possible, we have moved from Java EE dependencies with a `javax.*` group ID to the equivalent Jakarta EE dependencies with a `jakarta.*` group ID in Spring Boot's starters. Dependency management for the Jakarta EE API dependencies has been added alongside the existing dependency management for the Java EE API dependencies. The dependency management for the Java EE API dependencies will be removed in the future and all users are encouraged to move to the Jakarta EE API dependencies.
+
+As part of the Java EE to Jakarta EE migration, two dependencies have changed artifact ID in their latest maintenance releases. `com.sun.mail:javax.mail` is now `com.sun.mail:jakarta.mail` and `org.glassfish:javax.el` is now `org.glassfish:jakarta.el`. In the unlikely event that you were using either of these dependencies directly, please update your `pom.xml` or `build.gradle` accordingly.
+
+=== AssertJ 3.12
+This release upgrades to AssertJ 3.12 that contains a breaking API change for assertions related to `Iterator`. Please see the https://assertj.github.io/doc/#assertj-core-3-12-0-release-notes[AssertJ release notes] for details.
+
+=== Spring HATEOAS 1.0
+This release upgrades to Spring HATEOAS 1.0 M1 which contains some breaking API changes. Please see the https://spring.io/blog/2019/03/05/spring-hateoas-1-0-m1-released#overhaul[blog post that announced the release] for details and a script that can be used to ease the migration.
+
+=== DataSize migration for logging.file size-based properties
+`logging.file.max-size` and `logging.file.total-size-cap` are now using the standard `DataSize` type in replacement of the proprietary `FileSize` type. If you are using any of those properties, make sure to {docs}/spring-boot-features.html#boot-features-external-config-conversion-datasize[align to the standard format].
+
+=== DataSource health
+The `DataSource` health indicator contains an extra `validationQuery` attribute with the validation query that was used against the `DataSource`. Also, the result of the query that used to be provided by the `hello` attribute has been renamed to `result`.
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.2.0-M1-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+=== Performance improvements
+Several performance improvements have been added in this release:
+
+* Time taken to bind large numbers of configuration properties has been significantly reduced 
+* As Spring Boot fully prepares a `PersistenceUnit` by scanning JPA entities, Hibernate's own entity scanning has been disabled as it is redundant
+* Injection points in auto-configurations have been refined to only apply when a bean has to be created
+* Beans related to Actuator endpoints are now only created if the endpoint is both enabled and exposed (via JMX or HTTP)
+
+=== Lazy initialization
+It is now possible to enable global lazy initialization to reduce startup time via the `spring.main.lazy-initialization` property. Please note that using that feature comes at a cost:
+
+* Handling of HTTP requests may take longer while any deferred initialisation occurs
+* Failures that would normally occur at startup will now not occur until later
+
+=== Spring Data Moore
+Spring Boot 2.2 will ship with Spring Data Moore and this release upgrades to Spring Data Moore M2. Please see the blog posts https://spring.io/blog/2018/12/11/spring-data-moore-m1-released[announcing Spring Data Moore M1] and https://spring.io/blog/2019/03/07/spring-data-moore-m2-released[Spring Data Moore M2] to learn about what's new.
+
+=== Shutdown configuration of Task execution and scheduling
+The behaviour on shutdown for both the auto-configured `TaskExecutor` and `TaskScheduler` is now configurable, see the `spring.task.execution.shutdown` and `spring.task.scheduling.shutdown` namespaces for more details.
+
+=== Kubernetes detection
+`ConditionalOnCloudPlatform` now detects if the application is running on Kubernetes.
+
+=== Test Application Arguments in integration tests
+`SpringBootTest` allows to specify application arguments that will trigger the creation of an `ApplicationArguments` bean.
+
+=== Miscellaneous
+Apart from the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+* `loadOnStartup` can be configured if you're wrapping a `Servlet` as an actuator endpoint.
+* Flyway bootstrap failures are covered by a dedicated `FailureAnalyzer`
+* The `MessageConverter` for Kafka batch listeners is properly auto-configured.
+* Add support for Jaybird 4 (`jdbc:firebird` prefix).
+* Add opt-in support for Neo4j-OGM native types.
+* Client-side HTTP-metrics have an `outcome` tag.
+* Numerous upgrades of third-party dependencies
+
+== Deprecations in Spring Boot 2.2.0 M1
+
+* The `logging.file` property has been renamed to `logging.file.name`.
+* The `logging.path` property has been renamed to `logging.file.path`.
+* `ReactiveWebServerApplicationContext#getWebServerFactory`
+* The `agent` property of the Maven plugin has been renamed to `agents`

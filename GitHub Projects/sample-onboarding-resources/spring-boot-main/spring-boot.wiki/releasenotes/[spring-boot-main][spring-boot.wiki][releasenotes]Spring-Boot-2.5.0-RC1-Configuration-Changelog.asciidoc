@@ -1,0 +1,59 @@
+Configuration properties change between `2.5.0-M3` and `2.5.0-RC1`
+
+== Deprecated in `2.5.0-RC1`
+|======================
+|Key  |Replacement |Reason
+|`spring.datasource.continue-on-error` |`spring.sql.init.continue-on-error` |
+|`spring.datasource.data` |`spring.sql.init.dmlScriptLocations` |
+|`spring.datasource.data-password` |`spring.sql.init.password` |
+|`spring.datasource.data-username` |`spring.sql.init.username` |
+|`spring.datasource.initialization-mode` |`spring.sql.init.enabled` |
+|`spring.datasource.platform` |`spring.sql.init.platform` |
+|`spring.datasource.schema` |`spring.sql.init.ddlScriptLocations` |
+|`spring.datasource.schema-password` |`spring.sql.init.password` |
+|`spring.datasource.schema-username` |`spring.sql.init.username` |
+|`spring.datasource.separator` |`spring.sql.init.separator` |
+|`spring.datasource.sql-script-encoding` |`spring.sql.init.encoding` |
+|======================
+
+
+
+== New in `2.5.0-RC1`
+|======================
+|Key  |Default value |Description
+|`management.endpoint.quartz.cache.time-to-live` |`0ms` |Maximum time that a response can be cached.
+|`management.endpoint.quartz.enabled` |`true` |Whether to enable the quartz endpoint.
+|`management.metrics.data.repository.autotime.enabled` |`true` |
+|`management.metrics.data.repository.autotime.percentiles` | |
+|`management.metrics.data.repository.autotime.percentiles-histogram` |`false` |
+|`management.metrics.data.repository.metric-name` |`spring.data.repository.invocations` |Name of the metric for sent requests.
+|`management.metrics.mongo.command.enabled` |`true` |Whether to enable Mongo client command metrics.
+|`management.metrics.mongo.connectionpool.enabled` |`true` |Whether to enable Mongo connection pool metrics.
+|`server.tomcat.keep-alive-timeout` | |Time to wait for another HTTP request before the connection is closed.
+|`server.tomcat.max-keep-alive-requests` |`100` |Maximum number of HTTP requests that can be pipelined before the connection is closed.
+|`spring.datasource.embedded-database-connection` | |Connection details for an embedded database.
+|`spring.integration.channel.auto-create` |`true` |Whether to create input channels if necessary.
+|`spring.integration.channel.max-broadcast-subscribers` | |Default number of subscribers allowed on, for example, a 'PublishSubscribeChannel'.
+|`spring.integration.channel.max-unicast-subscribers` | |Default number of subscribers allowed on, for example, a 'DirectChannel'.
+|`spring.integration.endpoint.no-auto-startup` | |A comma-separated list of endpoint bean names patterns that should not be started automatically during application startup.
+|`spring.integration.endpoint.read-only-headers` | |A comma-separated list of message header names that should not be populated into Message instances during a header copying operation.
+|`spring.integration.endpoint.throw-exception-on-late-reply` |`false` |Whether to throw an exception when a reply is not expected anymore by a gateway.
+|`spring.integration.error.ignore-failures` |`true` |Whether to ignore failures for one or more of the handlers of the global 'errorChannel'.
+|`spring.integration.error.require-subscribers` |`true` |Whether to not silently ignore messages on the global 'errorChannel' when they are no subscribers.
+|`spring.netty.leak-detection` |`disabled` |Level of leak detection for reference-counted buffers.
+|`spring.sql.init.continue-on-error` |`false` |Whether initialization should continue when an error occurs.
+|`spring.sql.init.data-locations` | |Locations of the data (DML) scripts to apply to the database.
+|`spring.sql.init.enabled` |`true` |Whether basic script-based initialization of an SQL database is enabled.
+|`spring.sql.init.encoding` | |Encoding of the schema and data scripts.
+|`spring.sql.init.password` | |Password of the database to use when applying initialization scripts (if different).
+|`spring.sql.init.platform` |`all` |Platform to use in the default schema or data script locations, schema-${platform}.sql and data-${platform}.sql.
+|`spring.sql.init.schema-locations` | |Locations of the schema (DDL) scripts to apply to the database.
+|`spring.sql.init.separator` |`;` |Statement separator in the schema and data scripts.
+|`spring.sql.init.username` | |Username of the database to use when applying initialization scripts (if different).
+|`spring.webflux.session.cookie.same-site` |`lax` |SameSite attribute value for session Cookies.
+|======================
+
+
+
+== Removed in `2.5.0-RC1`
+None.

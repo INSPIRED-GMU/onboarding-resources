@@ -1,0 +1,120 @@
+:actuator-docs: https://docs.spring.io/spring-boot/docs/2.5.0-SNAPSHOT/actuator-api/html/
+:docs: https://docs.spring.io/spring-boot/docs/2.5.x-SNAPSHOT/reference/html/
+:maven-docs: https://docs.spring.io/spring-boot/docs/2.5.0-SNAPSHOT/maven-plugin/reference/htmlsingle/
+:gradle-docs: https://docs.spring.io/spring-boot/docs/2.5.0-SNAPSHOT/gradle-plugin/reference/htmlsingle/
+
+= Spring Boot 2.5.0 RC1 Release Notes
+
+For changes in earlier milestones, please refer to:
+
+- link:Spring-Boot-2.5.0-M3-Release-Notes[v2.5.0 M3]
+- link:Spring-Boot-2.5.0-M2-Release-Notes[v2.5.0 M2]
+- link:Spring-Boot-2.5.0-M1-Release-Notes[v2.5.0 M1]
+
+
+
+
+== Upgrading from Spring Boot 2.4
+
+
+=== DataSource Initialization
+`spring.datasource.*` properties related to `DataSource` initialization have been deprecated in favour of new `spring.sql.init.*` properties that can also be used to initialise an SQL database accessed via R2DBC.
+
+The new script-based SQL database initialization does not support using separate credentials for schema (DDL) and data (DML) changes.
+This reduces complexity and aligns its capabilities with Flyway and Liquibase.
+If you require separate credentials for schema and data initialization, define your own `org.springframework.jdbc.datasource.init.DataSourceInitializer` beans.
+
+
+
+=== Minimum requirements changes
+Projects built with Gradle now require Gradle 6.8 or later.
+
+
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.5.0-RC1-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+
+=== Actuator Endpoint for Quartz
+A `/quartz` endpoint has been added to Actuator. It provides detailed information about Quartz jobs and triggers.
+Please see {actuator-docs}#quartz[the relevant section of the Actuator's API documentation] for further details.
+
+
+
+=== Database Initialization with R2DBC
+Support for script-based initialization of an SQL database accessed via R2DBC has been added.
+By default, scripts on the classpath named `schema.sql` and `data.sql` will be applied to the database automatically.
+The initialization can be customized using the `spring.sql.init.*` configuration properties. Please
+see the {docs}howto.html#howto-initialize-a-database-using-basic-scripts[reference documentation] for further details.
+
+
+
+=== Metrics for Spring Data Repositories
+Actuator will now generate Micrometer metrics for Spring Data repositories.
+By default, metrics are named `spring.data.repository.invocations`. To learn more, please see the {docs}production-ready-features.html#production-ready-metrics-data-repository[relevant section of the reference documentation].
+
+
+
+=== @Timed Metrics with WebFlux
+Aligning its capabilities with those of Spring MVC, `@Timed` can now be used to manually enable timing of requests handled by WebFlux controllers and functional handlers.
+To use manual timing, set `management.metrics.web.server.request.autotime.enabled` to `false`.
+
+
+
+=== MongoDB Metrics
+When using Actuator, metrics for Mongo's connection pool and commands sent by the client are now generated automatically.
+To learn more about MongoDB metrics, please see {docs}production-ready-features.html#production-ready-metrics-mongodb[the relevant section of the reference documentation].
+
+
+
+=== HTTP/2 over TCP (h2c)
+All four embedded web containers now support HTTP/2 over TCP (h2c) without any manual customization. To enable h2c, set `server.http2.enabled` is `true` and leave `server.ssl.enabled` set to `false` (its default value).
+
+
+
+=== Abstract Routing DataSource Health
+Actuator's health endpoint now shows the health of the targets of an `AbstractRoutingDataSource`.
+Each target `DataSource` is named using its routing key.
+As before, to ignore routing data sources in the health endpoint, set `management.health.db.ignore-routing-data-sources` to `true`.
+
+
+
+=== Gradle 7.x support
+Spring Boot's Gradle plugin now supports Gradle 7.x. Gradle 6.8.x is also supported.
+
+
+
+=== Dependency Upgrades
+Spring Boot 2.5 moves to new versions of several Spring projects:
+
+- https://spring.io/blog/2021/04/20/what-s-new-in-spring-data-2021-0[Spring Data 2021.0.0]
+- Spring Security 5.5.0-RC1
+- https://spring.io/blog/2021/04/14/spring-integration-5-5-rc1-5-4-6-5-3-7-available[Spring Integration 5.5.0-RC1]
+- https://spring.io/blog/2021/04/14/spring-for-apache-kafka-2-7-0-available[Spring Kafka 2.7.0]
+
+Numerous third-party dependencies have also been updated, some of the more noteworthy of which are the following:
+
+- Kotlin 1.5.0-RC
+- Elasticsearch 7.12
+
+
+
+=== Miscellaneous
+Apart from the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+- When Spring Security is on the classpath, configuration properties can now be bound to `RSAPublicKey` and `RSAPrivateKey`.
+- The RabbitMQ `ConnectionFactory` used by Spring AMQP can now be customized using a `ConnectionFactoryCustomizer` bean.
+- Embedded database auto-configured can now be controlled using the new `spring.datasource.embedded-database-connection` configuration property. It can be set to any of the values of `EmbeddedDatabaseConnection`, including `none` to disable embedded database auto-configured entirely.
+- `CloudPlatform` can now automatically detect Azure App Service.
+- `server.tomcat.keep-alive-timeout` can be used to configure how long Tomcat will wait for another request before closing a keep-alive connection.
+- `server.tomcat.max-keep-alive-requests` can be used to control the maximum number of requests that can be made on a keep-alive connection before it is closed.
+- `spring.webflux.session.cookie.same-site` can be used to configure WebFlux's SameSite cookie policy. It is lax by default.
+- Apache HttpClient 5 is now auto-configured for use with WebClient.
+- A new `ApplicationEnvironment` class has been introduced which should improve a small performance boost.
+- You can now configure Netty memory using the `spring.netty.leak-detection` property.
+
+
+
+== Deprecations in Spring Boot 2.5.0 RC1
+
+- `ActuatorMediaType` and `ApiVersion` in `org.springframework.boot.actuate.endpoint.http` in favor of equivalents in `org.springframework.boot.actuate.endpoint`

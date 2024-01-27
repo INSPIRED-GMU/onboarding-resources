@@ -1,0 +1,115 @@
+:docs: https://docs.spring.io/spring-boot/docs/2.7.x-SNAPSHOT/reference/html/
+
+= Spring Boot 2.7.0 RC1 Release Notes
+
+For changes in earlier milestones, please refer to:
+
+- link:Spring-Boot-2.7.0-M1-Release-Notes[v2.7.0 M1]
+- link:Spring-Boot-2.7.0-M2-Release-Notes[v2.7.0 M2]
+- link:Spring-Boot-2.7.0-M3-Release-Notes[v2.7.0 M3]
+
+
+
+== Upgrading from Spring Boot 2.6
+
+
+
+=== Running Your Application in the Maven Process
+The `spring-boot:run` and `spring-boot:start` goals of the Maven Plugin run your application in a forked processed by default.
+It is possible to disable this behavior using the `fork` attribute of the plugin.
+This attribute is now deprecated with no replacement.
+
+
+
+=== Ordered Exit Code Generators
+``ExitCodeGenerator``s are now ordered based on their `Ordered` implementation and `@Order` annotation.
+The first non-zero exit code that is generated is used.
+
+
+
+=== Metric Tag Keys Renamed
+Metric tag keys that were in `camelCase` have been renamed to comply with Micrometer's recommendation to use all lower-case and a `.` separator.
+The following metrics and tag keys are affected:
+
+[cols="1,1,1"] 
+|=== 
+| Metric | Old Tag Key | New Tag Key
+
+| `application.ready.time`
+| `main-application-class`
+| `main.application.class`
+
+| `application.started.time`
+| `main-application-class`
+| `main.application.class`
+
+| `cache.*` 
+| `cacheManager`
+| `cache.manager`
+
+| `http.client.requests`
+| `clientName`
+| `client.name`
+
+|===
+
+If you need to restore the previous names, define a `MeterFilter` bean that implements the `map(Id)` method to modify the tag keys.
+
+
+
+=== Support for Elasticsearch's RestHighLevelClient is Deprecated
+Elasticsearch has deprecated its `RestHighLevelClient`.
+In alignment with this, Spring Boot's auto-configuration for `RestHighLevelClient` has been deprecated.
+Where possible, the auto-configured low-level `RestClient` should be used instead.
+Alternatively, consider manually configuring https://www.elastic.co/guide/en/elasticsearch/client/java-api-client/current/migrate-hlrc.html[the new client].
+
+=== Deprecations from Spring Boot 2.5
+
+
+
+=== Minimum Requirements Changes
+None.
+
+
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.7.0-RC1-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+
+
+=== Simplified Registration of Jackson Mixins
+Auto-configuration for Jackson will now scan your application's packages for classes annotated with `@JsonMixin`.
+Any class that are found are automatically registered as mixins with the auto-configured `ObjectMapper`.
+
+
+
+=== New Default GraphQL Media Type
+As required by https://github.com/graphql/graphql-over-http/blob/main/spec/GraphQLOverHTTP.md#content-types[the GraphQL HTTP spec], our GraphQL support selects by default the `"application/graphql+json"` media type for all supported transports. 
+`"application/json"` is still supported, if explicitly requested by the client.
+
+=== Web Server SSL Configuration Using PEM-encoded Certificates
+Embedded web servers can be configured to use SSL with PEM-encoded certificate and private key files using the properties `server.ssl.certificate` and `server.ssl.certificate-private-key`, as well as the optional `server.ssl.trust-certificate` and `server.ssl.trust-certificate-private-key`. Management endpoints can be secured using similar `management.server.ssl.*` properties.  
+See https://docs.spring.io/spring-boot/docs/2.7.0-SNAPSHOT/reference/htmlsingle/#howto.webserver.configure-ssl[the documentation] for an example. 
+This is provided as an alternative to configuring SSL with Java KeyStore files. 
+
+=== Dependency Upgrades
+Spring Boot 2.7.0-M3 moves to new versions of several Spring projects:
+
+* TBD
+
+Numerous third-party dependencies have also been updated, some of the more noteworthy of which are the following:
+
+* TBD
+
+
+
+=== Miscellaneous
+Apart from the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+* Elasticsearch `RestClientBuilder` and `RestClient` beans are now auto-configured when `elasticsearch-rest-client` is on the classpath. If `elasticsearch-rest-high-level-client` is on the classpath, a `RestHighLevelClient` bean will still be auto-configured as before, but note that support `RestHighLevelClient` is now deprecated.
+
+
+
+== Deprecations in Spring Boot 2.7
+
+* `DatabaseDriver.GAE`

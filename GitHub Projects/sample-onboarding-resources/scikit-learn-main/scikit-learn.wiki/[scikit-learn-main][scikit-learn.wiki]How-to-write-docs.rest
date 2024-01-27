@@ -1,0 +1,105 @@
+====================
+How to write documentation
+====================
+
+Some guidelines on documenting estimators. 
+
+Class docstring
+===========
+
+The class should have a docstring with the fields Parameters, Attributes, Examples, See also. Example:
+
+```python
+
+ class Foo (BaseEstimator):
+    """C-Support Vector Classification.
+
+    Parameters
+    ----------
+
+    C : float, optional (default=1.0)
+        penalty parameter C of the error term.
+    
+    kernel : string, optional
+         Description of this members.
+
+    Attributes
+    ----------
+
+    `bar_` : array-like, shape = [n_features]
+        Brief description of this attribute.
+
+
+
+    Examples
+    --------
+    >>> clf = Foo()
+    >>> clf.fit()
+    []
+
+    See also
+    --------
+    OtherClass
+    """
+```
+
+The fit method
+===========
+
+The fit method should also be documented, at least a description (even if it seems obvious) and the list of parameters and the return parameters. Something like
+
+```python
+
+    def fit(self, X, Y):
+        """Fit the SVM model to the given training data and parameters.
+
+        Give additional details on how the algorithm works (e.g. the objective
+        function) and some element to understand the space and time complexity.
+
+        Parameters
+        ----------
+        X : array-like, shape = [n_samples, n_features]
+            Training vector, where n_samples in the number of samples and
+            n_features is the number of features.
+        Y : array, shape = [n_samples]
+            Target values (integers in classification, real numbers in
+            regression)
+        
+        Returns
+        --------
+        self
+        """
+```
+
+The predict method
+==================
+
+The predict method should also be documented in a similar way:
+
+```python
+    def predict(self, X):
+        """Predict class membership index for each input sample.
+
+        This function does classification on an array of
+        test vectors X.
+
+
+        Parameters
+        ----------
+        X : array-like, shape = [n_samples, n_features]
+
+
+        Returns
+        -------
+        C : array, shape = [n_samples]
+        """
+```
+
+Misc
+====
+When documenting estimated parameters, they should be sourrunded by the characters \`\` , or sphinx will interpret them as a link
+
+The RST docs
+===========
+
+TODO

@@ -1,0 +1,70 @@
+:guide: https://docs.spring.io/spring-boot/docs/2.0.0.RC2/reference/html
+:issue: https://github.com/spring-projects/spring-boot/issues
+
+For changes in earlier milestones, please refer to:
+
+ - link:Spring-Boot-2.0.0-M1-Release-Notes[v2.0.0 M1]
+ - link:Spring-Boot-2.0.0-M2-Release-Notes[v2.0.0 M2]
+ - link:Spring-Boot-2.0.0-M3-Release-Notes[v2.0.0 M3]
+ - link:Spring-Boot-2.0.0-M4-Release-Notes[v2.0.0 M4]
+ - link:Spring-Boot-2.0.0-M5-Release-Notes[v2.0.0 M5]
+ - link:Spring-Boot-2.0.0-M6-Release-Notes[v2.0.0 M6]
+ - link:Spring-Boot-2.0.0-M7-Release-Notes[v2.0.0 M7]
+ - link:Spring-Boot-2.0.0-RC1-Release-Notes[v2.0.0 RC1]
+
+== Upgrading from Spring Boot 2.0.0 RC1
+See instructions in the link:Spring-Boot-2.0.0-RC1-Release-Notes[2.0.0.RC1 release notes] for upgrading from v2.0.0.RC1 and earlier.
+
+=== Configuration key harmonization
+To reduce the confusion and provide an optimal structure, the `management.endpoints.web.expose` property has been relocated to `management.endpoints.web.exposure.include`, together with `management.endpoints.web.exposure.exclude` (formerly defined as `management.endpoints.web.exclude`). JMX-related settings have been migrated to  `management.endpoints.jmx.exposure.include` and `management.endpoints.jmx.exposure.exclude` respectively.
+
+=== Micrometer
+To align with decisions in Micrometer `1.0.0`, metrics prefix for RabbitMQ, Cache and JDBC are no longer configurable. The prefixes are now `rabbitmq`, `cache`,  and `jdbc` respectively.
+
+Also, the individual components are now dedicated auto-configurations rather than a single `MetricsAutoConfiguration`. This improves the conditions report and gives you the ability to exclude something in a more fine-grained manner if necessary.
+
+=== Health endpoint
+The `health` endpoint has been revisited to allow more flexibility and align with the features in Spring Boot `1.x`. The `show-details` property is now an enum that can be `never` (default), `when-authorized` and `always`.
+
+Check {guide}/production-ready-endpoints.html#production-ready-health[the updated documentation] for more details.
+
+=== Webjars Locator
+The dependency management for `webjars-locator` has changed to `webjars-locator-core`.
+
+=== Repackager libraries order
+The `Repackager` has been reworked so that the order of libraries is predictable, regardless of whether a library needs to be unpacked or not.
+
+=== Application-related classes relocation
+`ApplicationHome`, `ApplicationPid` and `ApplicationTemp` have moved to `org.springframework.boot.system`. 
+
+`ApplicationPidFileWriter` has moved to `org.springframework.boot.context`
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.0.0-RC2-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+=== Micrometer
+Spring Boot RC 2 supports the GA release of Micrometer. It adds the following features:
+
+* Property-based filtering of meters (see the {guide}/production-ready-metrics.html#production-ready-metrics-per-meter-properties[updated documentation])
+* `auto-create-db` flag for Influx
+* `publish-unchanged-meters` for StatsD
+* Support for SignalFx, New Relic and Wavefront
+* `ClassLoader` and file descriptor metrics
+* Tomcat metrics
+* Hikari-specific metrics are exposed with a `hikaricp` prefix. Each metric is tagged by the name of the pool (can be controlled with `spring.datasource.name`)
+* More {guide}/production-ready-metrics.html[comprehensive documentation]
+
+=== Kotlin documentation
+The reference documentation now has {guide}/boot-features-kotlin.html[a dedicated section on Kotlin].
+
+==== CLI `encodePassword` command
+The CLI is now able to encode a password.
+
+=== Custom binding delimiter
+It is now possible to specify a custom delimiter when binding a collection using `@Delimiter` on the target field.
+
+=== MongoDB reactive health indicator
+There is now a `ReactiveHealthIndicator` for MongoDB.
+
+==== jOOQ SQLDialect detection
+The detection of jOOQ's `SQLDialect` is more robust and detects more databases.

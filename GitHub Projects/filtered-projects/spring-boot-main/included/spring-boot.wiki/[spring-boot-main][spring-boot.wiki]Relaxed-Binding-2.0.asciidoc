@@ -1,0 +1,248 @@
+= Spring Boot Relaxed Binding 2.0
+
+The purpose of this page is to describe in detail the relaxed rules for binding properties to the environment as well as reading them from the environment.
+
+[[setting-properties]]
+== Setting properties in the environment
+
+Spring Boot allows you to configure properties for your application using properties files, YAML files,
+environment variables and command-line arguments.
+
+## Input Sources
+
+### Properties Files
+
+#### Simple Types
+Simple properties are bound by removing any special characters and converting to lowercase.
+For example, the following properties all result in the mapping `spring.jpa.databaseplatform=mysql`:
+
+[source,properties]
+----
+spring.jpa.database-platform=mysql
+spring.jpa.databasePlatform=mysql
+spring.JPA.database_platform=mysql
+----
+
+NOTE: We recommend that properties are stored in lowercase kabab format. i.e. `my.property-name=foo`.
+
+#### List Types
+List types in properties files should be referenced using `[ ]` notation:
+
+[source,properties]
+----
+spring.my-example.url[0]=https://example.com
+spring.my-example.url[1]=https://spring.io
+----
+
+Comma-separated values are also supported.
+
+[source,properties]
+----
+spring.my-example.urls=https://example.com,https://spring.io
+----
+
+Both of the mappings above result in the following properties:
+
+[source,properties]
+----
+spring.myexample.url[0]=https://example.com
+spring.myexample.url[1]=https://spring.io
+----
+
+### YAML Files
+
+#### Simple Types
+Simple YAML properties are bound by removing any special characters and converting to lowercase.
+For example, the following YAML properties all result in the mapping `spring.jpa.databaseplatform=mysql`:
+
+[source,yaml]
+----
+spring:
+  jpa:
+    database-platform: mysql
+    databasePlatform: mysql
+    database_platform: mysql
+----
+
+NOTE: We recommend that properties are stored in yaml in lowercase kabab format. i.e. `my.property-name=foo`.
+
+
+#### Lists
+YAML list type may be specified in the standard or abbreviated form:
+
+[source,yaml]
+----
+spring:
+  my-example:
+    url:
+      - https://example.com
+      - https://spring.io
+----
+
+[source,yaml]
+----
+spring:
+  my-example:
+    url: https://example.com, https://spring.io
+----
+
+Both are mapped as follows:
+
+[source,properties]
+----
+spring.myexample.url[0]=https://example.com
+spring.myexample.url[1]=https://spring.io
+----
+
+#### Maps
+Maps in yaml files may be specified in the standard form:
+
+[source,yaml]
+----
+spring:
+  my-example:
+    foo: bar
+    hello: world
+----
+
+This get mapped as:
+
+[source,properties]
+----
+spring.myexample.foo=bar
+spring.myexample.hello=world
+----
+
+For map keys with non-alphanumeric characters (other than `-`) in them, surround the key name with `[]`. For example:
+[source,yaml]
+----
+spring:
+  my-example:
+    '[foo.baz]': bar
+    '[abc xyz]': def
+----
+
+### Environment Variables
+
+#### Simple Types
+Environment variables are bound by lowercasing and replacing `_` with `.`.
+
+For example: `SPRING_JPA_DATABASEPLATFORM=mysql` results in the property `spring.jpa.databaseplatform=mysql`.
+
+NOTE: The `_` delimiter must not be used within a property name. i.e. `database-platform` must be written as `DATABASEPLATFORM` and *not* `DATABASE_PLATFORM`.
+
+#### Lists
+
+The `[` and `]` characters cannot be used in environment variable names so instead a special form of `_` is used.
+Any numeric value surrounded by underscores is converted to the `[`,`]` form. For example:
+
+* `MY_FOO_1_` = `my.foo[1]`
+* `MY_FOO_1_BAR` = `my.foo[1].bar`
+* `MY_FOO_1_2_` = `my.foo[1][2]`
+
+In addition, if an environment variable ends in a number the trailing `_` may be omitted:
+
+* `MY_FOO_1` = `my.foo[1]`
+* `MY_FOO_1_2` = `my.foo[1][2]`
+
+### System properties
+
+#### Simple Types
+System properties are bound by lowercasing and removing any special characters.
+For example, the following command line parameters will all result in `spring.jpa.databaseplatform=mysql` :
+
+----
+-Dspring.jpa.database-platform=mysql
+-Dspring.jpa.databasePlatform=mysql
+-Dspring.JPA.database_platform=mysql
+----
+
+#### List Types
+List types in system properties should be referenced using `[ ]` notation:
+
+[source,properties]
+----
+-D"spring.my-example.url[0]=https://example.com"
+-D"spring.my-example.url[1]=https://spring.io"
+----
+
+Comma-separated values are also supported:
+
+[source,properties]
+----
+-Dspring.my-example.url=https://example.com,https://spring.io
+----
+
+Both of the mappings above result in the following properties:
+
+[source,properties]
+----
+spring.myexample.url[0]=https://example.com
+spring.myexample.url[1]=https://spring.io
+----
+
+[[reading-properties]]
+== Reading properties from the environment
+
+If you read properties from the environment in your application, you will now need to use the uniform name for the property.
+
+.A uniform name
+
+* Is composed of elements separated in dots.
+* The last dot separates the prefix from the property name.
+* Must be alpha-numeric (`a-z` `0-9`)
+* Must be lowercase
+* Hyphen to can be used to separate words.
+* The only other characters permitted are `[` and `]` which are used to indicate indexes.
+* Cannot start with a number.
+
+For example a property as can be read from the environment as,
+
+```java
+this.environment.containsProperty("spring.jpa.database-platform")
+```
+
+NOTE: Using the `@Value` annotation also requires specifying the properties in the uniform format.
+
+[[migration-path]]
+== Migrating from 1.x to 2.0
+
+The new Binding API has replaced a lot of the old classes used for relaxed binding and relaxed property resolution.
+
+- The `RelaxedDataBinder` has been replaced by the `Binder` class. For example, the following POJO,
+
+```java
+class FooProperties {
+
+	private String bar;
+	public String getBar() { ... }
+    void setBar(String bar) { ... }
+}
+```
+can be bound as follows:
+
+```java
+Binder binder = Binder.get(environment);
+FooProperties foo = binder.bind("foo", Bindable.of(FooProperties.class)).get();
+```
+Details about the `bind` method can be found in the javadoc.
+
+- The `RelaxedPropertyResolver` which was used to resolve properties in a relaxed way has also been removed.
+Instead, properties should be read directly from the environment using the uniform format:
+
+```java
+this.environment.containsProperty("spring.jpa.database-platform")
+```
+
+== Constraints
+
+- Collections must always be specified as a whole. Omitting indices will lead to an `UnboundConfigurationPropertiesException` For example, the following is not allowed,
+
+```java
+foo[0] = a
+foo[2] = b
+```
+
+- Properties from non-enumerable property sources cannot be bound in a relaxed manner.
+
+- If a class annotated with `@ConfigurationProperties` needs to be validated, it must be annotated with `@Validated`.

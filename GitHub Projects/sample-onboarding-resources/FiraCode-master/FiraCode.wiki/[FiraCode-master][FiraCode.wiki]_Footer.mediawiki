@@ -1,0 +1,1 @@
+<code>Fira Code</code> 💻 – '''''[https://github.com/tonsky/FiraCode Home]''''' – [https://github.com/tonsky/FiraCode/wiki Wiki] – [https://github.com/tonsky/FiraCode/issues Issues] – [https://github.com/tonsky/FiraCode/issues?q=label%3Asuggestion+ Suggestions]

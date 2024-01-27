@@ -1,0 +1,207 @@
+## Setup
+
+We use a couple of Git commit hooks to automatically create issues when merging fixes forwards. The hooks can be found in the root of the repository at https://github.com/spring-projects/spring-boot/tree/main/git/hooks/[`git/hooks/`]. To be able to use the hooks they need to be symlinked into `.git/hooks`:
+
+----
+$ cd .git/hooks
+$ ln -s ../../git/hooks/forward-merge commit-msg
+$ ln -s ../../git/hooks/prepare-forward-merge prepare-commit-msg
+----
+
+NOTE: To allow Git to find the hook, the symlink must be created from the `.git/hooks` directory using a relative path.
+
+When using https://git-scm.com/docs/git-worktree[git worktrees] to manage multiple branches, `.git` in the repository root is a file instead of a directory. In a worktree directory, create an alternate hooks directory for the symlinks and configure git to use it instead of `.git/hooks`: 
+
+----
+$ mkdir .git-hooks
+$ cd .git-hooks
+$ ln -s ../git/hooks/forward-merge commit-msg
+$ ln -s ../git/hooks/prepare-forward-merge prepare-commit-msg
+$ git config core.hooksPath ./.git-hooks
+----
+
+The forward-merge hook uses a file, `~/.spring-boot/forward-merge.yml`, as the source of the GitHub credentials used to create new issues. Create the file with contents similar to the following:
+
+----
+github:
+  credentials:
+    username: your-user-id
+    password: your-access-token
+----
+
+NOTE: The provided credentials should have the https://developer.github.com/apps/building-oauth-apps/understanding-scopes-for-oauth-apps/#available-scopes[`public_repo` scope].
+
+When first configuring the forward-merge hook, you may also want to set `dry_run: yes`. When performing a dry run, the hook will output information to standard out about the issue that it would have created, without actually creating it.
+
+You're now ready to use the hook when merging changes forward.
+
+## Fixing Bugs
+When you're fixing a bug, the first thing to do is to decide where the fix needs to be made.
+Typically, the fix will be applied to the earliest-affected maintenance branch.
+However, if the fix is considered high risk, then it may be appropriate to only make the change in main.
+
+If you're fixing an issue in 2.1.x the rough sequence of commands would be:
+
+----
+$ git checkout 2.1.x
+$ git pull
+----
+
+_Make your changes_
+
+----
+$ git add
+$ git commit
+$ git checkout 2.2.x
+$ git pull
+----
+
+You're now ready to merge the changes forward from 2.1.x into 2.2.x:
+
+----
+$ git merge --no-ff 2.1.x
+----
+
+When prompted for the message for the merge commit, the commit hook can be triggered by including a line in a particular format in the body of the message. Lines are detected using a regular expression:
+
+----
+/^(?:Fixes|Closes) gh-(\d+) in (\d\.\d\.[\dx](?:[\.\-](?:M|RC)\d)?)$/
+----
+
+If you are merging into main, your commit message should be of the form:
+
+----
+Merge branch '2.3.x'
+----
+
+If you are merging into a maintenance branch, the message should be of the form:
+
+----
+Merge branch '2.1.x' into 2.2.x
+----
+
+NOTE: Make sure that you remove `origin/` (or whatever your remote is called) from the message.
+
+For example, if your commit in 2.1.x fixed issue gh-8219 and the forward merge into 2.2.x will be released in milestone 2.2.9, you would edit the commit message to add a line that triggers automatic creation of an issue:
+
+----
+Merge branch '2.1.x' into 2.2.x
+
+Fixes gh-8219 in 2.2.9
+----
+
+This will result in the creation of a new issue assigned to the 2.2.9 milestone, with the same title and labels as gh-8219. The commit message that you have provided will be automatically re-written to close the newly created issue.
+
+You are now ready to proceed with the forward merge to any additional release branches.
+
+----
+$ git checkout main
+$ git pull
+$ git merge --no-ff 2.3.x
+$ git push
+----
+
+If you don't want an issue to be automatically created when forward merging, for example because the change isn't applicable to the branch into which you are merging, leave the commit message in its default form.
+
+## Backporting a Fix
+If a change has already been made on main and that change is now also wanted in a maintenance branch then you can back port it using cherry-pick:
+
+----
+$ git checkout 2.1.x
+$ git pull
+$ git cherry-pick <SHA>
+$ git checkout main
+$ git pull
+$ git merge --no-ff 2.1.x
+$ git push
+----
+
+Note: This should rarely be necessary.
+Wherever possible changes should be made in a maintenance branch and merged forwards.
+
+
+
+## Why merging forwards is important
+When you're making a change in multiple branches, conflicts may occur.
+The best person to address the conflicts is the person who made the original change and the best time to do it is straight after the original change was made when things are still fresh in the mind.
+If you make a change in a maintenance branch and then don't merge it forwards, you're leaving the next person who makes a change in that branch to deal with any conflicts in your changes.
+
+
+
+## Why not always fix in main and then back port using cherry-pick?
+The problem with cherry-picking is that you end up with two different commits with different SHAs for what should have been the same change.
+That doesn't happen when you merge forwards.
+Having a single commit for a change is important as it allows git's standard tools to be used to, for example, find out which branches contain a change.
+
+A change that was made in 1.5.x and then merged forwards:
+
+----
+$ git branch --contains 7945b29669869f79b66b67dad420d7d9d0abb3ec
+    1.5.x
+    main
+----
+
+Versus one that was back ported using cherry-pick
+
+----
+$ git branch --contains 13ee41d04d10e8e66a503dbd69b77858ee8264c2
+    main
+----
+
+You may have arrived at the commit SHA using a tool like git bisect.
+In the latter case, you now have to rely on some other mechanism (such as looking for a common subject line) to find out if the commit's in any other branches.
+
+The https://yastgithubio.readthedocs.io/en/latest/maintenance-branches/[Yast Documentation] provides some further reading which might be helpful.
+
+## Dealing with changes to origin while forward merging
+Sometimes while we're forward merging changes, someone will push a change to origin.
+When this happens we need to redo parts of the forward merge so that our local changes are based on the latest available from origin.
+When the forward merge has involved resolving some conflicts, redoing it can be a pain.
+The following describes an approach for minimizing that pain.
+
+Let's assume that we're merging changes from `2.5.x` into `2.6.x`, `2.7.x`, and `main`.
+During the merge, changes to `2.6.x`, `2.7.x`, and `main` are push to `origin`.
+This means that our changes to `2.5.x` are fine, but we need to redo the merge from `2.6.x` onwards.
+
+Check out the 2.6.x branch:
+
+```
+$ git checkout 2.6.x
+```
+
+Create a branch for the changes that you have forward merged and resolved some conflicts:
+
+```
+$ git checkout -b keep-this
+```
+
+Switch back to the branch that you were working in and bring it up-to-date with `origin`:
+
+```
+$ git checkout 2.6.x
+$ git fetch origin
+$ git reset --hard origin/2.6.x
+```
+
+Merge your changes forward again:
+
+```
+$ git merge -s ours --no-commit 2.5.x 
+```
+
+We use `-s` ours as we want the changes in the keep-this branch where we've already resolved the conflits.
+We use `--no-commit` as we want to apply the changes in the keep-this branch before completing the forward merge.
+
+Apply the changes from the keep-this branch:
+
+```
+$ git cherry-pick -m 1 --no-commit keep-this
+```
+
+Complete the `2.5.x` to `2.6.x` forward merge:
+
+```
+$ git commit
+```
+
+You can complete the merge of `2.6.x` into `2.7.x` and `2.7.x` into `main`, bringing the branch that you're merge into up-to-date with origin each time before you merge into it.

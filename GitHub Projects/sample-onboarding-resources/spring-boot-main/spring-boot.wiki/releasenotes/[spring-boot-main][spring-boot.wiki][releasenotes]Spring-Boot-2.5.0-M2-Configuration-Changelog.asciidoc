@@ -1,0 +1,27 @@
+Configuration properties change between `2.5.0-M1` and `2.5.0-M2`
+
+== Deprecated in `2.5.0-M2`
+|======================
+|Key  |Replacement |Reason
+|`spring.batch.initialize-schema` |`spring.batch.jdbc.initialize-schema` |
+|`spring.batch.schema` |`spring.batch.jdbc.schema` |
+|`spring.batch.table-prefix` |`spring.batch.jdbc.table-prefix` |
+|======================
+
+
+
+== New in `2.5.0-M2`
+|======================
+|Key  |Default value |Description
+|`management.endpoints.web.discovery.enabled` |`true` |Whether the discovery page is enabled.
+|`spring.batch.jdbc.initialize-schema` |`embedded` |Database schema initialization mode.
+|`spring.batch.jdbc.schema` |`classpath:org/springframework/batch/core/schema-@@platform@@.sql` |Path to the SQL file to use to initialize the database schema.
+|`spring.batch.jdbc.table-prefix` | |Table prefix for all the batch meta-data tables.
+|`spring.datasource.hikari.keepalive-time` | |
+|`spring.datasource.initialization-order` |`before-jpa` |
+|======================
+
+
+
+== Removed in `2.5.0-M2`
+None.

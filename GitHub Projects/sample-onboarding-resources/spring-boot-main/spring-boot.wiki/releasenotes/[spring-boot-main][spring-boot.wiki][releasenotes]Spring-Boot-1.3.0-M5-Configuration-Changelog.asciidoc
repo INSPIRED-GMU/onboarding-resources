@@ -1,0 +1,9 @@
+Configuration properties change between `1.3.0.M4` and `1.3.0.M5`
+
+.New keys in `1.3.0.M5`
+|======================
+|Key  |Default value |Description
+|`spring.data.rest.enable-enum-translation` | |
+|`spring.devtools.restart.additional-exclude` | |Additional patterns that should be excluded from triggering a full restart.
+|`spring.hazelcast.config` | |The location of the configuration file to use to initialize Hazelcast.
+|======================

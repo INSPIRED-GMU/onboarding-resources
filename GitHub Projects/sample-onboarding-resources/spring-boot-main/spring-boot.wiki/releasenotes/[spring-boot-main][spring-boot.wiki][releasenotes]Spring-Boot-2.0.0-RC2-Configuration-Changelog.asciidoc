@@ -1,0 +1,85 @@
+Configuration properties change between `2.0.0.RC1` and `2.0.0.RC2`
+
+.New keys in `2.0.0.RC2`
+|======================
+|Key  |Default value |Description
+|`management.endpoint.health.roles` | |Roles used to determine whether or not a user is authorized to be shown details.
+|`management.endpoints.jmx.exposure.exclude` | |Endpoint IDs that should be excluded.
+|`management.endpoints.jmx.exposure.include` |`*` |Endpoint IDs that should be included or '*' for all.
+|`management.endpoints.web.exposure.exclude` | |Endpoint IDs that should be excluded.
+|`management.endpoints.web.exposure.include` |`health,info` |Endpoint IDs that should be included or '*' for all.
+|`management.health.kafka.enabled` |`true` |Whether to enable Kafka health check.
+|`management.health.kafka.response-timeout` |`1000ms` |Time to wait for a response from the cluster description operation.
+|`management.metrics.binders.files.enabled` |`true` |Whether to enable files metrics.
+|`management.metrics.binders.integration.enabled` |`true` |Whether to enable Spring Integration metrics.
+|`management.metrics.distribution.percentiles` | |Specific computed non-aggregable percentiles to ship to the backend for meter IDs starting-with the specified name.
+|`management.metrics.distribution.percentiles-histogram` | |Whether meter IDs starting-with the specified name should be publish percentile histograms.
+|`management.metrics.distribution.sla` | |Specific SLA boundaries for meter IDs starting-with the specified name.
+|`management.metrics.enable` | |Whether meter IDs starting-with the specified name should be enabled.
+|`management.metrics.export.influx.auto-create-db` |`true` |Whether to create the Influx database if it does not exist before attempting to publish metrics to it.
+|`management.metrics.export.newrelic.account-id` | |New Relic account ID.
+|`management.metrics.export.newrelic.api-key` | |New Relic API key.
+|`management.metrics.export.newrelic.batch-size` |`10000` |Number of measurements per request to use for this backend.
+|`management.metrics.export.newrelic.connect-timeout` |`1s` |Connection timeout for requests to this backend.
+|`management.metrics.export.newrelic.enabled` |`true` |Whether exporting of metrics to this backend is enabled.
+|`management.metrics.export.newrelic.num-threads` |`2` |Number of threads to use with the metrics publishing scheduler.
+|`management.metrics.export.newrelic.read-timeout` |`10s` |Read timeout for requests to this backend.
+|`management.metrics.export.newrelic.step` |`1m` |Step size (i.e. reporting frequency) to use.
+|`management.metrics.export.newrelic.uri` |`https://insights-collector.newrelic.com` |URI to ship metrics to.
+|`management.metrics.export.signalfx.access-token` | |SignalFX access token.
+|`management.metrics.export.signalfx.batch-size` |`10000` |Number of measurements per request to use for this backend.
+|`management.metrics.export.signalfx.connect-timeout` |`1s` |Connection timeout for requests to this backend.
+|`management.metrics.export.signalfx.enabled` |`true` |Whether exporting of metrics to this backend is enabled.
+|`management.metrics.export.signalfx.num-threads` |`2` |Number of threads to use with the metrics publishing scheduler.
+|`management.metrics.export.signalfx.read-timeout` |`10s` |Read timeout for requests to this backend.
+|`management.metrics.export.signalfx.source` | |Uniquely identifies the app instance that is publishing metrics to SignalFx.
+|`management.metrics.export.signalfx.step` |`10s` |Step size (i.e. reporting frequency) to use.
+|`management.metrics.export.signalfx.uri` |`https://ingest.signalfx.com` |URI to ship metrics to.
+|`management.metrics.export.statsd.publish-unchanged-meters` |`true` |Whether to send unchanged meters to the StatsD server.
+|`management.metrics.export.wavefront.api-token` | |API token used when publishing metrics directly to the Wavefront API host.
+|`management.metrics.export.wavefront.batch-size` |`10000` |Number of measurements per request to use for this backend.
+|`management.metrics.export.wavefront.connect-timeout` |`1s` |Connection timeout for requests to this backend.
+|`management.metrics.export.wavefront.enabled` |`true` |Whether exporting of metrics to this backend is enabled.
+|`management.metrics.export.wavefront.global-prefix` | |Global prefix to separate metrics originating from this app's white box instrumentation from those originating from other Wavefront integrations when viewed in the Wavefront UI.
+|`management.metrics.export.wavefront.num-threads` |`2` |Number of threads to use with the metrics publishing scheduler.
+|`management.metrics.export.wavefront.read-timeout` |`10s` |Read timeout for requests to this backend.
+|`management.metrics.export.wavefront.source` | |Unique identifier for the app instance that is the source of metrics being published to Wavefront.
+|`management.metrics.export.wavefront.step` |`10s` |Step size (i.e. reporting frequency) to use.
+|`management.metrics.export.wavefront.uri` |`https://longboard.wavefront.com` |URI to ship metrics to.
+|`management.trace.http.enabled` |`true` |Whether to enable HTTP request-response tracing.
+|`management.trace.http.include` | |Items to be included in the trace.
+|`server.servlet.application-display-name` |`application` |Display name of the application.
+|`spring.mvc.contentnegotiation.favor-parameter` |`false` |Whether a request parameter ("format" by default) should be used to determine the requested media type.
+|`spring.mvc.contentnegotiation.favor-path-extension` |`false` |Whether the path extension in the URL path should be used to determine the requested media type.
+|`spring.mvc.contentnegotiation.media-types` | |Maps file extensions to media types for content negotiation, e.g. yml to text/yaml.
+|`spring.mvc.contentnegotiation.parameter-name` | |Query parameter name to use when "favor-parameter" is enabled.
+|`spring.mvc.pathmatch.use-registered-suffix-pattern` |`false` |Whether suffix pattern matching should work only against extensions registered with "spring.mvc.content-negotiation.media-types.*".
+|`spring.mvc.pathmatch.use-suffix-pattern` |`false` |Whether to use suffix pattern match (".*") when matching patterns to requests.
+|======================
+
+.Removed keys in `2.0.0.2.0.0.RC2`
+|======================
+|Key  |Replacement |Reason
+|`management.endpoints.jmx.exclude` | |Endpoint IDs that should be excluded.
+|`management.endpoints.jmx.expose` |`*` |Endpoint IDs that should be exposed or '*' for all.
+|`management.endpoints.web.exclude` | |Endpoint IDs that should be excluded.
+|`management.endpoints.web.expose` |`health,info` |Endpoint IDs that should be exposed or '*' for all.
+|`management.httptrace.enabled` |`true` |Whether to enable HTTP request-response tracing.
+|`management.httptrace.include` | |Items to be included in the trace.
+|`management.metrics.cache.instrument` |`true` |Instrument all available caches.
+|`management.metrics.cache.metric-name` |`cache` |Name of the metric for cache usage.
+|`management.metrics.jdbc.instrument` |`true` |Instrument all available data sources.
+|`management.metrics.jdbc.metric-name` |`data.source` |Name of the metric for data source usage.
+|`management.metrics.rabbitmq.instrument` |`true` |Instrument all available connection factories.
+|`management.metrics.rabbitmq.metric-name` |`rabbitmq` |Name of the metric for RabbitMQ usage.
+|`management.metrics.web.client.record-request-percentiles` |`false` |Whether instrumented requests record percentiles histogram buckets by default.
+|`management.metrics.web.server.record-request-percentiles` |`false` |Whether or not instrumented requests record percentiles histogram buckets by default.
+|`management.trace.filter.enabled` | |Whether to enable the trace servlet filter.
+|`server.display-name` |`server.servlet.application-display-name` |
+|`spring.mvc.content-negotiation.favor-parameter` |`false` |Whether a request parameter ("format" by default) should be used to determine the requested media type.
+|`spring.mvc.content-negotiation.favor-path-extension` |`false` |Whether the path extension in the URL path should be used to determine the requested media type.
+|`spring.mvc.content-negotiation.media-types` | |Maps file extensions to media types for content negotiation, e.g. yml to text/yaml.
+|`spring.mvc.content-negotiation.parameter-name` | |Query parameter name to use when "favor-parameter" is enabled.
+|`spring.mvc.path-match.use-registered-suffix-pattern` |`false` |Whether suffix pattern matching should work only against extensions registered with "spring.mvc.content-negotiation.media-types.*".
+|`spring.mvc.path-match.use-suffix-pattern` |`false` |Whether to use suffix pattern match (".*") when matching patterns to requests.
+|======================

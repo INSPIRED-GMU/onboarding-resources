@@ -1,0 +1,82 @@
+Configuration properties change between `2.2.4.RELEASE` and `2.3.0.BUILD-SNAPSHOT`
+
+.Deprecated keys in `2.3.0.M1`
+|======================
+|Key  |Replacement |Reason
+|`server.tomcat.host-header` |`server.tomcat.remoteip.host-header` |
+|`server.tomcat.internal-proxies` |`server.tomcat.remoteip.internal-proxies` |
+|`server.tomcat.port-header` |`server.tomcat.remote.port-header` |
+|`server.tomcat.protocol-header` |`server.tomcat.remoteip.protocol-header` |
+|`server.tomcat.protocol-header-https-value` |`server.tomcat.remoteip.protocol-header-https-value` |
+|`server.tomcat.remote-ip-header` |`server.tomcat.remoteip.remote-ip-header` |
+|`spring.data.cassandra.cluster-name` |`spring.data.cassandra.session-name` |
+|`spring.data.cassandra.fetch-size` |`spring.data.cassandra.page-size` |
+|======================
+
+.New keys in `2.3.0.M1`
+|======================
+|Key  |Default value |Description
+|`management.metrics.export.stackdriver.batch-size` |`10000` |Number of measurements per request to use for this backend.
+|`management.metrics.export.stackdriver.connect-timeout` |`1s` |Connection timeout for requests to this backend.
+|`management.metrics.export.stackdriver.enabled` |`true` |Whether exporting of metrics to this backend is enabled.
+|`management.metrics.export.stackdriver.num-threads` |`2` |Number of threads to use with the metrics publishing scheduler.
+|`management.metrics.export.stackdriver.project-id` | |Identifier of the Google Cloud project to monitor.
+|`management.metrics.export.stackdriver.read-timeout` |`10s` |Read timeout for requests to this backend.
+|`management.metrics.export.stackdriver.resource-type` |`global` |Monitored resource type.
+|`management.metrics.export.stackdriver.step` |`1m` |Step size (i.e. reporting frequency) to use.
+|`server.servlet.encoding.charset` | |
+|`server.servlet.encoding.enabled` |`true` |Whether to enable http encoding support.
+|`server.servlet.encoding.force` | |
+|`server.servlet.encoding.force-request` | |
+|`server.servlet.encoding.force-response` | |
+|`server.servlet.encoding.mapping` | |
+|`server.tomcat.remoteip.host-header` |`X-Forwarded-Host` |Name of the HTTP header from which the remote host is extracted.
+|`server.tomcat.remoteip.internal-proxies` |`10\.\d{1,3}\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|169\.254\.\d{1,3}\.\d{1,3}|127\.\d{1,3}\.\d{1,3}\.\d{1,3}|172\.1[6-9]{1}\.\d{1,3}\.\d{1,3}|172\.2[0-9]{1}\.\d{1,3}\.\d{1,3}|172\.3[0-1]{1}\.\d{1,3}\.\d{1,3}|0:0:0:0:0:0:0:1|::1` |Regular expression that matches proxies that are to be trusted.
+|`server.tomcat.remoteip.port-header` |`X-Forwarded-Port` |Name of the HTTP header used to override the original port value.
+|`server.tomcat.remoteip.protocol-header` | |Header that holds the incoming protocol, usually named "X-Forwarded-Proto".
+|`server.tomcat.remoteip.protocol-header-https-value` |`https` |Value of the protocol header indicating whether the incoming request uses SSL.
+|`server.tomcat.remoteip.remote-ip-header` | |Name of the HTTP header from which the remote IP is extracted.
+|`spring.codec.log-request-details` |`false` |Whether to log form data at DEBUG level, and headers at TRACE level.
+|`spring.data.cassandra.page-size` |`5000` |Queries default page size.
+|`spring.data.cassandra.session-name` | |Name of the Cassandra session.
+|`spring.flyway.default-schema` | |Default schema name managed by Flyway (case-sensitive).
+|`spring.mvc.converters.preferred-json-mapper` | |Preferred JSON mapper to use for HTTP message conversion.
+|`spring.mvc.log-request-details` |`false` |Whether logging of (potentially sensitive) request details at DEBUG and TRACE level is allowed.
+|`spring.rabbitmq.requested-channel-max` |`2047` |Number of channels per connection requested by the client.
+|======================
+
+.Removed keys in `2.3.0.M1`
+|======================
+|Key  |Replacement |Reason
+|`management.health.elasticsearch.indices` | |Comma-separated index names.
+|`management.health.elasticsearch.response-timeout` |`100ms` |Time to wait for a response from the cluster.
+|`management.health.status.http-mapping` | |
+|`management.metrics.web.client.requests-metric-name` | |
+|`management.metrics.web.server.auto-time-requests` | |
+|`management.metrics.web.server.requests-metric-name` | |
+|`spring.data.cassandra.jmx-enabled` | |Cassandra no longer providers JMX metrics.
+|`spring.data.cassandra.pool.pool-timeout` | |No longer available.
+|`spring.data.cassandra.port` | |each contact point must be of the form 'host:port'.
+|`spring.data.elasticsearch.cluster-name` |`elasticsearch` |Elasticsearch cluster name.
+|`spring.data.elasticsearch.cluster-nodes` | |Comma-separated list of cluster node addresses.
+|`spring.data.elasticsearch.properties` | |Additional properties used to configure the client.
+|`spring.elasticsearch.jest.connection-timeout` |`3s` |Connection timeout.
+|`spring.elasticsearch.jest.multi-threaded` |`true` |Whether to enable connection requests from multiple execution threads.
+|`spring.elasticsearch.jest.password` | |Login password.
+|`spring.elasticsearch.jest.proxy.host` | |Proxy host the HTTP client should use.
+|`spring.elasticsearch.jest.proxy.port` | |Proxy port the HTTP client should use.
+|`spring.elasticsearch.jest.read-timeout` |`3s` |Read timeout.
+|`spring.elasticsearch.jest.uris` |`http://localhost:9200` |Comma-separated list of the Elasticsearch instances to use.
+|`spring.elasticsearch.jest.username` | |Login username.
+|`spring.http.converters.preferred-json-mapper` |`spring.mvc.converters.preferred-json-mapper` |
+|`spring.http.encoding.charset` |`server.servlet.encoding.charset` |
+|`spring.http.encoding.enabled` |`server.servlet.encoding.enabled` |
+|`spring.http.encoding.force` |`server.servlet.encoding.force` |
+|`spring.http.encoding.force-request` |`server.servlet.encoding.force-request` |
+|`spring.http.encoding.force-response` |`server.servlet.encoding.force-response` |
+|`spring.http.encoding.mapping` |`server.servlet.encoding.mapping` |
+|`spring.http.log-request-details` |`spring.mvc.log-request-details` |
+|`spring.jackson.joda-date-time-format` | |Joda date time format string.
+|`spring.rabbitmq.listener.simple.transaction-size` | |
+|`spring.rabbitmq.publisher-confirms` | |
+|======================

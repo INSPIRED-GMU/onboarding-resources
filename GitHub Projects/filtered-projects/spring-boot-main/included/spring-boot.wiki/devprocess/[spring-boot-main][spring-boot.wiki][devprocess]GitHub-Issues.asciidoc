@@ -1,0 +1,148 @@
+Spring Boot uses GitHub for tracking issues and pull requests.
+We receive lots of bug reports, enhancement requests and pull requests from the community so we need to have a good process to keep on top of issues.
+
+
+
+== Issue Titles
+Issue titles are very important since they are used when https://github.com/mbhave/release-notes-generator/[release notes are generated].
+We try to use a consistent style for issue titles.
+The form that an issue title should take depends on the type of issue.
+The following guidelines apply to both issues and pull requests.
+If necessary, the title of an issue or pull request should be updated to meet these guidelines as part of working on it.
+
+=== Markdown formatting
+Markdown formatting doesn't work well in issue titles and should be avoided. This is especially true for backticks which won't render correctly and may make the release notes look odd.
+
+
+
+=== Bugs including regressions and blockers
+The title should describe the problem, rather than the solution.
+This will hopefully make it easier for a user to find an issue when they're looking to see if their problem has already been fixed or reported.
+
+
+
+=== Enhancements
+The title should describe the new functionality that has been added.
+
+
+
+=== Dependency Upgrades
+The title should describe the project and the new version, for example "Upgrade to Spring Framework 4.3.15".
+
+
+
+=== Tasks
+Tasks are less important as they're internal.
+The title should describe the work that needs to be done.
+
+
+
+== Issue Triage
+Everyone on the team can triage issues.
+Issue triage determines if an issue is valid, and when we should attempt to deal with it.
+We use https://github.com/spring-io/issue-bot[an issue bot] to help with this process.
+
+Issues that have not yet been triaged have the `status: waiting-for-triage` label.
+A triaged issues should be placed into one of the following milestones:
+
+- A released `N.N.x` milestone (for example `1.5.x`).
+These are issue that we want to fix in an existing release.
+They're typically bugs or documentation issues.
+We very rarely put enhancements into an existing release.
+
+- The upcoming `N.N.x` milestone (for example `2.2.x`).
+These are typically new features or risky bugs that we think make sense for the next release.
+There's not guarantee the these issues will actually make it into the release, but we do try to keep the number of issues in this milestone realistic.
+
+- A longer-term `N.x` milestone (for example `2.x`).
+These are issues that we think make sense in the current major version, but we're not sure that they should be in the next immediate release.
+When we plan a new release we will review items in this milestone.
+
+- `General Backlog`
+These are issues that we think make sense and we'd like to do, but we don't know when.
+
+
+
+=== Waiting for Feedback
+Many issues arrive that are incomplete or difficult to triage.
+In order to work efficiently, we'll often ask the original reporter to provide more details or a sample application that replicates the problem.
+When asking for feedback add the `status: waiting for feedback` label.
+The issue bot will then automatically close issues if the reported doesn't respond in a timely manner.
+
+
+
+=== Questions
+Spring Boot receives too many issues to effectively field questions in the issue tracker.
+If questions arrive, add the `for: stackoverflow` label and close the issue with the following comment:
+
+----
+Thanks for getting in touch, but it feels like this is a question that would be better suited to [Stack Overflow](https://stackoverflow.com/). As mentioned in [the guidelines for contributing](https://github.com/spring-projects/spring-boot/blob/master/CONTRIBUTING.adoc#using-github-issues), we prefer to use GitHub issues only for bugs and enhancements. Feel free to update this issue with a link to the re-posted question (so that
+other people can find it) or add some more details if you feel this is a genuine bug.
+----
+
+
+
+=== Editing Issues
+We often edit issues for users to improve them.
+This is worthwhile, even if the issue is being closed.
+
+Edits might be for for grammar or spelling (we have many non-native English speakers in our community).
+We also often need to improve markup.
+For such edits, the following comment can be added:
+
+----
+I've edited your comment to improve the formatting. You might want to check out this [Mastering Markdown guide](https://guides.github.com/features/mastering-markdown/) for future reference.
+----
+
+Finally, we try to keep issues gender neutral.
+Again, not everyone has English as a first language, so gender references can be simply translation issues.
+If appropriate, the following comment can be added:
+
+----
+Thanks for the report, I've edited your description to replace "guys" with "everyone". While it may seem like a small thing, some people feel excluded by "guys" and we don't want them to.
+----
+
+
+
+=== Labels
+We use issue labels extensively for triaged issues.
+Our labels are divided into four categories:
+
+
+
+==== Status
+- `waiting-for-triage`: Automatically added by spring-issuemaster on new issues/PRs so they can be addressed by the team.
+- `waiting-for-feedback`: Used on issues/PRs when a team member asks for additional information from the requester.
+- `feedback-provided`: Added by spring-issuemaster once necessary feedback is provided by the requester.
+- `feedback-reminder`: Added by spring-issuemaster if feedback is not provided within 7 days. If no feedback is provided within 2 weeks, the issue is automatically closed.
+- `blocked`: Used on issues/PRs that are dependent on other issues being done.
+- `declined`: Used on PRs that cannot be merged.
+- `duplicate`: Used on issues/PRs if a similar issue/PR is open.
+- `invalid`: Used on issues that are not reproducible.
+- `on-hold`: Used on issues/PRs that shouldn't be done now and need some more thought.
+- `ideal-for-contribution`: Used for issues that are suitable for PRs.
+- `forward-port`: Used to indicate a forward-port of an issue from an earlier milestone.
+
+
+
+==== For
+- `external-project`: Added on issues that correspond to a different project and should be raised there.
+- `merge-with-amendments`: Added on PRs that should be merge but with additional changes.
+- `stackoverflow`: Added on issues that are questions and not bug reports or enhancement requests.
+- `team-attention`: Added on issues to gather input from other team members.
+
+
+
+==== Type
+- `bug`: Added on issues/PRs that demonstrate incorrect/unexpected behavior.
+- `task`: Added on issues that do not affect user-facing behavior. These are usually internal changes.
+- `documentation`: Added on issues/PRs that add documentation or fix existing docs.
+- `enhancement`: Added on issues/PRs that improve existing functionality.
+- `regression`: Added on issues/PRs that indicate breaking functionality in a previous release.
+- `blocker`: Added on issues/PRs that block the next release.
+- `dependency-upgrade`: Added on issues/PRs that involve upgrading to a new version for a dependency.
+
+
+
+==== Theme
+Themes indicate what chunk of work the issue/PR is related to and help grouping/prioritization of issues. Every feature release tends to have a different set of themes.

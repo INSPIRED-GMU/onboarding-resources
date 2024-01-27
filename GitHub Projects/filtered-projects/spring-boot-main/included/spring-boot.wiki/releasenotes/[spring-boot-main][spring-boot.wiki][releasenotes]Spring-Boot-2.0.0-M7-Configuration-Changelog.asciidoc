@@ -1,0 +1,195 @@
+Configuration properties change between `2.0.0.M6` and `2.0.0.M7`
+
+.New keys in `2.0.0.M7`
+|======================
+|Key  |Default value |Description
+|`management.endpoint.auditevents.cache.time-to-live` |`0` |Maximum time that a response can be cached.
+|`management.endpoint.auditevents.enabled` |`true` |Whether to enable the auditevents endpoint.
+|`management.endpoint.beans.cache.time-to-live` |`0` |Maximum time that a response can be cached.
+|`management.endpoint.beans.enabled` |`true` |Whether to enable the beans endpoint.
+|`management.endpoint.conditions.cache.time-to-live` |`0` |Maximum time that a response can be cached.
+|`management.endpoint.conditions.enabled` |`true` |Whether to enable the conditions endpoint.
+|`management.endpoint.configprops.cache.time-to-live` |`0` |Maximum time that a response can be cached.
+|`management.endpoint.configprops.enabled` |`true` |Whether to enable the configprops endpoint.
+|`management.endpoint.configprops.keys-to-sanitize` |`password,secret,key,token,.*credentials.*,vcap_services` |Keys that should be sanitized.
+|`management.endpoint.env.cache.time-to-live` |`0` |Maximum time that a response can be cached.
+|`management.endpoint.env.enabled` |`true` |Whether to enable the env endpoint.
+|`management.endpoint.env.keys-to-sanitize` |`password,secret,key,token,.*credentials.*,vcap_services` |Keys that should be sanitized.
+|`management.endpoint.flyway.cache.time-to-live` |`0` |Maximum time that a response can be cached.
+|`management.endpoint.flyway.enabled` |`true` |Whether to enable the flyway endpoint.
+|`management.endpoint.health.cache.time-to-live` |`0` |Maximum time that a response can be cached.
+|`management.endpoint.health.enabled` |`true` |Whether to enable the health endpoint.
+|`management.endpoint.health.show-details` |`false` |Whether to show full health details instead of just the status when exposed over a potentially insecure connection.
+|`management.endpoint.heapdump.cache.time-to-live` |`0` |Maximum time that a response can be cached.
+|`management.endpoint.heapdump.enabled` |`true` |Whether to enable the heapdump endpoint.
+|`management.endpoint.info.cache.time-to-live` |`0` |Maximum time that a response can be cached.
+|`management.endpoint.info.enabled` |`true` |Whether to enable the info endpoint.
+|`management.endpoint.liquibase.cache.time-to-live` |`0` |Maximum time that a response can be cached.
+|`management.endpoint.liquibase.enabled` |`true` |Whether to enable the liquibase endpoint.
+|`management.endpoint.logfile.cache.time-to-live` |`0` |Maximum time that a response can be cached.
+|`management.endpoint.logfile.enabled` |`true` |Whether to enable the logfile endpoint.
+|`management.endpoint.logfile.external-file` | |External Logfile to be accessed.
+|`management.endpoint.loggers.cache.time-to-live` |`0` |Maximum time that a response can be cached.
+|`management.endpoint.loggers.enabled` |`true` |Whether to enable the loggers endpoint.
+|`management.endpoint.mappings.cache.time-to-live` |`0` |Maximum time that a response can be cached.
+|`management.endpoint.mappings.enabled` |`true` |Whether to enable the mappings endpoint.
+|`management.endpoint.metrics.cache.time-to-live` |`0` |Maximum time that a response can be cached.
+|`management.endpoint.metrics.enabled` |`true` |Whether to enable the metrics endpoint.
+|`management.endpoint.prometheus.cache.time-to-live` |`0` |Maximum time that a response can be cached.
+|`management.endpoint.prometheus.enabled` |`true` |Whether to enable the prometheus endpoint.
+|`management.endpoint.scheduledtasks.cache.time-to-live` |`0` |Maximum time that a response can be cached.
+|`management.endpoint.scheduledtasks.enabled` |`true` |Whether to enable the scheduledtasks endpoint.
+|`management.endpoint.sessions.cache.time-to-live` |`0` |Maximum time that a response can be cached.
+|`management.endpoint.sessions.enabled` |`true` |Whether to enable the sessions endpoint.
+|`management.endpoint.shutdown.cache.time-to-live` |`0` |Maximum time that a response can be cached.
+|`management.endpoint.shutdown.enabled` |`false` |Whether to enable the shutdown endpoint.
+|`management.endpoint.threaddump.cache.time-to-live` |`0` |Maximum time that a response can be cached.
+|`management.endpoint.threaddump.enabled` |`true` |Whether to enable the threaddump endpoint.
+|`management.endpoint.trace.cache.time-to-live` |`0` |Maximum time that a response can be cached.
+|`management.endpoint.trace.enabled` |`true` |Whether to enable the trace endpoint.
+|`management.endpoints.enabled-by-default` | |Whether to enable or disable all endpoints by default.
+|`management.endpoints.jmx.enabled` |`true` |Whether JMX endpoints are enabled.
+|`management.endpoints.jmx.exclude` | |Endpoint IDs that should be excluded.
+|`management.endpoints.jmx.expose` |`*` |Endpoint IDs that should be exposed or '*' for all.
+|`management.endpoints.web.cors.allow-credentials` | |Whether credentials are supported.
+|`management.endpoints.web.cors.allowed-headers` | |Comma-separated list of headers to allow in a request. '*' allows all headers.
+|`management.endpoints.web.cors.allowed-methods` | |Comma-separated list of methods to allow. '*' allows all methods.
+|`management.endpoints.web.cors.allowed-origins` | |Comma-separated list of origins to allow. '*' allows all origins.
+|`management.endpoints.web.cors.exposed-headers` | |Comma-separated list of headers to include in a response.
+|`management.endpoints.web.cors.max-age` |`1800s` |How long the response from a pre-flight request can be cached by clients.
+|`management.endpoints.web.enabled` |`true` |Whether web endpoints are enabled.
+|`management.endpoints.web.exclude` | |Endpoint IDs that should be excluded.
+|`management.endpoints.web.expose` |`health,info` |Endpoint IDs that should be exposed or '*' for all.
+|`management.endpoints.web.path-mapping` | |Mapping between endpoint IDs and the path that should expose them.
+|`spring.cache.redis.cache-null-values` |`true` |Allow caching null values.
+|`spring.cache.redis.key-prefix` | |Key prefix.
+|`spring.cache.redis.time-to-live` | |Entry expiration.
+|`spring.cache.redis.use-key-prefix` |`true` |Whether to use the key prefix when writing to Redis.
+|`spring.data.cassandra.connect-timeout` | |Socket option: connection time out.
+|`spring.data.cassandra.read-timeout` | |Socket option: read time out.
+|`spring.data.cassandra.repositories.type` |`auto` |Type of Cassandra repositories to enable.
+|`spring.data.couchbase.repositories.type` |`auto` |Type of Couchbase repositories to enable.
+|`spring.data.mongodb.repositories.type` |`auto` |Type of Mongo repositories to enable.
+|`spring.devtools.restart.log-condition-evaluation-delta` |`true` |Whether to log the condition evaluation delta upon restart.
+|`spring.jta.atomikos.datasource.concurrent-connection-validation` | |
+|`spring.kafka.producer.transaction-id-prefix` | |When non empty, enables transaction support for producer.
+|`spring.messages.cache-duration` | |Loaded resource bundle files cache expiration, in seconds.
+|`spring.metrics.export.simple.mode` | |Counting mode.
+|`spring.resources.cache.cachecontrol.cache-private` | |Indicate that the response message is intended for a single user and must not be stored by a shared cache.
+|`spring.resources.cache.cachecontrol.cache-public` | |Indicate that any cache may store the response.
+|`spring.resources.cache.cachecontrol.max-age` | |Maximum time the response should be cached, in seconds if no duration suffix is not specified.
+|`spring.resources.cache.cachecontrol.must-revalidate` | |Indicate that once it has become stale, a cache must not use the response without re-validating it with the server.
+|`spring.resources.cache.cachecontrol.no-cache` | |Indicate that the cached response can be reused only if re-validated with the server.
+|`spring.resources.cache.cachecontrol.no-store` | |Indicate to not cache the response in any case.
+|`spring.resources.cache.cachecontrol.no-transform` | |Indicate intermediaries (caches and others) that they should not transform the response content.
+|`spring.resources.cache.cachecontrol.proxy-revalidate` | |Same meaning as the "must-revalidate" directive, except that it does not apply to private caches.
+|`spring.resources.cache.cachecontrol.s-max-age` | |Maximum time the response should be cached by shared caches, in seconds if no duration suffix is not specified.
+|`spring.resources.cache.cachecontrol.stale-if-error` | |Maximum time the response may be used when errors are encountered, in seconds if no duration suffix is not specified.
+|`spring.resources.cache.cachecontrol.stale-while-revalidate` | |Maximum time the response can be served after it becomes stale, in seconds if no duration suffix is not specified.
+|`spring.resources.cache.period` | |Cache period for the resources served by the resource handler.
+|`spring.thymeleaf.enable-spring-el-compiler` |`false` |Enable the SpringEL compiler in SpringEL expressions.
+|======================
+
+.Removed keys in `2.0.0.M7`
+|======================
+|Key  |Default value |Description
+|`endpoints.auditevents.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.auditevents.jmx.enabled` | |Expose the auditevents endpoint as a JMX MBean.
+|`endpoints.auditevents.web.enabled` | |Expose the auditevents endpoint as a Web endpoint.
+|`endpoints.auditevents.web.path` |`auditevents` |Path of the auditevents endpoint.
+|`endpoints.autoconfig.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.autoconfig.jmx.enabled` | |Expose the autoconfig endpoint as a JMX MBean.
+|`endpoints.autoconfig.web.enabled` | |Expose the autoconfig endpoint as a Web endpoint.
+|`endpoints.autoconfig.web.path` |`autoconfig` |Path of the autoconfig endpoint.
+|`endpoints.beans.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.beans.jmx.enabled` | |Expose the beans endpoint as a JMX MBean.
+|`endpoints.beans.web.enabled` | |Expose the beans endpoint as a Web endpoint.
+|`endpoints.beans.web.path` |`beans` |Path of the beans endpoint.
+|`endpoints.configprops.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.configprops.jmx.enabled` | |Expose the configprops endpoint as a JMX MBean.
+|`endpoints.configprops.web.enabled` | |Expose the configprops endpoint as a Web endpoint.
+|`endpoints.configprops.web.path` |`configprops` |Path of the configprops endpoint.
+|`endpoints.default.enabled` |`true` |Enable all endpoints by default.
+|`endpoints.default.jmx.enabled` |`true` |Enable all endpoints as JMX MBeans by default.
+|`endpoints.default.web.enabled` |`false` |Enable all endpoints as Web endpoints by default.
+|`endpoints.env.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.env.jmx.enabled` | |Expose the env endpoint as a JMX MBean.
+|`endpoints.env.web.enabled` | |Expose the env endpoint as a Web endpoint.
+|`endpoints.env.web.path` |`env` |Path of the env endpoint.
+|`endpoints.flyway.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.flyway.jmx.enabled` | |Expose the flyway endpoint as a JMX MBean.
+|`endpoints.flyway.web.enabled` | |Expose the flyway endpoint as a Web endpoint.
+|`endpoints.flyway.web.path` |`flyway` |Path of the flyway endpoint.
+|`endpoints.health.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.health.jmx.enabled` | |Expose the health endpoint as a JMX MBean.
+|`endpoints.health.web.enabled` | |Expose the health endpoint as a Web endpoint.
+|`endpoints.health.web.path` |`health` |Path of the health endpoint.
+|`endpoints.heapdump.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.heapdump.web.enabled` | |Expose the heapdump endpoint as a Web endpoint.
+|`endpoints.heapdump.web.path` |`heapdump` |Path of the heapdump endpoint.
+|`endpoints.info.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.info.jmx.enabled` |`true` |Expose the info endpoint as a JMX MBean.
+|`endpoints.info.web.enabled` |`true` |Expose the info endpoint as a Web endpoint.
+|`endpoints.info.web.path` |`info` |Path of the info endpoint.
+|`endpoints.liquibase.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.liquibase.jmx.enabled` | |Expose the liquibase endpoint as a JMX MBean.
+|`endpoints.liquibase.web.enabled` | |Expose the liquibase endpoint as a Web endpoint.
+|`endpoints.liquibase.web.path` |`liquibase` |Path of the liquibase endpoint.
+|`endpoints.logfile.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.logfile.web.enabled` | |Expose the logfile endpoint as a Web endpoint.
+|`endpoints.logfile.web.path` |`logfile` |Path of the logfile endpoint.
+|`endpoints.loggers.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.loggers.jmx.enabled` | |Expose the loggers endpoint as a JMX MBean.
+|`endpoints.loggers.web.enabled` | |Expose the loggers endpoint as a Web endpoint.
+|`endpoints.loggers.web.path` |`loggers` |Path of the loggers endpoint.
+|`endpoints.mappings.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.mappings.jmx.enabled` | |Expose the mappings endpoint as a JMX MBean.
+|`endpoints.mappings.web.enabled` | |Expose the mappings endpoint as a Web endpoint.
+|`endpoints.mappings.web.path` |`mappings` |Path of the mappings endpoint.
+|`endpoints.metrics.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.metrics.jmx.enabled` | |Expose the metrics endpoint as a JMX MBean.
+|`endpoints.metrics.web.enabled` | |Expose the metrics endpoint as a Web endpoint.
+|`endpoints.metrics.web.path` |`metrics` |Path of the metrics endpoint.
+|`endpoints.prometheus.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.prometheus.enabled` | |Enable the prometheus endpoint.
+|`endpoints.prometheus.web.enabled` | |Expose the prometheus endpoint as a Web endpoint.
+|`endpoints.prometheus.web.path` |`prometheus` |Path of the prometheus endpoint.
+|`endpoints.sessions.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.sessions.enabled` | |Enable the sessions endpoint.
+|`endpoints.sessions.jmx.enabled` | |Expose the sessions endpoint as a JMX MBean.
+|`endpoints.sessions.web.enabled` | |Expose the sessions endpoint as a Web endpoint.
+|`endpoints.sessions.web.path` |`sessions` |Path of the sessions endpoint.
+|`endpoints.shutdown.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.shutdown.jmx.enabled` |`false` |Expose the shutdown endpoint as a JMX MBean.
+|`endpoints.shutdown.web.enabled` |`false` |Expose the shutdown endpoint as a Web endpoint.
+|`endpoints.shutdown.web.path` |`shutdown` |Path of the shutdown endpoint.
+|`endpoints.status.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.status.enabled` |`true` |Enable the status endpoint.
+|`endpoints.status.jmx.enabled` |`true` |Expose the status endpoint as a JMX MBean.
+|`endpoints.status.web.enabled` |`true` |Expose the status endpoint as a Web endpoint.
+|`endpoints.status.web.path` |`status` |Path of the status endpoint.
+|`endpoints.threaddump.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.threaddump.enabled` | |Enable the threaddump endpoint.
+|`endpoints.threaddump.jmx.enabled` | |Expose the threaddump endpoint as a JMX MBean.
+|`endpoints.threaddump.web.enabled` | |Expose the threaddump endpoint as a Web endpoint.
+|`endpoints.threaddump.web.path` |`threaddump` |Path of the threaddump endpoint.
+|`endpoints.trace.cache.time-to-live` |`0` |Maximum time in milliseconds that a response can be cached.
+|`endpoints.trace.jmx.enabled` | |Expose the trace endpoint as a JMX MBean.
+|`endpoints.trace.web.enabled` | |Expose the trace endpoint as a Web endpoint.
+|`endpoints.trace.web.path` |`trace` |Path of the trace endpoint.
+|`management.endpoints.cors.allow-credentials` | |Set whether credentials are supported.
+|`management.endpoints.cors.allowed-headers` | |Comma-separated list of headers to allow in a request. '*' allows all headers.
+|`management.endpoints.cors.allowed-methods` | |Comma-separated list of methods to allow. '*' allows all methods.
+|`management.endpoints.cors.allowed-origins` | |Comma-separated list of origins to allow. '*' allows all origins.
+|`management.endpoints.cors.exposed-headers` | |Comma-separated list of headers to include in a response.
+|`management.endpoints.cors.max-age` |`1800` |How long, in seconds, the response from a pre-flight request can be cached by clients.
+|`spring.data.cassandra.reactive-repositories.enabled` |`true` |Enable Cassandra reactive repositories.
+|`spring.data.mongodb.reactive-repositories.enabled` |`true` |Enable Mongo reactive repositories.
+|`spring.social.auto-connection-views` |`false` |Enable the connection status view for supported providers.
+|`spring.social.facebook.app-id` | |Application id.
+|`spring.social.facebook.app-secret` | |Application secret.
+|`spring.social.linkedin.app-id` | |Application id.
+|`spring.social.linkedin.app-secret` | |Application secret.
+|`spring.social.twitter.app-id` | |Application id.
+|`spring.social.twitter.app-secret` | |Application secret.
+|======================

@@ -1,0 +1,27 @@
+Spring Boot uses `@Deprecation` annotations and Javadoc tags to indicate that a method, constructor or class will be removed in a future release. As much as possible, deprecated code should not be removed until two minors after the latest minor in which the API exists. In the simplest case, the API is being deprecated in the latest minor release and can be removed two minors later. For example, an API marked `@deprecated since 2.2.0` would be subject for removal in 2.4.0. If the deprecation is happening after the next minor has already been released, its removal is delayed. For example, if an API is being deprecated in `2.2.x` but it has already appeared in a `2.3.x` release, it would not be subject for removal until 2.5.0 – two minors after 2.3.
+
+The Javadoc used for deprecations uses the following form:
+
+[source,java]
+----
+/**
+ * ...
+ * @deprecated since <version> for removal in <version> in favor of <alternative>.
+ */
+----
+
+Very occasionally we will also deprecate code without an alternative.
+For example, we may choose to remove support for a third-party project that is no longer maintained.
+In those situations, the following form is used:
+
+[source,java]
+----
+/**
+ * ...
+ * @deprecated since <version> for removal in <version> <reason>
+ */
+----
+
+The version numbers documented are of the form `<major>.<minor>.<patch>`.
+
+

@@ -1,0 +1,127 @@
+:docs: https://docs.spring.io/spring-boot/docs/2.3.0.M4
+:reference: {docs}/reference/html
+:maven-plugin: {docs}/maven-plugin/reference/html
+:gradle-plugin: {docs}/gradle-plugin/reference/html
+
+
+= Spring Boot 2.3.0 M4 Release Notes
+
+For changes in earlier milestones, please refer to:
+
+ - link:Spring-Boot-2.3.0-M3-Release-Notes[v2.3.0 M3]
+
+ - link:Spring-Boot-2.3.0-M2-Release-Notes[v2.3.0 M2]
+
+ - link:Spring-Boot-2.3.0-M1-Release-Notes[v2.3.0 M1]
+
+== Upgrading from Spring Boot 2.2
+In addition to the below, please see the instructions in the link:Spring-Boot-2.3.0-M1-Release-Notes[2.3.0.M1], link:Spring-Boot-2.3.0-M2-Release-Notes[2.3.0.M2], and link:Spring-Boot-2.3.0-M2-Release-Notes[2.3.0.M3] release notes for upgrading from Spring Boot 2.2.
+
+
+=== Building layered jars
+
+
+
+==== Default layers
+The layers that are created by default have been changed from those in M3. Application classes and resources are now written into a single layer named `application`. A new layer, `spring-boot-loader`, that contains the fat jar launcher classes has been introduced.
+
+
+
+==== Customizing layers with Maven
+The XML schema for customizing layers jars with Maven has been renamed and improved. The schema is now located at https://www.springframework.org/schema/boot/layers/layers-2.3.xsd. Please refer to the {maven-plugin}/#repackage-layers-configuration[updated reference documentation] for details.
+
+
+
+=== Couchbase 3
+Spring Boot upgraded to the Couchbase SDK v3 which brings a number of breaking changes:
+
+* To connect to a cluster, you should now use `spring.couchbase.connection-string` instead of the former `bootstrap-hosts`.
+* Role-based access controls have now been generalized.
+* Spring Boot no longer auto-configures a `Bucket` but you can easily do so using the `Cluster` API.
+* Endpoints IO configuration has been harmonized in `spring.couchbase.env.io`.
+* If you were extending `CouchbaseConfiguration` to customize the environment, please use `ClusterEnvironmentBuilderCustomizer` to do so in a more idiomatic fashion.
+
+A bucket name needs to be provided if you're using Couchbase with Spring Data.
+
+
+
+=== Embedded Servlet web server threading configuration
+The configuration properties for configuring the threads used by embedded Servlet web servers (Jetty, Tomcat, and Undertow) have moved to dedicated `threads` groups. The properties can now be found in `server.jetty.threads`, `server.tomcat.threads`, and `server.undertow.threads`. The old properties remain in a deprecated form to ease migration.
+
+
+
+=== Disk space health indicator
+The auto-configured disk space health indicator no longer requires the path that is monitored to exist when the application starts. A non-existent path will be detected as having zero usable space resulting in a down response from the indicator.
+
+
+
+=== Supported versions of Gradle
+If you are using Gradle 6, Gradle 6.3 or later is now required. Gradle 5.6.x is also supported in a deprecated form.
+
+
+
+== Upgrading from Spring Boot 2.3.0.M3
+
+
+== New and noteworthy
+TIP: Check link:Spring-Boot-2.3.0-M4-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+
+
+=== Liveness and Readiness probes
+Spring Boot now has in-built knowledge of the availability of your application, tracking whether it is alive and whether it is ready to handle traffic. The health endpoint can be configured to expose the liveness (`/actuator/health/liveness`) and readiness (`/actuator/health/readiness`) of you application with the `management.health.probes.enabled=true` configuration property. When running on Kubernetes this is done automatically. To learn more about this feature, please check out https://spring.io/blog/2020/03/25/liveness-and-readiness-probes-with-spring-boot[this blog post] and the reference documentation to which it links.
+
+
+
+=== Building OCI images
+`DOCKER_*` environment variables are now used to locate the Docker daemon when building OCI images with Maven or Gradle.
+
+The name of the image and the builder that is used to build it can now be controlled via a command-line property. When using Maven the properties are `spring-boot.build-image.imageName` and `spring-boot.build-image.builder` respectively. The equivalent properties for Gradle are `--imageName` and `--builder`.
+
+
+
+=== Building layered jars
+
+
+
+==== Custom layers with Gradle
+Support for customizing layers when using Gradle has been added to the `bootJar` DSL. Please refer to the {gradle-plugin}/#packaging-layered-jars[updated reference documentation] for details.
+
+
+
+=== Configurable base path for WebFlux applications
+The base path of all web handlers a WebFlux application can now be configured. Use the `spring.webflux.base-path` property to do so.
+
+
+
+=== Contributing additional tags to Web MVC and WebFlux metrics
+Tags that are used in addition to those provided by default for MVC and WebFlux can now be contributed. Contributions can be made using a `WebMvcTagsContributor` `@Bean` for MVC and a `WebFluxTagsContributor` `@Bean` for WebFlux.
+
+
+
+=== Dependency Upgrades
+Spring Boot 2.3 M4 upgrades to the latest milestone of several Spring projects:
+
+- Spring Data Neumann-RC1
+- Spring HATEOAS 1.1.0.M3
+- Spring Integration 5.3.0.M4
+- Spring Session Dragonfruit-RC2
+
+Numerous third-party dependencies have been upgraded, some of the more noteworthy of which are the following:
+
+- Couchbase Client 3.0
+- MariaDB 2.6
+- QueryDSL 4.3
+
+
+
+=== Miscellaneous
+Apart from the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+* Auto-detection of the cloud platform can be overridden using `spring.main.cloud-platform`.
+* Caching of responses from Acuator's HTTP endpoints is now supported when the request has a principal.
+* Maven support for creating a fat jar now honors the `project.build.outputTimestamp` property, allowing its output to be https://maven.apache.org/guides/mini/guide-reproducible-builds.html[reproducible].
+* The Javadoc of the Maven plugin is {docs}/maven-plugin/api/[now published].
+
+== Deprecations in Spring Boot 2.3.0 M4
+None

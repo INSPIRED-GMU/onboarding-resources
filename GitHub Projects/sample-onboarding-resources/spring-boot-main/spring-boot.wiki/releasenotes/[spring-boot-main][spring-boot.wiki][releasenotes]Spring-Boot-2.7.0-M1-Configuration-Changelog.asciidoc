@@ -1,0 +1,49 @@
+Configuration properties change between `2.6.3` and `2.7.0-M1`
+
+== Deprecated in `2.7.0-M1`
+None.
+
+
+
+== New in `2.7.0-M1`
+|======================
+|Key  |Default value |Description
+|`management.info.os.enabled` |`false` |Whether to enable Operating System info.
+|`management.metrics.graphql.autotime.enabled` |`true` |
+|`management.metrics.graphql.autotime.percentiles` | |
+|`management.metrics.graphql.autotime.percentiles-histogram` |`false` |
+|`server.netty.max-keep-alive-requests` | |Maximum number of requests that can be made per connection.
+|`spring.batch.jdbc.isolation-level-for-create` | |Transaction isolation level to use when creating job meta-data for new jobs.
+|`spring.graphql.cors.allow-credentials` | |Whether credentials are supported.
+|`spring.graphql.cors.allowed-headers` | |Comma-separated list of HTTP headers to allow in a request. '*' allows all headers.
+|`spring.graphql.cors.allowed-methods` | |Comma-separated list of HTTP methods to allow. '*' allows all methods.
+|`spring.graphql.cors.allowed-origin-patterns` | |Comma-separated list of origin patterns to allow.
+|`spring.graphql.cors.allowed-origins` | |Comma-separated list of origins to allow with '*' allowing all origins.
+|`spring.graphql.cors.exposed-headers` | |Comma-separated list of headers to include in a response.
+|`spring.graphql.cors.max-age` |`1800s` |How long the response from a pre-flight request can be cached by clients.
+|`spring.graphql.graphiql.enabled` |`false` |Whether the default GraphiQL UI is enabled.
+|`spring.graphql.graphiql.path` |`/graphiql` |Path to the GraphiQL UI endpoint.
+|`spring.graphql.path` |`/graphql` |Path at which to expose a GraphQL request HTTP endpoint.
+|`spring.graphql.schema.file-extensions` |`.graphqls,.gqls` |File extensions for GraphQL schema files.
+|`spring.graphql.schema.introspection.enabled` |`true` |Whether field introspection should be enabled at the schema level.
+|`spring.graphql.schema.locations` |`classpath:graphql/**/` |Locations of GraphQL schema files.
+|`spring.graphql.schema.printer.enabled` |`false` |Whether the endpoint that prints the schema is enabled.
+|`spring.graphql.websocket.connection-init-timeout` |`60s` |Time within which the initial {@code CONNECTION_INIT} type message must be received.
+|`spring.graphql.websocket.path` | |Path of the GraphQL WebSocket subscription endpoint.
+|`spring.kafka.listener.idle-partition-event-interval` | |Time between publishing idle partition consumer events (no data received for partition).
+|`spring.kafka.template.transaction-id-prefix` | |Transaction id prefix, override the transaction id prefix in the producer factory.
+|`spring.rabbitmq.stream.name` | |Name of the stream.
+|======================
+
+
+
+== Removed in `2.7.0-M1`
+|======================
+|Key  |Replacement |Reason
+|`spring.artemis.host` |`spring.artemis.broker-url` |
+|`spring.artemis.port` |`spring.artemis.broker-url` |
+|`spring.batch.initialize-schema` |`spring.batch.jdbc.initialize-schema` |
+|`spring.batch.schema` |`spring.batch.jdbc.schema` |
+|`spring.batch.table-prefix` |`spring.batch.jdbc.table-prefix` |
+|`spring.flyway.check-location` |`spring.flyway.fail-on-missing-locations` |
+|======================

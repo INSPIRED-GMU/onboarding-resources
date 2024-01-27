@@ -1,0 +1,105 @@
+= Spring Boot 1.1 Release Notes
+
+== Upgrading from Spring Boot 1.0
+
+=== Test dependences
+The `spring-boot-starter-test` POM is no longer automatically included in the `spring-boot-starter-parent`. Adding default test dependencies to the parent POM seemed like a good idea, unfortunately they couldn't easily be changed or removed.
+
+When upgrading from 1.0 be sure to add a dependency to `spring-boot-starter-test`.
+
+=== Redis Driver
+Spring Boot 1.0 used the Lettuce Redis driver. Spring Boot 1.1 instead uses the Jedis driver. This change should be transparent for most users.
+
+=== HealthIndicators
+The `HealthIndicator` interface has changed to have a more explicit API: it now always returns a `Health` instance that has a customisable `Status` as well as additional contextual information. `Health` instances returned from all `HealthIndicators` registered in the `ApplicationContext` will be aggregated by an implementation of the newly introduced interface `HealthAggregator`. The default `HealthAggregator` implementation has a priority order for all the build-in `Status` types like `Status.UP`, `Status.DOWN` or `Status.OUT_OF_SERVICE`. The order can be configured and extended to support newly introduced custom `Status` codes.
+
+The `/health` MVC endpoint can now be configured to return different HTTP status codes for the different `Status` codes. By default `Status.DOWN` will create a 503; `Status.UP` will return 200. The mapping from `Status` to `HttpStatus` can also be configured and extended to suit your needs.
+
+The `SimpleHealthIndicator` class has been renamed to `DataSourceHealthIndicator`. Additionally we've added basic health check support for Mongo, Redis, Rabbit and Apache Solr. When using Spring Boot Actuator those health checks will automatically be added when a data store or messaging system is auto detected. Certainly the creation of health checks can be disabled.
+
+=== JMS Changes
+The `JmsTemplate` class now defaults `pubSubDomain` to `false` rather than `true`. The `JmsTemplateAutoConfiguration` class has been renamed to `JmsAutoConfiguration`. The `ActiveMQAutoConfiguration` class is now in a `activemq` sub-package.
+
+=== ErrorController
+The `ErrorController` interface and related classes have been moved from `spring-boot-actuator` to `spring-boot-autoconfigure`. This change should be transparent for most users, however, some package renames have occurred.
+
+=== Multipart Config
+The `MultiPartConfigFactory` had been renamed to `MultipartConfigFactory` (note the different case).
+
+=== Spring Data auto-configuration packages
+Spring Data auto-configuration classes have been moved to sub-packages. Most users will not use them directly, but if you reference them via an `@EnableAutoConfiguration` `exclude` attribute you may need to change your imports.
+
+=== Reactor
+
+Spring Boot now provides Reactor 1.1.2 by default (1.0.x provided Reactor 1.0.1). In Reactor 1.1 the `reactor-tcp` module has been renamed `reactor-net`. If you were using `reactor-tcp` you should update your dependency to use `reactor-net` instead.
+
+=== Running your app using Maven
+
+Spring Boot now forks a process to run your app (i.e. using `mvn spring-boot:run`). This concretely means that command line arguments are no longer available to the application. Check https://docs.spring.io/spring-boot/docs/current/maven-plugin/examples/run-debug.html[this example] for more details.
+
+== New and Noteworthy
+
+=== Version Updates
+Several third-party dependencies have been upgraded to align versions with those defined in the upcoming https://spring.io/platform[Spring IO Platform] release. It is now also possible to use a https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#build-tool-plugins-gradle-custom-version-management[custom version meta-data file] with the Spring Boot Gradle plugin.
+
+=== Additional Templating Support
+There is now support for Freemarker, Groovy and Velocity templates alongside the existing Thymeleaf and JSP support.
+
+=== Metrics and Health Endpoints
+The `/metrics` actuator endpoint now includes more information, including heap details, class load count, thread information and garbage collection statistics.
+
+The `HealthIndicator` interface has been improved so that you can register multiple beans. We've also added out of the box support for Redis, Mongo and RabbitMQ indicators (alongside the existing JDBC indicator).
+
+=== Maven Plugin
+The Spring Boot Maven plugin now supports `excludes` which can be used to filter the libraries that bundled as part of your ``fat'' jar. Plugin documentation is now also published as a https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/maven-plugin/[maven site].
+
+=== Gradle Plugin
+The Spring Boot Gradle plugin now automatically applies exclusion rules based on the `spring-boot-dependencies` POM. See the https://docs.spring.io/spring-boot/docs/1.1.x/reference/htmlsingle/#build-tool-plugins-gradle-exclude-rules[reference documentation] for details.
+
+=== Custom Banner
+You can now add a custom banner by adding a `banner.txt` file to your classpath or by setting a `banner.location` property.
+
+=== Flyway database migrations
+Auto-configuration is now provided for `Flyway` database migrations.
+
+=== Liquibase database migrations
+Auto-configuration is now provided for `Liquibase` database migrations.
+
+=== Mongo
+Mongo auto-configuration has been improved so that you can now inject `Mongo`, `MongoDbFactory` or `MongoTemplate` beans. GridFS support has also been added via an auto-configured `GridFsTemplate` bean.
+
+=== GemFire
+A new `spring-boot-starter-data-gemfire` module is available for Spring Data GemFire support.
+
+=== HornetQ
+Auto-configuration support is now available for the HornetQ JMS broker, along with a new `spring-boot-starter-hornetq` starter POM. When `org.hornetq:hornetq-jms-server` is available in the classpath, an embedded HornetQ broker is auto-configured by default. Check https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#boot-features-hornetq[the documentation] for more details.
+
+=== Elasticsearch
+Auto-configuration support is now available for Elasticseach, along with a new `spring-boot-starter-data-elasticsearch` starter POM.
+
+=== Apache Solr
+Auto-configuration support is now available for Apache Solr, along with a new `spring-boot-starter-data-solr` starter POM.
+
+=== Web Improvements
+Auto-configuration classes for ``Spring HATEOAS'' and ``Spring Data Rest MVC'' have now been added to Spring Boot. Multi-part file upload support has been changed to be enabled by default.
+
+=== Spring Social
+Auto-configuration is now available for Facebook, Twitter and LinkedIn connectors from Spring Social.
+
+=== Spring Mobile
+Spring Mobile auto-configuration has been updated to include support for `SitePreferenceHandler`.
+
+=== Spring Integration
+Auto-configuration has been added for Spring Integration. If Spring Integration is on your classpath you will now automatically get `@EnableIntegration` as well as some Spring Integration JMX beans.
+
+=== Spring-WS
+A new `spring-boot-starter-ws` is available for Spring Web Services support.
+
+=== Jackson
+Support for the Jackson JSON marshaling library has been improved. You will now get auto-configured beans for Jackson's `ObjectMapper` as well as `JodaModule` and `JSR310Module` support when appropriate. You can now also add your own `Module` beans and have them automatically applied.
+
+=== HikariDataSource
+Support has been added for the https://github.com/brettwooldridge/HikariCP[Hikari Connection Pool] library. Simply ensure that the `HikariCP` library is on your classpath and that the Tomcat DBCP is not.
+
+=== New Conditional Annotations
+Two new `@Conditional` annotations have been added to Spring Boot 1.1. `@ConditionalOnProperty` supports conditionally enabling beans based on the presence of an `Environment` property and `@ConditionalOnJava` can be used to enable beans based on the JVM version.

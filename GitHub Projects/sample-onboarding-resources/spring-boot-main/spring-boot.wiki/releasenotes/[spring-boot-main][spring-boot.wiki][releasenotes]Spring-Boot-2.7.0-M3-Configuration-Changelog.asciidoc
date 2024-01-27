@@ -1,0 +1,39 @@
+Configuration properties change between `2.7.0-M2` and `2.7.0-SNAPSHOT`
+
+== Deprecated in `2.7.0-M3`
+|======================
+|Key  |Replacement |Reason
+|`spring.kafka.listener.only-log-record-metadata` | |Use KafkaUtils#setConsumerRecordFormatter instead.
+|`spring.mustache.allow-request-override` |`spring.mustache.servlet.allow-request-override` |
+|`spring.mustache.allow-session-override` |`spring.mustache.servlet.allow-session-override` |
+|`spring.mustache.cache` |`spring.mustache.servlet.cache` |
+|`spring.mustache.content-type` |`spring.mustache.servlet.content-type` |
+|`spring.mustache.expose-request-attributes` |`spring.mustache.servlet.expose-request-attributes` |
+|`spring.mustache.expose-session-attributes` |`spring.mustache.servlet.expose-session-attributes` |
+|`spring.mustache.expose-spring-macro-helpers` |`spring.mustache.servlet.expose-spring-macro-helpers` |
+|======================
+
+
+
+== New in `2.7.0-M3`
+|======================
+|Key  |Default value |Description
+|`spring.flyway.placeholder-separator` |`:` |Separator of default placeholders.
+|`spring.mustache.reactive.media-types` |`text/html;charset=UTF-8` |Media types supported by Mustache views.
+|`spring.mustache.servlet.allow-request-override` |`false` |Whether HttpServletRequest attributes are allowed to override (hide) controller generated model attributes of the same name.
+|`spring.mustache.servlet.allow-session-override` |`false` |Whether HttpSession attributes are allowed to override (hide) controller generated model attributes of the same name.
+|`spring.mustache.servlet.cache` |`false` |Whether to enable template caching.
+|`spring.mustache.servlet.content-type` | |Content-Type value.
+|`spring.mustache.servlet.expose-request-attributes` |`false` |Whether all request attributes should be added to the model prior to merging with the template.
+|`spring.mustache.servlet.expose-session-attributes` |`false` |Whether all HttpSession attributes should be added to the model prior to merging with the template.
+|`spring.mustache.servlet.expose-spring-macro-helpers` |`true` |Whether to expose a RequestContext for use by Spring's macro library, under the name "springMacroRequestContext".
+|======================
+
+
+
+== Removed in `2.7.0-M3`
+|======================
+|Key  |Replacement |Reason
+|`spring.data.cassandra.connection.connection-timeout` | |
+|`spring.mongodb.embedded.features` | |Feature support has been removed from Embedded Mongo.
+|======================

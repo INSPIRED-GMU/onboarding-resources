@@ -1,0 +1,82 @@
+h2. 1 data sets
+
+*binary:*
+
+|_.name|_.size|_.N (train/test) |_.p|_.#nz (train) |_.used in|_.format|_.mldata|
+|Leukemia|	1.9M|	72|	3571|	dense|	[1]|	RData| yes |
+|Newsgroup|	9.4M|	11,314|	777,811|	0.05%|	[1]|	RData| no |
+|Internet-Ad|	49K|	2359|	1430|	1.2%|	[1]|	RData| no |
+|a9a|	2.3M/1.1M|	32,561 / 16,281| 	123|	451,592 (11%)|	[2]|	libsvm| yes|
+|real-sim|	33.6M|	72,309|	20,958|	3,709,083 (0.2%)|	[2]|	libsvm| yes|
+|rcv1|	13.1M/432M|	20,242 / 677,399|	47,236|	49,556,258 (0.15%)|	[2]|	libsvm| no |
+
+
+
+*multiclass:*
+
+|_.name	|_.size	|_.#class	|_.N(train/test)	|_.p	|_.#nz	|_.used in 	|_.format|_.mldata|
+|news20	|3.6M/0.9M	|20	|15,935 /3,993	|1,355,191 |9,097,916 (0,03%) |[2]	|libsvm| yes|
+|Cancer	|22M	|14	|144	|16,063	|dense	|[1]	|RData| no|
+
+
+
+
+*regression:*
+
+|_.name	|_.size	|_.N	|_.p	|_.#nz	|_.used in 	|_.format|
+|Prostate Cancer Data	|	|97	|9	|dense	|[3]	|RData|
+
+[1] Friedman, J., T. Hastie, and R. Tibshirani. “Regularization Paths for Generalized Linear Models via Coordinate Descent.” Journal of Statistical Software 33, no. 1 (2010): 1.
+p.20 "download data":http://www.google.com/url?q=http%3A%2F%2Fwww.stanford.edu%2F~hastie%2Fglmnet%2FglmnetData%2F&sa=D&sntz=1&usg=AFQjCNFZUXCPW-hfD9FraYiKd8FlZ61nfw
+
+[2] Yuan, G.X., K.W. Chang, C.J. Hsieh, and C.J. Lin. “A Comparison of Optimization Methods and Software for Large-scale L1-regularized Linear Classification.” The Journal of Machine Learning Research 9999 (2010): 3183–3234.
+p.3214 "download data":http://www.google.com/url?q=http%3A%2F%2Fwww.csie.ntu.edu.tw%2F~cjlin%2Flibsvmtools%2Fdatasets%2F&sa=D&sntz=1&usg=AFQjCNHrypnbzY4VT6vbeA39Y22siTpdwA
+
+[3] Tibshirani, R. “Regression Shrinkage and Selection via the Lasso.” Journal of the Royal Statistical Society. Series B (Methodological) (1996): 267–288.
+
+*Questions:*
+# Which data sets should be used?
+# Format to store them?
+# Other regression type data sets?
+
+agramfort : I would as much as possible use mldata and the mldata loader we ship with sklearn (fetch_mldata)
+
+h2. 2 problems to benchmark
+
+*    l2 loss*
+*    log loss*
+*    multi-logit*
+
+_with l1 and l1 & l2 penalty_
+
+*Questions:*
+# Settings to use in benchmarking (penalty value etc. ) ?
+
+agramfort : I would start with 2 extreme cases (high lambda or low lambda) for each n_samples >> n_features or n_samples << n_features
+
+h2. 2.1 external reference implementations
+
+*    glmnet
+**       glmnet-python ( version? )
+**        R glmnet package + rpy2 (latest version)
+*    liblinear
+**        liblinear + python interface (latest version)
+
+*Questions:*
+# How to time execution to achieve a fair comparison ?
+# Which glmnet interface should be used?
+
+agramfort : I would start with rpy2 even you pay the price of a copy which is not really fair.
+
+h2. 3 code performance monitoring 
+
+scikit-learn implementations speed development tracking
+tracking of execution times for the scikit-learn implementations of (2) on data sets (1) over time
+
+vbench
+[[https://github.com/vene/scikit-learn-speed]]
+[[http://code.google.com/p/unladen-swallow/]]
+
+*Questions:*
+# Already some example code available for scikit-learn ?
+

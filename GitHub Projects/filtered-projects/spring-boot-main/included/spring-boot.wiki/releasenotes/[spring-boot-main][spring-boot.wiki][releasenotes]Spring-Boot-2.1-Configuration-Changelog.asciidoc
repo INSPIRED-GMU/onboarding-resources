@@ -1,0 +1,225 @@
+Configuration properties change between `2.0.6.BUILD-SNAPSHOT` and `2.1.0.BUILD-SNAPSHOT`
+
+.Deprecated keys in `2.1.0.BUILD-SNAPSHOT`
+|======================
+|Key  |Replacement |Reason
+|`management.endpoints.jmx.unique-names` |`spring.jmx.unique-names` |
+|`management.metrics.binders.files.enabled` |`management.metrics.enable.process.files` |Instead, filter 'process.files' metrics.
+|`management.metrics.binders.jvm.enabled` |`management.metrics.enable.jvm` |Instead, disable JvmMetricsAutoConfiguration or filter 'jvm' metrics.
+|`management.metrics.binders.logback.enabled` |`management.metrics.enable.logback` |Instead, disable LogbackMetricsAutoConfiguration or filter 'logback' metrics.
+|`management.metrics.binders.processor.enabled` | |Instead, filter 'system.cpu' and 'process.cpu' metrics.
+|`management.metrics.binders.uptime.enabled` | |Instead, filter 'process.uptime' and 'process.start.time' metrics.
+|`server.tomcat.max-http-header-size` |`server.max-http-header-size` |
+|`spring.activemq.pool.maximum-active-session-per-connection` |`spring.activemq.pool.max-sessions-per-connection` |
+|`spring.data.cassandra.load-balancing-policy` | |Implement a ClusterBuilderCustomizer bean instead.
+|`spring.data.cassandra.reconnection-policy` | |Implement a ClusterBuilderCustomizer bean instead.
+|`spring.data.cassandra.retry-policy` | |Implement a ClusterBuilderCustomizer bean instead.
+|======================
+
+.New keys in `2.1.0.BUILD-SNAPSHOT`
+|======================
+|Key  |Default value |Description
+|`logging.group` | |Log groups to quickly change multiple loggers at the same time.
+|`management.endpoint.caches.cache.time-to-live` |`0ms` |Maximum time that a response can be cached.
+|`management.endpoint.caches.enabled` |`true` |Whether to enable the caches endpoint.
+|`management.endpoint.integrationgraph.cache.time-to-live` |`0ms` |Maximum time that a response can be cached.
+|`management.endpoint.integrationgraph.enabled` |`true` |Whether to enable the integrationgraph endpoint.
+|`management.metrics.distribution.maximum-expected-value` | |Maximum value that meter IDs starting-with the specified name are expected to observe.
+|`management.metrics.distribution.minimum-expected-value` | |Minimum value that meter IDs starting-with the specified name are expected to observe.
+|`management.metrics.export.dynatrace.api-token` | |Dynatrace authentication token.
+|`management.metrics.export.dynatrace.batch-size` |`10000` |Number of measurements per request to use for this backend.
+|`management.metrics.export.dynatrace.connect-timeout` |`1s` |Connection timeout for requests to this backend.
+|`management.metrics.export.dynatrace.device-id` | |ID of the custom device that is exporting metrics to Dynatrace.
+|`management.metrics.export.dynatrace.enabled` |`true` |Whether exporting of metrics to this backend is enabled.
+|`management.metrics.export.dynatrace.num-threads` |`2` |Number of threads to use with the metrics publishing scheduler.
+|`management.metrics.export.dynatrace.read-timeout` |`10s` |Read timeout for requests to this backend.
+|`management.metrics.export.dynatrace.step` |`1m` |Step size (i.e. reporting frequency) to use.
+|`management.metrics.export.dynatrace.technology-type` |`java` |Technology type for exported metrics.
+|`management.metrics.export.dynatrace.uri` | |URI to ship metrics to.
+|`management.metrics.export.elastic.auto-create-index` |`true` |Whether to create the index automatically if it does not exist.
+|`management.metrics.export.elastic.batch-size` |`10000` |Number of measurements per request to use for this backend.
+|`management.metrics.export.elastic.connect-timeout` |`1s` |Connection timeout for requests to this backend.
+|`management.metrics.export.elastic.enabled` |`true` |Whether exporting of metrics to this backend is enabled.
+|`management.metrics.export.elastic.host` |`http://localhost:9200` |Host to export metrics to.
+|`management.metrics.export.elastic.index` |`metrics` |Index to export metrics to.
+|`management.metrics.export.elastic.index-date-format` |`yyyy-MM` |Index date format used for rolling indices.
+|`management.metrics.export.elastic.num-threads` |`2` |Number of threads to use with the metrics publishing scheduler.
+|`management.metrics.export.elastic.password` |`` |Login password of the Elastic server.
+|`management.metrics.export.elastic.read-timeout` |`10s` |Read timeout for requests to this backend.
+|`management.metrics.export.elastic.step` |`1m` |Step size (i.e. reporting frequency) to use.
+|`management.metrics.export.elastic.timestamp-field-name` |`@timestamp` |Name of the timestamp field.
+|`management.metrics.export.elastic.user-name` |`` |Login user of the Elastic server.
+|`management.metrics.export.humio.api-token` | |Humio API token.
+|`management.metrics.export.humio.batch-size` |`10000` |Number of measurements per request to use for this backend.
+|`management.metrics.export.humio.connect-timeout` |`5s` |Connection timeout for requests to Humio.
+|`management.metrics.export.humio.enabled` |`true` |Whether exporting of metrics to this backend is enabled.
+|`management.metrics.export.humio.num-threads` |`2` |Number of threads to use with the metrics publishing scheduler.
+|`management.metrics.export.humio.read-timeout` |`10s` |Read timeout for requests to this backend.
+|`management.metrics.export.humio.repository` |`sandbox` |Name of the repository to publish metrics to.
+|`management.metrics.export.humio.step` |`1m` |Step size (i.e. reporting frequency) to use.
+|`management.metrics.export.humio.tags` | |Humio tags describing the data source in which metrics will be stored.
+|`management.metrics.export.humio.uri` |`https://cloud.humio.com` |URI to ship metrics to.
+|`management.metrics.export.kairos.batch-size` |`10000` |Number of measurements per request to use for this backend.
+|`management.metrics.export.kairos.connect-timeout` |`1s` |Connection timeout for requests to this backend.
+|`management.metrics.export.kairos.enabled` |`true` |Whether exporting of metrics to this backend is enabled.
+|`management.metrics.export.kairos.num-threads` |`2` |Number of threads to use with the metrics publishing scheduler.
+|`management.metrics.export.kairos.password` | |Login password of the KairosDB server.
+|`management.metrics.export.kairos.read-timeout` |`10s` |Read timeout for requests to this backend.
+|`management.metrics.export.kairos.step` |`1m` |Step size (i.e. reporting frequency) to use.
+|`management.metrics.export.kairos.uri` |`http://localhost:8080/api/v1/datapoints` |URI of the KairosDB server.
+|`management.metrics.export.kairos.user-name` | |Login user of the KairosDB server.
+|`management.metrics.export.prometheus.pushgateway.base-url` |`localhost:9091` |Base URL for the Pushgateway.
+|`management.metrics.export.prometheus.pushgateway.enabled` |`false` |Enable publishing via a Prometheus Pushgateway.
+|`management.metrics.export.prometheus.pushgateway.grouping-key` | |Grouping key for the pushed metrics.
+|`management.metrics.export.prometheus.pushgateway.job` | |Job identifier for this application instance.
+|`management.metrics.export.prometheus.pushgateway.push-rate` |`1m` |Frequency with which to push metrics.
+|`management.metrics.export.prometheus.pushgateway.shutdown-operation` | |Operation that should be performed on shutdown.
+|`management.metrics.tags` | |Common tags that are applied to every meter.
+|`server.tomcat.max-swallow-size` |`2MB` |Maximum amount of request body to swallow.
+|`server.tomcat.resource.allow-caching` |`true` |Whether static resource caching is permitted for this web application.
+|`spring.activemq.pool.max-sessions-per-connection` |`500` |Maximum number of pooled sessions per connection in the pool.
+|`spring.artemis.pool.block-if-full` |`true` |Whether to block when a connection is requested and the pool is full.
+|`spring.artemis.pool.block-if-full-timeout` |`-1ms` |Blocking period before throwing an exception if the pool is still full.
+|`spring.artemis.pool.enabled` |`false` |Whether a JmsPoolConnectionFactory should be created, instead of a regular ConnectionFactory.
+|`spring.artemis.pool.idle-timeout` |`30s` |Connection idle timeout.
+|`spring.artemis.pool.max-connections` |`1` |Maximum number of pooled connections.
+|`spring.artemis.pool.max-sessions-per-connection` |`500` |Maximum number of pooled sessions per connection in the pool.
+|`spring.artemis.pool.maximum-active-session-per-connection` | |
+|`spring.artemis.pool.time-between-expiration-check` |`-1ms` |Time to sleep between runs of the idle connection eviction thread.
+|`spring.artemis.pool.use-anonymous-producers` |`true` |Whether to use only one anonymous "MessageProducer" instance.
+|`spring.data.cassandra.jmx-enabled` |`false` |Whether to enable JMX reporting.
+|`spring.data.jdbc.repositories.enabled` |`true` |Whether to enable JDBC repositories.
+|`spring.data.jpa.repositories.bootstrap-mode` |`default` |Bootstrap mode for JPA repositories.
+|`spring.datasource.dbcp2.default-schema` | |
+|`spring.devtools.add-properties` |`true` |Whether to enable development property defaults.
+|`spring.elasticsearch.rest.password` | |Credentials password.
+|`spring.elasticsearch.rest.uris` |`http://localhost:9200` |Comma-separated list of the Elasticsearch instances to use.
+|`spring.elasticsearch.rest.username` | |Credentials username.
+|`spring.flyway.connect-retries` |`0` |Maximum number of retries when attempting to connect to the database.
+|`spring.flyway.ignore-ignored-migrations` |`false` |Whether to ignore ignored migrations when reading the schema history table.
+|`spring.flyway.ignore-pending-migrations` |`false` |Whether to ignore pending migrations when reading the schema history table.
+|`spring.http.log-request-details` |`false` |Whether logging of (potentially sensitive) request details at DEBUG and TRACE level is allowed.
+|`spring.info.build.encoding` |`UTF-8` |File encoding.
+|`spring.info.git.encoding` |`UTF-8` |File encoding.
+|`spring.jackson.visibility` | |Jackson visibility thresholds that can be used to limit which methods (and fields) are auto-detected.
+|`spring.jms.cache.consumers` |`false` |Whether to cache message consumers.
+|`spring.jms.cache.enabled` |`true` |Whether to cache sessions.
+|`spring.jms.cache.producers` |`true` |Whether to cache message producers.
+|`spring.jms.cache.session-cache-size` |`1` |Size of the session cache (per JMS Session type).
+|`spring.jmx.unique-names` |`false` |Whether unique runtime object names should be ensured.
+|`spring.kafka.admin.ssl.key-store-location` | |Location of the key store file.
+|`spring.kafka.admin.ssl.key-store-password` | |Store password for the key store file.
+|`spring.kafka.admin.ssl.trust-store-location` | |Location of the trust store file.
+|`spring.kafka.admin.ssl.trust-store-password` | |Store password for the trust store file.
+|`spring.kafka.consumer.ssl.key-store-location` | |Location of the key store file.
+|`spring.kafka.consumer.ssl.key-store-password` | |Store password for the key store file.
+|`spring.kafka.consumer.ssl.trust-store-location` | |Location of the trust store file.
+|`spring.kafka.consumer.ssl.trust-store-password` | |Store password for the trust store file.
+|`spring.kafka.producer.ssl.key-store-location` | |Location of the key store file.
+|`spring.kafka.producer.ssl.key-store-password` | |Store password for the key store file.
+|`spring.kafka.producer.ssl.trust-store-location` | |Location of the trust store file.
+|`spring.kafka.producer.ssl.trust-store-password` | |Store password for the trust store file.
+|`spring.kafka.ssl.key-store-location` | |Location of the key store file.
+|`spring.kafka.ssl.key-store-password` | |Store password for the key store file.
+|`spring.kafka.ssl.trust-store-location` | |Location of the trust store file.
+|`spring.kafka.ssl.trust-store-password` | |Store password for the trust store file.
+|`spring.kafka.streams.application-id` | |Kafka streams application.id property; default spring.application.name.
+|`spring.kafka.streams.auto-startup` |`true` |Whether or not to auto-start the streams factory bean.
+|`spring.kafka.streams.bootstrap-servers` | |Comma-delimited list of host:port pairs to use for establishing the initial connections to the Kafka cluster.
+|`spring.kafka.streams.cache-max-bytes-buffering` | |
+|`spring.kafka.streams.cache-max-size-buffering` | |Maximum memory size to be used for buffering across all threads.
+|`spring.kafka.streams.client-id` | |ID to pass to the server when making requests.
+|`spring.kafka.streams.properties` | |Additional Kafka properties used to configure the streams.
+|`spring.kafka.streams.replication-factor` | |The replication factor for change log topics and repartition topics created by the stream processing application.
+|`spring.kafka.streams.ssl.key-password` | |Password of the private key in the key store file.
+|`spring.kafka.streams.ssl.key-store-location` | |Location of the key store file.
+|`spring.kafka.streams.ssl.key-store-password` | |Store password for the key store file.
+|`spring.kafka.streams.ssl.key-store-type` | |Type of the key store.
+|`spring.kafka.streams.ssl.protocol` | |SSL protocol to use.
+|`spring.kafka.streams.ssl.trust-store-location` | |Location of the trust store file.
+|`spring.kafka.streams.ssl.trust-store-password` | |Store password for the trust store file.
+|`spring.kafka.streams.ssl.trust-store-type` | |Type of the trust store.
+|`spring.kafka.streams.state-dir` | |Directory location for the state store.
+|`spring.liquibase.database-change-log-lock-table` |`DATABASECHANGELOGLOCK` |Name of table to use for tracking concurrent Liquibase usage.
+|`spring.liquibase.database-change-log-table` |`DATABASECHANGELOG` |Name of table to use for tracking change history.
+|`spring.liquibase.liquibase-schema` | |Schema to use for Liquibase objects.
+|`spring.liquibase.liquibase-tablespace` | |Tablespace to use for Liquibase objects.
+|`spring.liquibase.test-rollback-on-update` |`false` |Whether rollback should be tested before update is performed.
+|`spring.main.allow-bean-definition-overriding` |`false` |Whether bean definition overriding, by registering a definition with the same name as an existing definition, is allowed.
+|`spring.messages.reloadable` |`false` |Whether to use a "ReloadableResourceBundleMessageSource" rather than the default "ResourceBundleMessageSource".
+|`spring.mvc.formcontent.filter.enabled` |`true` |Whether to enable Spring's FormContentFilter.
+|`spring.mvc.hiddenmethod.filter.enabled` |`true` |Whether to enable Spring's HiddenHttpMethodFilter.
+|`spring.mvc.servlet.path` |`/` |Path of the dispatcher servlet.
+|`spring.quartz.auto-startup` |`true` |Whether to automatically start the scheduler after initialization.
+|`spring.quartz.overwrite-existing-jobs` |`false` |Whether configured jobs should overwrite existing job definitions.
+|`spring.quartz.scheduler-name` |`quartzScheduler` |Name of the scheduler.
+|`spring.quartz.startup-delay` |`0s` |Delay after which the scheduler is started once initialization completes.
+|`spring.quartz.wait-for-jobs-to-complete-on-shutdown` |`false` |Whether to wait for running jobs to complete on shutdown.
+|`spring.rabbitmq.listener.direct.missing-queues-fatal` |`false` |Whether to fail if the queues declared by the container are not available on the broker.
+|`spring.rabbitmq.listener.simple.missing-queues-fatal` |`true` |Whether to fail if the queues declared by the container are not available on the broker and/or whether to stop the container if one or more queues are deleted at runtime.
+|`spring.rabbitmq.template.queue` | |Name of the default queue to receive messages from when none is specified explicitly.
+|`spring.resources.chain.compressed` |`false` |Whether to enable resolution of already compressed resources (gzip, brotli).
+|`spring.security.oauth2.resourceserver.jwt.issuer-uri` | |URI that an OpenID Connect Provider asserts as its Issuer Identifier.
+|`spring.security.oauth2.resourceserver.jwt.jwk-set-uri` | |JSON Web Key URI to use to verify the JWT token.
+|`spring.task.execution.pool.allow-core-thread-timeout` |`true` |Whether core threads are allowed to time out.
+|`spring.task.execution.pool.core-size` |`8` |Core number of threads.
+|`spring.task.execution.pool.keep-alive` |`60s` |Time limit for which threads may remain idle before being terminated.
+|`spring.task.execution.pool.max-size` | |Maximum allowed number of threads.
+|`spring.task.execution.pool.queue-capacity` | |Queue capacity.
+|`spring.task.execution.thread-name-prefix` |`task-` |Prefix to use for the names of newly created threads.
+|`spring.task.scheduling.pool.size` |`1` |Maximum allowed number of threads.
+|`spring.task.scheduling.thread-name-prefix` |`scheduling-` |Prefix to use for the names of newly created threads.
+|`spring.thymeleaf.render-hidden-markers-before-checkboxes` |`false` |Whether hidden form inputs acting as markers for checkboxes should be rendered before the checkbox element itself.
+|`spring.thymeleaf.servlet.produce-partial-output-while-processing` |`true` |Whether Thymeleaf should start writing partial output as soon as possible or buffer until template processing is finished.
+|`spring.webflux.hiddenmethod.filter.enabled` |`true` |Whether to enable Spring's HiddenHttpMethodFilter.
+|======================
+
+.Removed keys in `2.1.0.BUILD-SNAPSHOT``
+|======================
+|Key  |Replacement |Reason
+|`flyway.encoding` | |
+|`server.servlet.path` |`spring.mvc.servlet.path` |
+|`spring.activemq.pool.create-connection-on-startup` |`true` |Whether to create a connection on startup.
+|`spring.activemq.pool.expiry-timeout` |`0ms` |Connection expiration timeout.
+|`spring.activemq.pool.reconnect-on-exception` |`true` |Reset the connection when a "JMSException" occurs.
+|`spring.couchbase.env.endpoints.query` | |Number of sockets per node against the query (N1QL) service.
+|`spring.couchbase.env.endpoints.view` | |Number of sockets per node against the view service.
+|`spring.datasource.hikari.initialization-fail-fast` | |
+|`spring.datasource.hikari.jdbc4-connection-test` | |
+|`spring.datasource.hikari.scheduled-executor-service` | |
+|`spring.flyway.dry-run-output` | |Flyway pro edition only.
+|`spring.flyway.error-handlers` | |Flyway pro edition only.
+|`spring.flyway.sql-migration-suffix` | |
+|`spring.flyway.undo-sql-migration-prefix` | |Flyway pro edition only.
+|`spring.jta.narayana.default-timeout` | |Narayana support has moved to third party starter.
+|`spring.jta.narayana.expiry-scanners` | |Narayana support has moved to third party starter.
+|`spring.jta.narayana.log-dir` | |Narayana support has moved to third party starter.
+|`spring.jta.narayana.one-phase-commit` | |Narayana support has moved to third party starter.
+|`spring.jta.narayana.periodic-recovery-period` | |Narayana support has moved to third party starter.
+|`spring.jta.narayana.recovery-backoff-period` | |Narayana support has moved to third party starter.
+|`spring.jta.narayana.recovery-db-pass` | |Narayana support has moved to third party starter.
+|`spring.jta.narayana.recovery-db-user` | |Narayana support has moved to third party starter.
+|`spring.jta.narayana.recovery-jms-pass` | |Narayana support has moved to third party starter.
+|`spring.jta.narayana.recovery-jms-user` | |Narayana support has moved to third party starter.
+|`spring.jta.narayana.recovery-modules` | |Narayana support has moved to third party starter.
+|`spring.jta.narayana.transaction-manager-id` | |Narayana support has moved to third party starter.
+|`spring.jta.narayana.xa-resource-orphan-filters` | |Narayana support has moved to third party starter.
+|`spring.kafka.admin.ssl.keystore-location` |`spring.kafka.admin.ssl.key-store-location` |
+|`spring.kafka.admin.ssl.keystore-password` |`spring.kafka.admin.ssl.key-store-password` |
+|`spring.kafka.admin.ssl.truststore-location` |`spring.kafka.admin.ssl.trust-store-location` |
+|`spring.kafka.admin.ssl.truststore-password` |`spring.kafka.admin.ssl.trust-store-password` |
+|`spring.kafka.consumer.ssl.keystore-location` |`spring.kafka.consumer.ssl.key-store-location` |
+|`spring.kafka.consumer.ssl.keystore-password` |`spring.kafka.consumer.ssl.key-store-password` |
+|`spring.kafka.consumer.ssl.truststore-location` |`spring.kafka.consumer.ssl.trust-store-location` |
+|`spring.kafka.consumer.ssl.truststore-password` |`spring.kafka.consumer.ssl.trust-store-password` |
+|`spring.kafka.producer.ssl.keystore-location` |`spring.kafka.producer.ssl.key-store-location` |
+|`spring.kafka.producer.ssl.keystore-password` |`spring.kafka.producer.ssl.key-store-password` |
+|`spring.kafka.producer.ssl.truststore-location` |`spring.kafka.producer.ssl.trust-store-location` |
+|`spring.kafka.producer.ssl.truststore-password` |`spring.kafka.producer.ssl.trust-store-password` |
+|`spring.kafka.ssl.keystore-location` |`spring.kafka.ssl.key-store-location` |
+|`spring.kafka.ssl.keystore-password` |`spring.kafka.ssl.key-store-password` |
+|`spring.kafka.ssl.truststore-location` |`spring.kafka.ssl.trust-store-location` |
+|`spring.kafka.ssl.truststore-password` |`spring.kafka.ssl.trust-store-password` |
+|`spring.mvc.formcontent.putfilter.enabled` |`spring.mvc.formcontent.filter.enabled` |
+|`spring.resources.chain.gzipped` |`spring.resources.chain.compressed` |
+|======================

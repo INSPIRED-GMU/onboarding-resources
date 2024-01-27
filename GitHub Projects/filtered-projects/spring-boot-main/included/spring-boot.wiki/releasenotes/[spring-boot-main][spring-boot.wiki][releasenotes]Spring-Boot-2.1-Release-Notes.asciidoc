@@ -1,0 +1,488 @@
+:docs: https://docs.spring.io/spring-boot/docs/2.1.0.RELEASE/reference/htmlsingle/
+:actuator-api-docs: https://docs.spring.io/spring-boot/docs/2.1.0.RELEASE/actuator-api/html/
+:gradle-plugin-docs: https://docs.spring.io/spring-boot/docs/2.1.0.RELEASE/gradle-plugin/reference
+:maven-docs: https://docs.spring.io/spring-boot/docs/current/maven-plugin/
+:framework-docs: https://docs.spring.io/spring-framework/docs/5.1.2.RELEASE/spring-framework-reference
+
+= Spring Boot 2.1 Release Notes
+
+
+
+== Upgrading from Spring Boot 2.0
+
+
+
+=== Deprecations from Spring Boot 2.0
+Classes, methods and properties that were deprecated in Spring Boot 2.0 have been removed in this release.
+Please ensure that you aren't calling deprecated methods before upgrading.
+
+
+
+=== Spring Framework 5.1
+Spring Boot 2.1 uses Spring Framework 5.1. Please refer to its https://github.com/spring-projects/spring-framework/wiki/Upgrading-to-Spring-Framework-5.x#upgrading-to-version-51[upgrade guide] for any changes that may affect your application.
+
+
+
+=== Bean Overriding
+Bean overriding has been disabled by default to prevent a bean being accidentally overridden.
+If you are relying on overriding, you will need to set `spring.main.allow-bean-definition-overriding` to `true`.
+
+
+
+=== Auto-Configuration Exclusion
+Exclusions are now applied consistently rather than only being applied locally. This applies to any exclusion defined on `@EnableAutoConfiguration`, `@SpringBootApplication`, `@ImportAutoConfiguration` or the `spring.autoconfigure.exclude` property.
+
+
+
+=== Actuator 'info' and 'health' Endpoint Security
+If `spring-security` is on the classpath without any security configuration, `/info` and `/health` are now exposed publicly for consistency.
+If you have `spring-security` on your classpath and do not provide any security configuration, you will need to explicitly secure them.
+
+
+
+=== Servlet Path
+The `server.servlet.path` property has moved to `spring.mvc.servlet.path`.
+If you were relying on that property programmatically to know the path of the `DispatcherServlet` please use `DispatcherServletPath` instead.
+
+
+=== @WebMvcTest and @WebFluxTest Security Configuration
+User configuration is now included automatically with web slice tests. `@WebMvcTest` looks for `WebSecurityConfigurer` beans while `@WebFluxTest` looks for `ServerHttpSecurity` beans.
+
+
+
+=== Logging Refinements
+Spring Framework 5.1 revisited the `debug` logging output while working on web applications (Spring MVC or Spring WebFlux).
+If you are trying to debug an application and you want to restore Spring Boot 2.0 style logging you should add the following to your `application.properties`:
+
+[source,properties]
+----
+logging.level.web=debug
+----
+
+You might also want to set `spring.http.log-request-details` to `true` to log actual request details.
+By default this property is `false` as it can potentially expose sensitive information.
+
+
+
+=== Narayana JTA Support
+The Narayana support has been removed in favor of the official support that is more aligned with Narayana releases.
+If you were using `spring-boot-starter-jta-narayana`, the new coordinates are the following:
+
+[source,xml]
+----
+<dependency>
+    <groupId>me.snowdrop</groupId>
+    <artifactId>narayana-spring-boot-starter</artifactId>
+    <version>2.0.1</version>
+</dependency>
+----
+
+Check https://github.com/snowdrop/narayana-spring-boot[the documentation] for more details.
+
+
+
+=== ActiveMQ Pooling
+If you were using `activemq-pool`, support has been removed in this release in favor of `pooled-jms` that offers the same features while being JMS 2.0 compliant.
+You can update your build as follows:
+
+[source,xml]
+----
+<dependency>
+    <groupId>org.messaginghub</groupId>
+    <artifactId>pooled-jms</artifactId>
+</dependency>
+----
+
+
+
+=== HttpPutFormContentFilter
+`HttpPutFormContentFilter` has been deprecated in favor of `FormContentFilter`.
+As a result the `spring.mvc.formcontent.putfilter.enabled` property is no longer defined.
+If you were using this feature, please update to `spring.mvc.formcontent.filter.enabled`.
+
+
+
+=== OAuth2 Client Configuration
+The structure of the `spring.security.oauth2.client.registration` has been reworked in a single tree rather than having an `authorizationcode` and `clientcredentials` sub namespace.
+
+
+
+=== Micrometer 'all' SLA Handling
+The description of `management.metrics.distribution.sla` wrongly described that a `all` meter ID could be used to set a SLA for all metrics.
+This feature couldn't be implemented properly given that the unit may differ based on the meter type.
+
+
+
+=== InfluxDB HttpClient Customization
+Previously, declaring a `OkHttpClient.Builder` bean was enough to customize the client used by InfluxDB.
+To make sure such customizations are isolated, please define a `InfluxDbOkHttpClientBuilderProvider` bean instead.
+
+
+
+=== Maven Plugin
+The `finalName` property is no longer customizable to align with the behavior of standard Maven plugins.
+
+If you were customizing the `repackage` goal, the main execution has now an id of `repackage` that must be specified, see {maven-docs}/examples/repackage-classifier.html[the updated sample].
+
+
+
+=== Spring Version POM Property
+The `spring.version` property defined in the `spring-boot-dependencies` POM has been renamed.
+To override the Spring Framework version you should now use the `spring-framework.version` property instead.
+We generally recommend that you stick with the managed framework version unless absolutely necessary.
+
+
+
+=== Removal of 'spring.provides' Files
+A starter could declare a `META-INF/spring.provides` so that an IDE can figure out what dependencies it provides.
+Scanning the starter POM for the immediate dependencies that it declares should be enough of an indication.
+If you are responsible of a third-party starter and you declare this file, it can be removed.
+
+
+
+=== Thymeleaf Spring Security Extras
+Dependency management and auto-configuration for Thymeleaf's Spring Security Extras module has switched from `thymeleaf-extras-springsecurity4` to `thymeleaf-extras-springsecurity5`.
+If you were using the module, you should update your `pom.xml` or `build.gradle` to depend upon `thymeleaf-extras-springsecurity5`.
+
+
+
+=== Json Simple
+Dependency management for `json-simple` is no longer provided and the `JsonParser` implementation using it has been removed.
+
+
+
+=== Jersey 1
+Jersey 1 is no longer supported.
+Please upgrade to Jersey 2.
+
+
+
+=== Hibernate EhCache Support
+If you are using `hibernate-ehcache` to use EhCache 2 as a second-level cache provider with Hibernate, it is deprecated as of Hibernate 5.3.
+
+
+=== Endpoint ID names
+If you have developed your own actuator `@Endpoint` beans you should ensure that they following the tighter naming rules introduced in Spring Boot 2.1.
+Specifically, IDs should be alpha-numeric only and must start with a letter (see the `EndpointId` class documentation for full details).
+
+If you use `-` or `.` characters Spring Boot 2.1 will log a warning and ask you to migrate to the correct format.
+
+
+
+=== Lombok
+Spring Boot 2.1 has upgraded to Lombok 1.18.x from 1.16.x. In 1.18, Lombok will no longer generate a private, no-args constructor by default. It can be enabled by setting `lombok.noArgsConstructor.extraPrivate=true` in a https://projectlombok.org/features/configuration[`lombok.config` configuration file]. For further information about changes in Lombok,  please refer to its https://projectlombok.org/changelog[changelog].
+
+
+
+=== Java Persistence API dependency
+As part of upgrading to Hibernate 5.3, the managed Java Persistence API dependency has changed from `org.hibernate.javax.persistence:hibernate-jpa-2.1-api` to `javax.persistence:javax.persistence-api`. If you are using `spring-boot-starter-data-jpa` or depending on the API transitively via Hibernate, you will be unaffected by this change.
+
+
+
+=== `JpaProperties`
+
+Hibernate-specific properties have been moved from `JpaProperties` into a separate class named `HibernateProperties`. If you were using `JpaProperties.getHibernateProperties(HibernateSettings)` you
+should now inject both `HibernateProperties` and `JpaProperties` to determine the properties:
+
+[source,java]
+----
+Map<String, Object> properties = hibernateProperties.determineHibernateProperties(
+        jpaProperties.getProperties(), new HibernateSettings());
+----
+
+=== Consistent max HTTP header size across all embedded web servers
+
+The default max HTTP header size is now consistent across the four supported embedded web servers (Jetty, Netty, Tomcat, and Undertow) and is 8KB. The size can be customized using the `server.max-http-header-size` property.
+
+
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.1.0-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+
+
+=== Third-party Library Upgrades
+Spring Boot 2.1 builds on and requires Spring Framework 5.1.
+
+We’ve upgraded to the latest stable releases of other third-party jars wherever possible. Some notable dependency upgrades in this release include:
+
+* Tomcat 9
+* Undertow 2
+* Hibernate 5.3
+* JUnit 5.2
+* Micrometer 1.1
+
+
+
+=== Java 11 Support
+Spring Boot 2.1 remains compatible with Java 8 but now also supports Java 11.
+We have continuous integration configured to build and test Spring Boot against the latest Java 11 release.
+
+
+
+=== DataSize Support
+If a property needs to express a size in bytes or similar convenient unit, it can expose a `org.springframework.util.unit.DataSize` property.
+Similar to our `Duration` support introduced in Spring Boot 2.0, the data size supports an easy format (i.e. `10MB` for 10 megabytes) and metadata support.
+All relevant configuration properties have been updated to use the new type.
+
+
+
+=== Context ApplicationConversionService Support
+The `ApplicationConversionService` is now registered by default with the `Environment` and `BeanFactory` created by `SpringApplication`.
+This allows you to use application converters directly with core Spring Framework items such as the `@Value` annotation:
+
+[source,java]
+----
+@Value("${my.duration:10s}")
+private Duration duration;
+----
+
+
+
+=== Profile Expression
+Profile matching has been improved to support {framework-docs}/core.html#beans-definition-profiles-java[an expression format].
+For instance `production & (us-east | eu-central)` indicates a match if the `production` profile is active _and_ either the `us-east` _or_ `eu-central` profiles are active.
+
+Profile expression can be used as follows:
+
+* Enable componets using `@Profile`
+* Load {docs}/#boot-features-external-config-multi-profile-yaml[multi-profile YAML Documents]
+* Enable Logback configuration using `<springProfile>`
+
+
+
+=== Task Execution
+Spring Boot now provides auto-configuration for `ThreadPoolTaskExecutor`.
+If you are using `@EnableAsync`, your custom `TaskExecutor` can be removed in favor of customizations available from the `spring.task.execution` namespace.
+Custom `ThreadPoolTaskExecutor` can be easily created using `TaskExecutorBuilder`.
+
+
+
+=== Task Scheduling
+Similarly to the new task execution support, Spring Boot auto-configures a `ThreadPoolTaskScheduler` when `@EnableScheduling` is specified.
+The task scheduler can be customized using the `spring.task.scheduling` namespace.
+A `TaskSchedulerBuilder` is also available by default.
+
+
+
+=== Logging Groups
+Logger groups can be defined to allow related loggers to be configured in one go.
+For example, you could declare a `tomcat` group that allows you to configure `org.apache.catalina`, `org.apache.coyote` and `org.apache.tomcat` loggers with a single key:
+
+[source,properties]
+----
+# define the group
+logging.group.tomcat=org.apache.catalina, org.apache.coyote, org.apache.tomcat
+
+# use the group (possibly in a different configuration file)
+logging.level.tomcat=TRACE
+----
+
+Convenient `web` and `sql` groups are provided out-of-the-box. See the {docs}#boot-features-custom-log-groups[reference guide] for details.
+
+
+
+=== Maven Plugin
+Specifying arguments has been improved with dedicated options for {maven-docs}/examples/run-system-properties.html[system properties] and {maven-docs}/examples/run-env-variables.html[environment variables].
+It is also possible to repackage and replace a `classified` artifact, see {maven-docs}/repackage-mojo.html#classifier[the updated documentation] of the `classifier` attribute.
+
+
+
+=== Bootstrap mode for JPA setup
+Spring Data Lovelace introduces a 'bootstrap mode' for the repositories.
+Spring Boot exposes a property that can be set to control the boostrap mode of JPA repositories.
+For instance, to defer initialization of JPA repositories, simply add the following to your configuration:
+
+[source,properties]
+----
+spring.data.jpa.repositories.bootstrap-mode=deferred
+----
+
+When setting the mode to `deferred` or `lazy`, JPA setup happens in a separate thread.
+
+
+
+=== Kafka Streams Support
+Auto-configuration is now provided for https://kafka.apache.org/documentation/streams/[Kafa Streams] when a `org.apache.kafka:kafka-streams` dependency is declared.
+See {docs}#boot-features-kafka-streams[the updated Spring Boot documentation] and the https://docs.spring.io/spring-kafka/reference/htmlsingle/#kafka-streams[Spring Kafka documentation] for details.
+
+
+
+=== Spring Data JDBC Support
+Spring Data includes repository support for JDBC and will automatically generate SQL for the methods on `CrudRepository`.
+Spring Boot will auto-configure Spring Data's JDBC repositories when the necessary dependencies are on the classpath.
+They can be added to your project with a single dependency on `spring-boot-starter-data-jdbc`.
+
+For complete details of Spring Data JDBC, please refer to the https://projects.spring.io/spring-data-jdbc/[reference documentation].
+
+
+
+=== JMS ConnectionFactory Caching
+The auto-configured `ConnectionFactory` is cached by default using `CachingConnectionFactory` until the pooling option is enabled or `spring.jms.cache.enabled` is set to `false`.
+Pooling option has also been extended to Artemis (see `++spring.jms.artemis.pool.*++`).
+
+
+
+=== Elasticsearch REST Clients
+As an alternative option to Jest, auto-configurations for `RestClient` and `RestHighLevelClient` are provided with configurable options from the `++spring.elasticsearch.rest.*++` namespace.
+
+
+
+=== JUnit 5
+All `@...Test` annotations are meta-annotated with `@ExtendWith(SpringExtension.class)` so this redundant part of the setup can be removed if you're using JUnit 5.
+Spring Boot also uses a `maven-surefire-plugin` version that does not require any custom setup to use JUnit 5.
+
+
+
+
+
+
+=== Security
+
+
+
+==== OAuth2 WebFlux Support
+Support for WebFlux OAuth2 login has been added.
+OpenID Connect providers are easier to configure using an `issuer-uri` which is the URI that the it asserts as its Issuer Identifier.
+
+
+
+==== OAuth2 resource server support
+If you have `spring-security-oauth2-resource-server` on your classpath, Spring Boot can set up an OAuth2 Resource Server as long as a JWK Set URI is specified.
+For instance:
+
+
+[source,properties]
+----
+spring.security.oauth2.resource.jwt.jwk.set-uri=https://example.com/oauth2/default/v1/keys
+----
+
+This is supported for both MVC and WebFlux applications.
+
+
+
+==== Non-web OAuth Applications
+It's now easier to write non-web OAuth applications as we provide an auto-configured `InMemoryReactiveClientRegistrationRepository` bean regardless of the application type.
+If you're writing an application that doesn't use an embedded web server (such as a CLI application) you can now inject and use the configured registration repository directly.
+
+
+
+=== Actuator Endpoints
+
+
+
+==== Caches Endpoint
+A new `/actuator/caches` endpoint lists the available `CacheManager` instances and their respective caches with basic metadata.
+See {actuator-api-docs}/#caches[the API] for more details.
+
+
+
+==== Spring Integration Graph Endpoint
+If you are using Spring Integration, a graph representation of all Spring Integration components can be exposed at `/actuator/integrationgraph`.
+Please see {actuator-api-docs}/#integrationgraph[the API] for more details.
+
+
+
+==== Health Endpoint
+An `HealthIndicatorRegistry` bean is now available to add and remove `HealthIndicator` at runtime.
+The `health` endpoint has also been improved to query a specific indicator if necessary.
+For instance `/actuator/health/db` executes only the "db" `HealthIndicator`.
+Please see {actuator-api-docs}/#health-retrieving-component[the API] for more details.
+
+A reactive `HealthIndicator` for Apache Cassandra is available.
+
+
+
+=== Micrometer
+
+
+
+==== Common Micrometer Tags
+Common tags can be applied to all meters declaratively as show in the following example:
+
+[source,properties]
+----
+management.metrics.tags.region=us-east-1
+management.metrics.tags.stack=prod
+----
+
+The example above adds a `region` and `stack` tags to all meters with a value of `us-east-1` and `prod` respectively.
+
+
+==== Auto-configuration Support For New Metrics
+Metrics coverage has been improved to include:
+
+* Hibernate metrics
+* Spring Framework's `WebClient`
+* Kafka consumer metrics
+* Log4j2 metrics
+* Jetty server thread pool metrics
+* Server-side Jersey HTTP request metrics
+
+
+
+==== Auto-configuration support for new registries
+The following metrics registries are now auto-configured when on the classpath:
+
+* AppOptics
+* Humio
+* KariosDB
+
+Additionally, support for Prometheus push gateway has been added.
+
+
+
+==== Additional histogram configuration properties
+New `++management.metrics.distribution.maximum-expected-value.*++` and `++management.metrics.distribution.minimum-expected-value.*++` properties can be used to control the maximum and minimum expected values on a per-meter basis.
+
+
+
+=== Miscellaneous
+As well as the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+* Jackson visibility can be configured using `spring.jackson.visiblity.*`.
+* It is easier to create a `WebServiceTemplate` using an auto-configured `WebServiceTemplateBuilder`.
+* Error page shows stacktraces when Devtools is in use.
+* It is no longer necessary to export a dummy `ResourceConfig` to enable Jersey support.
+* JNDI lookups have been improved to enable `resourceRef` by default.
+* Customization of the `RetryTemplate` used by the Rabbit infrastructure is available via `RabbitRetryTemplateCustomizer`.
+* The receive queue of the default `RabbitTemplate` is now configurable
+* Tomcat's max swallow size is now configurable using a property
+* HTTP/2 with Reactor Netty Server is now supported.
+* Kafka auto-configuation now supports `errorHandler` `transactionManager` and `afterRollbackProcessor` beans.
+* Support has been added for generating unique JMX ObjectNames globally (rather than limiting this feature to Actuator Endpoints)
+* Configuration property meta-data is now ordered, with deprecated items appearing last.
+* The `withDetails` method on `Health.Builder` now also accepts a `Map`.
+* A reactive `ReactiveJwtDecoder` is now auto-configured when you have an issuer url defined.
+* The `BackgroundPreinitializer` can be disabled for if a `spring.backgroundpreinitializer.ignore` system property is set
+* `HiddenHttpMethodFilter` can be disabled using a property
+* The JAP starter POM now works out-of-the-box on Java 9+
+* MongoDB auto-configuration will now back-off when a `com.mongodb.client.MongoClient` bean is defined (as well as the more usual `com.mongodb.MongoClient`).
+* You can now optionally use Jetty RS as HTTP driver for WebClient
+* Several configuration options have been added in the `spring.quartz` namespace.
+* `@ConditionalOnEnabledEndpoint` can be used on any component (e.g. something that is only required by the endpoint and shouldn't be created if the endpoint is disabled).
+* `@ConditionalOnMissingServletFilter` is available to respect `FilterRegistration` beans when testing if a `Filter` bean is missing
+* `@WebMvcTest` auto-configures Spring Data REST as well (e.g. support for `Sort` and `Pageable` request arguments).
+* Slice tests now all have a `properties` attribute to consistently customize the environment if necessary
+* Support has been added for multiple `RestDocsMockMvcConfigurationCustomizer`
+* Security configuration is now applied to `WebTestClient`. For more information on testing secured endpoints, please refer to the https://docs.spring.io/spring-security/site/docs/5.1.x/reference/html5/#test-method-setup[relevant section] of Spring Security's reference documentation.
+* `WebExceptionHandlers` are now supported by `@WebFluxTest`
+* `@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)` can now generate a separate random port for the management server.
+* Auto-configuration exclusions are now applied consistently.
+
+
+
+== Deprecations in Spring Boot 2.1
+* `setConnectTimeout(int)` and `setReadTimeout(int)` have been deprecated in favor of similar methods that take a `Duration`.
+* Methods used to set a data size using `int` have been deprecated and replaced with variants that take a `DataSize`.
+* `management.endpoints.jmx.unique-names` is deprecated in favor of `spring.jmx.unique-names`
+* The `secure` attribute on `@AutoConfigureMockMvc` has been deprecated in favor of using Spring Security's `@WithMockUser` annotation.
+* `RestTemplateBuilder.basicAuthorization` has been deprecated in favor of `basicAuthentication`.
+* `REQUEST_WRAPPER_FILTER_MAX_ORDER` in `AbstractFilterRegistrationBean` and `FilterRegistrationBean` have been replaced by `OrderedFilter.REQUEST_WRAPPER_FILTER_MAX_ORDER`.
+
+
+== Configuration Property Changes
+* The `++spring.security.oauth2.client.registration.login.*.redirect-uri-template++` property is deprecated in favor of `++spring.security.oauth2.client.registration.login.*.redirect-uri++`
+* The `spring.security.oauth2.resource.jwt.jwk.set-uri` property has been renamed to `spring.security.oauth2.resourceserver.jwt.jwk-set-uri`
+* The `spring.cloud.enabled` property has been removed (exclude `CloudServiceConnectorsAutoConfiguration` if you need to disable cloud connectors)
+* All `++management.metrics.binders.*.enabled++` properties have been removed in favor of directly excluding the auto-configuration.

@@ -1,0 +1,18 @@
+Configuration properties changed between `2.3.1.RELEASE` and `2.4.0-M1`
+
+== Deprecated in `2.4.0-M1`
+
+None
+
+== New in `2.4.0-M1`
+
+|======================
+|Key  |Default value |Description
+|`management.metrics.export.statsd.protocol` |`udp` |Protocol of the StatsD server to receive exported metrics.
+|`spring.flyway.create-schemas` |`true` |Whether Flyway should attempt to create the schemas specified in the schemas property.
+|`spring.h2.console.settings.web-admin-password` | |Password to access preferences and tools of H2 Console.
+|======================
+
+== Removed in `2.4.0-M1`
+
+None

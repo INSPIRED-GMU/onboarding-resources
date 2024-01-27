@@ -1,0 +1,50 @@
+We propose the following ideas for a possible Summer of Code project. Do not hesitate to propose other ideas (see section Contact)
+
+Clustering
+========
+
+Scipy has some clustering algorithms, but it is essential for us that these algorithms work on graphs. The project should implement some of the algorithms:
+
+Hierarchical clustering
+Spectral clustering -> see manifold learning
+This page has a complete list of cluster algorithms. The spectrum is rather broad, so to be realistic the proposal should contain only a proper subset of this list.
+
+
+
+References
+---------------
+
+http://www.stat.washington.edu/www/research/reports/2006/tr504.pdf
+Fraley, Raftery Journal of Classification 24:155-181 (2007), http://www.stat.washington.edu/raftery/Research/PDF/Fraley2007JClass.pdf
+http://www-math.univ-fcomte.fr/mixmod/
+Graphical Models
+
+Graphical Gaussian Models (GGMs), also known as "covariance selection" or "concentration graph" models, have recently become a popular tool in various fields of machine learning, specially in bioinformatics.
+
+It would be a nice project to implement Graphical Models in scikits.learn. A possible mentor for this would be Gael Varoquaux (from MayaVi?), who has already implemented this algorithm (but has not the required quality to be included), so he can give a deep insight on the implementation.
+
+Manifold Learning
+=============
+
+Possible algorithms to implement:
+
+ISOMAP
+Laplacian EigenMap?
+t-SNE , http://www.cs.toronto.edu/~hinton/absps/tsne.pdf
+See here for a possible list of algorithms. The project should include a set of manifold learning/spectral clustering algorithms to include.
+
+Notice that some algorithms are already included in module scikits.learn.manifold, however the module is currently unmaintained and will probably be marked as deprecated. The project should consider reusing and testing the code from this module that has some quality.
+
+Possible Mentors
+-----------------------
+
+Fabian Pedregosa (clustering, manifold)
+Gael Varoquaux (for Graphical Models)
+Possible meetings
+
+I'll participating in EuroScipy? (Paris, 9-11 july). It would be a great place to meet the students.
+
+Contact
+----------
+
+You can contact me (Fabian Pedregosa) directly (search my email in the source code), or ask in the mailing list.

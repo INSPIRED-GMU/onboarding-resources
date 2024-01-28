@@ -1,0 +1,65 @@
+For changes in earlier milestones, please refer to:
+
+ - link:Spring-Boot-2.0.0-M1-Release-Notes[v2.0.0 M1]
+ - link:Spring-Boot-2.0.0-M2-Release-Notes[v2.0.0 M2]
+ - link:Spring-Boot-2.0.0-M3-Release-Notes[v2.0.0 M3]
+ - link:Spring-Boot-2.0.0-M4-Release-Notes[v2.0.0 M4]
+
+== Upgrading from Spring Boot 2.0.0 M4
+See instructions in the link:Spring-Boot-2.0.0-M4-Release-Notes[2.0.0.M4 release notes] for upgrading from v2.0.0.M3 and earlier.
+
+=== Surefire defaults
+Custom include/exclude patterns have been aligned to latest Surefire's defaults. If you were relying on ours, update your plugin configuration accordingly. They used to be as follows:
+
+```xml
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-surefire-plugin</artifactId>
+    <configuration>
+        <includes>
+             <include>**/*Tests.java</include>
+             <include>**/*Test.java</include>
+        </includes>
+        <excludes>
+            <exclude>**/Abstract*.java</exclude>
+        </excludes>
+    </configuration>
+</plugin>
+```
+
+TIP: If you are using JUnit 5, you should https://junit.org/junit5/docs/5.0.0/user-guide/#running-tests-build-maven[downograde Surefire to `2.19.1`]. The `**/*Tests.java` pattern is not included in this version so if you are relying on that, make sure to add it in your configuration.
+
+=== Redis
+https://lettuce.io/[Lettuce] is now used instead of https://github.com/xetorthio/jedis[Jedis] as the Redis driver when you use `spring-boot-starter-redis`. If you are using higher level Spring Data constructs you should find that the change is transparent. We still support Jedis, and you are free to switch dependencies if you prefer by excluding `io.lettuce:lettuce-core` and adding `redis.clients:jedis`.
+
+=== OAuth 2.0 Support
+Functionality from the https://spring.io/projects/spring-security-oauth/[Spring Security OAuth project] is being migrated to core https://projects.spring.io/spring-security/[Spring Security]. OAuth 2.0 client support has already been added and additional features will be migrated in due course.
+
+If you depend on Spring Security OAuth features that have not yet been migrated you will need to add `org.springframework.security.oauth:spring-security-oauth2` and configure things manually. If you only need OAuth 2.0 client support you can use the auto-configuration provided by Spring Boot 2.0. We're also continuing to support Spring Boot 1.5 so older applications can continue to use that until an upgrade path is provided.
+
+=== Mockito 1.x
+Mockito 1.x is no longer supported for `@MockBean` and `@SpyBean`. If you don't use `spring-boot-starter-test` to manage your dependencies you should upgrade to Mockito 2.x.
+
+=== Configuring Gradle `bootRun`
+The `BootRun` task now provides properties for configuring the application's arguments (`args`) and JVM arguments (`jvmArgs`). More advanced configuration is available via `execSpec`. See the https://docs.spring.io/spring-boot/docs/2.0.0.M5/gradle-plugin/reference/html/#running-your-application[Gradle plugin's documentation] for more details.
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.0.0-M5-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+=== Updated project structure and CI
+Spring Boot now uses https://concourse-ci.org/[concourse.ci] for continuous integration and release. The project POM files have also been restructured so that they are simpler. These changes should be transparent to most users, but if you find any issues with our published POMs please https://github.com/spring-projects/spring-boot/issues/new[report them].
+
+=== Java 9 support
+Besides a handful identified cases, the `master` build passes locally with Java 9. There is a link:Spring-Boot-with-Java-9[dedicated page] that provides more details if you want to run Spring Boot apps with Java 9.
+
+=== Micrometer 1.0.0-rc.2 support
+Metrics support provided by https://micrometer.io/[Micrometer] continues to evolve. This release builds on Micrometer 1.0.0-rc2. Issues reports and contributions to micrometer are welcome on their https://github.com/micrometer-metrics/micrometer[GitHub].
+
+=== Spring Framework 5.0 GA
+This milestone of Spring Boot is the first to include https://spring.io/blog/2017/09/28/spring-framework-5-0-goes-ga[the GA release of Spring Framework 5.0]. Core Spring Framework APIs should be stable from this point onward.
+
+=== JSON-B Support
+In addition to Jackson and Gson we now also support JSON-B for JSON binding. The JSON testing support has also been updated with a new `JsonbTester` class.
+
+=== Session Endpoint
+Spring Session users can now find and delete sessions via a `/application/sessions` Actuator Endpoint.

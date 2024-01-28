@@ -1,0 +1,76 @@
+= Spring Boot 2.0.0 M2 Release Notes
+
+For changes in earlier milestones, please refer to:
+
+ - link:Spring-Boot-2.0.0-M1-Release-Notes[v2.0.0 M1]
+
+== Upgrading from Spring Boot 2.0.0 M1
+See instructions in the link:Spring-Boot-2.0.0-M1-Release-Notes[2.0.0.M1 release notes] for upgrading from Spring Boot 1.5.
+
+=== Default connection pool
+The default connection pool has changed from Tomcat to Hikari. If you are using Hikari in an environment where `tomcat-jdbc` is provided, you can now remove the `spring.datasource.type` override. Similarly, if you want to stay with the Tomcat connection pool, simply add the following to your configuration:
+
+```
+spring.datasource.type=org.apache.tomcat.jdbc.pool.DataSource
+```
+
+=== Status code for POST on `/loggers`
+The return status code for post operations on the `/loggers` endpoint has changed from 200 to 204.
+
+=== Elasticsearch
+
+Elasticsearch has been upgraded to 5.4. In line with https://www.elastic.co/blog/elasticsearch-the-server[Elastic's announcement that embedded Elasticsearch is no longer supported], auto-configuration of a `NodeClient` has been removed. A `TransportClient` can be auto-configured by using `spring.data.elasticsearch.cluster-nodes` to provide the addresses of one or more nodes to connect to.
+
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.0.0-M2-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+=== Quartz Scheduler
+Spring Boot 2 provides support for the Quartz scheduler that can be used via the `spring-boot-starter-quartz` dedicated starter. Both in-memory and jdbc stores can be configured.
+
+=== Spring Data Web configuration
+Spring Boot exposes a new `spring.data.web` configuration namespace that allows to easily configure paging and sorting.
+
+=== Json starter
+A new `spring-boot-starter-json` starter gathers the necessary bits to read and write json. It provides not only `jackson-databind` but also useful modules when working with Java8: `jackson-datatype-jdk8`, `jackson-datatype-jsr310` and `jackson-module-parameter-names`.
+
+This new starter is now used where `jackson-databind` was previously defined.
+
+=== Thymeleaf starter
+The Thymeleaf starter now includes `thymeleaf-extras-java8time` out of the box.
+
+=== InfluxDB
+If the InfluxDB java client and the `spring.influx.url` is set, an `InfluxDB` client is now automatically configured. Support for credentials is available as well.
+
+=== JdbcTemplate
+The `JdbcTemplate` that Spring Boot auto-configures can now be customized via the `spring.jdbc.template` namespace. Also, the `NamedParameterJdbcTemplate` that is auto-configured reuses the `JdbcTemplate` behind the scenes.
+
+=== jOOQ
+Spring Boot detects the jOOQ dialect automatically based on the `DataSource` (similarly to what is done for the JPA dialect).
+
+Also a `@JooqTest` has been introduced to ease testing where only jOOQ has to be used.
+
+=== `@DataRedisTest`
+A new slice annotation for Redis is available.
+
+=== Mongo client customizations
+It is now possible to apply advanced customizations to the Mongo client that Spring Boot auto-configures by defining a bean of type `MongoClientSettingsBuilderCustomizer`.
+
+=== Cassandra
+The `spring.data.cassandra` now exposes pooling options.
+
+=== Kafka listener types
+It is now possible to create a batch listener to consume a list of `ConsumerRecord` at once:
+
+```
+spring.kafka.listener.type=batch
+```
+
+=== Web filters initialization
+Web filters are now initialized eagerly on all supported containers.
+
+=== Auto-configuration report
+Unconditional classes are included in the response from the autoconfig Actuator endpoint.
+
+=== Reset logger operation
+The Loggers endpoint allows to reset a logger level to its default. 

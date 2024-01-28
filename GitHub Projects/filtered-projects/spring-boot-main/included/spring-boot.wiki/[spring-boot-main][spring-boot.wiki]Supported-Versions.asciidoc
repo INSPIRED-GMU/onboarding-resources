@@ -1,0 +1,64 @@
+== Spring Boot Support Policy
+Spring Boot follows the https://tanzu.vmware.com/support/oss[VMware Tanzu OSS support policy] for critical bugs and security issues.
+
+* Major versions will be supported for at least 3 years from the release date (but you must run a supported minor version).
+* Minor versions will be supported for at least 12 months.
+
+Commercial support is also available from VMware which offers an extended support period.
+
+All Spring Boot releases are publicly available from Maven Central and https://repo.spring.io.
+We do not have a private repository reserved only for paying customers.
+
+
+
+=== End of Life
+Spring Boot releases are marked as "end of life" when they are no longer supported or released in any form.
+If you are running an EOL version, you should upgrade as soon as possible.
+
+Spring Boot releases are usually marked end of life 27 months after they were released.
+
+Please note that a version can be out of support before it is end of life.
+During this time you should only expect releases for critical bugs or security issues.
+
+
+
+== Releases
+
+
+
+=== Release Schedule
+Spring Boot releases a new major or minor version every six months (in May and November).
+We aim to release on the Thursday after the 3rd Monday of the month.
+This is usually, but not always, the 3rd Thursday of the month.
+
+Patch releases are published as necessary.
+
+As much as possible, we recommend that all users migrate to the latest supported release.
+
+
+
+=== Released Versions
+
+The list of all released and currently supported versions can be found https://spring.io/projects/spring-boot#support[here]. 
+
+
+
+== Release Compatibility
+As much possible, Spring Boot patch releases should be back-compatible with previous releases.
+
+Minor and major releases might contain back-incompatible API changes.
+When feasible, a back-compatible API will be left in place and marked as deprecated to inform API clients that the API is no longer recommended for use.
+See link:Deprecations[Deprecations] for more details on the deprecation policy. 
+
+
+
+== Third-party dependencies
+Spring Boot provides managed dependencies for many third-party libraries.
+These libraries are upgraded only at the patch level for any given Spring Boot patch release.
+Minor and major version upgrades of third-party libraries are only applied in Spring Boot minor or major releases.
+You should check the EOL policies of projects that you depend on since you may find that you're using a supported version of Spring Boot against an unsupported third-party library.
+
+
+== Commercial Support
+Commercial support for Spring Boot is available from VMware.
+Please see https://tanzu.vmware.com/spring-runtime for details.

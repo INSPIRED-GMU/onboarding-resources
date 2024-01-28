@@ -1,0 +1,102 @@
+:docs: https://docs.spring.io/spring-boot/docs/2.2.x-SNAPSHOT/reference/html/
+
+= Spring Boot 2.2.0 M5 Release Notes
+
+For changes in earlier milestones, please refer to:
+
+ - link:Spring-Boot-2.2.0-M4-Release-Notes[v2.2.0 M4]
+ - link:Spring-Boot-2.2.0-M3-Release-Notes[v2.2.0 M3]
+ - link:Spring-Boot-2.2.0-M2-Release-Notes[v2.2.0 M2]
+ - link:Spring-Boot-2.2.0-M1-Release-Notes[v2.2.0 M1]
+
+
+
+== Upgrading from Spring Boot 2.1
+See instructions in the link:Spring-Boot-2.2.0-M1-Release-Notes[2.2.0.M1 release notes] for upgrading from Spring Boot 2.1.
+
+
+
+=== `HttpHiddenMethodFilter` disabled by default
+The filter that handles the `_method` request parameter is now disabled by default as it causes early consumption of a request body if the body may contain parameters. This can be restored by setting either `spring.webflux.hiddenmethod.filter.enabled` or `spring.mvc.hiddenmethod.filter.enabled` to `true`.
+
+
+
+=== `@ConfigurationProperties` scanning disabled in slice tests
+`@ConfigurationProperties`-annotated types are no longer scanned in slice tests unless imported explicitly. This restores the behaviour that slice tests should only scan what is described in the documentation.
+
+
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.2.0-M5-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration. 
+
+
+=== Java 13 support
+Spring Boot `2.2.0.M5` also builds against Java 13 early access.
+
+
+
+=== Plain text support for Thread dump endpoint
+The `threaddump` actuator endpoint can now return a thread dump in plain text that is compatible with both https://github.com/irockel/tda[Thread Dump Analyzer] and https://fastthread.io.
+
+
+
+=== Configurable converters for Actuator endpoint input parameters
+Input parameters of an Actuator `@Endpoint` can be managed using custom `@EndpointConverter`-annotated converters.
+
+
+=== Callback for Redis cache configuration 
+The `RedisCacheManager` configuration has been improved recently and a `RedisCacheManagerBuilderCustomizer` bean allows you to get a handle to the builder before it is used to configure an immutable `RedisCacheManager`. 
+
+
+
+=== Qualifier for Spring Batch datasource
+In an environment with multiple data sources, A `DataSource` bean can be qualified with `@BatchDataSource` to indicate it is the one to be used by Spring Batch.
+
+
+=== Build info repeatable output
+The build info goal has an extra `time` property that allows to configure how `build.time` is handled. It can be disabled completely or set to a fixed time to make the output of `build.properties` repeatable.
+
+
+=== Health indicator for Hazelcast
+An `HealthIndicator` is now provided for Hazelcast.
+
+
+=== Idle jdbc connections metrics
+It is now possible to track the total size of a connection pool by tracking the `size` and `idle` metrics. If you have a custom `DataSourcePoolMetadata` implementation, consider implementing the `getIdle` method.
+
+
+
+=== Dependency Upgrades
+Spring Boot 2.2.0.M5 moves to new versions of several Spring projects:
+
+- Spring Framework 5.2.0.RC1
+- Reactor Dysprosium-M3
+- Spring AMQP 2.2.0.M4
+- Spring Data Moore-RC2
+- Spring Integration 5.2.0.M4
+- Spring Kafka 2.3.0.M4
+- Spring Security 5.2.0.M4
+- Spring Session Corn-M3
+
+Numerous third-party dependencies have also been updated, some of the more noteworthy of which are the following:
+
+- Jersey 2.29 as well as `jetty-spring5` support
+- Jedis 3.1
+
+=== Miscellaneous
+
+In addition to the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+- The application will fail fast if `spring.config.location` specifies a file with an extension that no `PropertySourceLoader` can read.
+- The layout to use to repackage the application can be set on the command line with Maven using the `spring-boot.repackage.layout` property.
+- `RestTemplateBuilder#defaultHeader` accepts more than one value.
+- Custom resource handlers can serve a `favicon`.
+- Kafka's `RecordInterceptor` is detected and associated to the auto-configured listener container.
+- YAML configuration can now use `on` or `off` for boolean types.
+- Actuator discovery page is now available on `/` when using a separate management port.
+- `@WebMvcTest` now scans `HandlerInterceptor` beans.
+- `@WebFluxTest` scans `WebFilter` beans.
+
+
+== Deprecations in Spring Boot 2.2.0 M5
+- Joda time support is deprecated in favour of `java.time`.

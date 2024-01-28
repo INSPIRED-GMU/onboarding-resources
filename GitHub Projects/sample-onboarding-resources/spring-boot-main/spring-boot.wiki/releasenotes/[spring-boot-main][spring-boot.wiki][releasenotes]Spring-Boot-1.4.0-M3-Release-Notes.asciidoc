@@ -1,0 +1,73 @@
+:docs: https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/
+
+
+= Spring Boot 1.4.0 M3 Release Notes
+
+For changes in earlier milestones, please refer to:
+
+ - link:Spring-Boot-1.4.0-M1-Release-Notes[v1.4.0 M1]
+ - link:Spring-Boot-1.4.0-M2-Release-Notes[v1.4.0 M2]
+
+
+== Upgrading from Spring Boot 1.4.0 M2
+See instructions in the link:Spring-Boot-1.4.0-M2-Release-Notes[1.4.0.M2 release notes] for upgrading from v1.4.0.M2 and earlier.
+
+=== Renamed starters
+The following starters have been renamed, the old ones will be removed in Spring Boot 2.0
+
+* `spring-boot-starter-ws` -> `spring-boot-starter-webservices`
+* `spring-boot-starter-redis` -> `spring-boot-starter-data-redis`
+
+=== Dispatch Options Request
+The default `spring.mvc.dispatch-options-request` property has changed from `false` to `true` to align with Spring Framework's preferred default. If you don't want `OPTIONS` requests to be dispatched to `FrameworkServlet.doService` you should explicitly set `spring.mvc.dispatch-options-request` to `false`.
+
+=== Remote Shell
+The `CRaSH` properties have moved from the `shell.*` namespace to the `management.shell.*` namespace. Also, the authentication type should now be defined via `management.shell.auth.type`.
+
+=== Multipart support
+The multipart properties have moved from the `multipart.*` namespace to the `spring.http.multipart.*` namespace.
+
+=== Integration Starter
+`spring-boot-starter-integration` has been streamlined by removing four modules that are not necessarily used by a typical Spring Integration application. The four modules removed were:
+
+ - `spring-integration-file`
+ - `spring-integration-http`
+ - `spring-integration-ip`
+ - `spring-integration-stream`
+
+If your application relies on any of these four modules, you should add an explicit dependency to your pom or build.gradle.
+
+Additionally, `spring-integration-java-dsl` and `spring-integration-jmx` have now been added to the starter. Using the DSL is the recommended way to configure Spring Integration in your application.
+
+=== Spring Session auto-configuration improvements
+Spring Boot supports more backend stores for Spring Session: alongside Redis, JDBC, MongoDB, Hazelcast and in memory concurrent hash maps are also supported. A new `spring.session.store-type` mandatory property has been introduced to select the store Spring Session should be using. 
+
+=== Launch script identity
+When the launch script is determining the application's default identity, the canonical name of the directory containing the jar will now be used. Previously, if the directory containing the jar was a symlink, the name of the symlink was used. If you require more control over the application's identity, the `APP_NAME` environment variable should be used.
+
+=== TestRestTemplate
+The `TestRestTemplate` class no longer directly extends `RestTemplate` (although it continues to offer the same methods). This allows `TestRestTemplate` to be configured as a bean without it being accidentally injected. If you need access to the actual underlying `RestTemplate` use the `getRestTemplate()` method.
+
+=== Forced character encoding
+Forced character encoding now only applies to requests (and not responses). If you want to force encoding for both requests and responses set `spring.http.encoding.force` to `true`.
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-1.4.0-M3-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+=== Convention based error pages
+Custom error pages for a given status code can now be created by following a convention based approach. Create a static HTML file in `/public/error` or add a template to /templates/error` using the status code as the filename. For example, to register a custom 404 file you could add `src/main/resource/public/error/404.html`. See 
+{docs}#boot-features-error-handling-custom-error-pages[the updated reference documentation] for details.
+
+=== ErrorPageRegistry 
+New `ErrorPageRegistry` and `ErrorPageRegistrar` interfaces allow error pages to be registered in a consistent way regardless of the use of an embedded servlet container. The `ErrorPageFilter` class has been updated to that it is now a `ErrorPageRegistry` and not a fake `ConfigurableEmbeddedServletContainer`.
+
+=== PrincipalExtractor
+The `PrincipalExtractor` interface can now be used if you need to extract the OAuth2 `Principal` using custom logic.
+
+== Deprecations in Spring Boot 1.4.0.M3
+
+* `PropertiesConfigurationFactory.setProperties(Properties)` is deprecated in favor of using `PropertySources`.
+* Several classes in the `org.springframework.boot.context.embedded` package have been deprecated and relocated to `org.springframework.boot.web.servlet`.
+* All classes in the `org.springframework.boot.context.web` package have been deprecated and relocated.
+* The `spring-boot-starter-ws` "Starter" has been renamed to `spring-boot-starter-webservices`.
+* The `spring-boot-starter-redis` "Starter" has been renamed to `spring-boot-starter-data-redis`.

@@ -1,0 +1,36 @@
+.New keys in `2.0.0.M3`
+|======================
+|Key  |Default value |Description
+|`management.health.neo4j.enabled` |`true` |Enable Neo4j health check.
+|`spring.activemq.close-timeout` |`15000` |Time to wait, in milliseconds, before considering a close complete.
+|`spring.activemq.non-blocking-redelivery` |`false` |Do not stop message delivery before re-delivering messages from a rolled back transaction.
+|`spring.activemq.pool.block-if-full` |`true` |Block when a connection is requested and the pool is full.
+|`spring.activemq.pool.block-if-full-timeout` |`-1` |Blocking period, in milliseconds, before throwing an exception if the pool is still full.
+|`spring.activemq.pool.create-connection-on-startup` |`true` |Create a connection on startup.
+|`spring.activemq.pool.maximum-active-session-per-connection` |`500` |Maximum number of active sessions per connection.
+|`spring.activemq.pool.reconnect-on-exception` |`true` |Reset the connection when a "JMXException" occurs.
+|`spring.activemq.pool.time-between-expiration-check` |`-1` |Time to sleep, in milliseconds, between runs of the idle connection eviction thread.
+|`spring.activemq.pool.use-anonymous-producers` |`true` |Use only one anonymous "MessageProducer" instance.
+|`spring.activemq.send-timeout` |`0` |Time to wait, in milliseconds, on Message sends for a response.
+|`spring.kafka.consumer.properties` | |Additional consumer-specific properties used to configure the client.
+|`spring.kafka.producer.properties` | |Additional producer-specific properties used to configure the client.
+|======================
+
+.Removed keys in `2.0.0.M3`
+|======================
+|Key  |Default value |Description
+|`spring.activemq.pool.configuration.block-if-session-pool-is-full` | |
+|`spring.activemq.pool.configuration.block-if-session-pool-is-full-timeout` | |
+|`spring.activemq.pool.configuration.connection-factory` | |
+|`spring.activemq.pool.configuration.create-connection-on-startup` | |
+|`spring.activemq.pool.configuration.expiry-timeout` | |
+|`spring.activemq.pool.configuration.idle-timeout` | |
+|`spring.activemq.pool.configuration.max-connections` | |
+|`spring.activemq.pool.configuration.maximum-active-session-per-connection` | |
+|`spring.activemq.pool.configuration.properties` | |
+|`spring.activemq.pool.configuration.reconnect-on-exception` | |
+|`spring.activemq.pool.configuration.time-between-expiration-check-millis` | |
+|`spring.activemq.pool.configuration.use-anonymous-producers` | |
+|`spring.devtools.remote.debug.enabled` |`true` |Enable remote debug support.
+|`spring.devtools.remote.debug.local-port` |`8000` |Local remote debug server port.
+|======================

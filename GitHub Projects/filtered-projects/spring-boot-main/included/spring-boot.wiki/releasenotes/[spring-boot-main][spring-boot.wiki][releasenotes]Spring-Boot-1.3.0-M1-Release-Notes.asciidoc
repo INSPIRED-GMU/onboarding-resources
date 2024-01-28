@@ -1,0 +1,137 @@
+:docs: https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/
+
+= Spring Boot 1.3.0 M1 Release Notes
+
+== Upgrading from Spring Boot 1.2
+
+=== Gradle plugin
+
+==== Dependency management
+Spring Boot's gradle plugin has been updated in this release to use the https://github.com/spring-gradle-plugins/dependency-management-plugin[dependency management plugin]. Most users should be unaffected by this change, however those who were using the `versionManagement` configuration to apply their own blessed versions will have to update their build scripts.
+
+Rather than requiring a properties file to configure version management, the new plugin allows you to use a Maven bom. For example:
+
+```groovy
+dependencyManagement {
+    imports {
+        mavenBom 'com.example:example-bom:1.0'
+    }
+}
+```
+
+=== Deprecations from Spring Boot 1.2
+Classes, methods and properties that were deprecated in Spring Boot 1.2 have been removed in this release. Please ensure that you aren't calling deprecated methods before upgrading.
+
+=== Jackson
+Spring Boot 1.2 registered any Jackson Module beans with every `ObjectMapper` in the application context. This made it impossible to take complete control of an `ObjectMapper` bean's modules. Spring Boot 1.3 will only register Jackson Module beans with `ObjectMappers` that are created or configured with the auto-configured `Jackson2ObjectMapperBuilder`. This brings the behaviour of module configuration into line with Boot's other Jackson configuration.
+
+=== Jetty JSPs
+The `spring-boot-starter-jetty` "Starter POM" no longer includes `org.eclipse.jetty:jetty-jsp`. If you are using Jetty with JSPs you will now need to directly add this dependency yourself.
+
+=== Spring Security
+Spring Boot 1.3 uses Spring Security 4.0. See the https://docs.spring.io/autorepo/docs/spring-security/4.0.x/reference/htmlsingle/#m3to4[Spring Security documentation] for information on migrating from 3.2.
+
+==== Thymeleaf's Spring Security integration
+Due to the upgrade to Spring Security 4, Spring Boot 1.3 has also upgraded the dependency management and auto-configuration of Thymeleaf's Spring Security support. The coordinates of the new artifact are `org.thymeleaf.extras:thymeleaf-extras-springsecurity4`. Please update your `pom.xml` or `build.gradle` accordingly.
+
+=== CLI dependency management
+Spring Boot 1.3 now supports the use of Maven boms to configure its dependency management in place of the properties file-based metadata. `@DependencyManagementBom` should be used in place of `@GrabMetadata` to provide the coordinates of a bom, for example `@DependencyManagementBom("io.spring.platform:platform-bom:1.1.2.RELEASE")`.
+
+=== Spring 4.2
+Spring Boot 1.3 requires Spring Framework 4.2 or later and is not compatible with earlier versions.
+
+=== Deprecations in Spring Boot 1.3.0 M1
+* The `ConfigurableEmbeddedServletContainer` `setJspServletClassName` and `setRegisterJspServlet` methods have been replaced by `setJspServlet`.
+* The `EndpointMBean` class (and subclasses) now expect an `ObjectMapper` to be provided to the constructor.
+* The `DropwizardMetricWriter` had been replaced by `DropwizardMetricService`.
+* `@ConditionalOnMissingClass` now expects the class name to be provided using the `value` attribute rather than `name`.
+
+== New and Noteworthy
+
+TIP: Check link:Spring-Boot-1.3.0-M1-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+=== Version Updates
+Spring Boot 1.3 builds on and requires Spring Framework 4.2. Several 3rd party dependencies have been upgraded with this release. No major upgrades have been made to the Tomcat or Jetty versions with this release.
+
+=== Developer Tools
+Spring Boot 1.3 includes a new `spring-boot-devtools` module which aims to improve the development-time experience. The module provides:
+
+* Sensible property defaults (for example disabling template caches)
+* Automatic application restarts
+* LiveReload support
+* Remote development support (including remote updates and remote debug via an HTTP tunnel).
+
+See the {docs}#using-boot-devtools[updated documentation] for more information.
+
+=== Caching Auto-configuration
+Auto-configuration is now provided for the following cache technologies:
+
+* EhCache
+* Hazelcast
+* Infinispan
+* Any compliant JCache (JSR 107) implementation
+* Redis
+* Guava
+
+In addition, simple `Map` based in-memory caching is also supported. Caching is automatically configured when your application `@Configuration` is annotated with `@EnableCaching`. Cache statistics are now also exposed as an actuator endpoint (when the underlying technology allows).
+
+For complete details see the {docs}#boot-features-caching[updated documentation].
+
+=== Actuator Metrics
+The `spring-boot-actuator` metrics support has been extended to support export and aggregation. In addition, Java 8 specific `GaugeService` `CounterService` and implementations are now provided (and used when possible) which offer improved performance.
+
+See the {docs}#production-ready-metric-repositories[extended metrics documentation] for details.
+
+=== Fully executable JARs and service support
+The Spring Boot Maven and Gradle plugins can now generate full executable archives for Linux/Unix operating systems. Furthermore you can now easily install these JARs as `init.d` or `systemd` services. Running a fully executable JAR is as easy as typing:
+
+```
+$ ./myapp.jar
+```
+
+and to install it as an `init.d` service:
+
+```
+$ sudo link -s /var/myapp/myapp.jar /etc/init.d/myapp
+```
+
+Additional information is available in the {docs}#deployment-service[reference documentation].
+
+=== OAuth2 Support
+You can now use `@EnableAuthorizationServer` and `@EnableResourceServer` to quickly create OAuth2 authorization and resource servers. In addition, `@EnableOAuth2Client` allows your application to act as an OAuth2 client. For details see the overhauled {docs}#boot-features-security-oauth2[security section of the reference guide].
+
+=== Additional Health Indicators
+Additional `HealthIndicators` are now provided and auto-configured for:
+
+* Elasticsearch
+* Email
+* JMS
+
+=== CORS support for actuator endpoints
+The Actuator's endpoint now support CORS. Support is disabled by default but can be enabled by configuring `endpoints.cors.allowed-origins`.
+
+=== Auto-configuration excludes report
+The auto-configuration report (logged at the `DEBUG` level or available via the `/autoconfig` actuator endpoint) now explicitly lists configurations that have been manually excluded via `@SpringBootApplication(exclude=...)` or `@EnableAutoConfiguration(exclude=...)`.
+
+=== Validation "Starter POM"
+A new `spring-boot-starter-validation` "starter POM" is now available to provide bean validation (JSR 303) support.
+
+=== Regex support for `/env` and `/metrics`
+You can now use regular expression to filter the `/env` and `/metrics` actuator endpoints. For example `http://localhost:8080/metrics/.*root.*`.
+
+=== SendGrid
+Auto-configuration is now provided for the https://sendgrid.com[SendGrid] email delivery service.
+
+=== Maven start/stop support and admin features
+The Maven plugin now include `start` and `stop` goals. These enable applications to be started without blocking Maven (allowing other goals to operate on the application). This technique is often used to launch intergration tests from Maven.
+
+A byproduct of this work is that a new `SpringApplicationAdminMXBean` interface has been added which (when enabled) allows a Spring Boot application to be controlled via JMX.
+
+=== Miscellaneous
+The following miscellaneous updates are also include with Spring Boot 1.3:
+
+* Jackson's Java 8 module will be automatically registered when using Java 8.
+* A `TransactionTemplate` bean is now included as part of `TransactionAutoConfiguration`.
+* A `MailServer` bean can now be obtained via JNDI by using the `spring.mail.jndi-name` property.
+* You can now configure the servlet name (when using an embedded servlet container) via the `server.display-name` property.
+* Flyway migration strategies can now be configured via a `FlywayMigrationStrategy` bean.

@@ -1,0 +1,88 @@
+= Spring Boot 3.0.0 M3 Release Notes
+
+For changes in earlier milestones, please refer to:
+
+- link:Spring-Boot-3.0.0-M1-Release-Notes[v3.0.0 M1]
+- link:Spring-Boot-3.0.0-M2-Release-Notes[v3.0.0 M2]
+
+
+
+== Upgrading from Spring Boot 2.x
+
+
+
+=== Minimum Requirements Changes
+None.
+
+
+
+=== Actuator Metrics Export Properties
+We have moved the properties controlling the https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#actuator.metrics[actuator metrics export]. The old schema was `management.metrics.export.<product>`, the new one is `management.<product>.metrics.export` (Example: the prometheus properties moved from `management.metrics.export.prometheus` to `management.prometheus.metrics.export`). If you are using the `spring-boot-properties-migrator`, you will get notified at startup. See https://github.com/spring-projects/spring-boot/issues/30381[#30381] for details.
+
+
+
+=== Simplifed Main Class Name Resolution with Gradle
+When building an application with Gradle, resolution of the name of the application's main class has been simplified and made consistent.
+`bootJar`, `bootRun`, and `bootWar` now all resolve the name of the main class name by looking for it in the output of the main source set.
+This removes a small risk that the tasks may not have used the same main class name by default.
+If you were relying on the main class being resolved from a location outside of the main source set's output, update your Gradle configuration to configure the main class name using the `mainClass` property of the `springBoot` DSL:
+
+----
+springBoot {
+    mainClass = "com.example.Application"
+}
+----
+
+Alternatively, you can configure the `classpath` property of the `resolveMainClassName` task to search in locations other than the main source set's output directories.
+
+
+=== Running Your Application in the Maven Process
+The `fork` attribute of `spring-boot:run` and `spring-boot:start` that was deprecated in Spring Boot 2.7 has been removed.
+
+
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-3.0.0-M3-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+
+
+=== Reinstated Support for REST Assured
+With it's 5.0 release, REST Assured is compatible with Jakarta EE 9 and Groovy 4.0. As a result, support has been reinstated.
+
+
+=== Auto-configuration for Micrometer Observation API
+
+Spring Boot now auto-configures an instance of `ObservationRegistry` for you. If `micrometer-core` is on the classpath, a `TimerObservationHandler` is registered on the `ObservationRegistry`, which means that every stopped `Observation` leads to a timer. `ObservationPredicate`, `GlobalTagsProvider` and `ObservationHandler` are automatically registered on the `ObservationRegistry`. You can use `ObservationRegistryCustomizer` to further customize the `ObservationRegistry` if you need to. See https://github.com/spring-projects/spring-boot/issues/29666[#29666] for details.
+
+=== Auto-configuration for Micrometer Tracing
+
+Spring Boot now auto-configures https://micrometer.io/docs/tracing[Micrometer Tracing] for you. This includes support for Brave, OpenTelemetry, Zipkin and Wavefront. When using the Micrometer Observation API, finishing observations will lead to spans reported to Zipkin or Wavefront. Tracing can be controlled with properties under `management.tracing`. Zipkin can be configured with `management.zipkin.tracing`, while Wavefront uses `management.wavefront`. To use, for example Wavefront with Brave, these dependencies are needed:
+
+----
+implementation 'org.springframework.boot:spring-boot-starter-actuator'
+implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+implementation 'io.micrometer:micrometer-tracing-reporter-wavefront'
+----
+
+See the https://todo[documentation] (TBD) for more details.
+
+=== Dependency Upgrades
+Spring Boot 3.0.0-M3 moves to new versions of several Spring projects:
+
+* TBD
+
+Numerous third-party dependencies have also been updated, some of the more noteworthy of which are the following:
+
+* REST Assured 5.0
+
+
+
+=== Miscellaneous
+Apart from the changes listed above, there have also been some minor tweaks and improvements including:
+
+* TBD
+
+
+
+== Deprecations in Spring Boot 3.0
+* The properties `management.metrics.export.<product>` are deprecated, the replacement is `management.<product>.metrics.export`. See above for more details.

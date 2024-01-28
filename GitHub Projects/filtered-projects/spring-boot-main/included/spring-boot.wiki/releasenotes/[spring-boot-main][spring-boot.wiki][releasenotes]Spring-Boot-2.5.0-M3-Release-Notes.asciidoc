@@ -1,0 +1,151 @@
+:actuator-docs: https://docs.spring.io/spring-boot/docs/2.5.0-SNAPSHOT/actuator-api/html/
+:docs: https://docs.spring.io/spring-boot/docs/2.5.x-SNAPSHOT/reference/html/
+:maven-docs: https://docs.spring.io/spring-boot/docs/2.5.0-SNAPSHOT/maven-plugin/reference/htmlsingle/
+:gradle-docs: https://docs.spring.io/spring-boot/docs/2.5.0-SNAPSHOT/gradle-plugin/reference/htmlsingle/
+
+= Spring Boot 2.5.0 M3 Release Notes
+
+For changes in earlier milestones, please refer to:
+
+- link:Spring-Boot-2.5.0-M2-Release-Notes[v2.5.0 M2]
+- link:Spring-Boot-2.5.0-M1-Release-Notes[v2.5.0 M1]
+
+
+
+
+== Upgrading from Spring Boot 2.4
+
+
+
+=== Flyway and Liquibase JDBC URLs
+If you currently define a `spring.flyway.url` or `spring.liquibase.url` you may need to provide additional `username` and `password` properties.
+In earlier versions of Spring Boot, these settings were derived from `spring.datasource` properties but this turned out to be problematic for people that provided their own DataSource beans.
+
+
+
+=== Logging Shutdown Hooks
+We now register a logging shutdown hook by default for jar based applications to ensure that release logging resources are released when the JVM exits.
+If your application is deployed as a war then the shutdown hook is not registered since the servlet container usually handles logging concerns.
+
+Most applications will want the shutdown hook. However, if your application has complex context hierarchies, then you may need to disable it.
+You can use the `logging.register-shutdown-hook` property to do that.
+
+
+
+=== Gradle Default jar and war Tasks
+The Spring Boot Gradle Plugin no longer automatically disables the standard Gradle `jar` and `war` tasks.
+Instead we now apply a `classifier` to those tasks.
+
+If you prefer to disable those tasks, the reference documentation {gradle-docs}/#packaging-executable-and-plain[includes updated examples].
+
+
+
+=== Hibernate and data.sql
+By default, `data.sql` scripts are now run before Hibernate is initialized.
+This aligns the behaviour of basic script-based initialization with that of Flyway and Liquibase.
+If you want to use `data.sql` to populate a schema created by Hibernate, set `spring.jpa.defer-datasource-initialization` to `true`.
+While mixing database initialization technologies is not recommended, this will also allow you to use a `schema.sql` script to build upon a Hibernate-created schema before it's populated via `data.sql`.
+
+
+
+=== Deprecations from Spring Boot 2.3
+Classes, methods and properties that were deprecated in Spring Boot 2.3 have been removed in this release.
+Please ensure that you aren't calling deprecated methods before upgrading.
+
+
+
+=== Minimum requirements changes
+None.
+
+
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.5.0-M3-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+
+
+=== OpenMetrics for Prometheus
+The `/actuator/prometheus` actuator endpoint can now provide both standard Prometheus as well as OpenMetrics responses.
+The response returned will depend on the accept header that is provided with the HTTP request.
+
+
+
+=== Docker Buildpack Support
+
+
+
+==== Bindings
+The Maven and Gradle plugins now both support volume bindings that can be passed to the buildpack builder.
+These allow you to bind local paths or volumes for the buildpack to use.
+
+
+
+==== War Support
+Both the Maven and Gradle plugin can now package executable war files into Docker images.
+The existing `mvn spring-boot:image` or `./gradlew bootBuildImage` commands should be used if you want to create a Docker image for your war.
+
+
+
+=== Environment Variable Prefixes
+It's now possible to specify a prefix for system environment variables so that you can run multiple different Spring Boot applications in the same environment.
+Use `SpringApplication.setEnvironmentPrefix(...)` to set the prefix that you want to use when binding properties.
+
+For example, the following will add a `myapp` prefix:
+
+[source,java]
+----
+SpringApplication application = new SpringApplication(MyApp.class);
+application.setEnvironmentPrefix("myapp");
+application.run(args);
+----
+
+All properties will now expect a prefixed version.
+For example, to change the server port you can set `MYAPP_SERVER_PORT`.
+
+
+
+=== DataSource Initialization
+A new generic mechanism is now available if you write code that initializes a DataSource.
+This mechanism is also now used internally to setup correct bean dependencies for Flyway, Liquibase and Script based initialization.
+
+Most developers won't need to directly make use of the new mechanism.
+However, if you are developing a third-party starter for a data access library, you may want to provide a `DependsOnDataSourceInitializationDetector`.
+See the {docs}/howto.html#howto-initialize-a-database-configuring-dependencies-initializer-detection[updated reference documentation] for details.
+
+
+
+=== Documentation Updates
+The HTML documentation published by the project has an updated look-and-feel and some new features.
+You can now easily copy snippets of code to the clipboard by hovering over the sample and clicking the "copy" icon.
+In addition, many of the samples now include full import statements that can be shown or hidden as required.
+
+We also now have a "dark theme" switcher at the top of each document.
+
+
+
+=== Dependency Upgrades
+Spring Boot 2.5 moves to new versions of several Spring projects:
+
+- https://spring.io/blog/2021/03/17/spring-data-2021-0-0-m5-2020-0-6-and-neumann-sr8-released[Spring Data 2021.0.0-M5]
+- https://spring.io/blog/2021/03/15/spring-security-5-5-0-m3-released[Spring Security 5.5.0-M3]
+- Spring Integration 5.5.0-M3
+- Spring Kafka 2.7.0-RC1
+
+
+Numerous third-party dependencies have also been updated, some of the more noteworthy of which are the following:
+
+- Kotlin 1.4.31
+- Flyway 7.7.0
+
+
+=== Miscellaneous
+Apart from the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+- The `/actuator/configprops` and `actuator/env` endpoints now have `additional-keys-to-sanitize` properties that can be used to sanitize keys.
+- You can now use a `EndpointObjectNameFactory` if you want to customize the name of JMX actuator endpoints.
+- A new `DataSourceBuilder.derivedFrom(...)` method has been added that allows you to build a new `DataSource` that's derived from an existing one.
+
+
+
+== Deprecations in Spring Boot 2.5.0 M3
+None

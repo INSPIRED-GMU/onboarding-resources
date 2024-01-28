@@ -1,0 +1,850 @@
+Configuration properties change between `1.5.10.RELEASE` and `2.0.0.RELEASE`
+
+.Deprecated keys in `2.0.0.RELEASE`
+|======================
+|Key  |Replacement |Reason
+|`spring.datasource.hikari.initialization-fail-fast` | |
+|`spring.main.web-environment` |`spring.main.web-application-type` |
+|======================
+
+.New keys in `2.0.0.RELEASE`
+|======================
+|Key  |Default value |Description
+|`logging.file.max-history` |`0` |Maximum of archive log files to keep.
+|`logging.file.max-size` |`10MB` |Maximum log file size.
+|`logging.pattern.dateformat` |`yyyy-MM-dd HH:mm:ss.SSS` |Appender pattern for log date format.
+|`management.endpoint.auditevents.cache.time-to-live` |`0ms` |Maximum time that a response can be cached.
+|`management.endpoint.auditevents.enabled` |`true` |Whether to enable the auditevents endpoint.
+|`management.endpoint.beans.cache.time-to-live` |`0ms` |Maximum time that a response can be cached.
+|`management.endpoint.beans.enabled` |`true` |Whether to enable the beans endpoint.
+|`management.endpoint.conditions.cache.time-to-live` |`0ms` |Maximum time that a response can be cached.
+|`management.endpoint.conditions.enabled` |`true` |Whether to enable the conditions endpoint.
+|`management.endpoint.configprops.cache.time-to-live` |`0ms` |Maximum time that a response can be cached.
+|`management.endpoint.configprops.enabled` |`true` |Whether to enable the configprops endpoint.
+|`management.endpoint.configprops.keys-to-sanitize` |`password,secret,key,token,.*credentials.*,vcap_services` |Keys that should be sanitized.
+|`management.endpoint.env.cache.time-to-live` |`0ms` |Maximum time that a response can be cached.
+|`management.endpoint.env.enabled` |`true` |Whether to enable the env endpoint.
+|`management.endpoint.env.keys-to-sanitize` |`password,secret,key,token,.*credentials.*,vcap_services` |Keys that should be sanitized.
+|`management.endpoint.flyway.cache.time-to-live` |`0ms` |Maximum time that a response can be cached.
+|`management.endpoint.flyway.enabled` |`true` |Whether to enable the flyway endpoint.
+|`management.endpoint.health.cache.time-to-live` |`0ms` |Maximum time that a response can be cached.
+|`management.endpoint.health.enabled` |`true` |Whether to enable the health endpoint.
+|`management.endpoint.health.roles` | |Roles used to determine whether or not a user is authorized to be shown details.
+|`management.endpoint.health.show-details` |`never` |When to show full health details.
+|`management.endpoint.heapdump.cache.time-to-live` |`0ms` |Maximum time that a response can be cached.
+|`management.endpoint.heapdump.enabled` |`true` |Whether to enable the heapdump endpoint.
+|`management.endpoint.httptrace.cache.time-to-live` |`0ms` |Maximum time that a response can be cached.
+|`management.endpoint.httptrace.enabled` |`true` |Whether to enable the httptrace endpoint.
+|`management.endpoint.info.cache.time-to-live` |`0ms` |Maximum time that a response can be cached.
+|`management.endpoint.info.enabled` |`true` |Whether to enable the info endpoint.
+|`management.endpoint.jolokia.config` | |Jolokia settings.
+|`management.endpoint.jolokia.enabled` |`true` |Whether to enable the jolokia endpoint.
+|`management.endpoint.liquibase.cache.time-to-live` |`0ms` |Maximum time that a response can be cached.
+|`management.endpoint.liquibase.enabled` |`true` |Whether to enable the liquibase endpoint.
+|`management.endpoint.logfile.cache.time-to-live` |`0ms` |Maximum time that a response can be cached.
+|`management.endpoint.logfile.enabled` |`true` |Whether to enable the logfile endpoint.
+|`management.endpoint.logfile.external-file` | |External Logfile to be accessed.
+|`management.endpoint.loggers.cache.time-to-live` |`0ms` |Maximum time that a response can be cached.
+|`management.endpoint.loggers.enabled` |`true` |Whether to enable the loggers endpoint.
+|`management.endpoint.mappings.cache.time-to-live` |`0ms` |Maximum time that a response can be cached.
+|`management.endpoint.mappings.enabled` |`true` |Whether to enable the mappings endpoint.
+|`management.endpoint.metrics.cache.time-to-live` |`0ms` |Maximum time that a response can be cached.
+|`management.endpoint.metrics.enabled` |`true` |Whether to enable the metrics endpoint.
+|`management.endpoint.prometheus.cache.time-to-live` |`0ms` |Maximum time that a response can be cached.
+|`management.endpoint.prometheus.enabled` |`true` |Whether to enable the prometheus endpoint.
+|`management.endpoint.scheduledtasks.cache.time-to-live` |`0ms` |Maximum time that a response can be cached.
+|`management.endpoint.scheduledtasks.enabled` |`true` |Whether to enable the scheduledtasks endpoint.
+|`management.endpoint.sessions.enabled` |`true` |Whether to enable the sessions endpoint.
+|`management.endpoint.shutdown.enabled` |`false` |Whether to enable the shutdown endpoint.
+|`management.endpoint.threaddump.cache.time-to-live` |`0ms` |Maximum time that a response can be cached.
+|`management.endpoint.threaddump.enabled` |`true` |Whether to enable the threaddump endpoint.
+|`management.endpoints.enabled-by-default` | |Whether to enable or disable all endpoints by default.
+|`management.endpoints.jmx.domain` |`org.springframework.boot` |Endpoints JMX domain name.
+|`management.endpoints.jmx.exposure.exclude` | |Endpoint IDs that should be excluded.
+|`management.endpoints.jmx.exposure.include` |`*` |Endpoint IDs that should be included or '*' for all.
+|`management.endpoints.jmx.static-names` | |Additional static properties to append to all ObjectNames of MBeans representing Endpoints.
+|`management.endpoints.jmx.unique-names` |`false` |Whether to ensure that ObjectNames are modified in case of conflict.
+|`management.endpoints.web.base-path` |`/actuator` |Base path for Web endpoints.
+|`management.endpoints.web.cors.allow-credentials` | |Whether credentials are supported.
+|`management.endpoints.web.cors.allowed-headers` | |Comma-separated list of headers to allow in a request. '*' allows all headers.
+|`management.endpoints.web.cors.allowed-methods` | |Comma-separated list of methods to allow. '*' allows all methods.
+|`management.endpoints.web.cors.allowed-origins` | |Comma-separated list of origins to allow. '*' allows all origins.
+|`management.endpoints.web.cors.exposed-headers` | |Comma-separated list of headers to include in a response.
+|`management.endpoints.web.cors.max-age` |`1800s` |How long the response from a pre-flight request can be cached by clients.
+|`management.endpoints.web.exposure.exclude` | |Endpoint IDs that should be excluded.
+|`management.endpoints.web.exposure.include` |`health,info` |Endpoint IDs that should be included or '*' for all.
+|`management.endpoints.web.path-mapping` | |Mapping between endpoint IDs and the path that should expose them.
+|`management.health.influxdb.enabled` |`true` |Whether to enable InfluxDB health check.
+|`management.health.neo4j.enabled` |`true` |Whether to enable Neo4j health check.
+|`management.health.status.http-mapping` | |Mapping of health statuses to HTTP status codes.
+|`management.metrics.binders.files.enabled` |`true` |Whether to enable files metrics.
+|`management.metrics.binders.integration.enabled` |`true` |Whether to enable Spring Integration metrics.
+|`management.metrics.binders.jvm.enabled` |`true` |Whether to enable JVM metrics.
+|`management.metrics.binders.logback.enabled` |`true` |Whether to enable Logback metrics.
+|`management.metrics.binders.processor.enabled` |`true` |Whether to enable processor metrics.
+|`management.metrics.binders.uptime.enabled` |`true` |Whether to enable uptime metrics.
+|`management.metrics.distribution.percentiles` | |Specific computed non-aggregable percentiles to ship to the backend for meter IDs starting-with the specified name.
+|`management.metrics.distribution.percentiles-histogram` | |Whether meter IDs starting-with the specified name should be publish percentile histograms.
+|`management.metrics.distribution.sla` | |Specific SLA boundaries for meter IDs starting-with the specified name.
+|`management.metrics.enable` | |Whether meter IDs starting-with the specified name should be enabled.
+|`management.metrics.export.atlas.batch-size` |`10000` |Number of measurements per request to use for this backend.
+|`management.metrics.export.atlas.config-refresh-frequency` |`10s` |Frequency for refreshing config settings from the LWC service.
+|`management.metrics.export.atlas.config-time-to-live` |`150s` |Time to live for subscriptions from the LWC service.
+|`management.metrics.export.atlas.config-uri` |`http://localhost:7101/lwc/api/v1/expressions/local-dev` |URI for the Atlas LWC endpoint to retrieve current subscriptions.
+|`management.metrics.export.atlas.connect-timeout` |`1s` |Connection timeout for requests to this backend.
+|`management.metrics.export.atlas.enabled` |`true` |Whether exporting of metrics to this backend is enabled.
+|`management.metrics.export.atlas.eval-uri` |`http://localhost:7101/lwc/api/v1/evaluate` |URI for the Atlas LWC endpoint to evaluate the data for a subscription.
+|`management.metrics.export.atlas.lwc-enabled` |`false` |Whether to enable streaming to Atlas LWC.
+|`management.metrics.export.atlas.meter-time-to-live` |`15m` |Time to live for meters that do not have any activity.
+|`management.metrics.export.atlas.num-threads` |`2` |Number of threads to use with the metrics publishing scheduler.
+|`management.metrics.export.atlas.read-timeout` |`10s` |Read timeout for requests to this backend.
+|`management.metrics.export.atlas.step` |`1m` |Step size (i.e. reporting frequency) to use.
+|`management.metrics.export.atlas.uri` |`http://localhost:7101/api/v1/publish` |URI of the Atlas server.
+|`management.metrics.export.datadog.api-key` | |Datadog API key.
+|`management.metrics.export.datadog.application-key` | |Datadog application key.
+|`management.metrics.export.datadog.batch-size` |`10000` |Number of measurements per request to use for this backend.
+|`management.metrics.export.datadog.connect-timeout` |`1s` |Connection timeout for requests to this backend.
+|`management.metrics.export.datadog.descriptions` |`true` |Whether to publish descriptions metadata to Datadog.
+|`management.metrics.export.datadog.enabled` |`true` |Whether exporting of metrics to this backend is enabled.
+|`management.metrics.export.datadog.host-tag` |`instance` |Tag that will be mapped to "host" when shipping metrics to Datadog.
+|`management.metrics.export.datadog.num-threads` |`2` |Number of threads to use with the metrics publishing scheduler.
+|`management.metrics.export.datadog.read-timeout` |`10s` |Read timeout for requests to this backend.
+|`management.metrics.export.datadog.step` |`1m` |Step size (i.e. reporting frequency) to use.
+|`management.metrics.export.datadog.uri` |`https://app.datadoghq.com` |URI to ship metrics to.
+|`management.metrics.export.ganglia.addressing-mode` |`multicast` |UDP addressing mode, either unicast or multicast.
+|`management.metrics.export.ganglia.duration-units` |`milliseconds` |Base time unit used to report durations.
+|`management.metrics.export.ganglia.enabled` |`true` |Whether exporting of metrics to Ganglia is enabled.
+|`management.metrics.export.ganglia.host` |`localhost` |Host of the Ganglia server to receive exported metrics.
+|`management.metrics.export.ganglia.port` |`8649` |Port of the Ganglia server to receive exported metrics.
+|`management.metrics.export.ganglia.protocol-version` |`3.1` |Ganglia protocol version.
+|`management.metrics.export.ganglia.rate-units` |`seconds` |Base time unit used to report rates.
+|`management.metrics.export.ganglia.step` |`1m` |Step size (i.e. reporting frequency) to use.
+|`management.metrics.export.ganglia.time-to-live` |`1` |Time to live for metrics on Ganglia.
+|`management.metrics.export.graphite.duration-units` |`milliseconds` |Base time unit used to report durations.
+|`management.metrics.export.graphite.enabled` |`true` |Whether exporting of metrics to Graphite is enabled.
+|`management.metrics.export.graphite.host` |`localhost` |Host of the Graphite server to receive exported metrics.
+|`management.metrics.export.graphite.port` |`2004` |Port of the Graphite server to receive exported metrics.
+|`management.metrics.export.graphite.protocol` |`pickled` |Protocol to use while shipping data to Graphite.
+|`management.metrics.export.graphite.rate-units` |`seconds` |Base time unit used to report rates.
+|`management.metrics.export.graphite.step` |`1m` |Step size (i.e. reporting frequency) to use.
+|`management.metrics.export.graphite.tags-as-prefix` |`` |For the default naming convention, turn the specified tag keys into part of the metric prefix.
+|`management.metrics.export.influx.auto-create-db` |`true` |Whether to create the Influx database if it does not exist before attempting to publish metrics to it.
+|`management.metrics.export.influx.batch-size` |`10000` |Number of measurements per request to use for this backend.
+|`management.metrics.export.influx.compressed` |`true` |Whether to enable GZIP compression of metrics batches published to Influx.
+|`management.metrics.export.influx.connect-timeout` |`1s` |Connection timeout for requests to this backend.
+|`management.metrics.export.influx.consistency` |`one` |Write consistency for each point.
+|`management.metrics.export.influx.db` |`mydb` |Tag that will be mapped to "host" when shipping metrics to Influx.
+|`management.metrics.export.influx.enabled` |`true` |Whether exporting of metrics to this backend is enabled.
+|`management.metrics.export.influx.num-threads` |`2` |Number of threads to use with the metrics publishing scheduler.
+|`management.metrics.export.influx.password` | |Login password of the Influx server.
+|`management.metrics.export.influx.read-timeout` |`10s` |Read timeout for requests to this backend.
+|`management.metrics.export.influx.retention-policy` | |Retention policy to use (Influx writes to the DEFAULT retention policy if one is not specified).
+|`management.metrics.export.influx.step` |`1m` |Step size (i.e. reporting frequency) to use.
+|`management.metrics.export.influx.uri` |`http://localhost:8086` |URI of the Influx server.
+|`management.metrics.export.influx.user-name` | |Login user of the Influx server.
+|`management.metrics.export.jmx.enabled` |`true` |Whether exporting of metrics to JMX is enabled.
+|`management.metrics.export.jmx.step` |`1m` |Step size (i.e. reporting frequency) to use.
+|`management.metrics.export.newrelic.account-id` | |New Relic account ID.
+|`management.metrics.export.newrelic.api-key` | |New Relic API key.
+|`management.metrics.export.newrelic.batch-size` |`10000` |Number of measurements per request to use for this backend.
+|`management.metrics.export.newrelic.connect-timeout` |`1s` |Connection timeout for requests to this backend.
+|`management.metrics.export.newrelic.enabled` |`true` |Whether exporting of metrics to this backend is enabled.
+|`management.metrics.export.newrelic.num-threads` |`2` |Number of threads to use with the metrics publishing scheduler.
+|`management.metrics.export.newrelic.read-timeout` |`10s` |Read timeout for requests to this backend.
+|`management.metrics.export.newrelic.step` |`1m` |Step size (i.e. reporting frequency) to use.
+|`management.metrics.export.newrelic.uri` |`https://insights-collector.newrelic.com` |URI to ship metrics to.
+|`management.metrics.export.prometheus.descriptions` |`true` |Whether to enable publishing descriptions as part of the scrape payload to Prometheus.
+|`management.metrics.export.prometheus.enabled` |`true` |Whether exporting of metrics to Prometheus is enabled.
+|`management.metrics.export.prometheus.step` |`1m` |Step size (i.e. reporting frequency) to use.
+|`management.metrics.export.signalfx.access-token` | |SignalFX access token.
+|`management.metrics.export.signalfx.batch-size` |`10000` |Number of measurements per request to use for this backend.
+|`management.metrics.export.signalfx.connect-timeout` |`1s` |Connection timeout for requests to this backend.
+|`management.metrics.export.signalfx.enabled` |`true` |Whether exporting of metrics to this backend is enabled.
+|`management.metrics.export.signalfx.num-threads` |`2` |Number of threads to use with the metrics publishing scheduler.
+|`management.metrics.export.signalfx.read-timeout` |`10s` |Read timeout for requests to this backend.
+|`management.metrics.export.signalfx.source` | |Uniquely identifies the app instance that is publishing metrics to SignalFx.
+|`management.metrics.export.signalfx.step` |`10s` |Step size (i.e. reporting frequency) to use.
+|`management.metrics.export.signalfx.uri` |`https://ingest.signalfx.com` |URI to ship metrics to.
+|`management.metrics.export.simple.enabled` |`true` |Whether, in the absence of any other exporter, exporting of metrics to an in-memory backend is enabled.
+|`management.metrics.export.simple.mode` |`cumulative` |Counting mode.
+|`management.metrics.export.simple.step` |`1m` |Step size (i.e. reporting frequency) to use.
+|`management.metrics.export.statsd.enabled` |`true` |Whether exporting of metrics to StatsD is enabled.
+|`management.metrics.export.statsd.flavor` |`datadog` |StatsD line protocol to use.
+|`management.metrics.export.statsd.host` |`localhost` |Host of the StatsD server to receive exported metrics.
+|`management.metrics.export.statsd.max-packet-length` |`1400` |Total length of a single payload should be kept within your network's MTU.
+|`management.metrics.export.statsd.polling-frequency` |`10s` |How often gauges will be polled.
+|`management.metrics.export.statsd.port` |`8125` |Port of the StatsD server to receive exported metrics.
+|`management.metrics.export.statsd.publish-unchanged-meters` |`true` |Whether to send unchanged meters to the StatsD server.
+|`management.metrics.export.statsd.queue-size` |`2147483647` |Maximum size of the queue of items waiting to be sent to the StatsD server.
+|`management.metrics.export.wavefront.api-token` | |API token used when publishing metrics directly to the Wavefront API host.
+|`management.metrics.export.wavefront.batch-size` |`10000` |Number of measurements per request to use for this backend.
+|`management.metrics.export.wavefront.connect-timeout` |`1s` |Connection timeout for requests to this backend.
+|`management.metrics.export.wavefront.enabled` |`true` |Whether exporting of metrics to this backend is enabled.
+|`management.metrics.export.wavefront.global-prefix` | |Global prefix to separate metrics originating from this app's white box instrumentation from those originating from other Wavefront integrations when viewed in the Wavefront UI.
+|`management.metrics.export.wavefront.num-threads` |`2` |Number of threads to use with the metrics publishing scheduler.
+|`management.metrics.export.wavefront.read-timeout` |`10s` |Read timeout for requests to this backend.
+|`management.metrics.export.wavefront.source` | |Unique identifier for the app instance that is the source of metrics being published to Wavefront.
+|`management.metrics.export.wavefront.step` |`10s` |Step size (i.e. reporting frequency) to use.
+|`management.metrics.export.wavefront.uri` |`https://longboard.wavefront.com` |URI to ship metrics to.
+|`management.metrics.use-global-registry` |`true` |Whether auto-configured MeterRegistry implementations should be bound to the global static registry on Metrics.
+|`management.metrics.web.client.max-uri-tags` |`100` |Maximum number of unique URI tag values allowed.
+|`management.metrics.web.client.requests-metric-name` |`http.client.requests` |Name of the metric for sent requests.
+|`management.metrics.web.server.auto-time-requests` |`true` |Whether requests handled by Spring MVC or WebFlux should be automatically timed.
+|`management.metrics.web.server.requests-metric-name` |`http.server.requests` |Name of the metric for received requests.
+|`management.server.add-application-context-header` |`false` |Add the "X-Application-Context" HTTP header in each response.
+|`management.server.address` | |Network address to which the management endpoints should bind.
+|`management.server.port` | |Management endpoint HTTP port (uses the same port as the application by default).
+|`management.server.servlet.context-path` |`` |Management endpoint context-path (for instance, `/management`).
+|`management.server.ssl.ciphers` | |
+|`management.server.ssl.client-auth` | |
+|`management.server.ssl.enabled` | |
+|`management.server.ssl.enabled-protocols` | |
+|`management.server.ssl.key-alias` | |
+|`management.server.ssl.key-password` | |
+|`management.server.ssl.key-store` | |
+|`management.server.ssl.key-store-password` | |
+|`management.server.ssl.key-store-provider` | |
+|`management.server.ssl.key-store-type` | |
+|`management.server.ssl.protocol` | |
+|`management.server.ssl.trust-store` | |
+|`management.server.ssl.trust-store-password` | |
+|`management.server.ssl.trust-store-provider` | |
+|`management.server.ssl.trust-store-type` | |
+|`management.trace.http.enabled` |`true` |Whether to enable HTTP request-response tracing.
+|`management.trace.http.include` |`request-headers,response-headers,cookies,errors` |Items to be included in the trace.
+|`server.error.include-exception` |`false` |Include the "exception" attribute.
+|`server.http2.enabled` | |
+|`server.jetty.accesslog.append` |`false` |Append to log.
+|`server.jetty.accesslog.date-format` |`dd/MMM/yyyy:HH:mm:ss Z` |Timestamp format of the request log.
+|`server.jetty.accesslog.enabled` |`false` |Enable access log.
+|`server.jetty.accesslog.extended-format` |`false` |Enable extended NCSA format.
+|`server.jetty.accesslog.file-date-format` | |Date format to place in log file name.
+|`server.jetty.accesslog.filename` | |Log filename.
+|`server.jetty.accesslog.locale` | |Locale of the request log.
+|`server.jetty.accesslog.log-cookies` |`false` |Enable logging of the request cookies.
+|`server.jetty.accesslog.log-latency` |`false` |Enable logging of request processing time.
+|`server.jetty.accesslog.log-server` |`false` |Enable logging of the request hostname.
+|`server.jetty.accesslog.retention-period` |`31` |Number of days before rotated log files are deleted.
+|`server.jetty.accesslog.time-zone` |`GMT` |Timezone of the request log.
+|`server.servlet.application-display-name` |`application` |Display name of the application.
+|`server.servlet.context-parameters` | |Servlet context init parameters.
+|`server.servlet.context-path` | |Context path of the application.
+|`server.servlet.jsp.class-name` | |
+|`server.servlet.jsp.init-parameters` | |
+|`server.servlet.jsp.registered` | |
+|`server.servlet.path` |`/` |Path of the main dispatcher servlet.
+|`server.servlet.session.cookie.comment` | |
+|`server.servlet.session.cookie.domain` | |
+|`server.servlet.session.cookie.http-only` | |
+|`server.servlet.session.cookie.max-age` | |
+|`server.servlet.session.cookie.name` | |
+|`server.servlet.session.cookie.path` | |
+|`server.servlet.session.cookie.secure` | |
+|`server.servlet.session.persistent` | |
+|`server.servlet.session.store-dir` | |
+|`server.servlet.session.timeout` | |
+|`server.servlet.session.tracking-modes` | |
+|`server.tomcat.max-http-header-size` |`0` |Maximum size, in bytes, of the HTTP message header.
+|`server.tomcat.resource.cache-ttl` | |Time-to-live of the static resource cache.
+|`server.tomcat.use-relative-redirects` | |Whether HTTP 1.1 and later location headers generated by a call to sendRedirect will use relative or absolute redirects.
+|`server.undertow.eager-filter-init` |`true` |Whether servlet filters should be initialized on startup.
+|`spring.banner.charset` |`UTF-8` |Banner file encoding.
+|`spring.banner.image.height` | |Height of the banner image in chars (default based on image height).
+|`spring.banner.image.invert` |`false` |Whether images should be inverted for dark terminal themes.
+|`spring.banner.image.location` |`classpath:banner.gif` |Banner image file location (jpg or png can also be used).
+|`spring.banner.image.margin` |`2` |Left hand image margin in chars.
+|`spring.banner.image.width` |`76` |Width of the banner image in chars.
+|`spring.banner.location` |`classpath:banner.txt` |Banner text resource location.
+|`spring.batch.initialize-schema` |`embedded` |Database schema initialization mode.
+|`spring.cache.redis.cache-null-values` |`true` |Allow caching null values.
+|`spring.cache.redis.key-prefix` | |Key prefix.
+|`spring.cache.redis.time-to-live` | |Entry expiration.
+|`spring.cache.redis.use-key-prefix` |`true` |Whether to use the key prefix when writing to Redis.
+|`spring.config.additional-location` | |Config file locations used in addition to the defaults.
+|`spring.data.cassandra.connect-timeout` | |Socket option: connection time out.
+|`spring.data.cassandra.pool.heartbeat-interval` |`30s` |Heartbeat interval after which a message is sent on an idle connection to make sure it's still alive.
+|`spring.data.cassandra.pool.idle-timeout` |`120s` |Idle timeout before an idle connection is removed.
+|`spring.data.cassandra.pool.max-queue-size` |`256` |Maximum number of requests that get queued if no connection is available.
+|`spring.data.cassandra.pool.pool-timeout` |`5000ms` |Pool timeout when trying to acquire a connection from a host's pool.
+|`spring.data.cassandra.read-timeout` | |Socket option: read time out.
+|`spring.data.cassandra.repositories.type` |`auto` |Type of Cassandra repositories to enable.
+|`spring.data.couchbase.repositories.type` |`auto` |Type of Couchbase repositories to enable.
+|`spring.data.mongodb.repositories.type` |`auto` |Type of Mongo repositories to enable.
+|`spring.data.neo4j.auto-index` |`none` |Auto index mode.
+|`spring.data.web.pageable.default-page-size` |`20` |Default page size.
+|`spring.data.web.pageable.max-page-size` |`2000` |Maximum page size to be accepted.
+|`spring.data.web.pageable.one-indexed-parameters` |`false` |Whether to expose and assume 1-based page number indexes.
+|`spring.data.web.pageable.page-parameter` |`page` |Page index parameter name.
+|`spring.data.web.pageable.prefix` |`` |General prefix to be prepended to the page number and page size parameters.
+|`spring.data.web.pageable.qualifier-delimiter` |`_` |Delimiter to be used between the qualifier and the actual page number and size properties.
+|`spring.data.web.pageable.size-parameter` |`size` |Page size parameter name.
+|`spring.data.web.sort.sort-parameter` |`sort` |Sort parameter name.
+|`spring.datasource.hikari.initialization-fail-timeout` | |
+|`spring.datasource.hikari.metrics-tracker-factory` | |
+|`spring.datasource.hikari.scheduled-executor` | |
+|`spring.datasource.hikari.scheduled-executor-service` | |
+|`spring.datasource.hikari.schema` | |
+|`spring.datasource.initialization-mode` |`embedded` |Initialize the datasource with available DDL and DML scripts.
+|`spring.devtools.restart.log-condition-evaluation-delta` |`true` |Whether to log the condition evaluation delta upon restart.
+|`spring.flyway.baseline-description` | |
+|`spring.flyway.baseline-on-migrate` | |
+|`spring.flyway.baseline-version` | |
+|`spring.flyway.check-location` |`true` |Whether to check that migration scripts location exists.
+|`spring.flyway.clean-disabled` | |
+|`spring.flyway.clean-on-validation-error` | |
+|`spring.flyway.dry-run-output` | |
+|`spring.flyway.enabled` |`true` |Whether to enable flyway.
+|`spring.flyway.encoding` | |
+|`spring.flyway.error-handlers` | |
+|`spring.flyway.group` | |
+|`spring.flyway.ignore-future-migrations` | |
+|`spring.flyway.ignore-missing-migrations` | |
+|`spring.flyway.init-sqls` | |SQL statements to execute to initialize a connection immediately after obtaining it.
+|`spring.flyway.installed-by` | |
+|`spring.flyway.locations` | |
+|`spring.flyway.mixed` | |
+|`spring.flyway.out-of-order` | |
+|`spring.flyway.password` | |JDBC password to use if you want Flyway to create its own DataSource.
+|`spring.flyway.placeholder-prefix` | |
+|`spring.flyway.placeholder-replacement` | |
+|`spring.flyway.placeholder-suffix` | |
+|`spring.flyway.placeholders` | |
+|`spring.flyway.repeatable-sql-migration-prefix` | |
+|`spring.flyway.schemas` | |
+|`spring.flyway.skip-default-callbacks` | |
+|`spring.flyway.skip-default-resolvers` | |
+|`spring.flyway.sql-migration-prefix` | |
+|`spring.flyway.sql-migration-separator` | |
+|`spring.flyway.sql-migration-suffix` | |
+|`spring.flyway.sql-migration-suffixes` | |
+|`spring.flyway.table` | |
+|`spring.flyway.target` | |
+|`spring.flyway.undo-sql-migration-prefix` | |
+|`spring.flyway.url` | |JDBC url of the database to migrate.
+|`spring.flyway.user` | |Login user of the database to migrate.
+|`spring.flyway.validate-on-migrate` | |
+|`spring.gson.date-format` | |Format to use when serializing Date objects.
+|`spring.gson.disable-html-escaping` | |Whether to disable the escaping of HTML characters such as '<', '>', etc.
+|`spring.gson.disable-inner-class-serialization` | |Whether to exclude inner classes during serialization.
+|`spring.gson.enable-complex-map-key-serialization` | |Whether to enable serialization of complex map keys (i.e. non-primitives).
+|`spring.gson.exclude-fields-without-expose-annotation` | |Whether to exclude all fields from consideration for serialization or deserialization that do not have the "Expose" annotation.
+|`spring.gson.field-naming-policy` | |Naming policy that should be applied to an object's field during serialization and deserialization.
+|`spring.gson.generate-non-executable-json` | |Whether to generate non executable JSON by prefixing the output with some special text.
+|`spring.gson.lenient` | |Whether to be lenient about parsing JSON that doesn't conform to RFC 4627.
+|`spring.gson.long-serialization-policy` | |Serialization policy for Long and long types.
+|`spring.gson.pretty-printing` | |Whether to output serialized JSON that fits in a page for pretty printing.
+|`spring.gson.serialize-nulls` | |Whether to serialize null fields.
+|`spring.influx.password` | |Login password.
+|`spring.influx.url` | |URL of the InfluxDB instance to which to connect.
+|`spring.influx.user` | |Login user.
+|`spring.integration.jdbc.initialize-schema` |`embedded` |Database schema initialization mode.
+|`spring.integration.jdbc.schema` |`classpath:org/springframework/integration/jdbc/schema-@@platform@@.sql` |Path to the SQL file to use to initialize the database schema.
+|`spring.jdbc.template.fetch-size` |`-1` |Number of rows that should be fetched from the database when more rows are needed.
+|`spring.jdbc.template.max-rows` |`-1` |Maximum number of rows.
+|`spring.jdbc.template.query-timeout` | |Query timeout.
+|`spring.jpa.mapping-resources` | |Mapping resources (equivalent to "mapping-file" entries in persistence.xml).
+|`spring.jta.atomikos.datasource.concurrent-connection-validation` | |
+|`spring.jta.atomikos.properties.allow-sub-transactions` |`true` |Specify whether sub-transactions are allowed.
+|`spring.jta.atomikos.properties.default-max-wait-time-on-shutdown` | |How long should normal shutdown (no-force) wait for transactions to complete.
+|`spring.jta.atomikos.properties.recovery.delay` |`10000ms` |Delay between two recovery scans.
+|`spring.jta.atomikos.properties.recovery.forget-orphaned-log-entries-delay` |`86400000ms` |Delay after which recovery can cleanup pending ('orphaned') log entries.
+|`spring.jta.atomikos.properties.recovery.max-retries` |`5` |Number of retry attempts to commit the transaction before throwing an exception.
+|`spring.jta.atomikos.properties.recovery.retry-interval` |`10000ms` |Delay between retry attempts.
+|`spring.kafka.admin.client-id` | |ID to pass to the server when making requests.
+|`spring.kafka.admin.fail-fast` |`false` |Whether to fail fast if the broker is not available on startup.
+|`spring.kafka.admin.properties` | |Additional admin-specific properties used to configure the client.
+|`spring.kafka.admin.ssl.key-password` | |Password of the private key in the key store file.
+|`spring.kafka.admin.ssl.keystore-location` | |Location of the key store file.
+|`spring.kafka.admin.ssl.keystore-password` | |Store password for the key store file.
+|`spring.kafka.admin.ssl.truststore-location` | |Location of the trust store file.
+|`spring.kafka.admin.ssl.truststore-password` | |Store password for the trust store file.
+|`spring.kafka.consumer.properties` | |Additional consumer-specific properties used to configure the client.
+|`spring.kafka.consumer.ssl.key-password` | |Password of the private key in the key store file.
+|`spring.kafka.consumer.ssl.keystore-location` | |Location of the key store file.
+|`spring.kafka.consumer.ssl.keystore-password` | |Store password for the key store file.
+|`spring.kafka.consumer.ssl.truststore-location` | |Location of the trust store file.
+|`spring.kafka.consumer.ssl.truststore-password` | |Store password for the trust store file.
+|`spring.kafka.jaas.control-flag` |`required` |Control flag for login configuration.
+|`spring.kafka.jaas.enabled` |`false` |Whether to enable JAAS configuration.
+|`spring.kafka.jaas.login-module` |`com.sun.security.auth.module.Krb5LoginModule` |Login module.
+|`spring.kafka.jaas.options` | |Additional JAAS options.
+|`spring.kafka.listener.client-id` | |Prefix for the listener's consumer client.id property.
+|`spring.kafka.listener.idle-event-interval` | |Time between publishing idle consumer events (no data received).
+|`spring.kafka.listener.log-container-config` | |Whether to log the container configuration during initialization (INFO level).
+|`spring.kafka.listener.monitor-interval` | |Time between checks for non-responsive consumers.
+|`spring.kafka.listener.no-poll-threshold` | |Multiplier applied to "pollTimeout" to determine if a consumer is non-responsive.
+|`spring.kafka.listener.type` |`single` |Listener type.
+|`spring.kafka.producer.properties` | |Additional producer-specific properties used to configure the client.
+|`spring.kafka.producer.ssl.key-password` | |Password of the private key in the key store file.
+|`spring.kafka.producer.ssl.keystore-location` | |Location of the key store file.
+|`spring.kafka.producer.ssl.keystore-password` | |Store password for the key store file.
+|`spring.kafka.producer.ssl.truststore-location` | |Location of the trust store file.
+|`spring.kafka.producer.ssl.truststore-password` | |Store password for the trust store file.
+|`spring.kafka.producer.transaction-id-prefix` | |When non empty, enables transaction support for producer.
+|`spring.ldap.anonymous-read-only` |`false` |Whether read-only operations should use an anonymous environment.
+|`spring.liquibase.change-log` |`classpath:/db/changelog/db.changelog-master.yaml` |Change log configuration path.
+|`spring.liquibase.check-change-log-location` |`true` |Whether to check that the change log location exists.
+|`spring.liquibase.contexts` | |Comma-separated list of runtime contexts to use.
+|`spring.liquibase.default-schema` | |Default database schema.
+|`spring.liquibase.drop-first` |`false` |Whether to first drop the database schema.
+|`spring.liquibase.enabled` |`true` |Whether to enable Liquibase support.
+|`spring.liquibase.labels` | |Comma-separated list of runtime labels to use.
+|`spring.liquibase.parameters` | |Change log parameters.
+|`spring.liquibase.password` | |Login password of the database to migrate.
+|`spring.liquibase.rollback-file` | |File to which rollback SQL is written when an update is performed.
+|`spring.liquibase.url` | |JDBC URL of the database to migrate.
+|`spring.liquibase.user` | |Login user of the database to migrate.
+|`spring.main.web-application-type` | |Flag to explicitly request a specific type of web application.
+|`spring.messages.cache-duration` | |Loaded resource bundle files cache duration.
+|`spring.messages.use-code-as-default-message` |`false` |Whether to use the message code as the default message instead of throwing a "NoSuchMessageException".
+|`spring.mvc.contentnegotiation.favor-parameter` |`false` |Whether a request parameter ("format" by default) should be used to determine the requested media type.
+|`spring.mvc.contentnegotiation.favor-path-extension` |`false` |Whether the path extension in the URL path should be used to determine the requested media type.
+|`spring.mvc.contentnegotiation.media-types` | |Map file extensions to media types for content negotiation.
+|`spring.mvc.contentnegotiation.parameter-name` | |Query parameter name to use when "favor-parameter" is enabled.
+|`spring.mvc.pathmatch.use-registered-suffix-pattern` |`false` |Whether suffix pattern matching should work only against extensions registered with "spring.mvc.contentnegotiation.media-types.*".
+|`spring.mvc.pathmatch.use-suffix-pattern` |`false` |Whether to use suffix pattern match (".*") when matching patterns to requests.
+|`spring.quartz.jdbc.initialize-schema` |`embedded` |Database schema initialization mode.
+|`spring.quartz.jdbc.schema` |`classpath:org/quartz/impl/jdbcjobstore/tables_@@platform@@.sql` |Path to the SQL file to use to initialize the database schema.
+|`spring.quartz.job-store-type` |`memory` |Quartz job store type.
+|`spring.quartz.properties` | |Additional Quartz Scheduler properties.
+|`spring.rabbitmq.listener.direct.acknowledge-mode` | |Acknowledge mode of container.
+|`spring.rabbitmq.listener.direct.auto-startup` |`true` |Whether to start the container automatically on startup.
+|`spring.rabbitmq.listener.direct.consumers-per-queue` | |Number of consumers per queue.
+|`spring.rabbitmq.listener.direct.default-requeue-rejected` | |Whether rejected deliveries are re-queued by default.
+|`spring.rabbitmq.listener.direct.idle-event-interval` | |How often idle container events should be published.
+|`spring.rabbitmq.listener.direct.prefetch` | |Number of messages to be handled in a single request.
+|`spring.rabbitmq.listener.direct.retry.enabled` |`false` |Whether publishing retries are enabled.
+|`spring.rabbitmq.listener.direct.retry.initial-interval` |`1000ms` |Duration between the first and second attempt to deliver a message.
+|`spring.rabbitmq.listener.direct.retry.max-attempts` |`3` |Maximum number of attempts to deliver a message.
+|`spring.rabbitmq.listener.direct.retry.max-interval` |`10000ms` |Maximum duration between attempts.
+|`spring.rabbitmq.listener.direct.retry.multiplier` |`1` |Multiplier to apply to the previous retry interval.
+|`spring.rabbitmq.listener.direct.retry.stateless` |`true` |Whether retries are stateless or stateful.
+|`spring.rabbitmq.listener.type` |`simple` |Listener container type.
+|`spring.rabbitmq.ssl.key-store-type` |`PKCS12` |Key store type.
+|`spring.rabbitmq.ssl.trust-store-type` |`JKS` |Trust store type.
+|`spring.rabbitmq.template.exchange` |`` |Name of the default exchange to use for send operations.
+|`spring.rabbitmq.template.routing-key` |`` |Value of a default routing key to use for send operations.
+|`spring.reactor.stacktrace-mode.enabled` |`false` |Whether Reactor should collect stacktrace information at runtime.
+|`spring.redis.jedis.pool.max-active` |`8` |Maximum number of connections that can be allocated by the pool at a given time.
+|`spring.redis.jedis.pool.max-idle` |`8` |Maximum number of "idle" connections in the pool.
+|`spring.redis.jedis.pool.max-wait` |`-1ms` |Maximum amount of time a connection allocation should block before throwing an exception when the pool is exhausted.
+|`spring.redis.jedis.pool.min-idle` |`0` |Target for the minimum number of idle connections to maintain in the pool.
+|`spring.redis.lettuce.pool.max-active` |`8` |Maximum number of connections that can be allocated by the pool at a given time.
+|`spring.redis.lettuce.pool.max-idle` |`8` |Maximum number of "idle" connections in the pool.
+|`spring.redis.lettuce.pool.max-wait` |`-1ms` |Maximum amount of time a connection allocation should block before throwing an exception when the pool is exhausted.
+|`spring.redis.lettuce.pool.min-idle` |`0` |Target for the minimum number of idle connections to maintain in the pool.
+|`spring.redis.lettuce.shutdown-timeout` |`100ms` |Shutdown timeout.
+|`spring.resources.cache.cachecontrol.cache-private` | |Indicate that the response message is intended for a single user and must not be stored by a shared cache.
+|`spring.resources.cache.cachecontrol.cache-public` | |Indicate that any cache may store the response.
+|`spring.resources.cache.cachecontrol.max-age` | |Maximum time the response should be cached, in seconds if no duration suffix is not specified.
+|`spring.resources.cache.cachecontrol.must-revalidate` | |Indicate that once it has become stale, a cache must not use the response without re-validating it with the server.
+|`spring.resources.cache.cachecontrol.no-cache` | |Indicate that the cached response can be reused only if re-validated with the server.
+|`spring.resources.cache.cachecontrol.no-store` | |Indicate to not cache the response in any case.
+|`spring.resources.cache.cachecontrol.no-transform` | |Indicate intermediaries (caches and others) that they should not transform the response content.
+|`spring.resources.cache.cachecontrol.proxy-revalidate` | |Same meaning as the "must-revalidate" directive, except that it does not apply to private caches.
+|`spring.resources.cache.cachecontrol.s-max-age` | |Maximum time the response should be cached by shared caches, in seconds if no duration suffix is not specified.
+|`spring.resources.cache.cachecontrol.stale-if-error` | |Maximum time the response may be used when errors are encountered, in seconds if no duration suffix is not specified.
+|`spring.resources.cache.cachecontrol.stale-while-revalidate` | |Maximum time the response can be served after it becomes stale, in seconds if no duration suffix is not specified.
+|`spring.resources.cache.period` | |Cache period for the resources served by the resource handler.
+|`spring.security.filter.dispatcher-types` |`async,error,request` |Security filter chain dispatcher types.
+|`spring.security.filter.order` |`-100` |Security filter chain order.
+|`spring.security.oauth2.client.provider` | |OAuth provider details.
+|`spring.security.oauth2.client.registration` | |OAuth client registrations.
+|`spring.security.user.name` |`user` |Default user name.
+|`spring.security.user.password` | |Password for the default user name.
+|`spring.security.user.roles` | |Granted roles for the default user name.
+|`spring.servlet.multipart.enabled` |`true` |Whether to enable support of multipart uploads.
+|`spring.servlet.multipart.file-size-threshold` |`0` |Threshold after which files are written to disk.
+|`spring.servlet.multipart.location` | |Intermediate location of uploaded files.
+|`spring.servlet.multipart.max-file-size` |`1MB` |Max file size.
+|`spring.servlet.multipart.max-request-size` |`10MB` |Max request size.
+|`spring.servlet.multipart.resolve-lazily` |`false` |Whether to resolve the multipart request lazily at the time of file or parameter access.
+|`spring.session.jdbc.cleanup-cron` |`0 * * * * *` |Cron expression for expired session cleanup job.
+|`spring.session.jdbc.initialize-schema` |`embedded` |Database schema initialization mode.
+|`spring.session.mongodb.collection-name` |`sessions` |Collection name used to store sessions.
+|`spring.session.redis.cleanup-cron` |`0 * * * * *` |Cron expression for expired session cleanup job.
+|`spring.session.servlet.filter-dispatcher-types` |`async,error,request` |Session repository filter dispatcher types.
+|`spring.session.servlet.filter-order` | |Session repository filter order.
+|`spring.thymeleaf.enable-spring-el-compiler` |`false` |Enable the SpringEL compiler in SpringEL expressions.
+|`spring.thymeleaf.reactive.chunked-mode-view-names` | |Comma-separated list of view names (patterns allowed) that should be the only ones executed in CHUNKED mode when a max chunk size is set.
+|`spring.thymeleaf.reactive.full-mode-view-names` | |Comma-separated list of view names (patterns allowed) that should be executed in FULL mode even if a max chunk size is set.
+|`spring.thymeleaf.reactive.max-chunk-size` |`0` |Maximum size of data buffers used for writing to the response, in bytes.
+|`spring.thymeleaf.reactive.media-types` | |Media types supported by the view technology.
+|`spring.thymeleaf.servlet.content-type` |`text/html` |Content-Type value written to HTTP responses.
+|`spring.webflux.date-format` | |Date format to use.
+|`spring.webflux.static-path-pattern` |`/**` |Path pattern used for static resources.
+|`spring.webservices.wsdl-locations` | |Comma-separated list of locations of WSDLs and accompanying XSDs to be exposed as beans.
+|======================
+
+.Removed keys in `2.0.0.RELEASE``
+|======================
+|Key  |Replacement |Reason
+|`banner.charset` |`spring.banner.charset` |
+|`banner.image.height` |`spring.banner.image.height` |
+|`banner.image.invert` |`spring.banner.image.invert` |
+|`banner.image.location` |`spring.banner.image.location` |
+|`banner.image.margin` |`spring.banner.image.margin` |
+|`banner.image.width` |`spring.banner.image.width` |
+|`banner.location` |`spring.banner.location` |
+|`endpoints.actuator.enabled` | |The "actuator" endpoint is no longer available.
+|`endpoints.actuator.path` | |The "actuator" endpoint is no longer available.
+|`endpoints.actuator.sensitive` | |The "actuator" endpoint is no longer available.
+|`endpoints.auditevents.enabled` |`management.endpoint.auditevents.enabled` |
+|`endpoints.auditevents.path` |`management.endpoints.web.path-mapping.auditevents` |
+|`endpoints.auditevents.sensitive` | |Endpoint sensitive flag is no longer customizable as Spring Boot no longer provides a customizable security auto-configuration .
+|`endpoints.autoconfig.enabled` |`management.endpoint.conditions.enabled` |
+|`endpoints.autoconfig.id` | |Endpoint identifier is no longer customizable.
+|`endpoints.autoconfig.path` |`management.endpoints.web.path-mapping.conditions` |
+|`endpoints.autoconfig.sensitive` | |Endpoint sensitive flag is no longer customizable as Spring Boot no longer provides a customizable security auto-configuration .
+|`endpoints.beans.enabled` |`management.endpoint.beans.enabled` |
+|`endpoints.beans.id` | |Endpoint identifier is no longer customizable.
+|`endpoints.beans.path` |`management.endpoints.web.path-mapping.beans` |
+|`endpoints.beans.sensitive` | |Endpoint sensitive flag is no longer customizable as Spring Boot no longer provides a customizable security auto-configuration .
+|`endpoints.configprops.enabled` |`management.endpoint.configprops.enabled` |
+|`endpoints.configprops.id` | |Endpoint identifier is no longer customizable.
+|`endpoints.configprops.keys-to-sanitize` |`management.endpoint.configprops.keys-to-sanitize` |
+|`endpoints.configprops.path` |`management.endpoints.web.path-mapping.configprops` |
+|`endpoints.configprops.sensitive` | |Endpoint sensitive flag is no longer customizable as Spring Boot no longer provides a customizable security auto-configuration .
+|`endpoints.cors.allow-credentials` |`management.endpoints.web.cors.allow-credentials` |
+|`endpoints.cors.allowed-headers` |`management.endpoints.web.cors.allowed-headers` |
+|`endpoints.cors.allowed-methods` |`management.endpoints.web.cors.allowed-methods` |
+|`endpoints.cors.allowed-origins` |`management.endpoints.web.cors.allowed-origins` |
+|`endpoints.cors.exposed-headers` |`management.endpoints.web.cors.exposed-headers` |
+|`endpoints.cors.max-age` |`management.endpoints.web.cors.max-age` |
+|`endpoints.docs.curies.enabled` | |The "docs" endpoint is no longer available.
+|`endpoints.docs.enabled` | |The "docs" endpoint is no longer available.
+|`endpoints.docs.path` | |The "docs" endpoint is no longer available.
+|`endpoints.docs.sensitive` | |The "docs" endpoint is no longer available.
+|`endpoints.dump.enabled` |`management.endpoint.threaddump.enabled` |
+|`endpoints.dump.id` | |Endpoint identifier is no longer customizable.
+|`endpoints.dump.path` |`management.endpoints.web.path-mapping.dump` |
+|`endpoints.dump.sensitive` | |Endpoint sensitive flag is no longer customizable as Spring Boot no longer provides a customizable security auto-configuration .
+|`endpoints.enabled` |`management.endpoints.enabled-by-default` |
+|`endpoints.env.enabled` |`management.endpoint.env.enabled` |
+|`endpoints.env.id` | |Endpoint identifier is no longer customizable.
+|`endpoints.env.keys-to-sanitize` |`management.endpoint.env.keys-to-sanitize` |
+|`endpoints.env.path` |`management.endpoints.web.path-mapping.env` |
+|`endpoints.env.sensitive` | |Endpoint sensitive flag is no longer customizable as Spring Boot no longer provides a customizable security auto-configuration .
+|`endpoints.flyway.enabled` |`management.endpoint.flyway.enabled` |
+|`endpoints.flyway.id` | |Endpoint identifier is no longer customizable.
+|`endpoints.flyway.sensitive` | |Endpoint sensitive flag is no longer customizable as Spring Boot no longer provides a customizable security auto-configuration .
+|`endpoints.health.enabled` |`management.endpoint.health.enabled` |
+|`endpoints.health.id` | |Endpoint identifier is no longer customizable.
+|`endpoints.health.mapping` |`management.health.status.http-mapping` |
+|`endpoints.health.path` |`management.endpoints.web.path-mapping.health` |
+|`endpoints.health.sensitive` | |Endpoint sensitive flag is no longer customizable as Spring Boot no longer provides a customizable security auto-configuration .
+|`endpoints.health.time-to-live` |`management.endpoint.health.cache.time-to-live` |
+|`endpoints.heapdump.enabled` |`management.endpoint.heapdump.enabled` |
+|`endpoints.heapdump.path` |`management.endpoints.web.path-mapping.heapdump` |
+|`endpoints.heapdump.sensitive` | |Endpoint sensitive flag is no longer customizable as Spring Boot no longer provides a customizable security auto-configuration .
+|`endpoints.hypermedia.enabled` | |Hypermedia support in the Actuator is no longer available.
+|`endpoints.info.enabled` |`management.endpoint.info.enabled` |
+|`endpoints.info.id` | |Endpoint identifier is no longer customizable.
+|`endpoints.info.path` |`management.endpoints.web.path-mapping.info` |
+|`endpoints.info.sensitive` | |Endpoint sensitive flag is no longer customizable as Spring Boot no longer provides a customizable security auto-configuration .
+|`endpoints.jmx.domain` |`management.endpoints.jmx.domain` |
+|`endpoints.jmx.enabled` |`management.endpoints.jmx.exposure.exclude` |
+|`endpoints.jmx.static-names` |`management.endpoints.jmx.static-names` |
+|`endpoints.jmx.unique-names` |`management.endpoints.jmx.unique-names` |
+|`endpoints.jolokia.enabled` |`management.endpoint.jolokia.enabled` |
+|`endpoints.jolokia.path` |`management.endpoints.web.path-mapping.jolokia` |
+|`endpoints.jolokia.sensitive` | |Endpoint sensitive flag is no longer customizable as Spring Boot no longer provides a customizable security auto-configuration .
+|`endpoints.liquibase.enabled` |`management.endpoint.liquibase.enabled` |
+|`endpoints.liquibase.id` | |Endpoint identifier is no longer customizable.
+|`endpoints.liquibase.sensitive` | |Endpoint sensitive flag is no longer customizable as Spring Boot no longer provides a customizable security auto-configuration .
+|`endpoints.logfile.enabled` |`management.endpoint.logfile.enabled` |
+|`endpoints.logfile.external-file` |`management.endpoint.logfile.external-file` |
+|`endpoints.logfile.path` |`management.endpoints.web.path-mapping.logfile` |
+|`endpoints.logfile.sensitive` | |Endpoint sensitive flag is no longer customizable as Spring Boot no longer provides a customizable security auto-configuration .
+|`endpoints.loggers.enabled` |`management.endpoint.loggers.enabled` |
+|`endpoints.loggers.id` | |Endpoint identifier is no longer customizable.
+|`endpoints.loggers.path` |`management.endpoints.web.path-mapping.loggers` |
+|`endpoints.loggers.sensitive` | |Endpoint sensitive flag is no longer customizable as Spring Boot no longer provides a customizable security auto-configuration .
+|`endpoints.mappings.enabled` |`management.endpoint.mappings.enabled` |
+|`endpoints.mappings.id` | |Endpoint identifier is no longer customizable.
+|`endpoints.mappings.path` |`management.endpoints.web.path-mapping.mappings` |
+|`endpoints.mappings.sensitive` | |Endpoint sensitive flag is no longer customizable as Spring Boot no longer provides a customizable security auto-configuration .
+|`endpoints.metrics.enabled` |`management.endpoint.metrics.enabled` |
+|`endpoints.metrics.filter.counter-submissions` | |Metrics support is now using Micrometer.
+|`endpoints.metrics.filter.enabled` | |Metrics support is now using Micrometer.
+|`endpoints.metrics.filter.gauge-submissions` | |Metrics support is now using Micrometer.
+|`endpoints.metrics.id` | |Endpoint identifier is no longer customizable.
+|`endpoints.metrics.path` |`management.endpoints.web.path-mapping.metrics` |
+|`endpoints.metrics.sensitive` | |Endpoint sensitive flag is no longer customizable as Spring Boot no longer provides a customizable security auto-configuration .
+|`endpoints.sensitive` | |Endpoint sensitive flag is no longer customizable as Spring Boot no longer provides a customizable security auto-configuration .
+|`endpoints.shutdown.enabled` |`management.endpoint.shutdown.enabled` |
+|`endpoints.shutdown.id` | |Endpoint identifier is no longer customizable.
+|`endpoints.shutdown.path` |`management.endpoints.web.path-mapping.shutdown` |
+|`endpoints.shutdown.sensitive` | |Endpoint sensitive flag is no longer customizable as Spring Boot no longer provides a customizable security auto-configuration .
+|`endpoints.trace.enabled` |`management.endpoint.httptrace.enabled` |
+|`endpoints.trace.filter.enabled` |`management.trace.http.enabled` |
+|`endpoints.trace.id` | |Endpoint identifier is no longer customizable.
+|`endpoints.trace.path` |`management.endpoints.web.path-mapping.httptrace` |
+|`endpoints.trace.sensitive` | |Endpoint sensitive flag is no longer customizable as Spring Boot no longer provides a customizable security auto-configuration .
+|`error.path` | |Path of the error controller.
+|`flyway.baseline-description` |`spring.flyway.baseline-description` |
+|`flyway.baseline-on-migrate` |`spring.flyway.baseline-on-migrate` |
+|`flyway.baseline-version` |`spring.flyway.baseline-version` |
+|`flyway.check-location` |`spring.flyway.check-location` |
+|`flyway.clean-on-validation-error` |`spring.flyway.clean-on-validation-error` |
+|`flyway.enabled` |`spring.flyway.enabled` |
+|`flyway.encoding` |`spring.flyway.encoding` |
+|`flyway.ignore-failed-future-migration` | |
+|`flyway.init-sqls` |`spring.flyway.init-sqls` |
+|`flyway.locations` |`spring.flyway.locations` |
+|`flyway.out-of-order` |`spring.flyway.out-of-order` |
+|`flyway.password` |`spring.flyway.password` |
+|`flyway.placeholder-prefix` |`spring.flyway.placeholder-prefix` |
+|`flyway.placeholder-replacement` |`spring.flyway.placeholder-replacement` |
+|`flyway.placeholder-suffix` |`spring.flyway.placeholder-suffix` |
+|`flyway.placeholders` |`spring.flyway.placeholders` |
+|`flyway.schemas` |`spring.flyway.schemas` |
+|`flyway.sql-migration-prefix` |`spring.flyway.sql-migration-prefix` |
+|`flyway.sql-migration-separator` |`spring.flyway.sql-migration-separator` |
+|`flyway.sql-migration-suffix` |`spring.flyway.sql-migration-suffixes` |
+|`flyway.table` |`spring.flyway.table` |
+|`flyway.target` |`spring.flyway.target` |
+|`flyway.url` |`spring.flyway.url` |
+|`flyway.user` |`spring.flyway.user` |
+|`flyway.validate-on-migrate` |`spring.flyway.validate-on-migrate` |
+|`jolokia.config` |`management.endpoint.jolokia.config` |
+|`liquibase.change-log` |`spring.liquibase.change-log` |
+|`liquibase.check-change-log-location` |`spring.liquibase.check-change-log-location` |
+|`liquibase.contexts` |`spring.liquibase.contexts` |
+|`liquibase.default-schema` |`spring.liquibase.default-schema` |
+|`liquibase.drop-first` |`spring.liquibase.drop-first` |
+|`liquibase.enabled` |`spring.liquibase.enabled` |
+|`liquibase.labels` |`spring.liquibase.labels` |
+|`liquibase.parameters` |`spring.liquibase.parameters` |
+|`liquibase.password` |`spring.liquibase.password` |
+|`liquibase.rollback-file` |`spring.liquibase.rollback-file` |
+|`liquibase.url` |`spring.liquibase.url` |
+|`liquibase.user` |`spring.liquibase.user` |
+|`management.add-application-context-header` |`management.server.add-application-context-header` |
+|`management.address` |`management.server.address` |
+|`management.context-path` |`management.server.servlet.context-path` |
+|`management.port` |`management.server.port` |
+|`management.security.enabled` | |A global security auto-configuration is now provided.
+|`management.security.roles` | |The security auto-configuration is no longer customizable.
+|`management.security.sessions` | |The security auto-configuration is no longer customizable.
+|`management.shell.auth.jaas.domain` | |CRaSH support is no longer available.
+|`management.shell.auth.key.path` | |CRaSH support is no longer available.
+|`management.shell.auth.simple.user.name` | |CRaSH support is no longer available.
+|`management.shell.auth.simple.user.password` | |CRaSH support is no longer available.
+|`management.shell.auth.spring.roles` | |CRaSH support is no longer available.
+|`management.shell.auth.type` | |CRaSH support is no longer available.
+|`management.shell.ssh.auth-timeout` | |CRaSH support is no longer available.
+|`management.shell.ssh.enabled` | |CRaSH support is no longer available.
+|`management.shell.ssh.idle-timeout` | |CRaSH support is no longer available.
+|`management.shell.ssh.key-path` | |CRaSH support is no longer available.
+|`management.shell.ssh.port` | |CRaSH support is no longer available.
+|`management.shell.telnet.enabled` | |CRaSH support is no longer available.
+|`management.shell.telnet.port` | |CRaSH support is no longer available.
+|`management.ssl.ciphers` |`management.server.ssl.ciphers` |
+|`management.ssl.client-auth` |`management.server.ssl.client-auth` |
+|`management.ssl.enabled` |`management.server.ssl.enabled` |
+|`management.ssl.enabled-protocols` |`management.server.ssl.enabled-protocols` |
+|`management.ssl.key-alias` |`management.server.ssl.key-alias` |
+|`management.ssl.key-password` |`management.server.ssl.key-password` |
+|`management.ssl.key-store` |`management.server.ssl.key-store` |
+|`management.ssl.key-store-password` |`management.server.ssl.key-store-password` |
+|`management.ssl.key-store-provider` |`management.server.ssl.key-store-provider` |
+|`management.ssl.key-store-type` |`management.server.ssl.key-store-type` |
+|`management.ssl.protocol` |`management.server.ssl.protocol` |
+|`management.ssl.trust-store` |`management.server.ssl.trust-store` |
+|`management.ssl.trust-store-password` |`management.server.ssl.trust-store-password` |
+|`management.ssl.trust-store-provider` |`management.server.ssl.trust-store-provider` |
+|`management.ssl.trust-store-type` |`management.server.ssl.trust-store-type` |
+|`management.trace.include` |`management.trace.http.include` |
+|`security.basic.authorize-mode` | |The security auto-configuration is no longer customizable.
+|`security.basic.enabled` | |The security auto-configuration is no longer customizable.
+|`security.basic.path` | |The security auto-configuration is no longer customizable.
+|`security.basic.realm` | |The security auto-configuration is no longer customizable.
+|`security.enable-csrf` | |The security auto-configuration is no longer customizable.
+|`security.filter-dispatcher-types` |`spring.security.filter.dispatcher-types` |
+|`security.filter-order` |`spring.security.filter.order` |
+|`security.headers.cache` | |The security auto-configuration is no longer customizable.
+|`security.headers.content-security-policy` | |The security auto-configuration is no longer customizable.
+|`security.headers.content-security-policy-mode` | |The security auto-configuration is no longer customizable.
+|`security.headers.content-type` | |The security auto-configuration is no longer customizable.
+|`security.headers.frame` | |The security auto-configuration is no longer customizable.
+|`security.headers.hsts` | |The security auto-configuration is no longer customizable.
+|`security.headers.xss` | |The security auto-configuration is no longer customizable.
+|`security.ignored` | |The security auto-configuration is no longer customizable.
+|`security.oauth2.authorization.check-token-access` | |Spring Security access rule for the check token endpoint (e.g. a SpEL expression like "isAuthenticated()") .
+|`security.oauth2.authorization.realm` | |Realm name for client authentication.
+|`security.oauth2.authorization.token-key-access` | |Spring Security access rule for the token key endpoint (e.g. a SpEL expression like "isAuthenticated()").
+|`security.oauth2.client.access-token-uri` | |
+|`security.oauth2.client.access-token-validity-seconds` | |
+|`security.oauth2.client.additional-information` | |
+|`security.oauth2.client.authentication-scheme` | |
+|`security.oauth2.client.authorities` | |
+|`security.oauth2.client.authorized-grant-types` | |
+|`security.oauth2.client.auto-approve-scopes` | |
+|`security.oauth2.client.client-authentication-scheme` | |
+|`security.oauth2.client.client-id` | |
+|`security.oauth2.client.client-secret` | |
+|`security.oauth2.client.grant-type` | |
+|`security.oauth2.client.id` | |
+|`security.oauth2.client.pre-established-redirect-uri` | |
+|`security.oauth2.client.refresh-token-validity-seconds` | |
+|`security.oauth2.client.registered-redirect-uri` | |
+|`security.oauth2.client.resource-ids` | |
+|`security.oauth2.client.scope` | |
+|`security.oauth2.client.token-name` | |
+|`security.oauth2.client.use-current-uri` | |
+|`security.oauth2.client.user-authorization-uri` | |
+|`security.oauth2.resource.filter-order` |`0` |The order of the filter chain used to authenticate tokens.
+|`security.oauth2.resource.id` | |Identifier of the resource.
+|`security.oauth2.resource.jwk.key-set-uri` | |The URI to get verification keys to verify the JWT token.
+|`security.oauth2.resource.jwt.key-uri` | |The URI of the JWT token.
+|`security.oauth2.resource.jwt.key-value` | |The verification key of the JWT token.
+|`security.oauth2.resource.prefer-token-info` |`true` |Use the token info, can be set to false to use the user info.
+|`security.oauth2.resource.service-id` |`resource` |
+|`security.oauth2.resource.token-info-uri` | |URI of the token decoding endpoint.
+|`security.oauth2.resource.token-type` | |The token type to send when using the userInfoUri.
+|`security.oauth2.resource.user-info-uri` | |URI of the user endpoint.
+|`security.oauth2.sso.filter-order` | |Filter order to apply if not providing an explicit WebSecurityConfigurerAdapter (in which case the order can be provided there instead).
+|`security.oauth2.sso.login-path` |`/login` |Path to the login page, i.e. the one that triggers the redirect to the OAuth2 Authorization Server.
+|`security.require-ssl` | |The security auto-configuration is no longer customizable.
+|`security.sessions` | |The security auto-configuration is no longer customizable.
+|`security.user.name` |`spring.security.user.name` |
+|`security.user.password` |`spring.security.user.password` |
+|`security.user.role` |`spring.security.user.roles` |
+|`server.context-parameters` |`server.servlet.context-parameters` |
+|`server.context-path` |`server.servlet.context-path` |
+|`server.display-name` |`server.servlet.application-display-name` |
+|`server.jsp-servlet.class-name` |`server.servlet.jsp.class-name` |
+|`server.jsp-servlet.init-parameters` |`server.servlet.jsp.init-parameters` |
+|`server.jsp-servlet.registered` |`server.servlet.jsp.registered` |
+|`server.servlet-path` |`server.servlet.path` |
+|`server.session.cookie.comment` |`server.servlet.session.cookie.comment` |
+|`server.session.cookie.domain` |`server.servlet.session.cookie.domain` |
+|`server.session.cookie.http-only` |`server.servlet.session.cookie.http-only` |
+|`server.session.cookie.max-age` |`server.servlet.session.cookie.max-age` |
+|`server.session.cookie.name` |`server.servlet.session.cookie.name` |
+|`server.session.cookie.path` |`server.servlet.session.cookie.path` |
+|`server.session.cookie.secure` |`server.servlet.session.cookie.secure` |
+|`server.session.persistent` |`server.servlet.session.persistent` |
+|`server.session.store-dir` |`server.servlet.session.store-dir` |
+|`server.session.timeout` |`server.servlet.session.timeout` |
+|`server.session.tracking-modes` |`server.servlet.session.tracking-modes` |
+|`spring.activemq.pool.configuration.block-if-session-pool-is-full` | |
+|`spring.activemq.pool.configuration.block-if-session-pool-is-full-timeout` | |
+|`spring.activemq.pool.configuration.connection-factory` | |
+|`spring.activemq.pool.configuration.create-connection-on-startup` | |
+|`spring.activemq.pool.configuration.expiry-timeout` | |
+|`spring.activemq.pool.configuration.idle-timeout` | |
+|`spring.activemq.pool.configuration.max-connections` | |
+|`spring.activemq.pool.configuration.maximum-active-session-per-connection` | |
+|`spring.activemq.pool.configuration.properties` | |
+|`spring.activemq.pool.configuration.reconnect-on-exception` | |
+|`spring.activemq.pool.configuration.time-between-expiration-check-millis` | |
+|`spring.activemq.pool.configuration.use-anonymous-producers` | |
+|`spring.application.index` | |Application context ids are now unique by default.
+|`spring.batch.initializer.enabled` |`spring.batch.initialize-schema` |
+|`spring.cache.guava.spec` | |The spec to use to create caches.
+|`spring.cache.hazelcast.config` | |The location of the configuration file to use to initialize Hazelcast.
+|`spring.data.cassandra.connect-timeout-millis` |`spring.data.cassandra.connect-timeout` |
+|`spring.data.cassandra.read-timeout-millis` |`spring.data.cassandra.read-timeout` |
+|`spring.data.cassandra.repositories.enabled` |`spring.data.cassandra.repositories.type` |
+|`spring.data.couchbase.repositories.enabled` |`spring.data.couchbase.repositories.type` |
+|`spring.data.mongodb.repositories.enabled` |`spring.data.mongodb.repositories.type` |
+|`spring.data.neo4j.compiler` | |Not supported anymore as of Neo4j 3.
+|`spring.datasource.dbcp.access-to-underlying-connection-allowed` | |
+|`spring.datasource.dbcp.connection-init-sqls` | |
+|`spring.datasource.dbcp.default-auto-commit` | |
+|`spring.datasource.dbcp.default-catalog` | |
+|`spring.datasource.dbcp.default-read-only` | |
+|`spring.datasource.dbcp.default-transaction-isolation` | |
+|`spring.datasource.dbcp.driver-class-name` | |
+|`spring.datasource.dbcp.initial-size` | |
+|`spring.datasource.dbcp.log-abandoned` | |
+|`spring.datasource.dbcp.login-timeout` | |
+|`spring.datasource.dbcp.max-active` | |
+|`spring.datasource.dbcp.max-idle` | |
+|`spring.datasource.dbcp.max-open-prepared-statements` | |
+|`spring.datasource.dbcp.max-wait` | |
+|`spring.datasource.dbcp.min-evictable-idle-time-millis` | |
+|`spring.datasource.dbcp.min-idle` | |
+|`spring.datasource.dbcp.num-tests-per-eviction-run` | |
+|`spring.datasource.dbcp.password` | |
+|`spring.datasource.dbcp.pool-prepared-statements` | |
+|`spring.datasource.dbcp.remove-abandoned` | |
+|`spring.datasource.dbcp.remove-abandoned-timeout` | |
+|`spring.datasource.dbcp.test-on-borrow` | |
+|`spring.datasource.dbcp.test-on-return` | |
+|`spring.datasource.dbcp.test-while-idle` | |
+|`spring.datasource.dbcp.time-between-eviction-runs-millis` | |
+|`spring.datasource.dbcp.url` | |
+|`spring.datasource.dbcp.username` | |
+|`spring.datasource.dbcp.validation-query` | |
+|`spring.datasource.dbcp.validation-query-timeout` | |
+|`spring.datasource.hikari.connection-customizer-class-name` | |
+|`spring.datasource.initialize` |`spring.datasource.initialization-mode` |
+|`spring.devtools.remote.debug.enabled` | |Remote debug is no longer supported.
+|`spring.devtools.remote.debug.local-port` | |Remote debug is no longer supported.
+|`spring.http.multipart.enabled` |`spring.servlet.multipart.enabled` |
+|`spring.http.multipart.file-size-threshold` |`spring.servlet.multipart.file-size-threshold` |
+|`spring.http.multipart.location` |`spring.servlet.multipart.location` |
+|`spring.http.multipart.max-file-size` |`spring.servlet.multipart.max-file-size` |
+|`spring.http.multipart.max-request-size` |`spring.servlet.multipart.max-request-size` |
+|`spring.http.multipart.resolve-lazily` |`spring.servlet.multipart.resolve-lazily` |
+|`spring.jpa.hibernate.naming.strategy` | |Auto-configuration for Hibernate 4 is no longer provided.
+|`spring.jta.atomikos.properties.console-log-level` |`warn` |
+|`spring.messages.cache-seconds` |`spring.messages.cache-duration` |
+|`spring.metrics.export.aggregate.key-pattern` | |Metrics support is now using Micrometer.
+|`spring.metrics.export.aggregate.prefix` | |Metrics support is now using Micrometer.
+|`spring.metrics.export.delay-millis` | |Metrics support is now using Micrometer.
+|`spring.metrics.export.enabled` | |Metrics support is now using Micrometer.
+|`spring.metrics.export.excludes` | |Metrics support is now using Micrometer.
+|`spring.metrics.export.includes` | |Metrics support is now using Micrometer.
+|`spring.metrics.export.redis.key` | |Metrics support is now using Micrometer.
+|`spring.metrics.export.redis.prefix` | |Metrics support is now using Micrometer.
+|`spring.metrics.export.send-latest` | |Metrics support is now using Micrometer.
+|`spring.metrics.export.statsd.host` |`management.metrics.export.statsd.host` |
+|`spring.metrics.export.statsd.port` |`management.metrics.export.statsd.port` |
+|`spring.metrics.export.statsd.prefix` | |Metrics support is now using Micrometer.
+|`spring.metrics.export.triggers` | |Metrics support is now using Micrometer.
+|`spring.mobile.devicedelegatingviewresolver.enable-fallback` |`false` |Enable support for fallback resolution.
+|`spring.mobile.devicedelegatingviewresolver.enabled` |`false` |Enable device view resolver.
+|`spring.mobile.devicedelegatingviewresolver.mobile-prefix` |`mobile/` |Prefix that gets prepended to view names for mobile devices.
+|`spring.mobile.devicedelegatingviewresolver.mobile-suffix` |`` |Suffix that gets appended to view names for mobile devices.
+|`spring.mobile.devicedelegatingviewresolver.normal-prefix` |`` |Prefix that gets prepended to view names for normal devices.
+|`spring.mobile.devicedelegatingviewresolver.normal-suffix` |`` |Suffix that gets appended to view names for normal devices.
+|`spring.mobile.devicedelegatingviewresolver.tablet-prefix` |`tablet/` |Prefix that gets prepended to view names for tablet devices.
+|`spring.mobile.devicedelegatingviewresolver.tablet-suffix` |`` |Suffix that gets appended to view names for tablet devices.
+|`spring.mobile.sitepreference.enabled` |`true` |Enable SitePreferenceHandler.
+|`spring.mvc.media-types` |`spring.mvc.contentnegotiation.media-types` |
+|`spring.rabbitmq.listener.acknowledge-mode` | |
+|`spring.rabbitmq.listener.auto-startup` | |
+|`spring.rabbitmq.listener.concurrency` | |
+|`spring.rabbitmq.listener.default-requeue-rejected` | |
+|`spring.rabbitmq.listener.idle-event-interval` | |
+|`spring.rabbitmq.listener.max-concurrency` | |
+|`spring.rabbitmq.listener.prefetch` | |
+|`spring.rabbitmq.listener.retry.enabled` |`false` |Whether or not publishing retries are enabled.
+|`spring.rabbitmq.listener.retry.initial-interval` |`1000` |Interval between the first and second attempt to publish or deliver a message.
+|`spring.rabbitmq.listener.retry.max-attempts` |`3` |Maximum number of attempts to publish or deliver a message.
+|`spring.rabbitmq.listener.retry.max-interval` |`10000` |Maximum interval between attempts.
+|`spring.rabbitmq.listener.retry.multiplier` |`1` |A multiplier to apply to the previous retry interval.
+|`spring.rabbitmq.listener.retry.stateless` |`true` |Whether or not retries are stateless or stateful.
+|`spring.rabbitmq.listener.transaction-size` | |
+|`spring.redis.pool.max-active` |`spring.redis.jedis.pool.max-idle` |
+|`spring.redis.pool.max-idle` |`spring.redis.jedis.pool.max-idle` |
+|`spring.redis.pool.max-wait` |`spring.redis.jedis.pool.max-wait` |
+|`spring.redis.pool.min-idle` |`spring.redis.jedis.pool.min-idle` |
+|`spring.resources.cache-period` |`spring.resources.cache.period` |
+|`spring.sendgrid.password` | |The use of a username and password is no longer supported (Use spring.sendgrid.api-key instead).
+|`spring.sendgrid.username` | |The use of a username and password is no longer supported (Use spring.sendgrid.api-key instead).
+|`spring.session.jdbc.initializer.enabled` |`spring.session.jdbc.initialize-schema` |
+|`spring.session.mongo.collection-name` |`spring.session.mongodb.collection-name` |
+|`spring.social.auto-connection-views` |`false` |Enable the connection status view for supported providers.
+|`spring.social.facebook.app-id` | |Application id.
+|`spring.social.facebook.app-secret` | |Application secret.
+|`spring.social.linkedin.app-id` | |Application id.
+|`spring.social.linkedin.app-secret` | |Application secret.
+|`spring.social.twitter.app-id` | |Application id.
+|`spring.social.twitter.app-secret` | |Application secret.
+|`spring.thymeleaf.content-type` |`spring.thymeleaf.servlet.content-type` |
+|======================

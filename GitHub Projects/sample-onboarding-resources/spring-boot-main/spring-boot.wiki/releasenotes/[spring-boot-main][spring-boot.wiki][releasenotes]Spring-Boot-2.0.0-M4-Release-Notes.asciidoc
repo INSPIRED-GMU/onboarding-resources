@@ -1,0 +1,87 @@
+For changes in earlier milestones, please refer to:
+
+ - link:Spring-Boot-2.0.0-M1-Release-Notes[v2.0.0 M1]
+ - link:Spring-Boot-2.0.0-M2-Release-Notes[v2.0.0 M2]
+ - link:Spring-Boot-2.0.0-M3-Release-Notes[v2.0.0 M3]
+
+== Upgrading from Spring Boot 2.0.0 M3
+See instructions in the link:Spring-Boot-2.0.0-M3-Release-Notes[2.0.0.M3 release notes] for upgrading from v2.0.0.M2 and earlier.
+
+=== Actuator
+Spring Boot 2.0 brings *important changes* to the Actuator: you should expect changes in the programming model, configuration keys and the response format of some endpoints. Actuator is now natively supported on Spring MVC, Spring WebFlux and Jersey.
+
+NOTE: We are still working on this feature and expect some adaptation in future milestones so please reach out to us if you have trouble upgrading!
+
+==== Build
+The code of the Actuator has been split in two modules: the existing `spring-boot-actuator` and a new `spring-boot-actuator-autoconfigure`. If you were importing the actuator using its original module (`spring-boot-actuator`), please consider using the `spring-boot-starter-actuator` starter instead.
+
+==== User-facing changes
+Important user-facing changes include:
+
+* Spring Boot's own metrics have been replaced with support, including auto-configuration, for https://micrometer.io[Micrometer] and dimensional metrics. You can learn more about Micrometer in its https://micrometer.io/docs[user manual] and Spring Boot's https://docs.spring.io/spring-boot/docs/2.0.0.M4/reference/htmlsingle/#production-ready-metrics[reference guide] (https://github.com/spring-projects/spring-boot/pull/9970[#9970])
+* Endpoint's path are no longer configurable (i.e. `endpoints.<id>.path`)
+* The Hypermedia support has been simplified (link:https://github.com/spring-projects/spring-boot/issues/9901[#9901])
+* Regex-based matching now uses query parameters rather than path variables (link:https://github.com/spring-projects/spring-boot/issues/9796[#9796])
+* `/application/env` has a new format (link:https://github.com/spring-projects/spring-boot/issues/9864[#9864])
+* `/application/flyway` has a new format (link:https://github.com/spring-projects/spring-boot/issues/9973[#9973])
+* `/application/liquibase` has a new format (link:https://github.com/spring-projects/spring-boot/issues/9974[#9974])
+* `/application/health` has a new format (link:https://github.com/spring-projects/spring-boot/issues/10249[#10249]) and now exposes full details only. For a status-only output, a new `/application/status` is available (link:https://github.com/spring-projects/spring-boot/issues/9721[#9864])
+
+
+==== Migrate custom endpoints
+If you have custom actuator endpoints, please https://spring.io/blog/2017/08/22/introducing-actuator-endpoints-in-spring-boot-2-0[check out the dedicated blog post]. The team also wrote a wiki page that describes link:Migrating-a-custom-Actuator-endpoint-to-Spring-Boot-2[how to migrate your existing Actuator endpoints] to the new infrastructure.
+
+==== Security
+Another important change is that there is no longer a separate security auto-configuration for the Actuator:(`management.security.enabled`) no longer exists and web endpoints are disabled by default (`endpoints.default.web.enabled`) to prevent exposing sensitive information by default. The `sensitive` flag of each endpoint is also gone to make things more explicit in the security configuration. To restore the previous behaviour:
+
+1. Enable Actuator web endpoints: `endpoints.default.web.enabled=true` in your configuration
+2. Create or adapt your security configuration to secure endpoints with the role of your choice (see the `Security` section below)
+
+==== Configuration
+Some configuration elements have moved as well:
+
+* `endpoints.cors` to `management.endpoints.cors`
+* `endpoints.jmx` to `management.endpoints.jmx`
+* `endpoints.health.mapping` to `management.health.status.http-mapping`
+
+=== Security
+Security auto-configuration has been completely revisited: developers should read https://spring.io/blog/2017/09/15/security-changes-in-spring-boot-2-0-m4[the companion blog post] and refer to the link:Spring-Boot-Security-2.0[Spring Boot 2.0 Security wiki page] for more details about the change.
+
+=== Jolokia
+Jolokia is no longer an endpoint and is disabled by default for consistency with all web endpoints. Its configuration infrastructure has moved to `management.jolokia`.  To enable Jolokia, add `management.jolokia.enabled=true` to your configuration.
+
+=== Build
+Spring Boot now requires Gradle 4.x. (link:https://github.com/spring-projects/spring-boot/issues/9516[#9516])
+
+Maven projects are now compiled with the `-parameters` compiler flag by default. (link:https://github.com/spring-projects/spring-boot/issues/9323[#9323], see link:https://github.com/spring-projects/spring-boot/issues/9839[#9839] for Gradle support in 2.0.0.M5)
+
+=== Database Migration
+Liquibase and Flyway configuration keys were moved to the `spring` namespace (i.e. `spring.liquibase` and `spring.flyway` respectively).
+
+=== Auto-configuration ordering
+The default value of `@AutoConfigureOrder` has changed from `Ordered.LOWEST_PRECEDENCE` to `0`. (https://github.com/spring-projects/spring-boot/issues/10142[#10142])
+
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.0.0-M4-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+=== Actuator
+Already covered at large in the migration part, Actuator now runs natively on Spring MVC, Spring WebFlux and Jersey. Adding the dependency and enabling web endpoints (using for instance `endpoints.default.web.enabled`) is all that's required.
+
+=== Configuration migration assistance
+As Spring Boot 2 brings important configuration keys changes, we did our best to assist you with the migration of your configuration. Spring Boot now ships with deprecation metadata for configuration keys that were removed or relocated. Check out your favourite IDE auto-completion for extra help! (link:https://github.com/spring-projects/spring-boot/issues/10076[#10076])
+
+=== Detection of DataSource initialization
+If Flyway or Liquibase is managing the schema of your `DataSource` and you're using an embedded database, Spring Boot will now automatically switch off Hibernate's automatic DDL feature.
+
+=== Database initializer
+Database initialization for Spring Batch, Spring Integration, Spring Session and Quartz now occurs by default only when using and embedded database. The `enabled` property has been replaced with a more expressive enum. For example, if you want to always perform Spring Batch initialization you can set `spring.batch.initialize-schema=always`.
+
+=== Parameters compilation flag
+Maven-based applications using `spring-boot-starter-parent` use the `-parameters` flag by default.
+
+=== Auto-configuration test utilities
+A new link:https://github.com/spring-projects/spring-boot/tree/f6134a8862889bc6a3cb758c75fedfc6b2d74693/spring-boot-test/src/main/java/org/springframework/boot/test/context/runner[`ApplicationContextRunner` test utility] makes it very easy to test your auto-configurations. We're moving all our test suite to this new model. A dedicated section in the reference documentation is expected for the next milestone.
+
+=== Java 9 support
+We've started to work on Java 9 support and full support has not been reached yet. Please report any issue you encounter with Java 9.

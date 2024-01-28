@@ -1,0 +1,177 @@
+:actuator-docs: https://docs.spring.io/spring-boot/docs/2.4.0-SNAPSHOT/actuator-api/html/
+:docs: https://docs.spring.io/spring-boot/docs/2.4.0-SNAPSHOT/reference/html/
+:api-docs: https://docs.spring.io/spring-boot/docs/2.4.0-SNAPSHOT/api/org/springframework/boot
+:gradle-docs: https://docs.spring.io/spring-boot/docs/2.4.0-SNAPSHOT/gradle-plugin/reference/htmlsingle/
+:maven-docs: https://docs.spring.io/spring-boot/docs/2.4.0-SNAPSHOT/maven-plugin/reference/htmlsingle/
+
+= Spring Boot 2.4.0 RC1 Release Notes
+
+For changes in earlier milestones, please refer to:
+
+- link:Spring-Boot-2.4.0-M4-Release-Notes[v2.4.0 M4]
+- link:Spring-Boot-2.4.0-M3-Release-Notes[v2.4.0 M3]
+- link:Spring-Boot-2.4.0-M2-Release-Notes[v2.4.0 M2]
+- link:Spring-Boot-2.4.0-M1-Release-Notes[v2.4.0 M1]
+
+
+
+== Upgrading from Spring Boot 2.3
+
+
+
+=== Deprecations from Spring Boot 2.3
+Reflecting Spring Boot 2.4’s move to a 6-month release cadence, code deprecated in Spring Boot 2.3 will not be removed until Spring Boot 2.5.
+
+
+=== Embedded database detection
+The embedded database logic has been refined to consider a database as embedded only if it is in-memory.
+This change has two consequences if you're using file-based persistence or server mode with H2, HSQL and Derby:
+
+* The `sa` username is no longer set. If you were relying on that behaviour, you'd need to set `spring.datasource.username=sa` in your configuration.
+* Such database won't be initialised on startup anymore as they are no longer considered as embedded. You can always tune this using `spring.datasource.initialization-mode`.
+
+=== Minimum requirements changes
+None.
+
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.4.0-RC1-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+
+=== Spring Framework 5.3
+This release candidate upgrades Spring Framework to version 5.3. Please refer to https://spring.io/blog/2020/10/27/spring-framework-5-3-goes-ga[this blog post] to learn more.
+
+
+
+=== Spring Data 2020.0
+This release candidate upgrades the Spring Data release train to version 2020.0 (code-named Ockham). Please refer to https://spring.io/blog/2020/10/28/spring-data-2020-0-0-goes-ga[this blog post] to learn more.
+
+
+
+=== Web Configuration Properties
+Properties have been added to support configuration of the web locale and resource locations with either Spring MVC or Spring WebFlux.
+The new properties are:
+
+* `spring.web.locale`
+* `spring.web.locale-resolver`
+* `spring.web.resources.*`
+
+A new property has been added to support configuration of the actuators management endpoint with either the servlet or reactive web stack:
+
+* `management.server.base-path`
+
+These Spring MVC and servlet specific properties have been deprecated in favor of the new properties that support either web stack:
+
+* `spring.mvc.locale`
+* `spring.mvc.locale-resolver`
+* `spring.resources.*`
+* `management.server.servlet.context-path`
+
+
+
+=== Register @WebListeners in a way that allows them to register servlets and filters
+Servlet `@WebLister` classes are now registered in such a way that they may themselves register servlets and filters.
+
+Earlier versions of Spring Boot registered them using a call to `javax.servlet.Registration.Dynamic`.
+This meant that the following section of Servlet specification (4.4) applied:
+
+> If the ServletContext passed to the ServletContextListener’s contextInitialized method where the ServletContextListener was neither declared in web.xml or web-fragment.xml nor annotated with @WebListener then an UnsupportedOperationException MUST be thrown for all the methods defined in ServletContext for programmatic configuration of servlets, filters and listeners.
+
+As of Spring Boot 2.4, we no longer use dynamic registration and so it's safe to call `event.getServletContext().addServlet(...)` and `event.getServletContext.addFilter(...)` from a `ServletContextListener.contextInitialized` method.
+
+
+=== Config Data
+When importing configuration from a config tree using `spring.config.import: configtree:...`, wildcards can now be used to import multiple config trees from the same parent folder.
+Please refer to {docs}/#boot-features-external-config-files-configtree[the external configuration documentation] for more details.
+
+Properties loaded from config trees now have trailing newline characters trimmed by default.
+
+
+
+=== Maven Buildpack Support
+The `spring-boot:build-image` Maven goal now puts all project modules dependencies in the "application" layer. This means that if you have multiple project modules in your build, they will now all end up in the same layer.
+
+The XML schema has also been updated to allow the layer to be customized using new `<includeModuleDependencies/>` and `<excludeModuleDependencies/>` elements.
+
+See the {maven-docs}/#repackage-layers-configuration[updated Maven documentation] for details.
+
+
+
+=== Spring Security SAML Configuration Properties
+Properties have been added to allow configuration of a SAML2 relying party registration's decryption credentials and Assertion Consumer Service (ACS).
+The properties are under the following headings:
+
+* {api-docs}/autoconfigure/security/saml2/Saml2RelyingPartyProperties.Decryption.html[`spring.security.saml2.relyingparty.registration.decryption.*`]
+* {api-docs}/autoconfigure/security/saml2/Saml2RelyingPartyProperties.Registration.Acs.html[`spring.security.saml2.relyingparty.registration.acs.*`]
+
+
+
+=== Logback Configuration Properties
+Logging properties that are specific to Logback have been renamed to reflect the fact that they are Logback-specific. The previous names have been deprecated.
+
+The following Spring Boot properties have been changed:
+
+  * `logging.pattern.rolling-file-name` ->
+    `logging.logback.rollingpolicy.file-name-pattern`
+
+  * `logging.file.clean-history-on-start` ->
+    `logging.logback.rollingpolicy.clean-history-on-start`
+
+  * `logging.file.max-size` ->
+    `logging.logback.rollingpolicy.max-file-size`
+
+  * `logging.file.total-size-cap` ->
+    `logging.logback.rollingpolicy.total-size-cap`
+
+  * `logging.file.max-history` ->
+    `logging.logback.rollingpolicy.max-history`
+
+As have the system environment properties that they map to:
+
+  * `ROLLING_FILE_NAME_PATTERN` ->
+    `LOGBACK_ROLLINGPOLICY_FILE_NAME_PATTERN`
+
+  * `LOG_FILE_CLEAN_HISTORY_ON_START` ->
+    `LOGBACK_ROLLINGPOLICY_CLEAN_HISTORY_ON_START`
+
+  * `LOG_FILE_MAX_SIZE` ->
+    `LOGBACK_ROLLINGPOLICY_MAX_FILE_SIZE`
+
+  * `LOG_FILE_TOTAL_SIZE_CAP` ->
+    `LOGBACK_ROLLINGPOLICY_TOTAL_SIZE_CAP`
+
+  * `LOG_FILE_MAX_HISTORY` ->
+    `LOGBACK_ROLLINGPOLICY_MAX_HISTORY`
+
+
+
+=== Miscellaneous
+
+* The charsets used to by Logback and Log4j logging can now be configured using the properties `logging.charset.console` and `logging.charset.file`.
+* Gradle’s https://docs.gradle.org/current/userguide/configuration_cache.html[configuration cache] is supported when using Gradle 6.7 or later to build a Spring Boot application.
+
+
+=== Dependency Upgrades
+Spring Boot 2.4.0 RC1 moves to new versions of several Spring projects:
+
+* Spring AMQP 2.3.0
+* Spring Batch 4.3.0
+* Spring Data 2020.0.0
+* Spring Framework 5.3.0
+* Spring HATEOAS 1.2.0
+* Spring Integration 5.4.0
+* Spring Session 2020.0.0
+
+Numerous third-party dependencies have also been updated, some of the more noteworthy of which are the following:
+
+* AssertJ 3.18.0
+* Elasticsearch 7.9.3
+* Flyway 7.1.1
+* Micrometer 1.6.0
+* Mockito 3.6.0
+* MongoDB 4.1.1
+* Reactor 2020.0.0
+
+== Deprecations in Spring Boot 2.4.0 RC1
+
+* Logback constants in `LoggingSystemProperties` have been deprecated in favor of `LogbackLoggingSystemProperties`.

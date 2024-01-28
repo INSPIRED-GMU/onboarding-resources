@@ -1,0 +1,127 @@
+Configuration properties change between `1.2.4.RELEASE` and `1.3.0.M1`
+
+The following keys were **added**:
+
+.New keys in `1.3.0.M1`
+|======================
+|Key  |Default value |Description
+|`endpoints.cors.allow-credentials` | |Set whether credentials are supported.
+|`endpoints.cors.allowed-headers` | |Comma-separated list of headers to allow in a request. '*' allows all headers.
+|`endpoints.cors.allowed-methods` | |Comma-separated list of methods to allow. '*' allows all methods.
+|`endpoints.cors.allowed-origins` | |Comma-separated list of origins to allow. '*' allows all origins.
+|`endpoints.cors.exposed-headers` | |Comma-separated list of headers to include in a response.
+|`endpoints.cors.max-age` |`1800` |How long, in seconds, the response from a pre-flight request can be cached by clients.
+|`flyway.placeholder-replacement` | |
+|`management.health.elasticsearch.enabled` |`true` |Enable elasticsearch health check.
+|`management.health.elasticsearch.indices` | |Comma-separated index names.
+|`management.health.elasticsearch.response-timeout` |`100` |The time, in milliseconds, to wait for a response from the cluster.
+|`management.health.jms.enabled` |`true` |Enable JMS health check.
+|`management.health.mail.enabled` |`true` |Enable Mail health check.
+|`multipart.enabled` |`true` |Enable support of multi-part uploads.
+|`server.display-name` |`application` |Display name of the application.
+|`server.jsp-servlet.class-name` | |
+|`server.jsp-servlet.init-parameters` | |
+|`server.jsp-servlet.registered` | |
+|`server.undertow.access-log-dir` | |Undertow access log directory.
+|`server.undertow.access-log-enabled` |`false` |Enable access log.
+|`server.undertow.access-log-pattern` |`common` |Format pattern for access logs.
+|`spring.application.admin.enabled` |`false` |Enable admin features for the application.
+|`spring.application.admin.jmx-name` |`org.springframework.boot:type=Admin,name=SpringApplication` |JMX name of the application admin MBean.
+|`spring.batch.table-prefix` | |Table prefix for all the batch meta-data tables.
+|`spring.cache.cache-names` | |Comma-separated list of cache names to create if supported by the underlying cache manager.
+|`spring.cache.ehcache.config` | |The location of the configuration file to use to initialize EhCache.
+|`spring.cache.guava.spec` | |The spec to use to create caches.
+|`spring.cache.hazelcast.config` | |The location of the configuration file to use to initialize Hazelcast.
+|`spring.cache.infinispan.config` | |The location of the configuration file to use to initialize Infinispan.
+|`spring.cache.jcache.config` | |The location of the configuration file to use to initialize the cache manager.
+|`spring.cache.jcache.provider` | |Fully qualified name of the CachingProvider implementation to use to retrieve the JSR-107 compliant cache manager.
+|`spring.cache.type` | |Cache type, auto-detected according to the environment by default.
+|`spring.data.rest.base-path` | |
+|`spring.datasource.allow-pool-suspension` | |
+|`spring.datasource.health-check-properties` | |
+|`spring.datasource.health-check-registry` | |
+|`spring.datasource.validation-timeout` | |
+|`spring.devtools.livereload.enabled` |`true` |Enable a livereload.com compatible server.
+|`spring.devtools.livereload.port` |`35729` |Server port.
+|`spring.devtools.remote.context-path` |`/.~~spring-boot!~` |Context path used to handle the remote connection.
+|`spring.devtools.remote.debug.enabled` |`true` |Enable remote debug support.
+|`spring.devtools.remote.debug.local-port` |`8000` |Local remote debug server port.
+|`spring.devtools.remote.restart.enabled` |`true` |Enable remote restart.
+|`spring.devtools.remote.secret` | |A shared secret required to establish a connection (required to enable remote support).
+|`spring.devtools.remote.secret-header-name` |`X-AUTH-TOKEN` |HTTP header used to transfer the shared secret.
+|`spring.devtools.restart.enabled` |`true` |Enable automatic restart.
+|`spring.devtools.restart.exclude` | |Patterns that should be excluding for triggering a full restart.
+|`spring.devtools.restart.poll-interval` | |Amount of time (in milliseconds) to wait between polling for classpath changes.
+|`spring.devtools.restart.quiet-period` | |Amount of quiet time (in milliseconds) requited without any classpath changes before a restart is triggered.
+|`spring.devtools.restart.trigger-file` | |Name of a specific file that when changed will trigger the restart check.
+|`spring.jackson.serialization-inclusion` | |Controls the inclusion of properties during serialization.
+|`spring.jmx.default-domain` | |JMX domain name.
+|`spring.jmx.mbean-server` |`mBeanServer` |MBeanServer bean name.
+|`spring.mail.jndi-name` | |Session JNDI name.
+|`spring.metrics.export.delay-millis` | |Delay in milliseconds between export ticks.
+|`spring.metrics.export.enabled` | |Flag to enable metric export (assuming a MetricWriter is available).
+|`spring.metrics.export.excludes` | |List of patterns for metric names to exclude.
+|`spring.metrics.export.includes` | |List of patterns for metric names to include.
+|`spring.metrics.export.redis.aggregate-key-pattern` |`` |Pattern that tells the aggregator what to do with the keys from the source repository.
+|`spring.metrics.export.redis.key` |`keys.spring.metrics` |Key for redis repository export (if active).
+|`spring.metrics.export.redis.prefix` |`spring.metrics` |Prefix for redis repository if active.
+|`spring.metrics.export.send-latest` | |Flag to switch off any available optimizations based on not exporting unchanged metric values.
+|`spring.metrics.export.triggers` | |Specific trigger properties per MetricWriter bean name.
+|`spring.mobile.devicedelegatingviewresolver.enable-fallback` |`false` |Enable support for fallback resolution.
+|`spring.mvc.favicon.enabled` |`true` |Enable resolution of favicon.ico.
+|`spring.oauth2.client.access-token-uri` | |
+|`spring.oauth2.client.access-token-validity-seconds` | |
+|`spring.oauth2.client.additional-information` | |
+|`spring.oauth2.client.authentication-scheme` | |
+|`spring.oauth2.client.authorities` | |
+|`spring.oauth2.client.authorized-grant-types` | |
+|`spring.oauth2.client.auto-approve-scopes` | |
+|`spring.oauth2.client.client-authentication-scheme` | |
+|`spring.oauth2.client.client-id` | |
+|`spring.oauth2.client.client-secret` | |
+|`spring.oauth2.client.grant-type` | |
+|`spring.oauth2.client.id` | |
+|`spring.oauth2.client.pre-established-redirect-uri` | |
+|`spring.oauth2.client.refresh-token-validity-seconds` | |
+|`spring.oauth2.client.registered-redirect-uri` | |
+|`spring.oauth2.client.resource-ids` | |
+|`spring.oauth2.client.scope` | |
+|`spring.oauth2.client.token-name` | |
+|`spring.oauth2.client.use-current-uri` | |
+|`spring.oauth2.client.user-authorization-uri` | |
+|`spring.oauth2.resource.id` | |Identifier of the resource.
+|`spring.oauth2.resource.jwt.key-uri` | |The URI of the JWT token.
+|`spring.oauth2.resource.jwt.key-value` | |The verification key of the JWT token.
+|`spring.oauth2.resource.prefer-token-info` |`true` |Use the token info, can be set to false to use the user info.
+|`spring.oauth2.resource.service-id` |`resource` |
+|`spring.oauth2.resource.token-info-uri` | |URI of the token decoding endpoint.
+|`spring.oauth2.resource.token-type` | |The token type to send when using the userInfoUri.
+|`spring.oauth2.resource.user-info-uri` | |URI of the user endpoint.
+|`spring.oauth2.sso.filter-order` | |Filter order to apply if not providing an explicit WebSecurityConfigurerAdapter (in which case the order can be provided there instead).
+|`spring.oauth2.sso.login-path` |`/login` |Path to the login page, i.e. the one that triggers the redirect to the OAuth2 Authorization Server.
+|`spring.rabbitmq.requested-heartbeat` | |Requested heartbeat timeout, in seconds; zero for none.
+|`spring.rabbitmq.ssl.enabled` |`false` |Enable SSL support.
+|`spring.rabbitmq.ssl.key-store` | |Path to the key store that holds the SSL certificate.
+|`spring.rabbitmq.ssl.key-store-password` | |Password used to access the key store.
+|`spring.rabbitmq.ssl.trust-store` | |Trust store that holds SSL certificates.
+|`spring.rabbitmq.ssl.trust-store-password` | |Password used to access the trust store.
+|`spring.redis.timeout` |`0` |Connection timeout in milliseconds.
+|`spring.sendgrid.password` | |SendGrid password.
+|`spring.sendgrid.proxy.host` | |SendGrid proxy host.
+|`spring.sendgrid.proxy.port` | |SendGrid proxy port.
+|`spring.sendgrid.username` | |SendGrid username.
+|======================
+
+The following keys were **removed**:
+
+.Removed keys in `1.3.0.M1`
+|======================
+|Key  |Default value |Description
+|`http.mappers.json-pretty-print` | |Enable json pretty print.
+|`http.mappers.json-sort-keys` | |Enable key sorting.
+|`spring.data.rest.base-uri` | |
+|`spring.freemarker.char-set` | |
+|`spring.groovy.template.char-set` | |
+|`spring.mustache.char-set` | |
+|`spring.velocity.char-set` | |
+|======================

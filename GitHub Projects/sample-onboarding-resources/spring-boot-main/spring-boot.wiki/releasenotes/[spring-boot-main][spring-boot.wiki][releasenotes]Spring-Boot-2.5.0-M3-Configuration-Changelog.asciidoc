@@ -1,0 +1,35 @@
+Configuration properties change between `2.5.0-M2` and `2.5.0-M3`
+
+== Deprecated in `2.5.0-M3`
+|======================
+|Key  |Replacement |Reason
+|`spring.flyway.check-location` | |Locations can no longer be checked accurately due to changes in Flyway's location support.
+|======================
+
+
+
+== New in `2.5.0-M3`
+|======================
+|Key  |Default value |Description
+|`management.endpoint.configprops.additional-keys-to-sanitize` | |Keys that should be sanitized in addition to those already configured.
+|`management.endpoint.env.additional-keys-to-sanitize` | |Keys that should be sanitized in addition to those already configured.
+|`management.metrics.export.influx.api-version` | |API version of InfluxDB to use.
+|`management.metrics.export.influx.bucket` | |Bucket for metrics.
+|`management.metrics.export.influx.org` | |Org to write metrics to.
+|`management.metrics.export.influx.token` | |Authentication token to use with calls to the InfluxDB backend.
+|`spring.data.cassandra.config` | |Location of the configuration file to use.
+|`spring.data.cassandra.connection.connection-timeout` |`5s` |
+|`spring.flyway.driver-class-name` | |Fully qualified name of the JDBC driver.
+|`spring.flyway.vault-secrets` | |Comma-separated list of paths to secrets that contain Flyway configurations.
+|`spring.flyway.vault-token` | |Vault token required to access secrets.
+|`spring.flyway.vault-url` | |REST API URL of the Vault server.
+|`spring.jpa.defer-datasource-initialization` |`false` |
+|======================
+
+
+
+== Removed in `2.5.0-M3`
+|======================
+|Key  |Replacement |Reason
+|`spring.datasource.initialization-order` |`before-jpa` |
+|======================

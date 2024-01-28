@@ -1,0 +1,73 @@
+The following git aliases can be useful when working with the Spring Boot codebase
+
+== Merge PRs
+This alias allows you to quickly merge from a PR branch with the well formatted commit message. To use make sure you have a PR branch with a value `See gh-1234` reference then type:
+
+----
+$ git mergepr <branch>
+----
+
+----
+mergepr = "!f() { \
+        [[ -z \"$1\" ]] && { echo \"No branch specified\"; exit 1; }; \
+        declare ownerrepo=$(git remote -v | grep \"$https://github\\.com\\/spring-[projects|cloud|io].*\\(push\\)\" | cut -f 2 | cut -c 20- | sed 's/.git (push)//' | sed 's/ (push)//'); \
+        declare pullrequest=$(git log --format=%B -n 1 $1 | grep -E \"See\\ gh-([0-9]+)\" | awk '{$1=$1};1' | cut -c 8-); \
+        [[ -z \"$pullrequest\" ]] && { echo \"No see reference found\"; exit 1; }; \
+        declare pullauthor=$(curl -s \"https://api.github.com/repos/${ownerrepo}/pulls/${pullrequest}\" | jq -r .user.login); \
+        git merge -q --no-ff --log -m \"Merge pull request #${pullrequest} from ${pullauthor}\" $1; \
+        git commit -q --amend -m\"$(git log --format=%B -n1)$(echo \"\\n\\nCloses gh-${pullrequest}\")\"; \
+        echo \"Merged PR #${pullrequest} in ${ownerrepo} from ${pullauthor}\"; \
+}; f"
+----
+
+If you're on linux, replace the `\\n` with `\n`, otherwise the git commits are not formatted correctly.
+
+Note that this requires `jq` to be available on the command line. This can be installed via Homebrew.
+
+== Polishing a contribution
+When merging a contribution, we often add a polishing commit on top of the contributed commit. This alias commits any staged changes with a commit message based on the message from the contributed commit. For example, if a contribution has the following commit message:
+
+----
+Avoid NPE when binder is closed before started event
+
+Previously, if TomcatMetricsBinder destroy() was called before it had
+received an ApplicationStartedEvent an NPE would be thrown due to
+TomcatMetrics being null. This NPE was then caught and logged at
+warning level by the disposable bean adapter.
+
+This prevents the NPE by checking that the TomcatMetrics instance is
+null before calling close() on it.
+
+See gh-22141
+----
+
+`$ git polish` will create a commit with the following message:
+
+----
+Polish "Avoid NPE when binder is closed before started event"
+
+See gh-22141
+----
+
+----
+polish = "!f() { \
+	declare issue=$(git log --format=%B -n 1 $1 | grep -E \"See\\ gh-([0-9]+)\" | awk '{$1=$1};1' | cut -c 8-); \
+	git commit -m \"Polish $(git log -1 --pretty='\"%s\"')$(echo \"\\n\\nSee gh-${issue}\")\"; \
+}; f"
+----
+
+If you’re on linux, replace the \\n with \n, otherwise the git commits are not formatted correctly.
+
+== Update copyright headers
+
+This alias will look at every changed file and update the copyright header to use the current year.
+
+----
+$ git update-copyright
+----
+
+----
+update-copyright = "!f() { \
+        git diff --name-only HEAD | xargs sed -i '' \"s/Copyright \\(20[0-9][0-9]\\)-20[0-9][0-9]/Copyright \\1-$(date +'%Y')/g\"; \
+}; f"
+----

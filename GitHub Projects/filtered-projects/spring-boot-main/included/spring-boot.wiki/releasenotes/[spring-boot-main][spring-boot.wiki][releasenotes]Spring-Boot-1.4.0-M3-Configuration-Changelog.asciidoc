@@ -1,0 +1,77 @@
+Configuration properties change between `1.4.0.M2` and `1.4.0.M3`
+
+.New keys in `1.4.0.M3`
+|======================
+|Key  |Default value |Description
+|`endpoints.logfile.external-file` | |External Logfile to be accessed.
+|`management.shell.auth.jaas.domain` |`my-domain` |JAAS domain.
+|`management.shell.auth.key.path` | |Path to the authentication key.
+|`management.shell.auth.simple.user.name` |`user` |Login user.
+|`management.shell.auth.simple.user.password` | |Login password.
+|`management.shell.auth.spring.roles` |`ADMIN` |Comma-separated list of required roles to login to the CRaSH console.
+|`management.shell.auth.type` |`simple` |Authentication type.
+|`management.shell.command-path-patterns` |`classpath*:/commands/**,classpath*:/crash/commands/**` |Patterns to use to look for commands.
+|`management.shell.command-refresh-interval` |`-1` |Scan for changes and update the command if necessary (in seconds).
+|`management.shell.config-path-patterns` |`classpath*:/crash/*` |Patterns to use to look for configurations.
+|`management.shell.disabled-commands` |`jpa*,jdbc*,jndi*` |Comma-separated list of commands to disable.
+|`management.shell.disabled-plugins` |`` |Comma-separated list of plugins to disable.
+|`management.shell.ssh.auth-timeout` |`600000` |Number of milliseconds after user will be prompted to login again.
+|`management.shell.ssh.enabled` |`true` |Enable CRaSH SSH support.
+|`management.shell.ssh.idle-timeout` |`600000` |Number of milliseconds after which unused connections are closed.
+|`management.shell.ssh.key-path` | |Path to the SSH server key.
+|`management.shell.ssh.port` |`2000` |SSH port.
+|`management.shell.telnet.enabled` |`false` |Enable CRaSH telnet support.
+|`management.shell.telnet.port` |`5000` |Telnet port.
+|`spring.datasource.data-password` | |Password of the database to execute DML scripts.
+|`spring.datasource.data-username` | |User of the database to execute DML scripts.
+|`spring.datasource.schema-password` | |Password of the database to execute DDL scripts (if different).
+|`spring.datasource.schema-username` | |User of the database to execute DDL scripts (if different).
+|`spring.http.encoding.force-request` | |Force the encoding to the configured charset on HTTP requests.
+|`spring.http.encoding.force-response` | |Force the encoding to the configured charset on HTTP responses.
+|`spring.http.multipart.enabled` |`true` |Enable support of multi-part uploads.
+|`spring.http.multipart.file-size-threshold` |`0` |Threshold after which files will be written to disk.
+|`spring.http.multipart.location` | |Intermediate location of uploaded files.
+|`spring.http.multipart.max-file-size` |`1Mb` |Max file size.
+|`spring.http.multipart.max-request-size` |`10Mb` |Max request size.
+|`spring.mvc.servlet.load-on-startup` |`-1` |Load on startup priority of the dispatcher servlet.
+|`spring.rabbitmq.connection-timeout` | |Connection timeout, in milliseconds; zero for infinite.
+|`spring.rabbitmq.ssl.algorithm` | |SSL algorithm to use (e.g.
+|`spring.session.hazelcast.map-name` |`spring:session:sessions` |Name of the map used to store sessions.
+|`spring.session.jdbc.table-name` |`SPRING_SESSION` |Name of database table used to store sessions.
+|`spring.session.mongo.collection-name` |`sessions` |Collection name used to store sessions.
+|`spring.session.redis.flush-mode` | |Flush mode for the Redis sessions.
+|`spring.session.redis.namespace` |`` |Namespace for keys used to store sessions.
+|`spring.session.store-type` | |Session store type.
+|`spring.webservices.path` |`/services` |Path that serves as the base URI for the services.
+|`spring.webservices.servlet.init` | |Servlet init parameters to pass to Spring Web Services.
+|`spring.webservices.servlet.load-on-startup` |`-1` |Load on startup priority of the Spring Web Services servlet.
+|======================
+
+.Removed keys in `1.4.0.M3`
+|======================
+|Key  |Default value |Description
+|`management.info.build.mode` | |Mode to use to expose build information.
+|`multipart.enabled` |`true` |Enable support of multi-part uploads.
+|`multipart.file-size-threshold` |`0` |Threshold after which files will be written to disk.
+|`multipart.location` | |Intermediate location of uploaded files.
+|`multipart.max-file-size` |`1Mb` |Max file size.
+|`multipart.max-request-size` |`10Mb` |Max request size.
+|`shell.auth` |`simple` |Authentication type.
+|`shell.auth.jaas.domain` |`my-domain` |JAAS domain.
+|`shell.auth.key.path` | |Path to the authentication key.
+|`shell.auth.simple.user.name` |`user` |Login user.
+|`shell.auth.simple.user.password` | |Login password.
+|`shell.auth.spring.roles` |`ADMIN` |Comma-separated list of required roles to login to the CRaSH console.
+|`shell.command-path-patterns` |`classpath*:/commands/**,classpath*:/crash/commands/**` |Patterns to use to look for commands.
+|`shell.command-refresh-interval` |`-1` |Scan for changes and update the command if necessary (in seconds).
+|`shell.config-path-patterns` |`classpath*:/crash/*` |Patterns to use to look for configurations.
+|`shell.disabled-commands` |`jpa*,jdbc*,jndi*` |Comma-separated list of commands to disable.
+|`shell.disabled-plugins` |`` |Comma-separated list of plugins to disable.
+|`shell.ssh.auth-timeout` |`600000` |Number of milliseconds after user will be prompted to login again.
+|`shell.ssh.enabled` |`true` |Enable CRaSH SSH support.
+|`shell.ssh.idle-timeout` |`600000` |Number of milliseconds after which unused connections are closed.
+|`shell.ssh.key-path` | |Path to the SSH server key.
+|`shell.ssh.port` |`2000` |SSH port.
+|`shell.telnet.enabled` |`false` |Enable CRaSH telnet support.
+|`shell.telnet.port` |`5000` |Telnet port.
+|======================

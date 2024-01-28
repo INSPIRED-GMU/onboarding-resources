@@ -1,0 +1,75 @@
+Configuration properties change between `2.1.0.M4` and `2.1.0.RC1`
+
+.Deprecated keys in `2.1.0.RC1`
+|======================
+|Key  |Replacement |Reason
+|`spring.data.cassandra.load-balancing-policy` | |Implement a ClusterBuilderCustomizer bean instead.
+|`spring.data.cassandra.reconnection-policy` | |Implement a ClusterBuilderCustomizer bean instead.
+|`spring.data.cassandra.retry-policy` | |Implement a ClusterBuilderCustomizer bean instead.
+|======================
+
+.New keys in `2.1.0.RC1`
+|======================
+|Key  |Default value |Description
+|`management.metrics.distribution.maximum-expected-value` | |Maximum value that meter IDs starting-with the specified name are expected to observe.
+|`management.metrics.distribution.minimum-expected-value` | |Minimum value that meter IDs starting-with the specified name are expected to observe.
+|`management.metrics.export.appoptics.api-token` | |AppOptics API token.
+|`management.metrics.export.appoptics.batch-size` |`500` |Number of measurements per request to use for this backend.
+|`management.metrics.export.appoptics.connect-timeout` |`5s` |Connection timeout for requests to this backend.
+|`management.metrics.export.appoptics.enabled` |`true` |Whether exporting of metrics to this backend is enabled.
+|`management.metrics.export.appoptics.host-tag` |`instance` |Tag that will be mapped to "@host" when shipping metrics to AppOptics.
+|`management.metrics.export.appoptics.num-threads` |`2` |Number of threads to use with the metrics publishing scheduler.
+|`management.metrics.export.appoptics.read-timeout` |`10s` |Read timeout for requests to this backend.
+|`management.metrics.export.appoptics.step` |`1m` |Step size (i.e. reporting frequency) to use.
+|`management.metrics.export.appoptics.uri` |`https://api.appoptics.com/v1/measurements` |URI to ship metrics to.
+|`management.metrics.export.elastic.host` |`http://localhost:9200` |Host to export metrics to.
+|`management.metrics.export.humio.api-token` | |Humio API token.
+|`management.metrics.export.humio.batch-size` |`10000` |Number of measurements per request to use for this backend.
+|`management.metrics.export.humio.connect-timeout` |`5s` |Connection timeout for requests to this backend.
+|`management.metrics.export.humio.enabled` |`true` |Whether exporting of metrics to this backend is enabled.
+|`management.metrics.export.humio.num-threads` |`2` |Number of threads to use with the metrics publishing scheduler.
+|`management.metrics.export.humio.read-timeout` |`10s` |Read timeout for requests to this backend.
+|`management.metrics.export.humio.repository` |`sandbox` |Name of the repository to publish metrics to.
+|`management.metrics.export.humio.step` |`1m` |Step size (i.e. reporting frequency) to use.
+|`management.metrics.export.humio.tags` | |Humio tags describing the data source in which metrics will be stored.
+|`management.metrics.export.humio.uri` |`https://cloud.humio.com` |URI to ship metrics to.
+|`management.metrics.export.kairos.batch-size` |`10000` |Number of measurements per request to use for this backend.
+|`management.metrics.export.kairos.connect-timeout` |`1s` |Connection timeout for requests to this backend.
+|`management.metrics.export.kairos.enabled` |`true` |Whether exporting of metrics to this backend is enabled.
+|`management.metrics.export.kairos.num-threads` |`2` |Number of threads to use with the metrics publishing scheduler.
+|`management.metrics.export.kairos.password` | |Login password of the KairosDB server.
+|`management.metrics.export.kairos.read-timeout` |`10s` |Read timeout for requests to this backend.
+|`management.metrics.export.kairos.step` |`1m` |Step size (i.e. reporting frequency) to use.
+|`management.metrics.export.kairos.uri` |`http://localhost:8080/api/v1/datapoints` |URI of the KairosDB server.
+|`management.metrics.export.kairos.user-name` | |Login user of the KairosDB server.
+|`management.metrics.export.prometheus.pushgateway.base-url` |`localhost:9091` |Base URL for the Pushgateway.
+|`management.metrics.export.prometheus.pushgateway.enabled` |`false` |Enable publishing via a Prometheus Pushgateway.
+|`management.metrics.export.prometheus.pushgateway.grouping-key` | |Grouping key for the pushed metrics.
+|`management.metrics.export.prometheus.pushgateway.job` | |Job identifier for this application instance.
+|`management.metrics.export.prometheus.pushgateway.push-rate` |`1m` |Frequency with which to push metrics.
+|`management.metrics.export.prometheus.pushgateway.shutdown-operation` | |Operation that should be performed on shutdown.
+|`spring.data.cassandra.jmx-enabled` |`false` |Whether to enable JMX reporting.
+|`spring.info.build.encoding` |`UTF-8` |File encoding.
+|`spring.info.git.encoding` |`UTF-8` |File encoding.
+|`spring.messages.reloadable` |`false` |Whether to use a "ReloadableResourceBundleMessageSource" rather than the default "ResourceBundleMessageSource".
+|`spring.thymeleaf.render-hidden-markers-before-checkboxes` |`false` |Whether hidden form inputs acting as markers for checkboxes should be rendered before the checkbox element itself.
+|`spring.thymeleaf.servlet.produce-partial-output-while-processing` |`true` |Whether Thymeleaf should start writing partial output as soon as possible or buffer until template processing is finished.
+|`spring.webflux.hiddenmethod.filter.enabled` |`true` |Whether to enable Spring's HiddenHttpMethodFilter.
+|======================
+
+.Removed keys in `2.1.0.RC1`
+|======================
+|Key  |Replacement |Reason
+|`management.health.couchbase.timeout` | |
+|`management.metrics.export.elastic.hosts` |`http://localhost:9200` |Hosts to export metrics to.
+|`spring.flyway.batch` | |
+|`spring.flyway.callbacks` | |
+|`spring.flyway.dry-run-output` | |Flyway pro edition only.
+|`spring.flyway.error-handlers` | |Flyway pro edition only.
+|`spring.flyway.error-overrides` | |
+|`spring.flyway.oracle-sqlplus` | |
+|`spring.flyway.stream` | |
+|`spring.flyway.undo-sql-migration-prefix` | |Flyway pro edition only.
+|`spring.security.oauth2.client.registration.authorization-code` | |OAuth2 authorization_code client registrations.
+|`spring.security.oauth2.client.registration.login` | |OpenID Connect client registrations.
+|======================

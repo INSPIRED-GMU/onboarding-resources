@@ -1,0 +1,324 @@
+== Overview
+
+This document attempts to list the current shortcomings with the way that configuration property files are loaded, and propose a new design.
+
+== Existing Issues
+There are a number of issues with the existing `ConfigFileApplicationListener` that make it very hard to change:
+
+- The order that files are imported is hard to define, especially when working with profiles
+- Whenever we change the code we seem to introduce a regression for someone
+- The `spring.profile` property became confusing when we introduced profile logic operators
+- The class is quite large and hard to understand
+- We will struggle to extend it to support Kuberntes volume mounted properties
+
+== Goals
+- Develop a new way of processing configuration files that is easier to understand and document.
+- Support common use-cases in a logical way
+- Allow Kubernetes volume mounts to be used
+- Provide an easy way to switch back to the legacy system if there's a use-case we don't yet cover (with the ultimate goal of eventually removing support entirely)
+- Don't break Spring Cloud Config Server
+
+== Stretch Goals
+- Provide extension points that would allow Spring Cloud to drop the bootstrap context
+- Provide a programmatic API for Netflix to use
+
+== Proposal
+
+=== Load order
+In order to simplify property loading we should start by treating all configuration files as one logic item.
+The documentation for https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#boot-features-external-config[external configuration] could then be simplified to:
+
+- `@PropertySource` annotations on your ``@Configuration` classes.
+- Application configuration files.
+- A `RandomValuePropertySource` that has properties only in `random.*``.
+- OS environment variables.
+- Java System properties (System.getProperties()).
+
+_(order changed to lowest wins)_
+
+Application configuration files would then have its own section with rules defined.
+
+=== Multi-document properties
+With a `properties` file, if duplicate keys are defined the lowest one wins.
+Likewise with multi-document YAML the lowest document wins.
+
+We should make this a first class concept and always consistent.
+
+_"Subsequent properties always replace earlier ones"_
+
+Since we now process `.properties` files with our own code, we could offer multi-document support for them.
+We can use `#----` as a separator:
+
+----
+my.property=a1
+my-other-property=b
+#----
+my.property=a2
+----
+
+=== Profile specific properties
+Profile specific config files (i.e. those named `application-<profile>.properties`) are fundamentally different from regular config files.
+A major pain point with our existing code is that we try to treat them in the same way as regular config files.
+Specifically, allowing profile specific config files to define additional active profiles is very confusing.
+
+We should restrict profile specific property files so that they cannot change the active profiles.
+
+We should only load profile specific property files once we know which profiles will be active.
+This means we should process _all_ regular config files before loading profile specific ones.
+
+NOTE: We don't need to insert property sources in the order that we load files.
+It is possible for us to load all regular property files from both inside and outside of the jar and then insert profile specific files in the correct place later.
+
+NOTE: One problem with this approach is it's not possible to declare a document in `application.properties` that overrides a profile specific document.
+We might need to consider a way to do that.
+
+Once processed, the order that property sources are imported should be
+
+- JAR config files
+- JAR profile specific config files
+- External config files
+- External profile specific config files
+
+NOTE: See https://github.com/spring-projects/spring-boot/issues/3845 for discussion of this ordering.
+We need to consider if there are downsides to an external `application.properties` overriding a packages `application-<profile>.properties`.
+
+=== Profile keys
+We currently have `spring.profiles.active`, `spring.profiles.include` and `spring.profiles` keys that people can use in their config files.
+The `spring.profiles` property is quite problematic because:
+
+- It used to define which profile a config file was for, but now it accepts profile expressions
+- It's unusual because it overlaps with `.active` and `.include`
+- The name doesn't clearly convey its purpose
+
+It would be clearer if the `spring.profiles` moved somewhere else.
+The key is not really about the profile, it's more about when the config file should apply.
+In a lot of ways It's quite similar to the `@Conditional` annotations that we use.
+
+One option would be to create a new top-level concept for config file conditions.
+The profile is one such condition, but there could be others.
+For example, you might want to apply a config file only on a specific OS.
+Or you might want to apply it only for a specific cloud platform.
+
+Some examples:
+
+----
+spring.properties.conditional.on-profile=production | staging
+spring.properties.conditional.on-os=windows
+spring.properties.conditional.on-cloud-platform=kubernetes
+spring.properties.conditional.on-file=~/my-config.properties
+----
+
+NOTE: it's hard to come up with a good prefix and `spring.properties` is perhaps not quite right.
+Config may come from a properties file, a yaml file, a git repo, a volume.
+Other options might be `spring.config` or `spring.configfile`.
+Perhaps even a new top-level key would be wise.
+
+For `spring.profiles.active` and `spring.profiles.include` we should fail hard if they are used in combination with `conditional.on-profile`.
+This will help keep the loading logic much simpler.
+
+=== Profile groups
+One existing use-case that we currently support is including additional profiles from a profile specific property file.
+We even suggest it as a pattern https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#boot-features-adding-active-profiles[in the reference docs].
+
+If we remove the ability to include profiles from a conditional config file, we need an alternative way of handling this use-case.
+
+On way to deal with it would be to offer the concept of profile groups.
+This would be similar to logging groups.
+A profile group could only be defined in a non-conditional config file.
+It would specify how to expand a particular profile.
+
+For example:
+----
+spring.profile.group.prod=prod,proddb,prodmq
+----
+
+If the `prod` profile is activated or included then it is automatically expanded to `prod`, `proddb` and `prodmq`.
+
+=== Profile ordering
+Profile ordering becomes important when we start to process profile specific files.
+If `application-p1.properties` and `application-p2.properties` define the same values then the user needs to know which will "win".
+
+This can be quite hard to determine, especially if both `spring.profiles.active` and `spring.profiles.include` keys are used.
+
+We could offer a new `spring.profiles.order` key that could be used to sort profiles no matter how they appear.
+If not specified, the order would be determined from the `spring.profiles.active` and `spring.profiles.include` keys.
+
+The ordering should be consistent with existing precedents, i.e. later profiles override earlier ones.
+
+We might also want to support some form of wildcard to represent profiles that aren't explicitly listed.
+
+=== Importing additional config files
+We can't always have a convention for loading config files.
+For example, we know the Kuberntes volume mounts could be anywhere.
+We also know that Spring Cloud Config Server needed a way to solve the problem of finding the server so introduced `bootstrap.properties`.
+
+We could offer support for a `spring.properties.import` key which would allow additional config to be loaded.
+
+It would:
+
+- Load config and apply it immediately after the current document (i.e. the imported config could override the existing one)
+- Load config from a specific filesystem resource
+- Load config from a remote location
+
+We could use a URL like syntax, perhaps similar to the `Resource` syntax offered by Spring Framework.
+We could also make it pluggable so that other projects could offer implementations.
+
+Some examples:
+----
+spring.properties.import=/etc/config/
+spring.properties.import=https://remotehost/global/config.yml
+spring.properties.import=configserver:localhost
+----
+
+Import could be particularly powerful when combined with conditional documents.
+For example:
+
+----
+spring.application.name=myapp
+server.port=8081
+#----
+spring.properties.conditional.on-cloud-platform=Kubernetes
+spring.properties.import=/etc/config/
+----
+
+=== Name, Location and Additional Location
+We currently support `spring.config.name`, `spring.config.location` and `spring.config.additional-location` properties.
+
+These can be quite confusing, especially as:
+
+- They can each contain more than one item
+- The location properties can refer to a file or a folder
+
+We need to consider if we want to support these properties going forward and if they are named correctly.
+We should also consider if our defaults are sensible, specifically the use of a `/config` folder.
+
+==== Default Profile
+TBD
+
+== Examples
+
+See https://github.com/spring-projects/spring-boot/labels/theme%3A%20profiles and https://github.com/spring-projects/spring-boot/labels/theme%3A%20configuration
+
+=== Developer overrides
+
+See https://github.com/spring-projects/spring-boot/issues/21697
+
+To do as requested is probably something like this:
+
+----
+# application.properties
+spring.profiles.group.dev=dev,local
+spring.profiles.order=*,local
+----
+
+----
+# application-dev.properties
+...
+----
+
+----
+# application-local.properties
+...
+----
+
+This still feels a bit clunky, but I'm not sure yet what the answer might be.
+Perhaps we should support a special filename for local overrides.
+
+=== Volume mounted secrets
+
+https://github.com/spring-projects/spring-boot/issues/19990
+
+----
+# application.properties
+spring.properties.include=/etc/configvolume/
+----
+
+==== Complex setups
+
+https://github.com/spring-projects/spring-boot/issues/18199
+
+This one should just work as expected:
+
+----
+---
+spring.properties.conditional-on.profile: a & b
+test1: 1
+test2: 1
+---
+spring.properties.conditional-on.profile: a & b
+test1: 2
+---
+spring.properties.conditional-on.profile: a & b & c
+test2: 2
+---
+spring.properties.conditional-on.profile: a
+test3: 1
+---
+spring.properties.conditional-on.profile: a
+test3: 2
+----
+
+==== Profile groups
+
+https://github.com/spring-projects/spring-boot/issues/16303
+
+The original YAML
+
+----
+spring.profiles: a & b
+spring:
+  profiles:
+    include:
+      - includeAandB
+mypropAandB: valueAandB
+---
+spring.profiles: a
+spring:
+  profiles:
+    include:
+      - includeA
+mypropA: valueA
+---
+spring.profiles: b
+spring:
+  profiles:
+    include:
+      - includeB
+mypropB: valueB
+---
+spring.profiles: c
+spring:
+  profiles:
+    include:
+      - includeC
+mypropC: valueC
+----
+
+Could be written
+
+----
+spring.profile.groups.a=a,includeA
+spring.profile.groups.b=b,includeB
+spring.profile.groups.c=c,includeC
+---
+spring.properties.conditional-on.profile: a
+mypropA: valueA
+---
+spring.properties.conditional-on.profile: b
+mypropB: valueB
+---
+spring.properties.conditional-on.profile: c
+mypropC: valueC
+----
+
+==== Compound profiles
+
+https://github.com/spring-projects/spring-boot/issues/11109#issuecomment-372919758
+
+This could be supported with profile conditions:
+
+----
+# application-dev.yml
+spring.properties.conditional.on-profile: !(cloud|server)
+boot.admin.client.uri: http://my-admin-url
+----

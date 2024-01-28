@@ -1,0 +1,132 @@
+:actuator-docs: https://docs.spring.io/spring-boot/docs/2.4.0-SNAPSHOT/actuator-api/html/
+:docs: https://docs.spring.io/spring-boot/docs/2.4.x-SNAPSHOT/reference/html/
+
+= Spring Boot 2.4.0 M3 Release Notes
+
+For changes in earlier milestones, please refer to:
+
+- link:Spring-Boot-2.4.0-M2-Release-Notes[v2.4.0 M2]
+- link:Spring-Boot-2.4.0-M1-Release-Notes[v2.4.0 M1]
+
+
+
+== Upgrading from Spring Boot 2.3
+
+=== Config Data Imports
+Config locations specified via `spring.config.import` (introduced in 2.4.0-M2) and `spring.config.location` will no longer fail silently if the file or folder does not exist.
+If you want to import a location, but you don't mind skipping it if it cannot be found, you should now prefix it with `optional:`.
+
+For example, `spring.config.import=optional:configtree:/etc/config/myvolume` will import `/etc/config/myvolume` as a config tree if the folder exists, and skip it if it does not.
+
+If you want to treat all locations as optional you can set `spring.config.on-location-not-found=ignore` in `SpringApplication.setDefaultProperties(...)` or with a system/environment variable.
+
+
+
+=== Elasticsearch RestClient
+The low-level Elasticsearch `RestClient` bean will no longer be auto-configured by Spring Boot.
+A `RestHighLevelClient` bean is still auto-configured.
+
+Most users should not need to use the low-level client and should not be affected by this change.
+
+
+=== Minimum requirements changes
+None.
+
+
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.4.0-M3-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+=== Java 15
+Spring Boot 2.4 now fully supports (and is tested against) Java 15.
+The minimum supported version remains Java 8.
+
+
+
+=== Startup Endpoint
+A new `startup` actuator endpoint is now available that shows information about your applications startup.
+The endpoint can be help you identify beans that are taking longer than expected to start.
+
+This work builds on the application startup tracking feature that was recently added to Spring Framwork 5.3.
+You can read more about the feature https://docs.spring.io/spring-framework/docs/5.3.0-RC1/reference/html/core.html#context-functionality-startup[in the Spring Framework reference documentation].
+
+The new actuator API is https://docs.spring.io/spring-boot/docs/2.4.0-SNAPSHOT/actuator-api/htmlsingle/#startup[documented here].
+
+
+=== Docker Authentication
+When using Spring Boot's buildpack support, you can now use a private authenticated Docker registry for your builder or run image.
+Both username/password and token based authentication are supported.
+
+The https://docs.spring.io/spring-boot/docs/2.4.0-SNAPSHOT/gradle-plugin/reference/htmlsingle/#build-image-docker-registry[Maven] and https://docs.spring.io/spring-boot/docs/2.4.0-SNAPSHOT/maven-plugin/reference/htmlsingle/#build-image-docker-registry[Gradle] documentation have been updated to show the new configuration.
+
+
+
+=== @ConfigurationProperties Constructor Binding
+You can now create constructor bound `@ConfigurationProperties` beans for classes that do not contain any Spring annotations.
+This can be useful if you define shared configuration classes that you don't want to tie directly to Spring.
+You can also use it to bind to third-party object (although we generally recommend that you only use `@ConfigurationProperties` with classes under your control)
+
+To use the new feature, add a `@ImportAsConfigurationPropertiesBean` annotation to your `@Configuration` or `@SpringApplication` class.
+
+
+
+=== Imported Config Data Improvements
+The `spring.config.import` support introduced in M2 has been improved with a few tweaks:
+
+* Imports will now fail if the referenced file or folder does not exist (see "Upgrading" details above).
+
+* The `Origin` of an import now includes a full chain so you can exactly how it was imported.
+The `actuator/env` and `actuator/configprops` endpoints have been updated to show the new details.
+
+* It's now possible to import a file that has no file extension by providing a hint to Spring Boot about the content type.
+For example, `spring.config.import=/etc/myconfig[.yaml]` will load `/etc/myconfig` as YAML.
+
+* The `spring.profiles.include` property can be used again, although it cannot be combined with `spring.config.activate.on-profile`.
+
+
+
+=== Jar Optimizations
+When generating runnable Spring Boot jars, empty starter dependencies will now be automatically removed.
+Since most starters only provide transitive dependencies, there is little point in packaging them in the final jar.
+
+If you have your own starter POMs that contain no code, you can add a `Spring-Boot-Jar-Type` entry to its MANIFEST.MF with the value "dependencies-starter".
+
+
+
+
+=== Spring Framework 5.3-RC1
+Spring Boot 2.4 will include Spring Framework 5.3, and this milestone upgrades to Spring Framework 5.3.0-RC1. Please refer to https://spring.io/blog/2020/09/15/spring-framework-5-3-goes-rc1[this blog post] to learn more.
+
+
+
+=== Spring Data 2020.0-RC
+Spring Boot 2.4 will include version 2020.0 (code-named Ockham) of the Spring Data release train, and this milestone includes RC1. Please refer to https://spring.io/blog/2020/09/16/spring-data-2020-0-0-goes-rc1[this blog post] to learn more.
+
+
+
+=== Dependency Upgrades
+Spring Boot 2.4 M3 moves to new versions of several Spring projects:
+
+- Reactor 2020.0.0-RC1
+- Spring AMQP 2.3.0-M3
+- Spring Batch 4.3.0-RC1
+- Spring Data 2020.0.0-RC1
+- Spring Framework 5.3.0-RC1
+- Spring Integration 5.4.0-M3
+- Spring Security 5.4.0
+- Spring Session 2020.0.0-RC1
+
+
+Numerous third-party dependencies have also been updated, some of the more noteworthy of which are the following:
+
+- Undertow 2.2
+- Mockito 3.4
+- JUnit 5.7.0
+- RSocket 1.1.0-M2
+
+
+
+== Deprecations in Spring Boot 2.4.0 M3
+
+* A few methods from `ApplicationEnvironmentPreparedEvent`, `ApplicationStartingEvent` and `SpringApplicationRunListener` have been deprecated to support `BootstrapContext`.
+* The `BuildLog` for buildpack support has been updated to support more data (most users will not directly use this class)

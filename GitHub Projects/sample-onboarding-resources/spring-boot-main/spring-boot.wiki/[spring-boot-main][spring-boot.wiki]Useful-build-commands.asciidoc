@@ -1,0 +1,52 @@
+This page gathers some commands that are useful when working on the project.
+
+= Detect build wrapper
+When working in a sub-module, the wrapper script defined at the root of the repository is not available.
+The following explains how to workaround that issue.
+
+== Gradle wrapper
+Copy https://github.com/snicoll/dotfiles/blob/master/bin/run-gradle.sh[the following script] in your environment, i.e. `~/bin/run-gradle.sh`.
+
+Then alias the script to make it easier to use. For instance to `g`:
+
+```
+alias g=~/bin/run-gradle.sh
+```
+
+You can now invoke Gradle anywhere using `g`, e.g. `g build`.
+
+== Maven Wrapper
+Copy https://github.com/snicoll/dotfiles/blob/master/bin/run-mvn.sh[the following script] in your environment, i.e. `~/bin/run-mvn.sh`.
+
+Then alias the script to make it easier to use. For instance to `m`:
+
+```
+alias m=~/bin/run-mvn.sh
+```
+
+You can now invoke Maven anywhere using `m`, e.g. `m package`.
+
+= Useful commands
+This is a list of commands that we use often when working on the project.
+For convenience, both the Maven and Gradle commands are provided, when possible.
+
+== Run a specific test
+The following command runs all the tests in the current module that start with `Cassandra`:
+
+|===
+| Gradle | Maven
+
+| `g test --tests 'Cassandra*'`
+| `m test -Dtest='Cassandra*'`
+|===
+
+== Run bomr
+We use `bomr` to check for new dependency versions. Maven requires `bomr.jar` to be available on the path while Gradle does not. This command should be ran at the root of the repository. Here is an example targeting Spring Boot `2.3.0.M4`:
+
+|===
+| Gradle | Maven
+
+| `g --no-scan bomrUpgrade --milestone=2.3.0.M4`
+| `bomr.jar upgrade --milestone=2.3.0.M4`
+|===
+

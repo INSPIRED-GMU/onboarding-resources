@@ -1,0 +1,60 @@
+# Pages
+
+https://github.com/spring-projects/spring-boot/wiki[**Home**]
+
+link:Supported-Versions[**Supported Versions**]
+
+## Release Notes
+
+link:Spring-Boot-3.0-Release-Notes[**v3.0** (preview)]
+
+link:Spring-Boot-2.7-Release-Notes[**v2.7** (preview)]
+
+link:Spring-Boot-2.6-Release-Notes[**v2.6**]
+
+link:Spring-Boot-2.5-Release-Notes[**v2.5**]
+
+link:Spring-Boot-2.4-Release-Notes[**v2.4**]
+
+link:Spring-Boot-2.3-Release-Notes[**v2.3**]
+
+link:Spring-Boot-Older-Release-Notes[**Older Versions**]
+
+
+## Migration Guides
+link:Spring-Boot-2.0-Migration-Guide[**v1.5 -> v2.0**]
+
+link:Spring-Boot-Config-Data-Migration-Guide[**v2.4+ Config Data**]
+
+## Help
+
+link:Spring-Boot-Configuration-Binding[**Configuration Binding**]
+
+link:IDE-binding-features[**IDE Binding Features**]
+
+link:Building-On-Spring-Boot[**Building on Spring Boot**]
+
+
+## Development Process
+
+link:Working-with-the-Code[**Working with the Code**]
+
+link:Team-Practices[**Team Practices**]
+
+link:Working-with-Git-branches[**Working with Git Branches**]
+
+link:Merging-Pull-Requests[**Merging Pull Requests**]
+
+link:Useful-git-aliases[**Useful Git Aliases**]
+
+link:GitHub-Issues[**GitHub Issues**]
+
+link:Maven-POM-Files[**Maven POM Files**]
+
+link:Performance-Tuning[**Performance Tuning**]
+
+link:Generating-SSL-KeyStores[**Generating SSL KeyStores**]
+
+link:Deprecations[**Deprecations**]
+
+link:Creating-A-New-Maintenance-Branch[**Creating a New Maintenance Branch**]

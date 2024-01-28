@@ -1,0 +1,113 @@
+:guide: https://docs.spring.io/spring-boot/docs/2.0.0.RC1/reference/html
+:issue: https://github.com/spring-projects/spring-boot/issues
+
+For changes in earlier milestones, please refer to:
+
+ - link:Spring-Boot-2.0.0-M1-Release-Notes[v2.0.0 M1]
+ - link:Spring-Boot-2.0.0-M2-Release-Notes[v2.0.0 M2]
+ - link:Spring-Boot-2.0.0-M3-Release-Notes[v2.0.0 M3]
+ - link:Spring-Boot-2.0.0-M4-Release-Notes[v2.0.0 M4]
+ - link:Spring-Boot-2.0.0-M5-Release-Notes[v2.0.0 M5]
+ - link:Spring-Boot-2.0.0-M6-Release-Notes[v2.0.0 M6]
+ - link:Spring-Boot-2.0.0-M7-Release-Notes[v2.0.0 M7]
+
+== Upgrading from Spring Boot 2.0.0 M7
+See instructions in the link:Spring-Boot-2.0.0-M7-Release-Notes[2.0.0.M7 release notes] for upgrading from v2.0.0.M7 and earlier.
+
+=== Starter transitive dependencies
+Just like in https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0.0-M1-Release-Notes#starter-transitive-dependencies[2.0.0.M1 with other starters], we're removing `spring-boot-starter-web` as a transitive dependency from `spring-boot-starter-freemarker`.
+
+=== Spring MVC path matching default behavior change
+We've decided to change the default for suffix path matching in Spring MVC applications (see {issue}/11105[#11105]). This feature is not enabled by default anymore, following a https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#mvc-ann-requestmapping-suffix-pattern-match[best practice documented in Spring Framework].
+
+If your application expects requests like `"GET /projects/spring-boot.json"` to be mapped to `@GetMapping("/projects/spring-boot")` mappings, this change is affecting you.
+
+For more information about this and how to mitigate that change, check out https://docs.spring.io/spring-boot/docs/2.0.0.RC1/reference/html/boot-features-developing-web-applications.html#boot-features-spring-mvc-pathmatch[the reference documentation about path matching and content negotiation in Spring Boot].
+
+=== Overhaul of the "/actuator/mappings" Actuator Endpoint
+The JSON format has changed to now properly include information about context hierarchies, multiple `DispatcherServlets`, deployed Servlets and Servlet filters. See {issue}/9979#issuecomment-357930821[#9979] for a sample JSON document.
+
+=== Overhaul of the "/actuator/trace" Actuator Endpoint
+The endpoint has been renamed to `httptrace` and, as a result, can now be accessed at `/actuator/httptrace`. The structure of the response has been refined to reflect the endpoint’s focus on tracing HTTP request-response exchanges. More details about the endpoint and its response structure can be found in the https://docs.spring.io/spring-boot/docs/2.0.0.RC1/actuator-api/html/#httptrace[relevant section] of the Actuator API documentation.
+
+=== Jolokia
+Jolokia is now an Actuator endpoint and can be managed like any other endpoint. As a result, its namespace has moved to `management.endpoint.jolokia`.
+
+=== Configuration key harmonization
+In our effort to limit the number of root namespaces that Spring Boot uses, banner-related properties have been relocated to `spring.banner`.
+
+Also, `spring.metrics` are now available at `management.metrics`.
+
+=== Spring Boot application events changes
+We've moved back `ApplicationReadyEvent` to its former position and added a new event, `ApplicationStartedEvent`.
+
+`ApplicationStartedEvent` is sent after the context has been refreshed but before any application and command-line runners have been called. `ApplicationReadyEvent` is sent after any application and command-line runners have been called. It indicates that the application is ready to service requests.
+See the {guide}/boot-features-spring-application.html#boot-features-application-events-and-listeners[updated reference documentation].
+
+=== Spring Security default user
+We've restored the ability to auto-configure a single user via configuration keys. These can be found at `spring.security.user`.
+
+=== Spring Security Matchers
+The API for configuring Spring Security matchers has been modified to accommodate more matchers. For servlet applications, a `RequestMatcher` can be obtained via `PathRequest`. `StaticResourceRequest` is now accessible via `PathRequest.toStaticResources()`. A matcher for the configured H2console path can be obtained via `PathRequest.toH2Console()`. 
+
+`EndpointRequest` and `PathRequest` have been added for WebFlux applications for obtaining a `ServerWebExchangeMatcher`.
+
+=== Audit event API change
+`AuditEventRepository` now has a single method with all optional arguments. The related endpoint no longer requires an `after` parameter.
+
+=== Servlet-specific server configuration properties
+
+`+server.*+` configuration properties that are specific to Servlet-based web applications (rather than reactive web applications) have been moved to `+server.servlet.*+`. Please see link:Spring-Boot-2.0.0-RC1-Configuration-Changelog[the configuration changelog] for further details.
+
+=== Jackson
+
+`SerializationFeature.WRITE_DATES_AS_TIMESTAMPS` is now disabled by default.
+
+=== `RestTemplateBuilder`
+
+The `requestFactory(ClientHttpRequestFactory)` method has been replaced by a new `requestFactory(Supplier<ClientHttpRequestFactory> requestFactorySupplier)` method. The use of a `Supplier` allows every template produced by the builder to use its own request factory, thereby avoiding side-effects that can be caused by sharing a factory. See https://github.com/spring-projects/spring-boot/issues/11255[#11255].
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.0.0-RC1-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+=== Legacy properties migration
+With Spring Boot 2.0, many configuration properties were renamed/removed and developers need to update their `application.properties`/`application.yml` accordingly. To help you with that, Spring Boot ships a new module `org.springframework.boot:spring-boot-properties-migrator`. Once added as a dependency to your project, this will not only analyze your application's environment and print diagnostics at startup, but also temporarily migrate properties for you.
+
+=== HTTP/2 support for Jetty
+After Tomcat and Undertow, we now support HTTP/2 with Jetty. No need to change you JVM boot classpath or use a Java agent: we're using here the Conscrypt library for native TLS support. Check out {guide}/howto-embedded-web-servers.html#howto-configure-http2-jetty[the reference documentation for this feature].
+
+=== Micrometer
+Integration with Micrometer has been further improved:
+
+* JVM threads and garbage collections metrics are now automatically instrumented
+* Cache metrics for all available caches on startup have been restored
+* RabbitMQ metrics are now automatically instrumented
+* Asynchronous controllers are now instrumented
+
+=== Date conversion
+It is possible to control the date format for date types from well-known packages (`java.util`, `org.joda.time` and `java.time`) using a single property.
+
+=== Hibernate properties customization
+It is now possible to customize the `properties` Hibernate uses in a more fine grained way by exposing a `HibernatePropertiesCustomizer` bean.
+
+=== GSon support
+GSon support has been greatly improved with the ability to configure it programmatically and declaratively (see `spring.gson` for more details).
+
+=== Performance improvements
+We're always tracking performance numbers and we've recently improved the performance startup time to avoid performance regressions from Spring Boot 1.5.x. See {issue}/11226[#11226].
+
+=== Animated GIFs support for Spring Boot banners
+https://twitter.com/bclozel/status/938116061332770816[Here's live demo at SpringOne Platform 2017]. Another good reason to upgrade to Spring Boot 2.0!
+
+=== Graceful shutdown of Atomikos
+Atomikos waits for active transactions to terminate properly on shutdown which should
+significantly decrease the need for recovery.
+
+=== InfluxDB health indicator
+The `health` endpoint can monitor an `InfluxDB` server.
+
+=== Redis cache configuration
+It is now possible to expose a `RedisCacheConfiguration` to take control over the `RedisCacheManager`.
+
+=== Flyway/Liquibase flexible configuration
+If only a custom `url` or `user` is provided, the auto-configuration reuses the standard datasource properties rather than ignoring them. This allows you to create a custom `DataSource` for the purpose of the migration with only the required information.

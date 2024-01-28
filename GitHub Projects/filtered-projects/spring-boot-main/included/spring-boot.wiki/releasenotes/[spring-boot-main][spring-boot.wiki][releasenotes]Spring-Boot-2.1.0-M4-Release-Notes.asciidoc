@@ -1,0 +1,43 @@
+:docs: https://docs.spring.io/spring-boot/docs/2.1.0.M4/reference/htmlsingle
+:framework-docs: https://docs.spring.io/spring-framework/docs/5.1.0.RELEASE/spring-framework-reference
+:actuator-docs: https://docs.spring.io/spring-boot/docs/2.1.0.M4/actuator-api/html
+:maven-docs: https://docs.spring.io/spring-boot/docs/2.1.0.M4/maven-plugin
+
+= Spring Boot 2.1.0 M4 Release Notes
+
+For changes in earlier milestones, please refer to:
+
+ - link:Spring-Boot-2.1.0-M3-Release-Notes[v2.1.0 M3]
+ - link:Spring-Boot-2.1.0-M2-Release-Notes[v2.1.0 M2]
+ - link:Spring-Boot-2.1.0-M1-Release-Notes[v2.1.0 M1]
+
+== Upgrading from Spring Boot 2.1.0 M3
+See instructions in the link:Spring-Boot-2.1.0-M3-Release-Notes[2.1.0.M3 release notes] for upgrading from v2.1.0.M2 and earlier.
+
+=== Logging HTTP request details
+The `spring.http.log-request-details` configuration property introduced in M3 has been removed in favour of the new logging groups support. If you defined the older property, you should use `logging.level.web=DEBUG` instead.
+
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.1.0-M4-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+=== Support for Spring Data JDBC
+
+Spring Data includes repository support for JDBC and will automatically generate SQL for
+the methods on `CrudRepository`. Spring Boot will auto-configure Spring Data's JDBC repositories when the necessary dependencies are on the classpath. They can be added to your project with a single
+dependency on `spring-boot-starter-data-jdbc`. For complete details of Spring Data JDBC, please refer to the
+https://projects.spring.io/spring-data-jdbc/[reference documentation]. 
+
+=== Auto-configuration support for new Micrometer metrics
+
+The following metrics are now available as core metrics when applicable:
+
+* Kafka consumer metrics
+* Log4j2 metrics
+
+=== Miscellaneous
+Apart from the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+* `@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)` can now generate a separate random port for the management server.
+
+== Deprecations in Spring Boot 2.1.0 M4

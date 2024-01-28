@@ -1,0 +1,15 @@
+As an interdisciplinary field, machine learning takes terminology from statistics, computer science and the various fields in which it is commonly employed. Sometimes this results in multiple terms being used to refer to the same concept, or very similar concepts.
+
+The following is a table of terms used in the scikit-learn API and documentation, with various (near-)synonyms used in machine learning and related fields.
+
+=================== ============
+scikit-learn term   alternatives
+=================== ============
+coefficient         weight, parameter
+estimator           learner
+feature             attribute, independent variable, input variable, predictor, regressor
+intercept           bias, offset
+logistic regression logit regression, maximum entropy classifier
+one-vs.-rest        binary relevance, one-vs.-all
+sample              instance, point, event
+=================== ============

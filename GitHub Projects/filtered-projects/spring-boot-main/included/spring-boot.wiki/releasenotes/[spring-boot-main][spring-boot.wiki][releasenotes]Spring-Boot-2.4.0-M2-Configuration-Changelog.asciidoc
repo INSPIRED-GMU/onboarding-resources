@@ -1,0 +1,70 @@
+Configuration properties change between `2.4.0-M1` and `2.4.0-M2`
+
+.Deprecated keys in `2.4.0-M2`
+|======================
+|Key  |Replacement |Reason
+|`management.health.probes.enabled` |`management.endpoint.health.probes.enabled` |
+|`spring.data.neo4j.password` |`spring.neo4j.authentication.password` |
+|`spring.data.neo4j.uri` |`spring.neo4j.uri` |
+|`spring.data.neo4j.username` |`spring.neo4j.authentication.password` |
+|`spring.profiles` |`spring.config.activate.on-profile` |
+|======================
+
+.New keys in `2.4.0-M2`
+|======================
+|Key  |Default value |Description
+|`management.endpoint.health.probes.enabled` |`false` |Whether to enable liveness and readiness probes.
+|`management.health.db.ignore-routing-data-sources` |`false` |Whether to ignore AbstractRoutingDataSources when creating database health indicators.
+|`management.health.livenessstate.enabled` |`false` |Whether to enable liveness state health check.
+|`management.health.readinessstate.enabled` |`false` |Whether to enable readiness state health check.
+|`management.metrics.export.defaults.enabled` |`true` |Whether to enable default metrics exporters.
+|`management.metrics.export.prometheus.pushgateway.password` | |Login password of the Prometheus Pushgateway.
+|`management.metrics.export.prometheus.pushgateway.username` | |Login user of the Prometheus Pushgateway.
+|`server.netty.h2c-max-content-length` |`0B` |Maximum content length of an H2C upgrade request.
+|`server.netty.initial-buffer-size` |`128B` |Initial buffer size for HTTP request decoding.
+|`server.netty.max-chunk-size` |`8KB` |Maximum chunk size that can be decoded for an HTTP request.
+|`server.netty.max-initial-line-length` |`4KB` |Maximum length that can be decoded for an HTTP request's initial line.
+|`server.netty.validate-headers` |`true` |Whether to validate headers when decoding requests.
+|`spring.config.activate.on-cloud-platform` | |The cloud platform that required for the document to be included
+|`spring.config.activate.on-profile` | |Profile expressions that should match for the document to be included
+|`spring.config.import` | |Import additional config data.
+|`spring.data.neo4j.database` | |Database name to use.
+|`spring.data.neo4j.repositories.type` |`auto` |Type of Neo4j repositories to enable.
+|`spring.ldap.template.ignore-name-not-found-exception` |`false` |Whether NameNotFoundException should be ignored in searches via the LdapTemplate.
+|`spring.ldap.template.ignore-partial-result-exception` |`false` |Whether PartialResultException should be ignored in searches via the LdapTemplate.
+|`spring.ldap.template.ignore-size-limit-exceeded-exception` |`true` |Whether SizeLimitExceededException should be ignored in searches via the LdapTemplate.
+|`spring.mvc.pathmatch.matching-strategy` | |Choice of strategy for matching request paths against registered mappings.
+|`spring.neo4j.authentication.kerberos-ticket` | |Kerberos ticket for connecting to the database.
+|`spring.neo4j.authentication.password` | |Login password of the server.
+|`spring.neo4j.authentication.realm` | |Realm to connect to.
+|`spring.neo4j.authentication.username` | |Login user of the server.
+|`spring.neo4j.connection-timeout` |`30s` |Timeout for borrowing connections from the pool.
+|`spring.neo4j.max-transaction-retry-time` |`30s` |Maximum time transactions are allowed to retry.
+|`spring.neo4j.pool.connection-acquisition-timeout` |`60s` |Acquisition of new connections will be attempted for at most configured timeout.
+|`spring.neo4j.pool.idle-time-before-connection-test` | |Pooled connections that have been idle in the pool for longer than this threshold will be tested before they are used again.
+|`spring.neo4j.pool.log-leaked-sessions` |`false` |Whether to log leaked sessions.
+|`spring.neo4j.pool.max-connection-lifetime` |`1h` |Pooled connections older than this threshold will be closed and removed from the pool.
+|`spring.neo4j.pool.max-connection-pool-size` |`100` |Maximum amount of connections in the connection pool towards a single database.
+|`spring.neo4j.pool.metrics-enabled` |`false` |Whether to enable metrics.
+|`spring.neo4j.security.cert-file` | |Path to the file that holds the trusted certificates.
+|`spring.neo4j.security.encrypted` |`false` |Whether the driver should use encrypted traffic.
+|`spring.neo4j.security.hostname-verification-enabled` |`true` |Whether hostname verification is required.
+|`spring.neo4j.security.trust-strategy` | |Trust strategy to use.
+|`spring.neo4j.uri` |`bolt://localhost:7687` |URI used by the driver.
+|`spring.r2dbc.pool.max-acquire-time` | |Maximum time to acquire a connection from the pool.
+|`spring.r2dbc.pool.max-create-connection-time` | |Maximum time to wait to create a new connection.
+|`spring.r2dbc.pool.max-life-time` | |Maximum lifetime of a connection in the pool.
+|`spring.r2dbc.pool.validation-depth` |`local` |Validation depth.
+|`spring.redis.client-type` | |Type of client to use.
+|`spring.redis.lettuce.cluster.refresh.dynamic-refresh-sources` |`true` |Whether to discover and query all cluster nodes for obtaining the cluster topology.
+|======================
+
+.Removed keys in `2.4.0-M2`
+|======================
+|Key  |Replacement |Reason
+|`spring.data.neo4j.auto-index` | |Automatic index creation is no longer supported.
+|`spring.data.neo4j.embedded.enabled` | |Embedded mode is no longer supported, please use Testcontainers instead.
+|`spring.data.neo4j.open-in-view` | |
+|`spring.data.neo4j.repositories.enabled` |`spring.data.neo4j.repositories.type` |
+|`spring.data.neo4j.use-native-types` | |Native type support is now built-in.
+|======================

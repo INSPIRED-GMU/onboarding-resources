@@ -1,0 +1,114 @@
+:docs: https://docs.spring.io/spring-boot/docs/2.3.0.BUILD-SNAPSHOT
+:reference: {docs}/reference/html
+:maven-plugin: {docs}/maven-plugin/reference/html
+:gradle-plugin: {docs}/gradle-plugin/reference/html
+
+
+= Spring Boot 2.3.0 RC1 Release Notes
+
+For changes in earlier milestones, please refer to:
+
+ - link:Spring-Boot-2.3.0-M4-Release-Notes[v2.3.0 M4]
+
+ - link:Spring-Boot-2.3.0-M3-Release-Notes[v2.3.0 M3]
+
+ - link:Spring-Boot-2.3.0-M2-Release-Notes[v2.3.0 M2]
+
+ - link:Spring-Boot-2.3.0-M1-Release-Notes[v2.3.0 M1]
+
+== Upgrading from Spring Boot 2.2
+In addition to the below, please see the instructions in the link:Spring-Boot-2.3.0-M1-Release-Notes[2.3.0.M1], link:Spring-Boot-2.3.0-M2-Release-Notes[2.3.0.M2], link:Spring-Boot-2.3.0-M3-Release-Notes[2.3.0.M3], and link:Spring-Boot-2.3.0-M4-Release-Notes[2.3.0.M4] release notes for upgrading from Spring Boot 2.2.
+
+=== Changes to the Default Error Page's Content
+The error message and any binding errors are no longer included in the default error page by default. This reduces the risk of leaking information to a client. `server.error.include-message` and `server.error.include-binding-errors` can be used to control the inclusion of the message and binding errors respectively. Supported values are `always`, `on-param`, and `never`.
+
+
+
+=== Automatic creation of `developmentOnly` configuration
+The `developmentOnly` configuration, primarily intended for use when declaring a dependency on Spring Boot's DevTools, is now created automatically by Spring Boot's Gradle plugin. Any manual configuration of `developmentOnly` can be removed from your Gradle build scripts.
+
+
+
+=== Removal of the Plugin Management for exec-maven-plugin
+Spring Boot's build no longer makes use of Maven's exec plugin and plugin management for it has been removed. If you were relying on Spring Boot's managed version, you should add your own plugin management.
+
+
+
+=== Micrometer
+This release upgrades to Micrometer 1.5 which brings a number of deprecations:
+
+* Service Level Agreements have been renamed to Service Level Objectives and the boundary is expressed as a `double` rather than a `long`.
+* Wavefront metrics are now exported via `WavefrontSender`.
+As a result the read and connection timeout properties are no longer honoured.
+* Kafka metrics are published natively so that it is no longer required to enable JMX
+
+
+
+== Upgrading from Spring Boot 2.3.0.M4
+
+
+
+== New and noteworthy
+TIP: Check link:Spring-Boot-2.3.0-RC1-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+=== Configurable conversion of Time and Date-time Values
+The conversion of time and date-time values in web applications is now configurable via application properties. This complements that existing support for formatting date values. For MVC, the properties are `spring.mvc.format.time` and `spring.mvc.format.date-time` respectively. For WebFlux, the properties are `spring.webflux.format.time` and `spring.webflux.format.date-time` respectively.
+
+
+
+=== ISO Formatting of Dates, Times, and Date-times
+In addition to taking a typical formatting pattern, the properties for configuring the formatting of dates, times, and date-times now support a value of `iso`. When set, the corresponding ISO-8601 formatting will be applied. The `iso` values is supported by the following properties:
+
+- `spring.mvc.format.date`
+- `spring.mvc.format.date-time`
+- `spring.mvc.format.time`
+- `spring.webflux.format.date`
+- `spring.webflux.format.date-time`
+- `spring.webflux.format.time`
+
+
+
+=== Micrometer 1.5
+The upgrade to Micrometer 1.5 brings a number of new features:
+
+* The auto-configuration for Wavefront has been updated to define a `WavefrontSender` bean. This allows publishing of both metrics and traces to Wavefront over a single connection.
+* Native support for tags has been added for Graphite.
+* New Relic can be configured to use HTTP or a Java agent.
+* Histogram type for backing DistributionSummary and Timer to prometheus can be configured.
+
+
+
+=== Image creation now uses Paketo Buildpacks
+The `build-image` Maven goal and the `bootBuildImage` Gradle task now use the https://paketo.io/[Paketo] Java buildpack to create images.
+
+
+=== Dependency Upgrades
+Spring Boot 2.3 RC1 upgrades to the latest milestone of several Spring projects:
+
+- Spring Data Neumann-RC2
+- Spring HATEOAS 1.1.0.RC1
+- Spring Integration 5.3.0.RC1
+- Spring Kafka 2.5.0.RC1
+
+Numerous third-party dependencies have been upgraded, some of the more noteworthy of which are the following:
+
+- Flyway 6.4
+- Jackson 2.11
+- Lettuce 5.3
+- Micrometer 1.5
+- Solr 8.5
+- Testcontainers 1.14
+
+
+
+
+=== Miscellaneous
+Apart from the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+- A customizer interface, `RSocketMessageHandlerCustomizer`, is provided for customizing the auto-configured `RSocketMessageHandler`,
+- A customizer interface, `DefaultCookieSerializerCustomizer`, is provided for customizing the auto-configured `DefaultCookieSerializer`.
+- Auto-configuration of the default servlet can now be disabled by setting `server.servlet.register-default-servlet` to `false`.
+- A new condition, `@ConditionalOnWarDeployment` has been added. It can be used to detect when an application has been deployed as a war to a Servlet container or application server.
+
+== Deprecations in Spring Boot 2.3.0 RC1
+- The `ON_TRACE_PARAM` used with the `server.error.include-stacktrace` property has been renamed to `ON_PARAM`

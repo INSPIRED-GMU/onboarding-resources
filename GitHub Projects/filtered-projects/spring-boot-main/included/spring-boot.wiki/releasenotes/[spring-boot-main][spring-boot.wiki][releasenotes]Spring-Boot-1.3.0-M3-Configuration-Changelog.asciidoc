@@ -1,0 +1,69 @@
+Configuration properties change between `1.3.0.M2` and `1.3.0.M3`
+
+.Deprecated keys in `1.3.0.M3`
+|======================
+|Key  |Replacement |Reason
+|`server.tomcat.access-log-enabled` |`server.tomcat.accesslog.enabled` |
+|`server.tomcat.access-log-pattern` |`server.tomcat.accesslog.pattern` |
+|`server.undertow.access-log-dir` |`server.undertow.accesslog.dir` |
+|`server.undertow.access-log-enabled` |`server.undertow.accesslog.enabled` |
+|`server.undertow.access-log-pattern` |`server.undertow.accesslog.pattern` |
+|======================
+
+.New keys in `1.3.0.M3`
+|======================
+|Key  |Default value |Description
+|`endpoints.actuator.enabled` |`true` |Enable the endpoint.
+|`endpoints.actuator.path` | |Endpoint URL path.
+|`endpoints.actuator.sensitive` |`false` |Enable security on the endpoint.
+|`endpoints.docs.enabled` |`true` |Enable actuator docs endpoint.
+|`endpoints.links.enabled` |`true` |Enable hypermedia links endpoint.
+|`logging.exception-conversion-word` |`%rEx` |Conversion word used when logging exceptions.
+|`logging.pattern.console` | |Appender pattern for output to the console.
+|`logging.pattern.file` | |Appender pattern for output to the file.
+|`management.health.defaults.enabled` |`true` |Enable default health indicators.
+|`server.compression.excluded-user-agents` | |
+|`server.session.persistent` |`false` |Persist session data between restarts.
+|`server.tomcat.accesslog.directory` |`logs` |Directory in which log files are created.
+|`server.tomcat.accesslog.enabled` |`false` |Enable access log.
+|`server.tomcat.accesslog.pattern` |`common` |Format pattern for access logs.
+|`server.tomcat.accesslog.prefix` |`access_log` |Log file name prefix.
+|`server.tomcat.accesslog.suffix` |`.log` |Log file name suffix.
+|`server.undertow.accesslog.dir` | |Undertow access log directory.
+|`server.undertow.accesslog.enabled` |`false` |Enable access log.
+|`server.undertow.accesslog.pattern` |`common` |Format pattern for access logs.
+|`spring.autoconfigure.exclude` | |Auto-configuration classes to exclude.
+|`spring.devtools.restart.additional-paths` | |Additional paths to watch for changes.
+|`spring.freemarker.allow-session-override` | |Set whether HttpSession attributes are allowed to override (hide) controller generated model attributes of the same name.
+|`spring.groovy.template.allow-session-override` | |Set whether HttpSession attributes are allowed to override (hide) controller generated model attributes of the same name.
+|`spring.h2.console.enabled` |`false` |Enable the console.
+|`spring.h2.console.path` |`/h2-console` |Path at which the console will be available.
+|`spring.jackson.locale` | |Locale used for formatting.
+|`spring.jackson.time-zone` | |Time zone used when formatting dates.
+|`spring.jms.listener.acknowledge-mode` | |Acknowledge mode of the container.
+|`spring.jms.listener.auto-startup` |`true` |Start the container automatically on startup.
+|`spring.jms.listener.concurrency` | |Minimum number of concurrent consumers.
+|`spring.jms.listener.max-concurrency` | |Maximum number of concurrent consumers.
+|`spring.mail.protocol` |`smtp` |Protocol used by the SMTP server.
+|`spring.mongodb.embedded.features` | |Comma-separated list of features to enable.
+|`spring.mongodb.embedded.version` |`2.6.10` |Version of Mongo to use.
+|`spring.rabbitmq.listener.acknowledge-mode` | |Acknowledge mode of container.
+|`spring.rabbitmq.listener.auto-startup` |`true` |Start the container automatically on startup.
+|`spring.rabbitmq.listener.concurrency` | |Minimum number of consumers.
+|`spring.rabbitmq.listener.max-concurrency` | |Maximum number of consumers.
+|`spring.rabbitmq.listener.prefetch` | |Number of messages to be handled in a single request.
+|`spring.rabbitmq.listener.transaction-size` | |Number of messages to be processed in a transaction.
+|`spring.thymeleaf.template-resolver-order` | |Order of the template resolver in the chain.
+|`spring.velocity.allow-session-override` | |Set whether HttpSession attributes are allowed to override (hide) controller generated model attributes of the same name.
+|======================
+
+.Removed keys in `1.3.0.M3`
+|======================
+|Key  |Default value |Description
+|`endpoints.hal.path` |`` |
+|`endpoints.hal.sensitive` |`false` |
+|`endpoints.links.path` |`` |
+|`endpoints.links.sensitive` |`false` |
+|`spring.http.gzip.enabled` | |Enable gzip filter support.
+|`spring.resources.favicon-locations` | |
+|======================

@@ -1,0 +1,38 @@
+Configuration properties change between `2.2.0.M4` and `2.2.0.M5`
+
+.Deprecated keys in `2.2.0.M5`
+|======================
+|Key  |Replacement |Reason
+|`spring.jackson.joda-date-time-format` |`dateFormat` |Auto-configuration for Jackson's Joda-Time integration is deprecated in favor of its Java 8 Time integration
+|`spring.rabbitmq.listener.simple.transaction-size` |`spring.rabbitmq.listener.simple.batch-size` |
+|======================
+
+.New keys in `2.2.0.M5`
+|======================
+|Key  |Default value |Description
+|`server.tomcat.relaxed-path-chars` | |Comma-separated list of additional unencoded characters that should be allowed in URI paths.
+|`server.tomcat.relaxed-query-chars` | |Comma-separated list of additional unencoded characters that should be allowed in URI query strings.
+|`server.undertow.options.server` | |
+|`server.undertow.options.socket` | |
+|`spring.kafka.consumer.isolation-level` | |Isolation level for reading messages that have been written transactionally.
+|`spring.mvc.publish-request-handled-events` |`true` |Whether to publish a ServletRequestHandledEvent at the end of each request.
+|`spring.rabbitmq.listener.simple.batch-size` | |Batch size, expressed as the number of physical messages, to be used by the container.
+|`spring.reactor.debug-agent.enabled` |`true` |Whether the Reactor Debug Agent should be enabled when reactor-tools is present.
+|`spring.redis.client-name` | |Client name to be set on connections with CLIENT SETNAME.
+|`spring.security.oauth2.resourceserver.opaquetoken.client-id` | |Client id used to authenticate with the token introspection endpoint.
+|`spring.security.oauth2.resourceserver.opaquetoken.client-secret` | |Client secret used to authenticate with the token introspection endpoint.
+|`spring.security.oauth2.resourceserver.opaquetoken.introspection-uri` | |OAuth 2.0 endpoint through which token introspection is accomplished.
+|`spring.session.hazelcast.save-mode` | |Sessions save mode.
+|`spring.session.jdbc.save-mode` | |Sessions save mode.
+|`spring.session.redis.save-mode` | |Sessions save mode.
+|======================
+
+.Removed keys in `2.2.0.M5`
+|======================
+|Key  |Replacement |Reason
+|`spring.liquibase.check-change-log-location` | |Liquibase has it's own check that checks if the change log location exists making this property redundant.
+|`spring.reactor.debug` |`false` |Whether Reactor should collect stacktrace information at runtime.
+|`spring.security.oauth2.resourceserver.opaque-token.client-id` | |Client id used to authenticate with the token introspection endpoint.
+|`spring.security.oauth2.resourceserver.opaque-token.client-secret` | |Client secret used to authenticate with the token introspection endpoint.
+|`spring.security.oauth2.resourceserver.opaque-token.introspection-uri` | |OAuth 2.0 endpoint through which token introspection is accomplished.
+|======================

@@ -1,0 +1,132 @@
+:docs: https://docs.spring.io/spring-boot/docs/2.7.x-SNAPSHOT/reference/html/
+
+= Spring Boot 2.7.0 M3 Release Notes
+
+For changes in earlier milestones, please refer to:
+
+- link:Spring-Boot-2.7.0-M1-Release-Notes[v2.7.0 M1]
+- link:Spring-Boot-2.7.0-M2-Release-Notes[v2.7.0 M2]
+
+
+
+== Upgrading from Spring Boot 2.6
+
+=== `spring.mongodb.embedded.features` Configuration Property Removed
+Embedded Mongo 3.4 has dropped support for configuring Mongo features.
+Reflecting this, the `spring.mongodb.embedded.features` configuration property has been removed.
+For advanced configuration where features were being specified to alter the command line used to launch Mongo, a custom `MongodConfig` bean should be provided instead.
+
+
+
+=== Servlet-specific Mustache Properties
+The following Mustache-related properties that are Servlet-specific have been deprecated:
+
+- `spring.mustache.allow-request-override`
+- `spring.mustache.allow-session-override`
+- `spring.mustache.cache`
+- `spring.mustache.content-type`
+- `spring.mustache.expose-request-attributes`
+- `spring.mustache.expose-session-attributes`
+- `spring.mustache.expose-spring-macro-helpers`
+
+The following replacements have been introduced:
+
+- `spring.mustache.servlet.allow-request-override`
+- `spring.mustache.servlet.allow-session-override`
+- `spring.mustache.servlet.cache`
+- `spring.mustache.servlet.content-type`
+- `spring.mustache.servlet.expose-request-attributes`
+- `spring.mustache.servlet.expose-session-attributes`
+- `spring.mustache.servlet.expose-spring-macro-helpers`
+
+
+
+=== Default Indices Options on Auto-configured ReactiveElasticsearchTemplate
+The default indices options on the auto-configured `ReactiveElasticsearchTemplate` have changed to align them with Spring Data Elasticsearch.
+Previously, the defaults were `strictExpandOpenAndForbidClosed`.
+They are now `strictExpandOpenAndForbidClosedIgnoreThrottled`.
+To restore the old indices options, define your own `reactiveElasticsearchTemplate` bean:
+
+[source,java,indent=0,subs="verbatim"]
+----
+@Bean
+ReactiveElasticsearchTemplate reactiveElasticsearchTemplate(ReactiveElasticsearchClient client,
+        ElasticsearchConverter converter) {
+    ReactiveElasticsearchTemplate template = new ReactiveElasticsearchTemplate(client, converter);
+    template.setIndicesOptions(IndicesOptions.strictExpandOpenAndForbidClosed());
+    return template;
+}
+----
+
+
+
+=== MongoDB Property Precedence
+Previously, if `spring.data.mongodb.uri` was configured alongside any of the equivalent separate properties such as `spring.data.mongodb.host` and `spring.data.mongodb.port` an exception would be thrown.
+The `uri` property now takes precedence over any of the separate properties – they're ignored when `spring.data.mongodb.uri` is set.
+This aligns the behavior with other similar properties such as `spring.redis.url`.
+
+
+
+=== Deprecations from Spring Boot 2.5
+
+
+
+=== Minimum Requirements Changes
+None.
+
+
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.7.0-M3-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+
+
+=== Overriding Built-in Sanitization
+`SanitizingFunction` beans are now called in order, stopping once a function has changed the value of the `SanitizableData`.
+If no `SanitizingFunction` bean sanitizes the value, the built-in key-based sanitization is performed.
+Functions are ordered through their `@Order` annotations or their `Ordered` implementation.
+
+=== GraphQL Server Auto-configuration
+As of `1.0.0-M6`, Spring GraphQL ships https://docs.spring.io/spring-graphql/docs/1.0.x-SNAPSHOT/reference/html/#client[a new GraphQL client]. Spring Boot applications can now depend on the GraphQL starter even if they don't intend to ship a GraphQL API. As a result the server auto-configuration has been reworked in https://github.com/spring-projects/spring-boot/issues/30035[#30035].
+A GraphQL server is only set up if Spring Boot detects GraphQL schema files in the configured locations or `GraphQlSourceBuilderCustomizer` beans.
+
+=== Docker Image Building 
+
+==== Podman Support
+The Maven and Gradle plugins now support using the Podman container engine as an alternative to Docker Engine when building images using Cloud Native Buildpacks.
+
+See the updated https://docs.spring.io/spring-boot/docs/2.7.0-SNAPSHOT/gradle-plugin/reference/htmlsingle/#build-image.examples.docker.podman[Gradle] and https://docs.spring.io/spring-boot/docs/2.7.0-SNAPSHOT/maven-plugin/reference/htmlsingle/#build-image.examples.docker.podman[Maven] reference documentation for more details.
+
+
+
+=== Cache2k Support
+Dependency management and auto-configuration for https://cache2k.org/[Cache2k] has been added.
+Default cache settings can be customized by defining a `Cache2kBuilderCustomizer` bean.
+
+
+
+=== Dependency Upgrades
+Spring Boot 2.7.0-M3 moves to new versions of several Spring projects:
+
+* https://github.com/spring-projects/spring-graphql/releases/tag/1.0.0-M6[Spring for GraphQL 1.0.0-M6]
+* https://spring.io/blog/2022/03/22/spring-security-6-0-0-m3-and-5-7-0-m3-available-now[Spring Security 5.7.0-M3]
+* https://spring.io/blog/2022/03/21/spring-data-2022-0-0-m3-2021-2-0-m4-2021-1-3-and-2021-0-10-released[Spring Data 2021.2.0-M4]
+
+
+Numerous third-party dependencies have also been updated, some of the more noteworthy of which are the following:
+
+* https://github.com/micrometer-metrics/micrometer/releases/tag/v1.9.0-M4[Micrometer 1.9.0-M4]
+
+
+
+=== Miscellaneous
+Apart from the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+* Spring GraphQL is now using the Spring Boot `ApplicationConversionService` for its annotated controllers.
+* A new property, `spring.mustache.reactive.media-types`, can be used to configure the media types supported by a reactive Mustache view.
+
+
+
+== Deprecations in Spring Boot 2.7
+
+* The Micrometer team moved the binders to a separate micrometer module named `micrometer-binders` and deprecated the old binders. To prevent split packages, the imports have changed, too. If you are using the old binders, please adjust your imports from `io.micrometer.core.instrument.binder` to `io.micrometer.binder`. Spring Boot 2.7 still supports auto-configuration for the binders in the old module, but this support will be removed in Spring Boot 3.0.

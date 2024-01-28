@@ -1,0 +1,73 @@
+.Deprecated keys in `2.3.0.M4`
+|======================
+|Key  |Replacement |Reason
+|`server.jetty.acceptors` |`server.jetty.threads.acceptors` |
+|`server.jetty.max-queue-capacity` |`server.jetty.threads.max-queue-capacity` |
+|`server.jetty.max-threads` |`server.jetty.threads.max` |
+|`server.jetty.min-threads` |`server.jetty.threads.min` |
+|`server.jetty.selectors` |`server.jetty.threads.selectors` |
+|`server.jetty.thread-idle-timeout` |`server.jetty.threads.idle-timeout` |
+|`server.tomcat.max-threads` |`server.tomcat.threads.max` |
+|`server.tomcat.min-spare-threads` |`server.tomcat.threads.min-spare` |
+|`server.undertow.io-threads` |`server.undertow.threads.io` |
+|`server.undertow.worker-threads` |`server.undertow.threads.worker` |
+|`spring.mvc.contentnegotiation.favor-path-extension` | |Use of path extensions for request mapping and for content negotiation is discouraged.
+|`spring.mvc.pathmatch.use-registered-suffix-pattern` | |Use of path extensions for request mapping and for content negotiation is discouraged.
+|`spring.mvc.pathmatch.use-suffix-pattern` | |Use of path extensions for request mapping and for content negotiation is discouraged.
+|======================
+
+.New keys in `2.3.0.M4`
+|======================
+|Key  |Default value |Description
+|`management.health.probes.enabled` |`false` |Whether to enable liveness and readiness probes.
+|`server.jetty.threads.acceptors` |`-1` |Number of acceptor threads to use.
+|`server.jetty.threads.idle-timeout` |`60000ms` |Maximum thread idle time.
+|`server.jetty.threads.max` |`200` |Maximum number of threads.
+|`server.jetty.threads.max-queue-capacity` | |Maximum capacity of the thread pool's backing queue.
+|`server.jetty.threads.min` |`8` |Minimum number of threads.
+|`server.jetty.threads.selectors` |`-1` |Number of selector threads to use.
+|`server.tomcat.threads.max` |`200` |Maximum amount of worker threads.
+|`server.tomcat.threads.min-spare` |`10` |Minimum amount of worker threads.
+|`server.undertow.threads.io` | |Number of I/O threads to create for the worker.
+|`server.undertow.threads.worker` | |Number of worker threads.
+|`spring.couchbase.connection-string` | |Connection string used to locate the Couchbase cluster.
+|`spring.couchbase.env.io.idle-http-connection-timeout` |`30s` |Length of time an HTTP connection may remain idle before it is closed and removed from the pool.
+|`spring.couchbase.env.io.max-endpoints` |`12` |Maximum number of sockets per node.
+|`spring.couchbase.env.io.min-endpoints` |`1` |Minimum number of sockets per node.
+|`spring.couchbase.env.timeouts.analytics` |`75s` |Timeout for the analytics service.
+|`spring.couchbase.env.timeouts.disconnect` |`10s` |Bucket disconnect timeout.
+|`spring.couchbase.env.timeouts.key-value-durable` |`10s` |Timeout for operations on a specific key-value with a durability level.
+|`spring.couchbase.env.timeouts.management` |`75s` |Timeout for the management operations.
+|`spring.couchbase.env.timeouts.search` |`75s` |Timeout for the search service.
+|`spring.data.couchbase.bucket-name` | |Name of the bucket to connect to.
+|`spring.data.couchbase.field-naming-strategy` | |Fully qualified name of the FieldNamingStrategy to use.
+|`spring.data.couchbase.scope-name` | |Name of the scope used for all collection access.
+|`spring.data.elasticsearch.client.reactive.max-in-memory-size` | |Limit on the number of bytes that can be buffered whenever the input stream needs to be aggregated.
+|`spring.data.mongodb.replica-set-name` | |Required replica set name for the cluster.
+|`spring.kafka.admin.security.protocol` | |Security protocol used to communicate with brokers.
+|`spring.kafka.consumer.security.protocol` | |Security protocol used to communicate with brokers.
+|`spring.kafka.producer.security.protocol` | |Security protocol used to communicate with brokers.
+|`spring.kafka.security.protocol` | |Security protocol used to communicate with brokers.
+|`spring.kafka.streams.security.protocol` | |Security protocol used to communicate with brokers.
+|`spring.main.cloud-platform` | |Override the Cloud Platform auto-detection.
+|`spring.redis.lettuce.cluster.refresh.adaptive` |`false` |Whether adaptive topology refreshing using all available refresh triggers should be used.
+|`spring.redis.lettuce.cluster.refresh.period` | |Cluster topology refresh period.
+|`spring.webflux.base-path` | |Base path for all web handlers.
+|======================
+
+.Removed keys in `2.3.0.M4`
+|======================
+|Key  |Replacement |Reason
+|`spring.couchbase.bootstrap-hosts` |`spring.couchbase.connection-string` |
+|`spring.couchbase.bucket.name` | |A bucket is no longer auto-configured.
+|`spring.couchbase.bucket.password` | |A bucket is no longer auto-configured.
+|`spring.couchbase.env.bootstrap.http-direct-port` | |
+|`spring.couchbase.env.bootstrap.http-ssl-port` | |
+|`spring.couchbase.env.endpoints.key-value` | |
+|`spring.couchbase.env.endpoints.queryservice.max-endpoints` |`spring.couchbase.env.io.max-endpoints` |
+|`spring.couchbase.env.endpoints.queryservice.min-endpoints` |`spring.couchbase.env.io.min-endpoints` |
+|`spring.couchbase.env.endpoints.viewservice.max-endpoints` |`spring.couchbase.env.io.max-endpoints` |
+|`spring.couchbase.env.endpoints.viewservice.min-endpoints` |`spring.couchbase.env.io.min-endpoints` |
+|`spring.couchbase.env.timeouts.socket-connect` | |
+|`spring.data.couchbase.consistency` | |
+|======================

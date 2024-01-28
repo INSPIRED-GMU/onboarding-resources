@@ -1,0 +1,147 @@
+:docs: https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/
+
+
+= Spring Boot 1.4.0 RC1 Release Notes
+
+For changes in earlier milestones, please refer to:
+
+ - link:Spring-Boot-1.4.0-M1-Release-Notes[v1.4.0 M1]
+ - link:Spring-Boot-1.4.0-M2-Release-Notes[v1.4.0 M2]
+ - link:Spring-Boot-1.4.0-M3-Release-Notes[v1.4.0 M3]
+
+
+== Upgrading from Spring Boot 1.4.0 M3
+See instructions in the link:Spring-Boot-1.4.0-M3-Release-Notes[1.4.0.M3 release notes] for upgrading from v1.4.0.M2 and earlier.
+
+=== MongoDB 3
+The default version of Mongo's Java Driver is now 3.2.2 (from 2.14.2) and `spring-boot-starter-data-mongodb` has been updated to use the new, preferred `mongodb-driver` artifact.
+
+The auto-configuration for Embedded MongoDB has also been updated to use 3.2.2 as its default version.
+
+=== Spring Batch Starter
+
+The `spring-boot-starter-batch` starter no longer depends on an embedded database. If you were relying on this arrangement, please add a database (driver) of your choice, e.g.
+
+```xml
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-batch</artifactId>
+</dependency>
+<dependency>
+	<groupId>org.hsqldb</groupId>
+	<artifactId>hsqldb</artifactId>
+	<scope>runtime</scope>
+</dependency>
+```
+
+If you had an exclusion on `hsqldb` as you were already configuring your own, you can now remove the exclusion.
+
+=== Hibernate
+
+Spring Boot nows uses Hibernate `5.0.9.Final` by default. If you want to use Hibernate `5.2.x`, updating only the version works as of `5.2.1.Final` since the Hibernate team has re-introduced `hibernate-entitymanager`.
+
+=== Server header
+The `Server` HTTP response header is no longer set unless the `server.server-header` property is set.
+
+=== @EntityScan
+The `@org.springframework.boot.orm.jpa.EntityScan` annotation has been deprecated and should be replaced with `@org.springframework.boot.autoconfigure.domain.EntityScan` or explicit configuration.
+
+For example, if you have following configuration:
+
+```java
+import org.springframework.boot.autoconfigure.SpringApplication;
+import org.springframework.boot.orm.jpa.EntityScan;
+
+@SpringBootApplication
+@EntityScan(basePackageClasses=Customer.class)
+public class MyApplication {
+
+    // ....
+
+}
+```
+
+If you're using an auto-configured `LocalContainerEntityManagerFactoryBean`, switch to:
+
+```java
+import org.springframework.boot.autoconfigure.SpringApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+
+@SpringBootApplication
+@EntityScan(basePackageClasses=Customer.class)
+public class MyApplication {
+
+    // ....
+
+}
+```
+
+Or if you're defining your own `LocalContainerEntityManagerFactoryBean` drop the `@EntityScan` annotation entirely and either call `LocalContainerEntityManagerFactoryBean.setPackagesToScan(...)` or make use of the `EntityManagerFactoryBuilder` `packages(...)` method:
+
+```java
+@Bean
+public LocalContainerEntityManagerFactoryBean entityManagerFactory(
+        EntityManagerFactoryBuilder builder) {
+    return builder
+        .dataSource(...)
+        .properties(...)
+        .packages(Customer.class).build();
+
+```
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-1.4.0-RC1-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+=== Unified `@EntityScan` annotation
+
+`org.springframework.boot.autoconfigure.domain.EntityScan` can now be used to specify the packages to use for JPA, Neo4J, MongoDB, Cassandra and Couchbase. As a result, the JPA-specific `org.springframework.boot.orm.jpa.EntityScan` is now deprecated and `NodeEntityScan` introduced in a previous milestone has been removed.
+
+=== Third-party library upgrades
+
+A number of third party libraries have been upgraded to their latest version. Updates include Jetty 9.3, Tomcat 8.5, Jersey 2.23, Artemis 1.3, Ehcache 3.1, Elasticsearch 2.3, Spring REST Docs 1.1, Spring AMQP 1.6 & Spring Integration 4.3.
+
+Several Maven plugins were also upgraded.
+
+=== RestTemplate builder
+
+A new `RestTemplateBuilder` can be used to easily create a `RestTemplate` with sensible defaults. By default, the built `RestTemplate` will attempt to use the most suitable `ClientHttpRequestFactory` available on the classpath and will be aware of the `MessageConverter` instances to use (including Jackson). The builder includes a number of useful methods that can be used to quickly configure a `RestTemplate`. For example, to add BASIC auth support you can use
+
+```
+@Bean
+public RestTemplate restTemplate(RestTemplateBuilder builder) {
+    return builder.basicAuthorization("user", "secret").build();
+}
+```
+
+The auto-configured `TestRestTemplate` now uses the `RestTemplateBuilder` as well.
+
+
+=== @RestClientTest
+
+The `@RestClientTest` annotation can be used if you want to test REST clients. By default it will auto-configure Jackson and GSON support, configure a `RestTemplateBuilder` and add support for `MockRestServiceServer`.
+
+=== Jest support
+
+Spring Boot auto-configures a `JestClient` and a dedicated `HealthIndicator` if Jest is on the classpath. This allows you to use `Elasticsearch` even when `spring-data-elasticsearch` isn't on the classpath.
+
+=== Spring Session JDBC Initializer
+
+If Spring Session is configured to use the JDBC store, the schema is now created automatically on startup.
+
+=== Secured connection for Artemis/HornetQ
+
+Spring Boot now allows to connect against a secured Artemis/HornetQ broker. 
+
+=== Miscellaneous
+
+* The actuator exposes a new `headdump` endpoint that returns a GZip compressed `hprof` heap dump file
+* Spring Mobile is now auto-configured for all supported template engines
+* The Spring Boot maven plugin allows to bundle `system` scoped artifacts using the new `includeSystemScope` attribute
+* `spring.mvc.log-resolved-exception` enables the automatic logging of a warning when an exception is resolved by a `HandlerExceptionResolver`
+* `spring.data.cassandra.schema-action` you be used to customize the schema action to take on startup
+
+== Deprecations in Spring Boot 1.4.0.RC1
+
+* The `spring-boot-starter-hornetq` starter has been deprecated in favour of using `spring-boot-starter-artemis`
+* `management.security.role` has been deprecated in favour of `management.security.roles`
+* The `@org.springframework.boot.orm.jpa.EntityScan` annotation has been deprecated in favor of `@org.springframework.boot.autoconfigure.domain.EntityScan` or explicit configuration.

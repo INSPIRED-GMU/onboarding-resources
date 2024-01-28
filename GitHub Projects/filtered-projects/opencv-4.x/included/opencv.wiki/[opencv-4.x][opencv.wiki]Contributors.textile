@@ -1,0 +1,40 @@
+
+
+h1. OpenCV Contributors
+
+If you noticed that some names are missing, please mail to a delete-admin@delete-opencv.org
+
+h2. Original OpenCV committee (vision, functionality proposals etc.):
+
+|  *Title*  | *Name*  | *Current Position* |
+|  Prof.        |  Gary Bradski     |  Stanford University, Willow Garage |
+|  Prof.        |  Trevor Darrell   |  UC Berkeley |
+|  Prof.        |  Irfan Essa       |  Georgia Institute of Technology|
+|  Prof.        |  Jitendra Malik   |  UC Berkeley|
+|  Prof.        |  Pietro Perona    |  Caltech|
+|  Prof.        |  Stan Sclaroff    |  Boston University|
+|  Prof.        |  Carlo Tomasi     |  Duke University|
+
+h2. Corporate Contributors
+
+| *Company* | *Contribution* |
+|  "Intel":http://www.Intel.com | Founded OpenCV,  years of support |
+|  "NVIDIA":http://www.nvidia.com | Supporting Android, Embedded Linux, WinRT and CUDA ports |
+|  "Itseez":http://www.itseez.com | Supporting current core programming team|
+|  "Willow Garage":http://www.willowgarage.com | Supported core programming team for 5 years|
+|  "Xperience AI":http://www.https://xperience.ai/ |  Supporting current core programming team |
+|  "Advanced Micro Devices, Inc":https://www.amd.com/en | Supported for 3 years |
+|  "Shenzhen Institute of Artificial Intelligence and Robotics for Society":https://airs.cuhk.edu.cn/en | Supporting current core programming team |
+
+
+OpenCV includes (or included in the past) modified versions of the following software:
+
+* Gaussian Random Number Generator by George Marsaglia et al. (see cxcore/src/cxrand.cpp)
+* SVD from SLATEC (see cxcore/src/cxsvd.cpp)
+* Small inline math functions and macros by Agner Fog, Bruce Holloway et al., Ken Turkowski (see cxcore/include/cxtypes.h)
+* Quicksort implementation from University of California, Berkeley (see cxcore/include/cxoperations.hpp)
+* Earth Mover Distance and RGB->Lab conversion by Yossi Rubner (see src/cv/cvemd.cpp and src/cv/cvcolor.cpp)
+
+Active OpenCV forum participants, bug reporters etc.:
+
+* Barbaresi, Abramo Betti, Gabriele Cao, Ning Cawkwell, Jack Chen, Gen-Nan Cheng, Michael Fritz, Frank Grossman, Dave Iannizotto, Giancarlo Lu, Le Kunz, Clay Mellor, J. P. Ming, Li Zayed, Mohamed Rocha, Jairo Stewart, James Andr Small, Daniel Zivkovic, Zoran

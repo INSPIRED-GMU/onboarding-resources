@@ -1,0 +1,32 @@
+Configuration properties change between `2.2.0.M5` and `2.2.0.M6`
+
+.Deprecated keys in `2.2.0.M6`
+|======================
+|Key  |Replacement |Reason
+|`management.health.status.http-mapping` |`management.endpoint.health.status.http-mapping` |
+|`management.health.status.order` |`management.endpoint.health.status.order` |
+|`spring.rabbitmq.publisher-confirms` |`spring.rabbitmq.publisher-confirm-type` |replaced to support additional confirm types
+|======================
+
+.New keys in `2.2.0.M6`
+|======================
+|Key  |Default value |Description
+|`management.endpoint.health.group` | |Health endpoint groups.
+|`management.endpoint.health.status.http-mapping` | |Mapping of health statuses to HTTP status codes.
+|`management.endpoint.health.status.order` |`DOWN,OUT_OF_SERVICE,UP,UNKNOWN` |Comma-separated list of health statuses in order of severity.
+|`management.health.ping.enabled` |`true` |Whether to enable ping health check.
+|`server.jetty.idle-timeout` |`60000` |Maximum thread idle time.
+|`server.jetty.max-threads` |`200` |Maximum number of threads.
+|`server.jetty.min-threads` |`8` |Minimum number of threads.
+|`spring.flyway.oracle-sqlplus-warn` | |Whether to issue a warning rather than an error when a not-yet-supported Oracle SQL*Plus statement is encountered.
+|`spring.flyway.tablespace` | |Tablespace in which the schema history table is created.
+|`spring.jms.listener.receive-timeout` |`1s` |Timeout to use for receive calls.
+|`spring.rabbitmq.publisher-confirm-type` | |Type of publisher confirms to use.
+|`spring.session.jdbc.flush-mode` | |Sessions flush mode.
+|======================
+
+.Removed keys in `2.2.0.M6`
+|======================
+|Key  |Replacement |Reason
+|`spring.mvc.favicon.enabled` |`true` |Whether to enable resolution of favicon.ico.
+|======================

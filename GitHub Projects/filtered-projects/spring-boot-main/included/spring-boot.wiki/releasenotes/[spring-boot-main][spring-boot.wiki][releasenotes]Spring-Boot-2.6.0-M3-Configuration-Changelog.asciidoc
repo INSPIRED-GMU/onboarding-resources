@@ -1,0 +1,54 @@
+Configuration properties change between `2.6.0-M2` and `2.6.0-M3`
+
+== Deprecated in `2.6.0-M3`
+|======================
+|Key  |Replacement |Reason
+|`spring.data.elasticsearch.client.reactive.connection-timeout` |`spring.elasticsearch.connection-timeout` |
+|`spring.data.elasticsearch.client.reactive.endpoints` |`spring.elasticsearch.uris` |
+|`spring.data.elasticsearch.client.reactive.max-in-memory-size` |`spring.elasticsearch.webclient.max-in-memory-size` |
+|`spring.data.elasticsearch.client.reactive.password` |`spring.elasticsearch.password` |
+|`spring.data.elasticsearch.client.reactive.socket-timeout` |`spring.elasticsearch.socket-timeout` |
+|`spring.data.elasticsearch.client.reactive.use-ssl` | |Use of SSL should be indicated through an https URI scheme
+|`spring.data.elasticsearch.client.reactive.username` |`spring.elasticsearch.username` |
+|`spring.elasticsearch.rest.connection-timeout` |`spring.elasticsearch.connection-timeout` |
+|`spring.elasticsearch.rest.password` |`spring.elasticsearch.password` |
+|`spring.elasticsearch.rest.read-timeout` |`spring.elasticsearch.socket-timeout` |
+|`spring.elasticsearch.rest.sniffer.delay-after-failure` |`spring.elasticsearch.restclient.sniffer.delay-after-failure` |
+|`spring.elasticsearch.rest.sniffer.interval` |`spring.elasticsearch.restclient.sniffer.interval` |
+|`spring.elasticsearch.rest.uris` |`spring.elasticsearch.uris` |
+|`spring.elasticsearch.rest.username` |`spring.elasticsearch.username` |
+|======================
+
+
+
+== New in `2.6.0-M3`
+|======================
+|Key  |Default value |Description
+|`management.metrics.system.diskspace.paths` |`.` |Comma-separated list of paths to report disk metrics for.
+|`spring.elasticsearch.connection-timeout` |`1s` |Connection timeout used when communicating with Elasticsearch.
+|`spring.elasticsearch.password` | |Password for authentication with Elasticsearch.
+|`spring.elasticsearch.path-prefix` | |Prefix added to the path of every request sent to Elasticsearch.
+|`spring.elasticsearch.restclient.sniffer.delay-after-failure` |`1m` |Delay of a sniff execution scheduled after a failure.
+|`spring.elasticsearch.restclient.sniffer.interval` |`5m` |Interval between consecutive ordinary sniff executions.
+|`spring.elasticsearch.socket-timeout` |`30s` |Socket timeout used when communicating with Elasticsearch.
+|`spring.elasticsearch.uris` |`http://localhost:9200` |Comma-separated list of the Elasticsearch instances to use.
+|`spring.elasticsearch.username` | |Username for authentication with Elasticsearch.
+|`spring.elasticsearch.webclient.max-in-memory-size` | |Limit on the number of bytes that can be buffered whenever the input stream needs to be aggregated.
+|`spring.flyway.connect-retries-interval` |`120` |Maximum time between retries when attempting to connect to the database.
+|`spring.flyway.script-placeholder-prefix` |`FP__` |Prefix of placeholders in migration scripts.
+|`spring.flyway.script-placeholder-suffix` |`__` |Suffix of placeholders in migration scripts.
+|`spring.integration.poller.cron` | |Cron expression for polling.
+|`spring.integration.poller.fixed-delay` | |Polling delay period.
+|`spring.integration.poller.fixed-rate` | |Polling rate period.
+|`spring.integration.poller.initial-delay` | |Polling initial delay.
+|`spring.integration.poller.max-messages-per-poll` | |Maximum of messages to poll per polling cycle.
+|`spring.integration.poller.receive-timeout` |`1s` |How long to wait for messages on poll.
+|======================
+
+
+
+== Removed in `2.6.0-M3`
+|======================
+|Key  |Replacement |Reason
+|`spring.datasource.oracleucp.password` | |
+|======================

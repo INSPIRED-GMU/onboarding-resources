@@ -1,0 +1,227 @@
+:actuator-docs: https://docs.spring.io/spring-boot/docs/2.4.0-SNAPSHOT/actuator-api/html/
+:docs: https://docs.spring.io/spring-boot/docs/2.4.x-SNAPSHOT/reference/html/
+
+= Spring Boot 2.4.0 M2 Release Notes
+
+For changes in earlier milestones, please refer to:
+
+- link:Spring-Boot-2.4.0-M1-Release-Notes[v2.4.0 M1]
+
+
+
+== Upgrading from Spring Boot 2.3
+
+
+=== Config File Processing (application properties and YAML files)
+Spring Boot 2.4 has changed the way that `application.properties` and `application.yml` files are processed.
+If you only have a simple `application.properties` or `application.yml` file, your upgrade should be seamless.
+If, however, you've have a more complex setup (with profile specific properties, or profile activation properties) you may need to make link:Spring-Boot-Config-Data-Migration-Guide[some changes] if you want to use the new features.
+
+If you just want Spring Boot 2.3 compatible logic, you can set a `spring.config.use-legacy-processing` property to `true` in your `application.properties` or `application.yml` file.
+
+
+
+=== Neo4j
+This release brings a significant overhaul of the Neo4j support.
+A number of properties in `spring.data.neo4j.*` have been removed and the support of Neo4j OGM has been removed as well.
+
+Configuration of the Neo4j driver is done via the `spring.neo4j.*` namespace although URI and basic authentication from the `data` namespace are still supported in a deprecated fashion.
+
+For more details about this change and what Spring Data Neo4j 6 brings, https://docs.spring.io/spring-data/neo4j/docs/6.0.0-M2/reference/html/[check the documentation].
+
+
+
+=== R2DBC
+The core infrastructure of R2DBC has moved to Spring Framework with a new `spring-r2dbc` module.
+If you are using this infrastructure, make sure to migrate deprecated access to the new core support.
+
+
+=== HTTP traces no longer include cookie headers by default
+`Cookie` request headers and `Set-Cookie` response headers are no longer included in HTTP traces by default.
+To restore Spring Boot 2.3's behaviour, set `management.trace.http.include` to `cookies, errors, request-headers, response-headers`.
+
+
+
+=== Metrics export in integration tests
+`@SpringBootTest` no longer configures available monitoring systems and only provide the in-memory `MeterRegistry`.
+If you were exporting metrics as part of an integration test, you can add `@AutoConfigureMetrics` to your test to restore the previous behaviour.
+
+
+=== Version management for `exec-maven-plugin`
+The version management for the `exec-maven-plugin` has been removed.
+If you are using this plugin, make sure to specify a version in your own `pluginManagement`.
+
+
+
+=== Deprecations from Spring Boot 2.3
+Reflecting Spring Boot 2.4's move to a 6-month release cadence, code deprecated in Spring Boot 2.3 will not be removed until Spring Boot 2.5.
+
+
+
+=== Minimum requirements changes
+None.
+
+
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.4.0-M2-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+
+
+=== Spring Framework 5.3-M2
+Spring Boot 2.4 will include Spring Framework 5.3, and this milestone upgrades to Spring Framework 5.3.0-M2. Please refer to https://spring.io/blog/2020/08/11/spring-framework-5-3-0-m2-available-now[this blog post] to learn more.
+
+
+
+=== Spring Data 2020.0-M2
+Spring Boot 2.4 will include version 2020.0 (code-named Ockham) of the Spring Data release train, and this milestone includes M2.
+
+
+
+==== Neo4j
+This release brings support of reactive repositories and rely on a separate auto-configuration for the Neo4j driver.
+As a result, it is now possible to use Neo4j with or without Spring Data.
+
+Health checks for Neo4j use the Driver and are available as long as the Neo4j driver is configured.
+
+If you want to use `@Transactional` with reactive access, you'd need to configure the `Neo4jReactiveTransactionManager` bean yourself for now.
+
+[source,java,indent=0]
+----
+@Bean(ReactiveNeo4jRepositoryConfigurationExtension.DEFAULT_TRANSACTION_MANAGER_BEAN_NAME)
+public ReactiveTransactionManager reactiveTransactionManager(Driver driver,
+      ReactiveDatabaseSelectionProvider databaseNameProvider) {
+    return new ReactiveNeo4jTransactionManager(driver, databaseNameProvider);
+}
+----
+
+We expect to alleviate this limitation in a future milestone
+
+
+
+==== R2DBC
+A `R2dbcEntityTemplate` is available to simplify the use of Reactive R2DBC usage through entities
+
+
+=== Importing Additional Application Config
+As long as you haven't set `spring.config.use-legacy-processing` to `true`, you can now import additional properties and yaml files directly from your main `application.properties` or `application.yml`.
+
+You can use the `spring.config.import` property to specify one or more additional config files that should be imported into the Spring `Environment`.
+See {docs}spring-boot-features.html#boot-features-external-config-files-importing[this section] of the reference guide for more details.
+
+We've also published https://spring.io/blog/2020/08/14/config-file-processing-in-spring-boot-2-4[a short blog] explaining why we've made these changes.
+
+
+
+=== Volume Mounted Config Directory Trees
+The `spring.config.import` property can also be used to import configuration trees that are commonly used with Kubernetes.
+A configuration tree is an alternative way of providing key/value pairs.
+Each pair is declared in its own file, with the filename forming the property key, and the file contents providing the value.
+
+For a complete example, see the {docs}spring-boot-features.html#boot-features-external-config-files-configtree[updated reference documentation].
+
+
+
+=== Custom property name support
+When using constructor binding the name of the property is derived from the parameter name.
+This can be a problem if you want to use a java reserved keyword.
+For such situations, you can now use the `@Name` annotation, something like:
+
+[source,java,indent=0]
+----
+@ConfigurationProperties(prefix = "sample")
+public class SampleConfigurationProperties {
+
+  private final String importValue;
+
+  public SampleConfigurationProperties(@Named("import") String importValue) {
+    this.importValue = importValue;
+  }
+
+}
+----
+
+The sample above exposes a `sample.import` property.
+
+
+
+=== Layered jar enabled by default
+This release enables layered jars and include the layertools by default.
+This should improve the efficiency of generated image using the build pack out-of-the-box and lets you benefit of that feature when {docs}spring-boot-features.html#layering-docker-images[crafting custom `Dockerfile`].
+
+
+
+=== Slice test for Cassandra
+An additional test slice can be used to test components that rely on Cassandra using `@DataCassandraTest`.
+As usual, only Cassandra Repositories and the required infrastructure is configured by default.
+
+Here is an example using Testcontainers and `@DynamicPropertSource`:
+
+[source,java,indent=0]
+----
+@DataCassandraTest(properties = "spring.data.cassandra.local-datacenter=datacenter1")
+@Testcontainers(disabledWithoutDocker = true)
+class SampleDataCassandraTestIntegrationTests {
+
+	@Container
+	static final CassandraContainer<?> cassandra = new CassandraContainer<>().withStartupAttempts(5)
+			.withStartupTimeout(Duration.ofMinutes(2));
+
+	@DynamicPropertySource
+	static void cassandraProperties(DynamicPropertyRegistry registry) {
+		registry.add("spring.data.cassandra.contact-points",
+				() -> cassandra.getHost() + ":" + cassandra.getFirstMappedPort());
+	}
+
+	...
+
+}
+----
+
+
+=== Dependency Upgrades
+Spring Boot 2.4 M2 moves to new versions of several Spring projects:
+
+- Reactor 2020.0.0-M2
+- Spring AMQP 2.3.0-M2
+- Spring Batch 4.3.0-M2
+- Spring Data 2020.0.0-M2
+- Spring Framework 5.3.0-M2
+- Spring Integration 5.4.0-M2
+- Spring Kafka 2.6.0-M1
+- Spring Security 5.4.0-RC1
+
+
+Numerous third-party dependencies have also been updated, some of the more noteworthy of which are the following:
+
+- Elasticsearch 7.8
+- Mockito 3.4
+- MongoDB 4.1
+
+
+=== Miscellaneous
+Apart from the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+- R2DBC pool support exposes additional configuration properties.
+- Exception handling in `LdapTemplate` can be configured to ignore certain exceptions.
+- ISO offset date time format is support for MVC and Webflux.
+- Add a configuration property to opt-in for the new `PathPatternParser` in lieu of `AntPathMatcher` to parse and match request mapping path patterns.
+- `@DurationUnit`, `@DataSizeUnit`, and `@PeriodUnit` can annotate a constructor parameter using `@ConstructorBinding`.
+- The auto-configured `RabbitConnectionFactory` checks for the presence of `CredentialsProvider` and `CredentialsRefreshService`.
+- A health group can be defined with only exclusions.
+- `AbstractRoutingDataSource` can be ignored in health checks using `management.health.db.ignore-routing-data-sources`.
+- The localEntityIdTemplate of A SAML Relying party can be configured.
+- HTTP traces are measures with nanosecond precision.
+- A dedicated `FailureAnalyzer` provides a meaningful message when a Liquibase changelog is missing.
+- Netty's request decoder can be customized using `server.netty.*` properties.
+- Plugin management for the Liquibase Maven Plugin that is consistent with the Liquibase version a Spring Boot version manages.
+- Basic authentication support for Prometheus PushGateway.
+- Allow selecting Jedis when both Jedis and Lettuce are available using `spring.redis.client-type`.
+- Allow disabling Redis Cluster dynamic sources refresh using `spring.redis.lettuce.cluster.refresh.dynamic-sources`.
+
+== Deprecations in Spring Boot 2.4.0 M2
+
+* `ConfigFileApplicationListener` has been deprecated in favor of `ConfigDataEnvironmentPostProcessor`.
+* `SpringApplicationBuilder` and `SpringApplication` methods relating to the `contextClass` have been deprecated in favor of alternatives that use a `contextFactory`.
+* Some methods of `CloudFoundryVcapEnvironmentPostProcessor` have been deprecated to work with `EnvironmentPostProcessor` updates (these should affect most users).
+* The `BuildLog` build pack support class has deprecated a few methods and replaced them with alternatives that provide more details.

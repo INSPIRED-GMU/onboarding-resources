@@ -1,0 +1,134 @@
+:guide: https://docs.spring.io/spring-boot/docs/2.0.0.M7/reference/htmlsingle
+:actuator-api: https://docs.spring.io/spring-boot/docs/2.0.0.M7/actuator-api/html
+
+
+For changes in earlier milestones, please refer to:
+
+ - link:Spring-Boot-2.0.0-M1-Release-Notes[v2.0.0 M1]
+ - link:Spring-Boot-2.0.0-M2-Release-Notes[v2.0.0 M2]
+ - link:Spring-Boot-2.0.0-M3-Release-Notes[v2.0.0 M3]
+ - link:Spring-Boot-2.0.0-M4-Release-Notes[v2.0.0 M4]
+ - link:Spring-Boot-2.0.0-M5-Release-Notes[v2.0.0 M5]
+ - link:Spring-Boot-2.0.0-M6-Release-Notes[v2.0.0 M6]
+
+== Upgrading from Spring Boot 2.0.0 M6
+See instructions in the link:Spring-Boot-2.0.0-M6-Release-Notes[2.0.0.M6 release notes] for upgrading from v2.0.0.M5 and earlier.
+
+=== Actuator configuration changes
+After some feedback from the community, the default `management.endpoints.web.base-path` has been changed from `"/application"` to `"/actuator"` to avoid collision with user-defined mappings (see https://github.com/spring-projects/spring-boot/issues/10970[#10970]).
+
+The `endpoints.*` keys have moved to `management.endpoints.*`
+
+=== Health vs. Status
+The `status` endpoint been removed in favour of a unique `health` endpoint that can either show the status or the full details. The `health` endpoint is now exposed by default (and only shows the status). This can be changed using the `management.endpoints.health.show-details` property:
+
+```
+management.endpoints.health.show-details=true
+```
+
+
+=== Actuator endpoint exposures
+Endpoint exposure has been simplified. Rather than an `enabled` flag per endpoint and per technology, each technology provides a `expose` and `exclude` attributes. For instance to expose all web endpoints but the `env` endpoint:
+
+```
+management.endpoints.web.expose=*
+management.endpoints.web.exclude=env
+```
+
+Check the updated documentation in the link:{guide}/#production-ready[updated section in the reference guide] and the link:{actuator-api}[new Actuator API documentation].
+
+=== Auto-configuration report
+As the "Auto-configuration report" defines more than than the outcome of auto-configurations, it has been renamed to "Conditions evaluation report". The `/actuator/auto-config` is now available at `/actuator/conditions`.
+
+=== Jackson serialization
+The default value for `spring.jackson.serialization.write-dates-as-timestamps` is now set to `false`, meaning all JSR310 date types will be serialized as ISO-8601 strings instead of array-like types.
+
+=== Using Jackson with Kotlin
+Due to an unanticipated and unwanted side-effect, `jackson-module-kotlin` has been removed from `spring-boot-starter-json`. If you are using Jackson in a Kotlin project, you will now have to declare the `com.fasterxml.jackson.module:jackson-module-kotlin` dependency manually. https://github.com/spring-projects/spring-boot/issues/11133[(#11133)]
+
+=== Spring Data repositories enablement
+Spring Data repositories that support both imperative and reactive use case can be configured using a `spring.data.<store>.type` property. The default value is `auto`, i.e. configure what is available.
+
+=== Commons Digester dependency management
+`commons-digester` is no longer managed. If you are using this library, you'll have to define a `version` for it.
+
+=== Job command line runner order
+The `CommandLineRunner` that executes batch jobs on startup has an order of 0.
+
+=== Spring Social
+Auto-configuration and dependency management for Spring Social has been removed.
+
+=== Configuring bootRun in Gradle
+Based on user feedback, the `BootRun` task is once again a subclass of Gradle's `JavaExec` task. It can be configured in the same way as any other `JavaExec` task.
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.0.0-M7-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+=== Conditions evaluation delta on restart
+When an application using devtools restart due to a change, a delta of the conditions evaluation report is logged. This delta defines exactly which conditions have changed and the impact on your application. For the instance, the following would be logged if you add your own `ObjectMapper` to an application that used the auto-configured version so far:
+
+```
+2017-11-24 14:45:57.723  INFO 63896 --- [  restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+    None
+
+
+Negative matches:
+-----------------
+
+   JacksonAutoConfiguration.JacksonObjectMapperConfiguration#jacksonObjectMapper:
+      Did not match:
+         - @ConditionalOnMissingBean (types: com.fasterxml.jackson.databind.ObjectMapper; SearchStrategy: all) found beans of type 'com.fasterxml.jackson.databind.ObjectMapper' objectMapper (OnBeanCondition)
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+```
+
+=== Scheduled tasks actuator endpoint
+A new endpoint to display scheduled tasks (i.e. `@EnableScheduling`) is available at `/actuator/scheduledtasks`. It provides an entry for the cron, fixed delay and fixed rate tasks.
+
+=== Duration in configuration properties
+Many configuration properties, like `server.session.cookie.max-age` expect as values the number of seconds (or milliseconds, depending on the property) to configure a duration. Those properties have been converted to Java `Duration` types, so you can configure `server.session.cookie.max-age=2d` (two days!). Note that existing, non-suffixed, values will keep on working as expected.
+
+=== Auto-configured templated welcome page
+Spring Boot support both static and templated welcome pages. It first looks for an `index.html` file in the configured static content locations. If one is not found, it then looks for an `index` template. If either is found it is automatically used as the welcome page of the application.
+
+=== Better cache auto-configuration for Redis
+Cache defaults can now be configured using `spring.cache.redis.*` properties.
+
+=== Support for custom Hibernate naming strategies
+For advanced scenario, you can now define the `ImplicitNamingStrategy` or `PhysicalNamingStrategy` to use as regular beans in the context.
+
+=== Reactive Couchbase support
+Support for Spring Data reactive repositories is available for Couchbase and a `spring-boot-starter-data-couchbase-reactive` is available to easily get started.
+
+=== Kotlin extensions for `TestRestTemplate`
+The Kotlin `RestTemplate` extensions are also available for `TestRestTemplate` to make the developer experience consistent.
+
+=== Context path log on startup
+When using an embedded container, the context path is logged alongside the HTTP port. Something like;
+
+```
+Tomcat started on port(s): 8080 (http) with context path '/foo'
+```
+
+=== Testing improvements
+`Converter` and `GenericConverter` beans are automatically scanned with `@WebMvcTest` and `@WebFluxTest`.

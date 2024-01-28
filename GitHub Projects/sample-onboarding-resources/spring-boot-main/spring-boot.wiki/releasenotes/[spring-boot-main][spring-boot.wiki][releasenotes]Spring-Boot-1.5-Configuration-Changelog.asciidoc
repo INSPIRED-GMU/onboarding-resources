@@ -1,0 +1,166 @@
+Configuration properties change between `1.4.3.RELEASE` and `1.5.0.BUILD-SNAPSHOT`
+
+.Deprecated keys in `1.5.0.BUILD-SNAPSHOT`
+|======================
+|Key  |Replacement |Reason
+|`management.shell.command-path-patterns` | |
+|`management.shell.command-refresh-interval` | |
+|`management.shell.config-path-patterns` | |
+|`management.shell.disabled-commands` | |
+|`management.shell.disabled-plugins` | |
+|`server.max-http-post-size` | |Use dedicated property for each container.
+|`server.undertow.buffers-per-region` | |The property is not used by Undertow. See https://issues.jboss.org/browse/UNDERTOW-587 for details
+|`spring.cache.guava.spec` |`spring.cache.caffeine.spec` |Caffeine will supersede the Guava support in Spring Boot 2.0
+|`spring.datasource.dbcp.access-to-underlying-connection-allowed` | |
+|`spring.datasource.dbcp.connection-init-sqls` | |
+|`spring.datasource.dbcp.default-auto-commit` | |
+|`spring.datasource.dbcp.default-catalog` | |
+|`spring.datasource.dbcp.default-read-only` | |
+|`spring.datasource.dbcp.default-transaction-isolation` | |
+|`spring.datasource.dbcp.driver-class-name` | |
+|`spring.datasource.dbcp.initial-size` | |
+|`spring.datasource.dbcp.log-abandoned` | |
+|`spring.datasource.dbcp.login-timeout` | |
+|`spring.datasource.dbcp.max-active` | |
+|`spring.datasource.dbcp.max-idle` | |
+|`spring.datasource.dbcp.max-open-prepared-statements` | |
+|`spring.datasource.dbcp.max-wait` | |
+|`spring.datasource.dbcp.min-evictable-idle-time-millis` | |
+|`spring.datasource.dbcp.min-idle` | |
+|`spring.datasource.dbcp.num-tests-per-eviction-run` | |
+|`spring.datasource.dbcp.password` | |
+|`spring.datasource.dbcp.pool-prepared-statements` | |
+|`spring.datasource.dbcp.remove-abandoned` | |
+|`spring.datasource.dbcp.remove-abandoned-timeout` | |
+|`spring.datasource.dbcp.test-on-borrow` | |
+|`spring.datasource.dbcp.test-on-return` | |
+|`spring.datasource.dbcp.test-while-idle` | |
+|`spring.datasource.dbcp.time-between-eviction-runs-millis` | |
+|`spring.datasource.dbcp.url` | |
+|`spring.datasource.dbcp.username` | |
+|`spring.datasource.dbcp.validation-query` | |
+|`spring.datasource.dbcp.validation-query-timeout` | |
+|======================
+
+.New keys in `1.5.0.BUILD-SNAPSHOT`
+|======================
+|Key  |Default value |Description
+|`endpoints.auditevents.enabled` | |Enable the endpoint.
+|`endpoints.auditevents.path` | |Endpoint URL path.
+|`endpoints.auditevents.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`endpoints.loggers.enabled` | |Enable the endpoint.
+|`endpoints.loggers.id` | |Endpoint identifier.
+|`endpoints.loggers.path` | |Endpoint URL path.
+|`endpoints.loggers.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`management.cloudfoundry.enabled` |`true` |Enable extended Cloud Foundry actuator endpoints.
+|`management.cloudfoundry.skip-ssl-validation` |`false` |Skip SSL verification for Cloud Foundry actuator endpoint security calls.
+|`management.health.cassandra.enabled` |`true` |Enable cassandra health check.
+|`management.health.couchbase.enabled` |`true` |Enable couchbase health check.
+|`security.headers.content-security-policy` | |Value for content security policy header.
+|`security.headers.content-security-policy-mode` | |Content security policy mode.
+|`security.oauth2.resource.filter-order` |`0` |The order of the filter chain used to authenticate tokens.
+|`server.jetty.max-http-post-size` |`0` |Maximum size in bytes of the HTTP post or put content.
+|`server.tomcat.accept-count` |`0` |Maximum queue length for incoming connection requests when all possible request processing threads are in use.
+|`server.tomcat.accesslog.buffered` |`true` |Buffer output such that it is only flushed periodically.
+|`server.tomcat.accesslog.rotate` |`true` |Enable access log rotation.
+|`server.tomcat.additional-tld-skip-patterns` | |Comma-separated list of additional patterns that match jars to ignore for TLD scanning.
+|`server.tomcat.max-connections` |`0` |Maximum number of connections that the server will accept and process at any given time.
+|`server.tomcat.max-http-post-size` |`0` |Maximum size in bytes of the HTTP post content.
+|`server.undertow.accesslog.rotate` |`true` |Enable access log rotation.
+|`server.undertow.max-http-post-size` |`0` |Maximum size in bytes of the HTTP post content.
+|`spring.data.neo4j.open-in-view` |`false` |Register OpenSessionInViewInterceptor.
+|`spring.data.rest.detection-strategy` | |Strategy to use to determine which repositories get exposed.
+|`spring.elasticsearch.jest.multi-threaded` |`true` |Enable connection requests from multiple execution threads.
+|`spring.jms.template.default-destination` | |Default destination to use on send/receive operations that do not have a destination parameter.
+|`spring.jms.template.delivery-delay` | |Delivery delay to use for send calls in milliseconds.
+|`spring.jms.template.delivery-mode` | |Delivery mode.
+|`spring.jms.template.priority` | |Priority of a message when sending.
+|`spring.jms.template.qos-enabled` | |Enable explicit QoS when sending a message.
+|`spring.jms.template.receive-timeout` | |Timeout to use for receive calls in milliseconds.
+|`spring.jms.template.time-to-live` | |Time-to-live of a message when sending in milliseconds.
+|`spring.kafka.bootstrap-servers` | |Comma-delimited list of host:port pairs to use for establishing the initial connection to the Kafka cluster.
+|`spring.kafka.client-id` | |Id to pass to the server when making requests; used for server-side logging.
+|`spring.kafka.consumer.auto-commit-interval` | |Frequency in milliseconds that the consumer offsets are auto-committed to Kafka if 'enable.auto.commit' true.
+|`spring.kafka.consumer.auto-offset-reset` | |What to do when there is no initial offset in Kafka or if the current offset does not exist any more on the server.
+|`spring.kafka.consumer.bootstrap-servers` | |Comma-delimited list of host:port pairs to use for establishing the initial connection to the Kafka cluster.
+|`spring.kafka.consumer.client-id` | |Id to pass to the server when making requests; used for server-side logging.
+|`spring.kafka.consumer.enable-auto-commit` | |If true the consumer's offset will be periodically committed in the background.
+|`spring.kafka.consumer.fetch-max-wait` | |Maximum amount of time in milliseconds the server will block before answering the fetch request if there isn't sufficient data to immediately satisfy the requirement given by "fetch.min.bytes".
+|`spring.kafka.consumer.fetch-min-size` | |Minimum amount of data the server should return for a fetch request in bytes.
+|`spring.kafka.consumer.group-id` | |Unique string that identifies the consumer group this consumer belongs to.
+|`spring.kafka.consumer.heartbeat-interval` | |Expected time in milliseconds between heartbeats to the consumer coordinator.
+|`spring.kafka.consumer.key-deserializer` | |Deserializer class for keys.
+|`spring.kafka.consumer.max-poll-records` | |Maximum number of records returned in a single call to poll().
+|`spring.kafka.consumer.value-deserializer` | |Deserializer class for values.
+|`spring.kafka.listener.ack-count` | |Number of records between offset commits when ackMode is "COUNT" or "COUNT_TIME".
+|`spring.kafka.listener.ack-mode` | |Listener AckMode; see the spring-kafka documentation.
+|`spring.kafka.listener.ack-time` | |Time in milliseconds between offset commits when ackMode is "TIME" or "COUNT_TIME".
+|`spring.kafka.listener.concurrency` | |Number of threads to run in the listener containers.
+|`spring.kafka.listener.poll-timeout` | |Timeout in milliseconds to use when polling the consumer.
+|`spring.kafka.producer.acks` | |Number of acknowledgments the producer requires the leader to have received before considering a request complete.
+|`spring.kafka.producer.batch-size` | |Number of records to batch before sending.
+|`spring.kafka.producer.bootstrap-servers` | |Comma-delimited list of host:port pairs to use for establishing the initial connection to the Kafka cluster.
+|`spring.kafka.producer.buffer-memory` | |Total bytes of memory the producer can use to buffer records waiting to be sent to the server.
+|`spring.kafka.producer.client-id` | |Id to pass to the server when making requests; used for server-side logging.
+|`spring.kafka.producer.compression-type` | |Compression type for all data generated by the producer.
+|`spring.kafka.producer.key-serializer` | |Serializer class for keys.
+|`spring.kafka.producer.retries` | |When greater than zero, enables retrying of failed sends.
+|`spring.kafka.producer.value-serializer` | |Serializer class for values.
+|`spring.kafka.properties` | |Additional properties used to configure the client.
+|`spring.kafka.ssl.key-password` | |Password of the private key in the key store file.
+|`spring.kafka.ssl.keystore-location` | |Location of the key store file.
+|`spring.kafka.ssl.keystore-password` | |Store password for the key store file.
+|`spring.kafka.ssl.truststore-location` | |Location of the trust store file.
+|`spring.kafka.ssl.truststore-password` | |Store password for the trust store file.
+|`spring.kafka.template.default-topic` | |Default topic to which messages will be sent.
+|`spring.rabbitmq.listener.idle-event-interval` | |How often idle container events should be published in milliseconds.
+|`spring.redis.ssl` |`false` |Enable SSL.
+|`spring.redis.url` | |Redis url, which will overrule host, port and password if set.
+|`spring.session.hazelcast.flush-mode` | |Sessions flush mode.
+|`spring.test.database.replace` |`any` |Type of existing DataSource to replace.
+|`spring.transaction.default-timeout` | |Default transaction timeout in seconds.
+|`spring.transaction.rollback-on-commit-failure` | |Perform the rollback on commit failures.
+|======================
+
+.Removed keys in `1.5.0.BUILD-SNAPSHOT`
+|======================
+|Key  |Default value |Description
+|`management.security.role` |`ADMIN` |Roles required to access the management endpoint.
+|`server.tomcat.max-http-header-size` |`0` |Maximum size in bytes of the HTTP message header.
+|`spring.activemq.pooled` | |
+|`spring.data.neo4j.session.scope` |`singleton` |Scope (lifetime) of the session.
+|`spring.hornetq.embedded.cluster-password` | |Cluster password.
+|`spring.hornetq.embedded.data-directory` | |Journal file directory.
+|`spring.hornetq.embedded.enabled` |`true` |Enable embedded mode if the HornetQ server APIs are available.
+|`spring.hornetq.embedded.persistent` |`false` |Enable persistent store.
+|`spring.hornetq.embedded.queues` |`` |Comma-separated list of queues to create on startup.
+|`spring.hornetq.embedded.server-id` |`0` |Server id.
+|`spring.hornetq.embedded.topics` |`` |Comma-separated list of topics to create on startup.
+|`spring.hornetq.host` |`localhost` |HornetQ broker host.
+|`spring.hornetq.mode` | |HornetQ deployment mode, auto-detected by default.
+|`spring.hornetq.password` | |Login password of the broker.
+|`spring.hornetq.port` |`5445` |HornetQ broker port.
+|`spring.hornetq.user` | |Login user of the broker.
+|`spring.jackson.serialization-inclusion` | |
+|`spring.jpa.hibernate.naming-strategy` | |
+|`spring.velocity.allow-request-override` | |Set whether HttpServletRequest attributes are allowed to override (hide) controller generated model attributes of the same name.
+|`spring.velocity.allow-session-override` | |Set whether HttpSession attributes are allowed to override (hide) controller generated model attributes of the same name.
+|`spring.velocity.cache` | |Enable template caching.
+|`spring.velocity.charset` | |Template encoding.
+|`spring.velocity.check-template-location` | |Check that the templates location exists.
+|`spring.velocity.content-type` | |Content-Type value.
+|`spring.velocity.date-tool-attribute` | |Name of the DateTool helper object to expose in the Velocity context of the view.
+|`spring.velocity.enabled` | |Enable MVC view resolution for this technology.
+|`spring.velocity.expose-request-attributes` | |Set whether all request attributes should be added to the model prior to merging with the template.
+|`spring.velocity.expose-session-attributes` | |Set whether all HttpSession attributes should be added to the model prior to merging with the template.
+|`spring.velocity.expose-spring-macro-helpers` | |Set whether to expose a RequestContext for use by Spring's macro library, under the name "springMacroRequestContext".
+|`spring.velocity.number-tool-attribute` | |Name of the NumberTool helper object to expose in the Velocity context of the view.
+|`spring.velocity.prefer-file-system-access` |`true` |Prefer file system access for template loading.
+|`spring.velocity.prefix` | |Prefix that gets prepended to view names when building a URL.
+|`spring.velocity.properties` | |Additional velocity properties.
+|`spring.velocity.request-context-attribute` | |Name of the RequestContext attribute for all views.
+|`spring.velocity.resource-loader-path` |`classpath:/templates/` |Template path.
+|`spring.velocity.suffix` | |Suffix that gets appended to view names when building a URL.
+|`spring.velocity.toolbox-config-location` | |Velocity Toolbox config location, for example "/WEB-INF/toolbox.xml".
+|`spring.velocity.view-names` | |White list of view names that can be resolved.
+|======================

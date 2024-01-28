@@ -1,0 +1,73 @@
+Configuration properties change between `2.4.0-M3` and `2.4.0-M4`
+
+== Deprecated in `2.4.0-M4`
+None.
+
+
+
+== New in `2.4.0-M4`
+|======================
+|Key  |Default value |Description
+|`server.undertow.preserve-path-on-forward` |`false` |Whether to preserve the path of a request when it is forwarded.
+|`spring.cache.redis.enable-statistics` |`false` |Whether to enable cache statistics.
+|`spring.datasource.dbcp2.clear-statement-pool-on-return` | |
+|`spring.datasource.oracleucp.abandoned-connection-timeout` | |
+|`spring.datasource.oracleucp.connection-factory-class-name` | |
+|`spring.datasource.oracleucp.connection-factory-properties` | |
+|`spring.datasource.oracleucp.connection-harvest-max-count` | |
+|`spring.datasource.oracleucp.connection-harvest-trigger-count` | |
+|`spring.datasource.oracleucp.connection-labeling-high-cost` | |
+|`spring.datasource.oracleucp.connection-pool-name` | |
+|`spring.datasource.oracleucp.connection-properties` | |
+|`spring.datasource.oracleucp.connection-repurpose-threshold` | |
+|`spring.datasource.oracleucp.connection-validation-timeout` | |
+|`spring.datasource.oracleucp.connection-wait-timeout` | |
+|`spring.datasource.oracleucp.data-source-name` | |
+|`spring.datasource.oracleucp.database-name` | |
+|`spring.datasource.oracleucp.description` | |
+|`spring.datasource.oracleucp.fast-connection-failover-enabled` | |
+|`spring.datasource.oracleucp.high-cost-connection-reuse-threshold` | |
+|`spring.datasource.oracleucp.inactive-connection-timeout` | |
+|`spring.datasource.oracleucp.initial-pool-size` | |
+|`spring.datasource.oracleucp.login-timeout` | |
+|`spring.datasource.oracleucp.max-connection-reuse-count` | |
+|`spring.datasource.oracleucp.max-connection-reuse-time` | |
+|`spring.datasource.oracleucp.max-connections-per-shard` | |
+|`spring.datasource.oracleucp.max-idle-time` | |
+|`spring.datasource.oracleucp.max-pool-size` | |
+|`spring.datasource.oracleucp.max-statements` | |
+|`spring.datasource.oracleucp.min-pool-size` | |
+|`spring.datasource.oracleucp.network-protocol` | |
+|`spring.datasource.oracleucp.o-n-s-configuration` | |
+|`spring.datasource.oracleucp.password` | |
+|`spring.datasource.oracleucp.pdb-roles` | |
+|`spring.datasource.oracleucp.port-number` | |
+|`spring.datasource.oracleucp.property-cycle` | |
+|`spring.datasource.oracleucp.query-timeout` | |
+|`spring.datasource.oracleucp.role-name` | |
+|`spring.datasource.oracleucp.s-q-l-for-validate-connection` | |
+|`spring.datasource.oracleucp.seconds-to-trust-idle-connection` | |
+|`spring.datasource.oracleucp.server-name` | |
+|`spring.datasource.oracleucp.sharding-mode` | |
+|`spring.datasource.oracleucp.time-to-live-connection-timeout` | |
+|`spring.datasource.oracleucp.timeout-check-interval` | |
+|`spring.datasource.oracleucp.u-r-l` | |
+|`spring.datasource.oracleucp.user` | |
+|`spring.datasource.oracleucp.validate-connection-on-borrow` | |
+|`spring.flyway.cherry-pick` | |Migrations that Flyway should consider when migrating or undoing.
+|`spring.flyway.jdbc-properties` | |Properties to pass to the JDBC driver.
+|`spring.flyway.oracle-kerberos-cache-file` | |Path of the Oracle Kerberos cache file.
+|`spring.flyway.oracle-kerberos-config-file` | |Path of the Oracle Kerberos config file.
+|`spring.flyway.output-query-results` | |Whether Flyway should output a table with the results of queries when executing migrations.
+|`spring.flyway.skip-executing-migrations` | |Whether Flyway should skip executing the contents of the migrations and only update the schema history table.
+|`spring.kafka.streams.cleanup.on-shutdown` |`true` |Cleanup the application’s local state directory on shutdown.
+|`spring.kafka.streams.cleanup.on-startup` |`false` |Cleanup the application’s local state directory on startup.
+|`spring.rabbitmq.channel-rpc-timeout` |`10m` |Continuation timeout for RPC calls in channels.
+|`spring.redis.username` | |Login username of the redis server.
+|`spring.rsocket.server.fragment-size` | |Maximum transmission unit.
+|======================
+
+
+
+== Removed in `2.4.0-M4`
+None.

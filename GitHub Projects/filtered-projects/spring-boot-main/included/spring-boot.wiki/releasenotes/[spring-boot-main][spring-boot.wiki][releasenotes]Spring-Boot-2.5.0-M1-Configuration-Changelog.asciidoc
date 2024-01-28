@@ -1,0 +1,83 @@
+Configuration properties changed between `2.4.2` and `2.5.0-M1`
+
+
+== Deprecated in `2.5.0-M1`
+|======================
+|Key  |Replacement |Reason
+|`spring.artemis.host` |`spring.artemis.broker-url` |
+|`spring.artemis.port` |`spring.artemis.broker-url` |
+|======================
+
+
+
+== New in `2.5.0-M1`
+|======================
+|Key  |Default value |Description
+|`management.endpoint.startup.cache.time-to-live` |`0ms` |Maximum time that a response can be cached.
+|`management.endpoints.web.cors.allowed-origin-patterns` | |Comma-separated list of origin patterns to allow.
+|`spring.artemis.broker-url` |`tcp://localhost:61616` |Artemis broker port.
+|`spring.data.cassandra.controlconnection.timeout` |`5s` |Timeout to use for control queries.
+|`spring.datasource.oracleucp.read-only-instance-allowed` | |
+|`spring.elasticsearch.rest.sniffer.delay-after-failure` |`1m` |Delay of a sniff execution scheduled after a failure.
+|`spring.elasticsearch.rest.sniffer.interval` |`5m` |Interval between consecutive ordinary sniff executions.
+|`spring.kafka.listener.only-log-record-metadata` |`true` |Whether to suppress the entire record from being written to the log when retries are being attempted.
+|`spring.rabbitmq.ssl.key-store-algorithm` |`SunX509` |Key store algorithm.
+|`spring.rabbitmq.ssl.trust-store-algorithm` |`SunX509` |Trust store algorithm.
+|======================
+
+
+
+== Removed in `2.5.0-M1`
+|======================
+|Key  |Replacement |Reason
+|`spring.data.solr.repositories.enabled` | |
+|`spring.jta.bitronix.connectionfactory.acquire-increment` | |
+|`spring.jta.bitronix.connectionfactory.acquisition-interval` | |
+|`spring.jta.bitronix.connectionfactory.acquisition-timeout` | |
+|`spring.jta.bitronix.connectionfactory.allow-local-transactions` | |
+|`spring.jta.bitronix.connectionfactory.apply-transaction-timeout` | |
+|`spring.jta.bitronix.connectionfactory.automatic-enlisting-enabled` | |
+|`spring.jta.bitronix.connectionfactory.cache-producers-consumers` | |
+|`spring.jta.bitronix.connectionfactory.class-name` | |
+|`spring.jta.bitronix.connectionfactory.defer-connection-release` | |
+|`spring.jta.bitronix.connectionfactory.disabled` | |
+|`spring.jta.bitronix.connectionfactory.driver-properties` | |
+|`spring.jta.bitronix.connectionfactory.failed` | |
+|`spring.jta.bitronix.connectionfactory.ignore-recovery-failures` | |
+|`spring.jta.bitronix.connectionfactory.max-idle-time` | |
+|`spring.jta.bitronix.connectionfactory.max-pool-size` | |
+|`spring.jta.bitronix.connectionfactory.min-pool-size` | |
+|`spring.jta.bitronix.connectionfactory.password` | |
+|`spring.jta.bitronix.connectionfactory.share-transaction-connections` | |
+|`spring.jta.bitronix.connectionfactory.test-connections` | |
+|`spring.jta.bitronix.connectionfactory.two-pc-ordering-position` | |
+|`spring.jta.bitronix.connectionfactory.unique-name` | |
+|`spring.jta.bitronix.connectionfactory.use-tm-join` | |
+|`spring.jta.bitronix.connectionfactory.user` | |
+|`spring.jta.bitronix.datasource.acquire-increment` | |
+|`spring.jta.bitronix.datasource.acquisition-interval` | |
+|`spring.jta.bitronix.datasource.acquisition-timeout` | |
+|`spring.jta.bitronix.datasource.allow-local-transactions` | |
+|`spring.jta.bitronix.datasource.apply-transaction-timeout` | |
+|`spring.jta.bitronix.datasource.automatic-enlisting-enabled` | |
+|`spring.jta.bitronix.datasource.class-name` | |
+|`spring.jta.bitronix.datasource.cursor-holdability` | |
+|`spring.jta.bitronix.datasource.defer-connection-release` | |
+|`spring.jta.bitronix.datasource.disabled` | |
+|`spring.jta.bitronix.datasource.driver-properties` | |
+|`spring.jta.bitronix.datasource.enable-jdbc4-connection-test` | |
+|`spring.jta.bitronix.datasource.failed` | |
+|`spring.jta.bitronix.datasource.ignore-recovery-failures` | |
+|`spring.jta.bitronix.datasource.isolation-level` | |
+|`spring.jta.bitronix.datasource.local-auto-commit` | |
+|`spring.jta.bitronix.datasource.login-timeout` | |
+|`spring.jta.bitronix.datasource.max-idle-time` | |
+|`spring.jta.bitronix.datasource.max-pool-size` | |
+|`spring.jta.bitronix.datasource.min-pool-size` | |
+|`spring.jta.bitronix.datasource.prepared-statement-cache-size` | |
+|`spring.jta.bitronix.datasource.share-transaction-connections` | |
+|`spring.jta.bitronix.datasource.test-query` | |
+|`spring.jta.bitronix.datasource.two-pc-ordering-position` | |
+|`spring.jta.bitronix.datasource.unique-name` | |
+|`spring.jta.bitronix.datasource.use-tm-join` | |
+|======================

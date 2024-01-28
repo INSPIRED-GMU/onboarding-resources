@@ -1,0 +1,91 @@
+:docs: https://docs.spring.io/spring-boot/docs/2.1.0.M2/reference/htmlsingle
+:framework-docs: https://docs.spring.io/spring-framework/docs/5.1.0.RC2/spring-framework-reference
+:actuator-docs: https://docs.spring.io/spring-boot/docs/2.1.0.M2/actuator-api/html
+:maven-docs: https://docs.spring.io/spring-boot/docs/2.1.0.M2/maven-plugin
+
+= Spring Boot 2.1.0 M2 Release Notes
+
+For changes in earlier milestones, please refer to:
+
+ - link:Spring-Boot-2.1.0-M1-Release-Notes[v2.1.0 M1]
+
+== Upgrading from Spring Boot 2.1.0 M1
+See instructions in the link:Spring-Boot-2.1.0-M1-Release-Notes[2.1.0.M1 release notes] for upgrading from Spring Boot 2.0.
+
+=== Narayana Support
+The Narayana support has been removed in favour of the official support that is more aligned with Narayana releases. If you were using `spring-boot-starter-jta-narayana`, the new coordinates are the following:
+
+```xml
+<dependency>
+    <groupId>me.snowdrop</groupId>
+    <artifactId>narayana-spring-boot-starter</artifactId>
+    <version>2.0.1</version>
+</dependency>
+```
+Check https://github.com/snowdrop/narayana-spring-boot[the documentation] for more details.
+
+=== `HttpPutFormContentFilter`
+`HttpPutFormContentFilter` has been deprecated in favour of `FormContentFilter`. As a result the `spring.mvc.formcontent.putfilter.enabled` property is no longer defined. If you were using this feature, please update to `spring.mvc.formcontent.filter.enabled`.
+
+=== ActiveMQ pooling
+If you were using `activemq-pool`, support has been removed in this release in favour of `pooled-jms` that offers the same features while being JMS 2.0 compliant. You can update your build as follows:
+
+```xml
+<dependency>
+    <groupId>org.messaginghub</groupId>
+    <artifactId>pooled-jms</artifactId>
+</dependency>
+```
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.1.0-M2-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+=== Initial Java 11 support
+CI has been configured to also build and test Spring Boot against an early access of Java 11.
+
+=== DataSize support
+If a property needs to express a size in bytes or similar convenient unit, it can expose a `org.springframework.util.unit.DataSize` property. Similar to our `Duration` support introduced in Spring Boot 2.0, the data size supports an easy format (i.e. `10MB` for 10 megabytes) and metadata support. Multipart configuration has been updated and other properties will follow in a future milestone.
+
+=== OAuth2 resource server support
+If you have `spring-security-oauth2-resource-server` on your classpath, Spring Boot can set up an OAuth2 Resource Server as long as a JWK Set URI is specified. For instance:
+
+```
+spring.security.oauth2.resource.jwt.jwk.set-uri=https://example.com/oauth2/default/v1/keys
+```
+
+This is supported for both MVC and WebFlux applications.
+
+=== Bootstrap mode for JPA setup
+Spring Data Lovelace introduces a 'bootstrap mode' for the repositories. Spring Boot exposes a property that can be set to control the boostrap mode of JPA repositories. For instance, to defer initialization of JPA repositories, simply add the following to your configuration:
+
+````
+spring.data.jpa.repositories.bootstrap-mode=deferred
+```
+
+When setting the mode to `deferred` or `lazy`, JPA setup happens in a separate thread.
+
+
+=== Task Execution
+Spring Boot now provides auto-configuration for `ThreadPoolTaskExecutor`. If you are using `@EnableAsync`, your custom `TaskExecutor` can be removed in favour of customizations available from the `spring.task.execution` namespace. Custom `ThreadPoolTaskExecutor` can be easily created using `TaskExecutorBuilder`.
+
+=== Task Scheduling
+Similarily to the new task execution support, Spring Boot auto-configures a `ThreadPoolTaskScheduler` when `@EnableScheduling` is specified. The task scheduler can be customized using the `spring.task.scheduling` namespace. A `TaskSchedulerBuilder` is also available by default.
+
+=== Application Insights
+Spring Framework 5.1 revisited  the `debug` logging output while working on web applications (Spring MVC or Spring WebFlux). Spring Boot has revisited dedicated logging in the same spirit, introducing a `spring.insights.web.log-request-details` that is set to `false` by default as it can potentially expose sensitive information.
+
+When Devtools is running, selected packages are now in `debug` level to improve the developer experience.
+
+=== Miscellaneous
+Apart from the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+* Slice tests now all have a `properties` attribute to consistently customize the environment if necessary
+* Support for multiple `RestDocsMockMvcConfigurationCustomizer`
+* The receive queue of the default `RabbitTemplate` is now configurable
+* Tomcat's max swallow size is now confiurable using a property
+* Support for generating unique JMX ObjectNames globally (rather thant limiting this feature to Actuator Endpoints)
+* `HiddenHttpMethodFilter` can be disabled using a property
+
+== Deprecations in Spring Boot 2.1.0 M2
+
+* `management.endpoints.jmx.unique-names` is deprecated in favour of `spring.jmx.unique-names`

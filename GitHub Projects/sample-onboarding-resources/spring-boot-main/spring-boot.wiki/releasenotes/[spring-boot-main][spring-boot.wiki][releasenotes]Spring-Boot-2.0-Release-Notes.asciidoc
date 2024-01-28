@@ -1,0 +1,343 @@
+:docs: https://docs.spring.io/spring-boot/docs/2.0.x/reference/htmlsingle/
+:actuator-api-docs: https://docs.spring.io/spring-boot/docs/2.0.x/actuator-api/html/
+:gradle-plugin-docs: https://docs.spring.io/spring-boot/docs/2.0.x/gradle-plugin/reference
+:maven-docs: https://docs.spring.io/spring-boot/docs/2.0.x/maven-plugin/
+:framework-docs: https://docs.spring.io/spring-framework/docs/5.0.x/spring-framework-reference/htmlsingle/
+
+= Upgrading from Spring Boot 1.5
+
+Since this is a major release of Spring Boot, upgrading existing applications can be a little more involved that usual.
+We've put together a link:Spring-Boot-2.0-Migration-Guide[dedicated migration guide] to help you upgrade your existing Spring Boot 1.5 applications.
+
+If you're currently running with an earlier version of Spring Boot, we strongly recommend that you link:Spring-Boot-1.5-Release-Notes[upgrade to Spring Boot 1.5] before migrating to Spring Boot 2.0.
+
+
+
+= New and Noteworthy
+TIP: Check link:Spring-Boot-2.0-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+
+
+== Java 8 Baseline and Java 9 Support
+Spring Boot 2.0 requires Java 8 as a minimum version.
+Many existing APIs have been updated to take advantage of Java 8 features such as: default methods on interfaces, functional callbacks, and new APIs such as `javax.time`.
+If you are currently using Java 7 or earlier, you'll need to upgrade your JDK before you can develop Spring Boot 2.0 applications.
+
+Spring Boot 2.0 also works well, and has been tested with JDK 9.
+All our jars ship with automatic module name entries in the manifests for module system compatibility.
+
+
+
+== Third-party Library Upgrades
+Spring Boot 2.0 builds on and requires Spring Framework 5.
+You might like to read about https://github.com/spring-projects/spring-framework/wiki/What%27s-New-in-Spring-Framework-5.x[the new features available in Spring Framework 5.0], and check out their https://github.com/spring-projects/spring-framework/wiki/Upgrading-to-Spring-Framework-5.x[upgrade guide] before continuing.
+
+We've upgraded to the latest stable releases of other third-party jars wherever possible.
+Some notable dependency upgrades in this release include:
+
+* Tomcat 8.5
+* Flyway 5
+* Hibernate 5.2
+* Thymeleaf 3
+
+
+
+== Reactive Spring
+Many projects in the Spring portfolio are now offering first-class support for developing https://github.com/reactive-streams/reactive-streams-jvm#reactive-streams[reactive applications].
+Reactive applications are fully asynchronous and non-blocking.
+They're intended for use in an event-loop execution model (instead of the more traditional one thread-per-request execution model).
+The https://docs.spring.io/spring/docs/current/spring-framework-reference/web-reactive.html["Web on Reactive Stack"] section of the Spring Framework reference documentation provides an excellent primer to the subject.
+
+Spring Boot 2.0 fully supports reactive applications via auto-configuration and starter-POMs.
+The internals of Spring Boot itself have also been updated where necessary to offer reactive alernatives (the most noticeable being our embedded server support).
+
+
+
+=== Spring WebFlux & WebFlux.fn
+Spring WebFlux is a fully non-blocking reactive alternative to Spring MVC.
+Spring Boot provides auto-configuration for both annotation based Spring WebFlux applications, as well as WebFlux.fn which offers a more functional style API.
+
+To get started, use the `spring-boot-starter-webflux` starter POM which will provide Spring WebFlux backed by an embedded Netty server.
+See the {docs}#boot-features-developing-web-applications[Spring Boot reference documentation] for details.
+
+=== Reactive Spring Data
+Where the underlying technology enables it, Spring Data also provides support for reactive applications.
+Currently Cassandra, MongoDB, Couchbase and Redis all have reactive API support.
+
+Spring Boot includes special starter-POMs for these technologies that provide everything you need to get started.
+For example, `spring-boot-starter-data-mongodb-reactive` includes dependencies to the reactive mongo driver and project reactor.
+
+=== Reactive Spring Security
+Spring Boot 2.0 can make use of Spring Security 5.0 to secure your reactive applications.
+Auto-configuration is provided for WebFlux applications whenever Spring Security is on the classpath.
+
+Access rules for Spring Security with WebFlux can be configured via a `SecurityWebFilterChain`.
+If you've used Spring Security with Spring MVC before, this should feel quite familiar.
+See the {docs}#boot-features-security-webflux[Spring Boot reference documentation] and https://docs.spring.io/spring-security/site/docs/5.0.0.RELEASE/reference/htmlsingle/#jc-webflux[Spring Security documentation] for more details.
+
+=== Embedded Netty Server
+Since WebFlux does not rely on Servlet APIs, we're now able to offer support for Netty as an embedded server for the first time.
+The `spring-boot-starter-webflux` starter POM will pull-in Netty 4.1 and https://github.com/reactor/reactor-netty[Ractor Netty].
+
+NOTE: You can only use Netty as a reactive server. Blocking servlet API support is not provided.
+
+
+
+== HTTP/2 Support
+HTTP/2 support is provided for Tomcat, Undertow and Jetty.
+Support depends on the chosen web server and the application environment (since the protocol is not supported out-of-the-box by JDK 8).
+
+See {docs}#howto-configure-http2[this "how to" section] for details.
+
+
+
+== Configuration Property Binding
+The mechanism use to bind `Environment` properties to `@ConfigurationProperties` has been completely overhauled in Spring Boot 2.0.
+We've taken the opportunity to tighten the rules that govern relaxed binding and we've fixed many inconsistencies from Spring Boot 1.x.
+
+The new `Binder` API can also be used outside of `@ConfigurationProperties` directly in your own code.
+For example, the following will bind to a `List` of `PersonName` objects:
+
+[source,java]
+----
+List<PersonName> people = Binder.get(environment)
+    .bind("my.property", Bindable.listOf(PersonName.class))
+    .orElseThrow(IllegalStateException::new);
+----
+
+The configuration source could be represented in YAML like this:
+
+[source,java]
+----
+my:
+  property:
+  - first-name: Jane
+    last-name: Doe
+  - first-name: John
+    last-name: Doe
+----
+
+For more information on the updated binding rules link:Relaxed-Binding-2.0[see this wiki page].
+
+=== Property Origins
+YAML files and Properties files loaded by Spring Boot now include `Origin` information which can help you track where an item was loaded from.
+Several Spring Boot features take advantage of this information and show it when appropriate.
+
+For example, the `BindException` class thrown when binding fails is an `OriginProvider`.
+This means origin information can be displayed nicely from a failure analyzer.
+
+Another example is the `env` actuator endpoint which includes origin information when it's available.
+The snippet below shows that the `spring.security.user.name` property came from line `1`, column `27` of the `application.properties` file packaged in the jar:
+
+[source,json]
+----
+{
+  "name": "applicationConfig: [classpath:/application.properties]",
+  "properties": {
+    "spring.security.user.name": {
+      "value": "user",
+      "origin": "class path resource [application.properties]:1:27"
+    }
+  }
+}
+----
+
+=== Converter Support
+Binding makes use of a new `ApplicationConversionService` class which offers some additional converters which are especially useful for property binding.
+Most noticeable are converters for `Duration` types and delimited strings.
+
+The `Duration` converter allows durations to be specified in either ISO-8601 form, or as a simple string (for example `10m` for 10 minutes with {docs}#boot-features-external-config-conversion-duration[support of other units]).
+Existing properties have been changed to always use `Duration`. For instance, the session timeout can be configured to 180 seconds in `application.properties` as follows:
+
+[source,java]
+----
+server.servlet.session.timeout=180s
+----
+
+The `@DurationUnit` annotation ensures back-compatibility by setting the unit that is used if not is specified.
+For example, a property that expected seconds in Spring Boot 1.5 now has `@DurationUnit(ChronoUnit.SECONDS)` to ensure a simple value such as `10` actually uses `10s`.
+
+Delimited string conversion allows you to bind a simple `String` to a `Collection` or `Array` without necessarily splitting on commas.
+For example, LDAP `base-dn` properties use `@Delimiter(Delimiter.NONE)` so that LDAP DNs (which typically include commas) are not misinterpreted.
+
+
+
+== Gradle Plugin
+Spring Boot's Gradle plugin has been largely rewritten to enable a number of significant improvements.
+You can read more about the plugin's capabilities in its {gradle-plugin-docs}[reference] and https://docs.spring.io/spring-boot/docs/2.0.0.BUILD-SNAPSHOT/gradle-plugin/api[api] documentation.
+
+Spring Boot now requires Gradle 4.x.
+Please check the link:Spring-Boot-2.0-Migration-Guide[migration guide] if you're upgrading a project that uses Gradle.
+
+
+
+== Kotlin
+Spring Boot 2.0 now includes support for Kotlin 1.2.x and offers a `runApplication` function which provides a way to run a Spring Boot application using idiomatic Kotlin.
+We also expose and leverage the Kotlin support that other Spring projects such as Spring Framework, Spring Data, and Reactor have added to their recent releases.
+
+For more information, refer to the {docs}#boot-features-kotlin[Kotlin support section of the reference documentation].
+
+
+
+== Actuator Improvements
+There have been many improvements and refinements to the actuator endpoints with Spring Boot 2.0.
+All HTTP actuator endpoints are now exposed under the `/actuator` path and resulting JSON payloads have been improved.
+
+We now also don't expose so many endpoints by default.
+If you're upgrading an existing Spring Boot 1.5 application, be sure to check the link:Spring-Boot-2.0-Migration-Guide[migration guide] and pay particular attention to the `management.endpoints.web.exposure.include` property.
+
+=== Actuator JSON
+The JSON payloads returned from many endpoints have been improved with Spring Boot 2.0.
+
+Many endpoints now have JSON that more accurately reflects the underlying data.
+For example, the `/actuator/conditions` endpoint (`/autoconfig` in Spring Boot 1.5) now has a top level `contexts` key to group results by `ApplicationContext`.
+
+Extensive {actuator-api-docs}[REST API documentation] is now also generated using https://projects.spring.io/spring-restdocs/[Spring REST Docs] and published with each release.
+
+=== Jersey and WebFlux Support
+In addition to Spring MVC and JMX support, you can now access actuator endpoints when developing pure Jersey or WebFlux applications.
+Jersey support is provided via a custom Jersey `Resource` and WebFlux uses a custom `HandlerMapping`.
+
+=== Hypermedia links
+The `/actuator` endpoint now provides a HAL formatted response providing links to all active endpoints (even if you don't have Spring HATEOAS on your classpath).
+
+=== Actuator @Endpoints
+In order to support Spring MVC, JMX, WebFlux and Jersey, we've developed a new programming model for actuator endpoints.
+The `@Endpoint` annotation can be used in combination with `@ReadOperation`, `@WriteOperation` and `@DeleteOperation` to develop endpoints in a technology agnostic way.
+
+You can also use `@EndpointWebExtension` or `@EndpointJmxExtension` to write technology specific enhancements to endpoints.
+See {docs}#production-ready-endpoints-custom[the updated reference documentation] for details.
+
+=== Micrometer
+Spring Boot 2.0 no longer ships with its own metrics APIs.
+Instead we rely on https://micrometer.io/[micrometer.io] for all application monitoring needs.
+
+Micrometer includes support for dimensional metrics which, when paired with a dimensional monitoring system, allows for efficient access to a particular named metric with the ability to drill down across its dimensions.
+
+Metrics can be exported to a wide range of systems and out-of-the box Spring Boot 2.0 provides support for Atlas, Datadog, Ganglia, Graphite, Influx, JMX, New Relic, Prometheus, SignalFx, StatsD and Wavefront.
+In additional Simple in-memory metrics can also be used.
+
+Integration is provided with JVM metrics (including CPU, memory, threads and GC), Logback, Tomcat, Spring MVC & `RestTemplate`.
+
+See the updated {docs}#production-ready-metrics["Metrics" section] of the reference documentation for more details.
+
+
+
+== Data Support
+In addition the "Reactive Spring Data" support mentioned above, several other updates and improvements have been made in the area of Data.
+
+=== HikariCP
+The default database pooling technology in Spring Boot 2.0 has been switched from Tomcat Pool to HikariCP.
+We've found that Hakari offers superior performance, and many of our users prefer it over Tomcat Pool.
+
+=== Initialization
+Database initialization logic has been rationalized in Spring Boot 2.0.
+Initialization for Spring Batch, Spring Integration, Spring Session and Quartz now occurs by default only when using and embedded database.
+The `enabled` property has been replaced with a more expressive enum.
+For example, if you want to always perform Spring Batch initialization you can set `spring.batch.initialize-schema=always`.
+
+If Flyway or Liquibase is managing the schema of your DataSource and you’re using an embedded database, Spring Boot will now automatically switch off Hibernate’s automatic DDL feature.
+
+=== JOOQ
+Spring Boot 2.0 now detects the jOOQ dialect automatically based on the DataSource (similarly to what is done for the JPA dialect).
+A new `@JooqTest` annotation has also been introduced to ease testing where only jOOQ has to be used.
+
+=== JdbcTemplate
+The `JdbcTemplate` that Spring Boot auto-configures can now be customized via `spring.jdbc.template` properties.
+Also, the `NamedParameterJdbcTemplate` that is auto-configured reuses the `JdbcTemplate` behind the scenes.
+
+=== Spring Data Web Configuration
+Spring Boot exposes a new `spring.data.web` configuration namespace that allows to easily configure paging and sorting.
+
+=== Influx DB
+Spring Boot now auto-configures the open-source time series database InfluxDB.
+To enable InfluxDB support you need to set a `spring.influx.url` property, and include `influxdb-java` on your classpath.
+
+=== Flyway/Liquibase Flexible Configuration
+If only a custom `url` or `user` property is provided, the auto-configuration for Flyway and Liquibase now reuses the standard datasource properties rather than ignoring them.
+This allows you to create a custom `DataSource` for the purpose of the migration with only the required information.
+
+=== Hibernate
+Support is now offered for custom Hibernate naming strategies.
+For advanced scenarios, you can now define `ImplicitNamingStrategy` or `PhysicalNamingStrategy` to use as regular beans in the context.
+
+It is now also possible to customize the properties Hibernate uses in a more fine-grained way by exposing a `HibernatePropertiesCustomizer` bean.
+
+=== MongoDB Client Customization
+When using the reactive driver, it is now possible to apply advanced customizations to the Mongo client that Spring Boot auto-configures by defining a bean of type `MongoClientSettingsBuilderCustomizer`.
+
+=== Redis
+Cache defaults for Redis can now be configured using `spring.cache.redis.*` properties.
+
+
+
+== Web
+In addition to the WebFlux and WebFlux.fn support mentioned above, the following refinements have also been made to help when developing web applications.
+
+=== Context Path Logging
+When using an embedded container, the context path is logged alongside the HTTP port when your application starts.
+For a example, embedded Tomcat now looks something like this:
+
+----
+Tomcat started on port(s): 8080 (http) with context path '/foo'
+----
+
+=== Web Filter Initialization
+Web filters are now initialized eagerly on all supported containers.
+
+=== Thymeleaf
+The Thymeleaf starter now includes `thymeleaf-extras-java8time` which provides support for `javax.time` types.
+
+=== JSON Support
+A new `spring-boot-starter-json` starter gathers the necessary bits to read and write JSON.
+It provides not only `jackson-databind`, but also useful modules when working with Java8: `jackson-datatype-jdk8`, `jackson-datatype-jsr310` and `jackson-module-parameter-names`.
+This new starter is now used where `jackson-databind` was previously defined.
+
+If you prefer something other than Jackson, our support for GSON has been greatly improved in Spring Boot 2.0.
+We've also introduced support for JSON-B (including JSON-B testing support).
+
+
+
+== Quartz
+Auto-configuration support is now include for the https://www.quartz-scheduler.org/[Quartz Scheduler].
+We've also added a new `spring-boot-starter-quartz` starter POM.
+
+You can use in-memory `JobStores`, or a full JDBC-based store.
+All `JobDetail`, `Calendar` and `Trigger` beans from your Spring application context will be automatically registered with the `Scheduler`.
+
+For more details read the new {docs}#boot-features-quartz["Quartz Scheduler" section] of the reference documentation.
+
+
+
+== Testing
+There have been a few additions and tweaks to the testing support provided in Spring Boot 2.0:
+
+* A new `@WebFluxTest` annotation has been added to support "`slice`" testing of WebFlux applications.
+* `Converter` and `GenericConverter` beans are now automatically scanned with `@WebMvcTest` and `@WebFluxTest`.
+* An `@AutoConfigureWebTestClient` annotation had been added to provide a `WebTestClient` bean for tests to use.
+The annotation is automatically applied to `@WebFluxTest` tests.
+* A new `ApplicationContextRunner` test utility has been added which makes it very easy to test your auto-configurations.
+We've moved most of our internal test suite to this new model.
+See {docs}#boot-features-test-autoconfig[the updated documentation] for details.
+
+
+
+== Miscellaneous
+As well as the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+* `@ConditionalOnBean` now uses a logical `AND` rather than a logical `OR` when determining whether or not the condition has been met.
+* Unconditional classes are now included in the auto-configuration report.
+* The `spring` CLI application now includes an `encodepassword` command which can be used to create Spring Security compatible hashed passwords.
+* Scheduled tasks (i.e. `@EnableScheduling`) can be be reviewed using the `scheduledtasks` actuator endpoint.
+* The `loggers` actuator endpoint now allows you to reset a logger level to its default.
+* Spring Session users can now find and delete sessions via the `sessions` actuator endpoint.
+* Maven-based applications using `spring-boot-starter-parent` now use the `-parameters` flag by default.
+* Our build now uses https://concourse-ci.org[concourse] for CI and our project POM files have been restructured so that they are simpler (these changes should be transparent to most users, but if you find any issues with the published POMs please https://github.com/spring-projects/spring-boot/issues[report them]).
+
+
+
+== Animated ASCII Art
+Finally, and just for fun, Spring Boot 2.0 now supports animated GIF banners.
+See https://github.com/snicoll-demos/demo-animated-banner[this project] for an example.
+
+image::images/animated-ascii-art.gif[ASCII Art]

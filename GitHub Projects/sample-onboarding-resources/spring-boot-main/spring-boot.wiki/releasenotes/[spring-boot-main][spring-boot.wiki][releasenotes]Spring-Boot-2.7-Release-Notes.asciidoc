@@ -1,0 +1,6 @@
+Full release notes will be available when 2.7 has been released. For now you can check out the release notes for the individual milestones:
+
+- https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.7.0-RC1-Release-Notes[v2.7.0-RC1 (preview)]
+- https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.7.0-M3-Release-Notes[v2.7.0-M3]
+- https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.7.0-M2-Release-Notes[v2.7.0-M2]
+- https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.7.0-M1-Release-Notes[v2.7.0-M1]

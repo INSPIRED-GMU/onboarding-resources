@@ -1,0 +1,38 @@
+Configuration properties change between `2.5.3` and `2.6.0-M1`
+
+== Deprecated in `2.6.0-M1`
+|======================
+|Key  |Replacement |Reason
+|`management.metrics.export.dynatrace.device-id` |`management.metrics.export.dynatrace.v1.device-id` |
+|`management.metrics.export.dynatrace.group` |`management.metrics.export.dynatrace.v1.group` |
+|`management.metrics.export.dynatrace.technology-type` |`management.metrics.export.dynatrace.v1.technology-type` |
+|======================
+
+
+
+== New in `2.6.0-M1`
+|======================
+|Key  |Default value |Description
+|`management.metrics.export.dynatrace.v1.device-id` | |ID of the custom device that is exporting metrics to Dynatrace.
+|`management.metrics.export.dynatrace.v1.group` | |Group for exported metrics.
+|`management.metrics.export.dynatrace.v1.technology-type` |`java` |Technology type for exported metrics.
+|`management.metrics.export.dynatrace.v2.default-dimensions` | |Default dimensions that are added to all metrics in the form of key-value pairs.
+|`management.metrics.export.dynatrace.v2.enrich-with-dynatrace-metadata` |`true` |Whether to enable Dynatrace metadata export.
+|`management.metrics.export.dynatrace.v2.metric-key-prefix` | |Prefix string that is added to all exported metrics.
+|`management.metrics.export.stackdriver.resource-labels` | |Monitored resource's labels.
+|`server.netty.idle-timeout` | |Idle timeout of the Netty channel.
+|`server.tomcat.reject-illegal-header` |`true` |Whether to reject requests with illegal header names or values.
+|`spring.flyway.detect-encoding` | |Whether to attempt to automatically detect SQL migration file encoding.
+|`spring.flyway.fail-on-missing-locations` |`false` |Whether to fail if a location of migration scripts doesn't exist.
+|`spring.flyway.ignore-migration-patterns` | |Ignore migrations that match this comma-separated list of patterns when validating migrations.
+|`spring.redis.jedis.pool.enabled` | |Whether to enable the pool.
+|`spring.redis.lettuce.pool.enabled` | |Whether to enable the pool.
+|======================
+
+
+
+== Removed in `2.6.0-M1`
+|======================
+|Key  |Replacement |Reason
+|`spring.data.mongodb.grid-fs-database` | |
+|======================

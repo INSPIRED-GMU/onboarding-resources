@@ -1,0 +1,52 @@
+Configuration properties change between `3.0.0-M1` and `3.0.0-M2`
+
+== Deprecated in `3.0.0-M2`
+None.
+
+
+
+== New in `3.0.0-M2`
+|======================
+|Key  |Default value |Description
+|`spring.flyway.placeholder-separator` |`:` |Separator of default placeholders.
+|`spring.h2.console.enabled` |`false` |Whether to enable the console.
+|`spring.h2.console.path` |`/h2-console` |Path at which the console is available.
+|`spring.h2.console.settings.trace` |`false` |Whether to enable trace output.
+|`spring.h2.console.settings.web-admin-password` | |Password to access preferences and tools of H2 Console.
+|`spring.h2.console.settings.web-allow-others` |`false` |Whether to enable remote access.
+|`spring.kafka.listener.immediate-stop` |`false` |Whether the container stops after the current record is processed or after all the records from the previous poll are processed.
+|`spring.mustache.reactive.media-types` |`text/html;charset=UTF-8` |Media types supported by Mustache views.
+|`spring.mustache.servlet.allow-request-override` |`false` |Whether HttpServletRequest attributes are allowed to override (hide) controller generated model attributes of the same name.
+|`spring.mustache.servlet.allow-session-override` |`false` |Whether HttpSession attributes are allowed to override (hide) controller generated model attributes of the same name.
+|`spring.mustache.servlet.cache` |`false` |Whether to enable template caching.
+|`spring.mustache.servlet.content-type` | |Content-Type value.
+|`spring.mustache.servlet.expose-request-attributes` |`false` |Whether all request attributes should be added to the model prior to merging with the template.
+|`spring.mustache.servlet.expose-session-attributes` |`false` |Whether all HttpSession attributes should be added to the model prior to merging with the template.
+|`spring.mustache.servlet.expose-spring-macro-helpers` |`true` |Whether to expose a RequestContext for use by Spring's macro library, under the name "springMacroRequestContext".
+|`spring.redis.sentinel.username` | |Login username for authenticating with sentinel(s).
+|======================
+
+
+
+== Removed in `3.0.0-M2`
+|======================
+|Key  |Replacement |Reason
+|`management.metrics.export.ganglia.protocol-version` | |No longer used by Micrometer.
+|`spring.banner.image.bitdepth` | |Support for image banners has been removed.
+|`spring.banner.image.height` | |Support for image banners has been removed.
+|`spring.banner.image.invert` | |Support for image banners has been removed.
+|`spring.banner.image.location` | |Support for image banners has been removed.
+|`spring.banner.image.margin` | |Support for image banners has been removed.
+|`spring.banner.image.pixelmode` | |Support for image banners has been removed.
+|`spring.banner.image.width` | |Support for image banners has been removed.
+|`spring.data.cassandra.connection.connection-timeout` | |
+|`spring.kafka.listener.only-log-record-metadata` | |Use KafkaUtils#setConsumerRecordFormatter instead.
+|`spring.mongodb.embedded.features` | |Feature support has been removed from Embedded Mongo.
+|`spring.mustache.allow-request-override` | |
+|`spring.mustache.allow-session-override` | |
+|`spring.mustache.cache` | |
+|`spring.mustache.content-type` | |
+|`spring.mustache.expose-request-attributes` | |
+|`spring.mustache.expose-session-attributes` | |
+|`spring.mustache.expose-spring-macro-helpers` | |
+|======================

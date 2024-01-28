@@ -1,0 +1,172 @@
+:docs: https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/
+
+= Spring Boot 1.3.0 M2 Release Notes
+For changes in earlier milestones, please refer to:
+
+ - link:Spring-Boot-1.3.0-M1-Release-Notes[v1.3.0 M1]
+
+== Upgrading from Spring Boot 1.3.0 M1
+See instructions in the link:Spring-Boot-1.3.0-M1-Release-Notes[1.3.0.M1 release notes] for upgrading from v1.2.
+
+=== Property renames
+The following `application.properties` keys have been renamed to improve consistency:
+
+* `spring.view.*` to `spring.mvc.view.*`
+* `spring.pidfile` to `spring.pid.file`
+* `server.session-timeout` to `server.session.timeout`
+* `spring.oauth2.*` to `security.oauth2.*`
+
+=== HTTP response compression
+Spring Boot 1.2 supported native response compression for Tomcat users, or compression using Jetty's GZipFilter for users of Jetty, Tomcat, and Undertow. Motivated by the Jetty team's deprecation of their gzip filter, Spring Boot 1.3 replaces this with support for native response compression in all three embedded containers. As a result the `server.tomcat.compression.*` and `spring.http.gzip.*` properties are no longer supported. The new `server.compression.*` properties should be used instead.
+
+=== Logging
+
+==== Spring specific configuration
+In order to prevent double initialization Spring specific log configuration files can now be used. It's recommended (although not required) that you rename any default log configuration files to use a `-spring` suffix. For example `logback.xml` would change to `logback-spring.xml`.
+
+==== Initialization failures
+In Spring Boot 1.2, if you specified a custom logging configuration file using `logging.config` and the file did not exist, it would silently fallback to using the default configuration. Spring Boot 1.3 fails due to the missing file. Similarly, if you provided a custom Logback configuration file which was malformed, Spring Boot 1.2 would fall back to its default configuration. Spring Boot 1.3 fails and reports the problems with the configuration to `System.err`.
+
+=== Groovy templating
+The `GroovyTemplateProperties` class now extends `AbstractTemplateViewResolverProperties` and provides additional configuration options. If you currently define a `prefix.spring.groovy.template.prefix` property to define a custom resource location you should rename it to `prefix.spring.groovy.resource-loader-location`.
+
+=== Security for the /health endpoint
+The security settings for what information is visible on the actuator `/health` endpoint have been tweaked a little to provide better consistency. See the {docs}#production-ready-health-access-restrictions[HTTP health endpoint access restrictions] section in the reference guide for complete details.
+
+=== Deprecations in Spring Boot 1.3.0 M2
+* The protected `SpringApplication.afterRefresh` method that takes a `String[]` has been deprecated in favor of a version that takes `ApplicationArguments`.
+
+
+
+== New and Noteworthy
+
+TIP: Check link:Spring-Boot-1.3.0-M2-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+=== jOOQ Support
+Auto-configuration is now provided for https://www.jooq.org/[jOOQ]. You can `@Autowire` a jOOQ `DSLContext` directly into your Spring Beans to create type safe database queries. Additional customization is supported via `spring.jooq.*` application properties.
+
+See the {docs}#boot-features-jooq["Using jOOQ"] section of the reference documentation for details.
+
+=== Application arguments
+You can now implement the `ApplicationRunner` interface as an alternative to `CommandLineRunner`. This works in the same way but provides arguments as a `ApplicationArguments` interface rather than a `String[]`. You can also inject `ApplicationArguments` directly into any existing bean if you need to access the application arguments.
+
+The `ApplicationArguments` interface provides convenience methods for accessing "option" and "non-option" arguments. For example:
+
+[source,java]
+----
+@Autowired
+public MyBean(ApplicationArguments args) {
+    boolean debug = args.containsOption("debug");
+    List<String> files = args.getNonOptionArgs();
+    // if run with "--debug logfile.txt" debug=true, files=["logfile.txt"]
+}
+----
+
+See {docs}#boot-features-application-arguments[Accessing application arguments] for details.
+
+=== ANSI color banner.txt files
+You can now use ANSI placeholders in your `banner.txt` file to produce color output. Any `${Ansi.*}`, `${AnsiColor.*}`, `${AnsiBackground.*}` or `${AnsiStyle.*}` properties will be expanded. For example
+
+----
+${AnsiColor.BRIGHT_GREEN}My Application
+${AnsiColor.BRIGHT_YELLOW}${application.formatted-version}${AnsiColor.DEFAULT}
+----
+
+=== Default profile application.properties
+The `-default` suffix is now considered when loading `application.properties` (and `application.yml`) files when no specific profile is active. This can be helpful when you use profiles to indicate deployment environments, for example:
+
+|===
+|File |Description
+
+| `application.properties`
+| Shared properties that are always loaded
+
+| `application-prod.properties`
+| Properties loaded when the `prod` profile is active.
+
+| `application-staging.properties`
+| Properties loaded when the `staging` profile is active.
+
+| `application-default.properties`
+| Properties loaded when no profile is active.
+|===
+
+=== Hypermedia for MVC actuator endpoints
+Actuator HTTP endpoints are now enhanced with hypermedia links when you have Spring HATEOAS on your classpath (for example via `spring-boot-starter-hateoas`). A new "discovery page" is also provided with links to all actuator endpoints. Support is also provided for the https://github.com/mikekelly/hal-browser[HAL browser] if its webjar is on the classpath.
+
+See the {docs}#production-ready-endpoint-hypermedia["Hypermedia for MVC Endpoints"] reference section for more details.
+
+=== Actuator docs endpoint
+A new `spring-boot-actuator-docs` modules is provided with Spring Boot 1.3 which allows actuator documentation to be embedded into your application. Once the modules is on your classpath you can hit `/docs` to get information about the actuator endpoints including a sample of the data that each endpoint returns.
+
+=== New actuator endpoints
+The following additional actuator endpoints have been added with Spring Boot 1.3:
+
+[cols="1,4"]
+|===
+|Name |Description
+
+| `/logfile`
+| Provides access to the log file (if one has been configured).
+
+| `/flyway`
+| Provides details of any Flyway database migrations that have been applied.
+
+| `/liquibase`
+| Provides details of any Liquibase database migrations that have been applied.
+|===
+
+=== Spring Session
+With https://spring.io/projects/spring-session/[Spring Session] and Spring Data Redis on the classpath, web applications will now be auto-configured to store user sessions in Redis. See the https://github.com/spring-projects/spring-boot/tree/master/spring-boot-samples/spring-boot-sample-session-redis[accompanying sample] for more information.
+
+=== Spring resource chains
+You can now configure basic aspects of Spring's `ResourceChainRegistration` via application properties. This allows you to create unique resource names so that you can implement cache busting. The `spring.resources.chain.strategy.content.*` properties can be used to configure fingerprinting based on the content of the resource; and `spring.resources.chain.strategy.fixed.*` properties can be used if you want to use a "fixed version" for your fingerprint.
+
+
+=== Logback extensions
+Spring Boot 1.3 supports some new tags which can be used in your logback configuration file. To use the tags you need to first rename any `logback.xml` configuration to `logback-spring.xml`. Once your configuration file has been renamed, the following tags are available.
+
+|===
+|Tag |Description
+
+| `<springProfile>`
+| Allows you to optionally include or exclude sections of configuration based on the active Spring profiles.
+
+| `<springProperty>`
+| Allows you to surface properties from the Spring Environment for use within Logback.
+|===
+
+See the {docs}#boot-features-logback-extensions[Logback extensions] section of the reference documentation for more details.
+
+=== HTTP Session configuration
+Additional properties are now provided for session configuration. You can use `server.session.*` properties to configure "tracking modes" and "cookie" details.
+
+=== Artemis auto-configuration
+Apache Artemis was formed in 2015 when HornetQ was donated to the Apache Foundation. As of Spring Boot 1.3, Apache Artemis is fully supported and can be used in pretty much the same way as HornetQ. If you are migrating to Artemis you should rename any `spring.hornetq.*` properties to `spring.artemis.*`.
+
+=== Configuration property meta-data updates
+The `META-INF/spring-configuration-metadata.json` file format has been updated to support a new `hints` attribute. This can be used by IDE developers to provided better content assist support. See the {docs}##configuration-metadata-property-attributes[updated appendix] for details.
+
+=== Fully executable JARs and service support
+The fully executable JAR support introduced in 1.3.0.M1 has been updated to allow `.conf` files to be used for customization. See the updated {docs}#deployment-script-customization[customizing the startup script] section of the reference documentation for details.
+
+
+=== JDBC
+Spring Boot will now automatically infer the driver class name from the JDBC URL for the following databases:
+
+* DB2
+* Firebird
+* Teradata
+
+=== Ant Support
+Spring Boot now includes an AntLib module to help you create executable jars from Ant. See the {docs}#build-tool-plugins-antlib["Spring Boot AntLib module"] section in the reference docs.
+
+=== Miscellaneous
+The following miscellaneous updates are also include with Spring Boot 1.3:
+
+* A new `SpringBootVersion` class has been added (similar to `SpringVersion` from the core framework).
+* You can now used hamcrest matchers with `OutputCapture` to verify tests produce certain output.
+* You can now configure Spring Boot to use Elasticsearch non local nodes.
+* The `ApplicationPidFileWriter` can now throw an exception if a `fail-on-write-error` property is set (see the updated javadoc).
+* The Maven plugin now includes a `useTestClasspath` option for use with `spring-boot:run`.
+* Extra database heath queries are now provided for DB2 and Informix.

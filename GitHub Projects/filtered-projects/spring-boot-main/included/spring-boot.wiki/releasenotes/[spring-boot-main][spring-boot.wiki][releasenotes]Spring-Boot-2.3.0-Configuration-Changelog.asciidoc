@@ -1,0 +1,243 @@
+Configuration properties change between `2.2.7.RELEASE` and `2.3.0.RELEASE`
+
+== Deprecated in `2.3.0.RELEASE`
+|======================
+|Key  |Replacement |Reason
+|`management.metrics.distribution.sla` |`management.metrics.distribution.slo` |
+|`management.metrics.export.ganglia.protocol-version` | |No longer used by Micrometer.
+|`management.metrics.export.ganglia.rate-units` | |No longer used by Micrometer.
+|`server.jetty.acceptors` |`server.jetty.threads.acceptors` |
+|`server.jetty.max-threads` |`server.jetty.threads.max` |
+|`server.jetty.min-threads` |`server.jetty.threads.min` |
+|`server.jetty.selectors` |`server.jetty.threads.selectors` |
+|`server.jetty.thread-idle-timeout` |`server.jetty.threads.idle-timeout` |
+|`server.tomcat.host-header` |`server.tomcat.remoteip.host-header` |
+|`server.tomcat.internal-proxies` |`server.tomcat.remoteip.internal-proxies` |
+|`server.tomcat.max-threads` |`server.tomcat.threads.max` |
+|`server.tomcat.min-spare-threads` |`server.tomcat.threads.min-spare` |
+|`server.tomcat.port-header` |`server.tomcat.remote.port-header` |
+|`server.tomcat.protocol-header` |`server.tomcat.remoteip.protocol-header` |
+|`server.tomcat.protocol-header-https-value` |`server.tomcat.remoteip.protocol-header-https-value` |
+|`server.tomcat.remote-ip-header` |`server.tomcat.remoteip.remote-ip-header` |
+|`server.undertow.io-threads` |`server.undertow.threads.io` |
+|`server.undertow.worker-threads` |`server.undertow.threads.worker` |
+|`spring.data.cassandra.cluster-name` |`spring.data.cassandra.session-name` |
+|`spring.data.cassandra.connect-timeout` |`spring.data.cassandra.connection.init-query-timeout` |
+|`spring.data.cassandra.consistency-level` |`spring.data.cassandra.request.consistency` |
+|`spring.data.cassandra.fetch-size` |`spring.data.cassandra.request.page-size` |
+|`spring.data.cassandra.read-timeout` |`spring.data.cassandra.request.timeout` |
+|`spring.data.cassandra.serial-consistency-level` |`spring.data.cassandra.request.serial-consistency` |
+|`spring.jta.bitronix.properties.allow-multiple-lrc` | |
+|`spring.jta.bitronix.properties.asynchronous2-pc` | |
+|`spring.jta.bitronix.properties.background-recovery-interval-seconds` | |
+|`spring.jta.bitronix.properties.current-node-only-recovery` | |
+|`spring.jta.bitronix.properties.debug-zero-resource-transaction` | |
+|`spring.jta.bitronix.properties.default-transaction-timeout` | |
+|`spring.jta.bitronix.properties.disable-jmx` | |
+|`spring.jta.bitronix.properties.exception-analyzer` | |
+|`spring.jta.bitronix.properties.filter-log-status` | |
+|`spring.jta.bitronix.properties.force-batching-enabled` | |
+|`spring.jta.bitronix.properties.forced-write-enabled` | |
+|`spring.jta.bitronix.properties.graceful-shutdown-interval` | |
+|`spring.jta.bitronix.properties.jndi-transaction-synchronization-registry-name` | |
+|`spring.jta.bitronix.properties.jndi-user-transaction-name` | |
+|`spring.jta.bitronix.properties.journal` | |
+|`spring.jta.bitronix.properties.log-part1-filename` | |
+|`spring.jta.bitronix.properties.log-part2-filename` | |
+|`spring.jta.bitronix.properties.max-log-size-in-mb` | |
+|`spring.jta.bitronix.properties.resource-configuration-filename` | |
+|`spring.jta.bitronix.properties.server-id` | |
+|`spring.jta.bitronix.properties.skip-corrupted-logs` | |
+|`spring.jta.bitronix.properties.warn-about-zero-resource-transaction` | |
+|`spring.mvc.date-format` |`spring.mvc.format.date` |
+|`spring.webflux.date-format` |`spring.webflux.format.date` |
+|======================
+
+
+
+== New in `2.3.0.RELEASE`
+|======================
+|Key  |Default value |Description
+|`management.health.probes.enabled` |`false` |Whether to enable liveness and readiness probes.
+|`management.metrics.distribution.slo` | |Specific service-level objective boundaries for meter IDs starting with the specified name.
+|`management.metrics.export.appoptics.floor-times` |`false` |Whether to ship a floored time, useful when sending measurements from multiple hosts to align them on a given time boundary.
+|`management.metrics.export.elastic.index-date-separator` |`-` |Prefix to separate the index name from the date format used for rolling indices.
+|`management.metrics.export.elastic.pipeline` | |Ingest pipeline name.
+|`management.metrics.export.graphite.graphite-tags-enabled` | |Whether Graphite tags should be used, as opposed to a hierarchical naming convention.
+|`management.metrics.export.newrelic.client-provider-type` | |Client provider type to use.
+|`management.metrics.export.prometheus.histogram-flavor` |`prometheus` |Histogram type for backing DistributionSummary and Timer.
+|`management.metrics.export.stackdriver.batch-size` |`10000` |Number of measurements per request to use for this backend.
+|`management.metrics.export.stackdriver.connect-timeout` |`1s` |Connection timeout for requests to this backend.
+|`management.metrics.export.stackdriver.enabled` |`true` |Whether exporting of metrics to this backend is enabled.
+|`management.metrics.export.stackdriver.project-id` | |Identifier of the Google Cloud project to monitor.
+|`management.metrics.export.stackdriver.read-timeout` |`10s` |Read timeout for requests to this backend.
+|`management.metrics.export.stackdriver.resource-type` |`global` |Monitored resource type.
+|`management.metrics.export.stackdriver.step` |`1m` |Step size (i.e. reporting frequency) to use.
+|`management.metrics.export.wavefront.sender.flush-interval` |`1s` |
+|`management.metrics.export.wavefront.sender.max-queue-size` |`50000` |
+|`management.metrics.export.wavefront.sender.message-size` | |
+|`server.error.include-binding-errors` |`never` |When to include "errors" attribute.
+|`server.error.include-message` |`never` |When to include "message" attribute.
+|`server.jetty.threads.acceptors` |`-1` |Number of acceptor threads to use.
+|`server.jetty.threads.idle-timeout` |`60000ms` |Maximum thread idle time.
+|`server.jetty.threads.max` |`200` |Maximum number of threads.
+|`server.jetty.threads.max-queue-capacity` | |Maximum capacity of the thread pool's backing queue.
+|`server.jetty.threads.min` |`8` |Minimum number of threads.
+|`server.jetty.threads.selectors` |`-1` |Number of selector threads to use.
+|`server.servlet.encoding.charset` | |
+|`server.servlet.encoding.enabled` |`true` |Whether to enable http encoding support.
+|`server.servlet.encoding.force` | |
+|`server.servlet.encoding.force-request` | |
+|`server.servlet.encoding.force-response` | |
+|`server.servlet.encoding.mapping` | |
+|`server.servlet.register-default-servlet` |`true` |Whether to register the default Servlet with the container.
+|`server.shutdown` | |Type of shutdown that the server will support.
+|`server.tomcat.remoteip.host-header` |`X-Forwarded-Host` |Name of the HTTP header from which the remote host is extracted.
+|`server.tomcat.remoteip.internal-proxies` |`10\.\d{1,3}\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|169\.254\.\d{1,3}\.\d{1,3}|127\.\d{1,3}\.\d{1,3}\.\d{1,3}|172\.1[6-9]{1}\.\d{1,3}\.\d{1,3}|172\.2[0-9]{1}\.\d{1,3}\.\d{1,3}|172\.3[0-1]{1}\.\d{1,3}\.\d{1,3}|0:0:0:0:0:0:0:1|::1` |Regular expression that matches proxies that are to be trusted.
+|`server.tomcat.remoteip.port-header` |`X-Forwarded-Port` |Name of the HTTP header used to override the original port value.
+|`server.tomcat.remoteip.protocol-header` | |Header that holds the incoming protocol, usually named "X-Forwarded-Proto".
+|`server.tomcat.remoteip.protocol-header-https-value` |`https` |Value of the protocol header indicating whether the incoming request uses SSL.
+|`server.tomcat.remoteip.remote-ip-header` | |Name of the HTTP header from which the remote IP is extracted.
+|`server.tomcat.threads.max` |`200` |Maximum amount of worker threads.
+|`server.tomcat.threads.min-spare` |`10` |Minimum amount of worker threads.
+|`server.undertow.threads.io` | |Number of I/O threads to create for the worker.
+|`server.undertow.threads.worker` | |Number of worker threads.
+|`spring.codec.log-request-details` |`false` |Whether to log form data at DEBUG level, and headers at TRACE level.
+|`spring.couchbase.connection-string` | |Connection string used to locate the Couchbase cluster.
+|`spring.couchbase.env.io.idle-http-connection-timeout` |`30s` |Length of time an HTTP connection may remain idle before it is closed and removed from the pool.
+|`spring.couchbase.env.io.max-endpoints` |`12` |Maximum number of sockets per node.
+|`spring.couchbase.env.io.min-endpoints` |`1` |Minimum number of sockets per node.
+|`spring.couchbase.env.timeouts.analytics` |`75s` |Timeout for the analytics service.
+|`spring.couchbase.env.timeouts.disconnect` |`10s` |Bucket disconnect timeout.
+|`spring.couchbase.env.timeouts.key-value-durable` |`10s` |Timeout for operations on a specific key-value with a durability level.
+|`spring.couchbase.env.timeouts.management` |`75s` |Timeout for the management operations.
+|`spring.couchbase.env.timeouts.search` |`75s` |Timeout for the search service.
+|`spring.data.cassandra.connection.connect-timeout` |`5s` |Timeout to use when establishing driver connections.
+|`spring.data.cassandra.connection.init-query-timeout` |`500ms` |Timeout to use for internal queries that run as part of the initialization process, just after a connection is opened.
+|`spring.data.cassandra.local-datacenter` | |Datacenter that is considered "local".
+|`spring.data.cassandra.request.consistency` | |Queries consistency level.
+|`spring.data.cassandra.request.page-size` |`5000` |How many rows will be retrieved simultaneously in a single network roundtrip.
+|`spring.data.cassandra.request.serial-consistency` | |Queries serial consistency level.
+|`spring.data.cassandra.request.throttler.drain-interval` |`10ms` |How often the throttler attempts to dequeue requests.
+|`spring.data.cassandra.request.throttler.max-concurrent-requests` |`10000` |Maximum number of requests that are allowed to execute in parallel.
+|`spring.data.cassandra.request.throttler.max-queue-size` |`10000` |Maximum number of requests that can be enqueued when the throttling threshold is exceeded.
+|`spring.data.cassandra.request.throttler.max-requests-per-second` |`10000` |Maximum allowed request rate.
+|`spring.data.cassandra.request.throttler.type` |`none` |Request throttling type.
+|`spring.data.cassandra.request.timeout` |`2s` |How long the driver waits for a request to complete.
+|`spring.data.cassandra.session-name` | |Name of the Cassandra session.
+|`spring.data.couchbase.bucket-name` | |Name of the bucket to connect to.
+|`spring.data.couchbase.field-naming-strategy` | |Fully qualified name of the FieldNamingStrategy to use.
+|`spring.data.couchbase.scope-name` | |Name of the scope used for all collection access.
+|`spring.data.couchbase.type-key` |`_class` |Name of the field that stores the type information for complex types when using "MappingCouchbaseConverter".
+|`spring.data.elasticsearch.client.reactive.max-in-memory-size` | |Limit on the number of bytes that can be buffered whenever the input stream needs to be aggregated.
+|`spring.data.mongodb.replica-set-name` | |Required replica set name for the cluster.
+|`spring.data.mongodb.uuid-representation` |`java-legacy` |Representation to use when converting a UUID to a BSON binary value.
+|`spring.data.r2dbc.repositories.enabled` |`true` |Whether to enable R2DBC repositories.
+|`spring.flyway.default-schema` | |Default schema name managed by Flyway (case-sensitive).
+|`spring.flyway.validate-migration-naming` |`false` |Whether to validate migrations and callbacks whose scripts do not obey the correct naming convention.
+|`spring.integration.rsocket.client.host` | |TCP RSocket server host to connect to.
+|`spring.integration.rsocket.client.port` | |TCP RSocket server port to connect to.
+|`spring.integration.rsocket.client.uri` | |WebSocket RSocket server uri to connect to.
+|`spring.integration.rsocket.server.message-mapping-enabled` |`false` |Whether to handle message mapping for RSocket via Spring Integration.
+|`spring.kafka.admin.security.protocol` | |Security protocol used to communicate with brokers.
+|`spring.kafka.consumer.security.protocol` | |Security protocol used to communicate with brokers.
+|`spring.kafka.producer.security.protocol` | |Security protocol used to communicate with brokers.
+|`spring.kafka.security.protocol` | |Security protocol used to communicate with brokers.
+|`spring.kafka.streams.security.protocol` | |Security protocol used to communicate with brokers.
+|`spring.lifecycle.timeout-per-shutdown-phase` |`30s` |Timeout for the shutdown of any phase (group of SmartLifecycle beans with the same 'phase' value).
+|`spring.liquibase.clear-checksums` |`false` |Whether to clear all checksums in the current changelog, so they will be recalculated upon the next update.
+|`spring.liquibase.tag` | |Tag name to use when applying database changes.
+|`spring.main.cloud-platform` | |Override the Cloud Platform auto-detection.
+|`spring.mvc.converters.preferred-json-mapper` | |Preferred JSON mapper to use for HTTP message conversion.
+|`spring.mvc.format.date` | |Date format to use, for example `dd/MM/yyyy`.
+|`spring.mvc.format.date-time` | |Date-time format to use, for example `yyyy-MM-dd HH:mm:ss`.
+|`spring.mvc.format.time` | |Time format to use, for example `HH:mm:ss`.
+|`spring.mvc.log-request-details` |`false` |Whether logging of (potentially sensitive) request details at DEBUG and TRACE level is allowed.
+|`spring.r2dbc.generate-unique-name` |`false` |Whether to generate a random database name.
+|`spring.r2dbc.name` | |Database name.
+|`spring.r2dbc.password` | |Login password of the database.
+|`spring.r2dbc.pool.enabled` | |Whether pooling is enabled.
+|`spring.r2dbc.pool.initial-size` |`10` |Initial connection pool size.
+|`spring.r2dbc.pool.max-idle-time` |`30m` |Idle timeout.
+|`spring.r2dbc.pool.max-size` |`10` |Maximal connection pool size.
+|`spring.r2dbc.pool.validation-query` | |Validation query.
+|`spring.r2dbc.properties` | |Additional R2DBC options.
+|`spring.r2dbc.url` | |R2DBC URL of the database. database name, username, password and pooling options specified in the url take precedence over individual options.
+|`spring.r2dbc.username` | |Login username of the database.
+|`spring.rabbitmq.requested-channel-max` |`2047` |Number of channels per connection requested by the client.
+|`spring.redis.lettuce.cluster.refresh.adaptive` |`false` |Whether adaptive topology refreshing using all available refresh triggers should be used.
+|`spring.redis.lettuce.cluster.refresh.period` | |Cluster topology refresh period.
+|`spring.redis.sentinel.password` | |Password for authenticating with sentinel(s).
+|`spring.webflux.base-path` | |Base path for all web handlers.
+|`spring.webflux.format.date` | |Date format to use, for example `dd/MM/yyyy`.
+|`spring.webflux.format.date-time` | |Date-time format to use, for example `yyyy-MM-dd HH:mm:ss`.
+|`spring.webflux.format.time` | |Time format to use, for example `HH:mm:ss`.
+|======================
+
+
+
+== Removed in `2.3.0.RELEASE`
+|======================
+|Key  |Replacement |Reason
+|`logging.file` |`logging.file.name` |
+|`logging.path` |`logging.file.path` |
+|`management.health.elasticsearch.indices` | |
+|`management.health.elasticsearch.response-timeout` | |
+|`management.metrics.export.appoptics.num-threads` | |
+|`management.metrics.export.datadog.num-threads` | |
+|`management.metrics.export.dynatrace.num-threads` | |
+|`management.metrics.export.elastic.num-threads` | |
+|`management.metrics.export.humio.num-threads` | |
+|`management.metrics.export.humio.repository` | |
+|`management.metrics.export.influx.num-threads` | |
+|`management.metrics.export.kairos.num-threads` | |
+|`management.metrics.export.newrelic.num-threads` | |
+|`management.metrics.export.signalfx.num-threads` | |
+|`management.metrics.export.wavefront.connect-timeout` | |
+|`management.metrics.export.wavefront.num-threads` | |
+|`management.metrics.export.wavefront.read-timeout` | |
+|`management.metrics.web.client.requests-metric-name` |`management.metrics.web.client.request.metric-name` |
+|`management.metrics.web.server.auto-time-requests` |`management.metrics.web.server.request.autotime.enabled` |
+|`management.metrics.web.server.requests-metric-name` |`management.metrics.web.server.request.metric-name` |
+|`server.connection-timeout` | |Each server behaves differently.
+|`server.jetty.max-http-post-size` |`server.jetty.max-http-form-post-size` |
+|`server.tomcat.max-http-post-size` |`server.tomcat.max-http-form-post-size` |
+|`server.use-forward-headers` |`server.forward-headers-strategy` |Replaced to support additional strategies.
+|`spring.couchbase.bootstrap-hosts` |`spring.couchbase.connection-string` |
+|`spring.couchbase.bucket.name` | |A bucket is no longer auto-configured.
+|`spring.couchbase.bucket.password` | |A bucket is no longer auto-configured.
+|`spring.couchbase.env.bootstrap.http-direct-port` | |
+|`spring.couchbase.env.bootstrap.http-ssl-port` | |
+|`spring.couchbase.env.endpoints.key-value` | |
+|`spring.couchbase.env.endpoints.queryservice.max-endpoints` |`spring.couchbase.env.io.max-endpoints` |
+|`spring.couchbase.env.endpoints.queryservice.min-endpoints` |`spring.couchbase.env.io.min-endpoints` |
+|`spring.couchbase.env.endpoints.viewservice.max-endpoints` |`spring.couchbase.env.io.max-endpoints` |
+|`spring.couchbase.env.endpoints.viewservice.min-endpoints` |`spring.couchbase.env.io.min-endpoints` |
+|`spring.couchbase.env.timeouts.socket-connect` | |
+|`spring.data.cassandra.jmx-enabled` | |Cassandra no longer provides JMX metrics.
+|`spring.data.cassandra.pool.max-queue-size` |`spring.data.cassandra.request.throttler.max-queue-size` |
+|`spring.data.cassandra.pool.pool-timeout` | |No longer available.
+|`spring.data.couchbase.consistency` | |
+|`spring.data.elasticsearch.cluster-name` | |
+|`spring.data.elasticsearch.cluster-nodes` | |
+|`spring.data.elasticsearch.properties` | |
+|`spring.elasticsearch.jest.connection-timeout` | |
+|`spring.elasticsearch.jest.multi-threaded` | |
+|`spring.elasticsearch.jest.password` | |
+|`spring.elasticsearch.jest.proxy.host` | |
+|`spring.elasticsearch.jest.proxy.port` | |
+|`spring.elasticsearch.jest.read-timeout` | |
+|`spring.elasticsearch.jest.uris` | |
+|`spring.elasticsearch.jest.username` | |
+|`spring.http.converters.preferred-json-mapper` |`spring.mvc.converters.preferred-json-mapper` |
+|`spring.http.encoding.charset` |`server.servlet.encoding.charset` |
+|`spring.http.encoding.enabled` |`server.servlet.encoding.enabled` |
+|`spring.http.encoding.force` |`server.servlet.encoding.force` |
+|`spring.http.encoding.force-request` |`server.servlet.encoding.force-request` |
+|`spring.http.encoding.force-response` |`server.servlet.encoding.force-response` |
+|`spring.http.encoding.mapping` |`server.servlet.encoding.mapping` |
+|`spring.http.log-request-details` |`spring.mvc.log-request-details` |
+|`spring.jackson.joda-date-time-format` | |
+|`spring.rabbitmq.listener.simple.transaction-size` | |
+|`spring.rabbitmq.publisher-confirms` | |
+|======================

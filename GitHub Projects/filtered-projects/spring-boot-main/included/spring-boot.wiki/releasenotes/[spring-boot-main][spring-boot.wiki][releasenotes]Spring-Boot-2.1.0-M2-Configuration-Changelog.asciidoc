@@ -1,0 +1,59 @@
+Configuration properties change between `2.1.0.M1` and `2.1.0.M2`
+
+.Deprecated keys in `2.1.0.M2`
+|======================
+|Key  |Replacement |Reason
+|`management.endpoints.jmx.unique-names` |`spring.jmx.unique-names` |
+|`spring.activemq.pool.maximum-active-session-per-connection` |`spring.activemq.pool.max-sessions-per-connection` |
+|`spring.artemis.pool.maximum-active-session-per-connection` |`spring.artemis.pool.max-sessions-per-connection` |
+|======================
+
+.New keys in `2.1.0.M2`
+|======================
+|Key  |Default value |Description
+|`management.health.couchbase.timeout` |`1000ms` |Timeout for getting the Bucket information from the server.
+|`server.tomcat.max-swallow-size` |`2MB` |Maximum amount of request body to swallow.
+|`spring.activemq.pool.max-sessions-per-connection` |`500` |Maximum number of pooled sessions per connection in the pool.
+|`spring.artemis.pool.max-sessions-per-connection` |`500` |Maximum number of pooled sessions per connection in the pool.
+|`spring.data.jpa.repositories.bootstrap-mode` |`default` |Bootstrap mode for JPA repositories.
+|`spring.insights.web.log-request-details` |`false` |Whether logging of (potentially sensitive) request details at DEBUG and TRACE level is allowed.
+|`spring.jmx.unique-names` |`false` |Whether unique runtime object names should be ensured.
+|`spring.mvc.formcontent.filter.enabled` |`true` |Whether to enable Spring's FormContentFilter.
+|`spring.mvc.hiddenmethod.filter.enabled` |`true` |Whether to enable Spring's HiddenHttpMethodFilter.
+|`spring.rabbitmq.template.queue` | |Name of the default queue to receive messages from when none is specified explicitly.
+|`spring.security.oauth2.resource.jwt.jwk.set-uri` | |JSON Web Key URI to use to verify the JWT token.
+|`spring.task.execution.pool.allow-core-thread-timeout` |`true` |Whether core threads are allowed to time out.
+|`spring.task.execution.pool.core-size` |`8` |Core number of threads.
+|`spring.task.execution.pool.keep-alive` |`60s` |Time limit for which threads may remain idle before being terminated.
+|`spring.task.execution.pool.max-size` | |Maximum allowed number of threads.
+|`spring.task.execution.pool.queue-capacity` | |Queue capacity.
+|`spring.task.execution.thread-name-prefix` |`task-` |Prefix to use for the names of newly created threads.
+|`spring.task.scheduling.pool.size` |`1` |Maximum allowed number of threads.
+|`spring.task.scheduling.thread-name-prefix` |`scheduling-` |Prefix to use for the names of newly created threads.
+|======================
+
+.Removed keys in `2.1.0.M2``
+|======================
+|Key  |Replacement |Reason
+|`flyway.encoding` | |
+|`spring.activemq.pool.create-connection-on-startup` |`true` |Whether to create a connection on startup.
+|`spring.activemq.pool.expiry-timeout` |`0ms` |Connection expiration timeout.
+|`spring.activemq.pool.reconnect-on-exception` |`true` |Reset the connection when a "JMSException" occurs.
+|`spring.artemis.pool.create-connection-on-startup` |`true` |Whether to create a connection on startup.
+|`spring.artemis.pool.expiry-timeout` |`0ms` |Connection expiration timeout.
+|`spring.artemis.pool.reconnect-on-exception` |`true` |Reset the connection when a "JMSException" occurs.
+|`spring.jta.narayana.default-timeout` |`60s` |Transaction timeout.
+|`spring.jta.narayana.expiry-scanners` |`com.arjuna.ats.internal.arjuna.recovery.ExpiredTransactionStatusManagerScanner` |Comma-separated list of expiry scanners.
+|`spring.jta.narayana.log-dir` | |Transaction object store directory.
+|`spring.jta.narayana.one-phase-commit` |`true` |Whether to enable one phase commit optimization.
+|`spring.jta.narayana.periodic-recovery-period` |`120s` |Interval in which periodic recovery scans are performed.
+|`spring.jta.narayana.recovery-backoff-period` |`10s` |Back off period between first and second phases of the recovery scan.
+|`spring.jta.narayana.recovery-db-pass` | |Database password to be used by the recovery manager.
+|`spring.jta.narayana.recovery-db-user` | |Database username to be used by the recovery manager.
+|`spring.jta.narayana.recovery-jms-pass` | |JMS password to be used by the recovery manager.
+|`spring.jta.narayana.recovery-jms-user` | |JMS username to be used by the recovery manager.
+|`spring.jta.narayana.recovery-modules` | |Comma-separated list of recovery modules.
+|`spring.jta.narayana.transaction-manager-id` |`1` |Unique transaction manager id.
+|`spring.jta.narayana.xa-resource-orphan-filters` | |Comma-separated list of orphan filters.
+|`spring.mvc.formcontent.putfilter.enabled` |`spring.mvc.formcontent.filter.enabled` |
+|======================

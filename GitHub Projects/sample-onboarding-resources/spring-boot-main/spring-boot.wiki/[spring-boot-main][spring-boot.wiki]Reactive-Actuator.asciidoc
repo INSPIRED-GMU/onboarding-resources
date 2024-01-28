@@ -1,0 +1,137 @@
+# Reactive Actuator
+
+NOTE: We do have a `reactor` theme with a https://github.com/spring-projects/spring-boot/labels/theme%3A%20actuator[list of tasks/ideas].
+
+## Endpoints
+
+### Architecture
+Endpoints in the Actuator are defined by the `Endpoint` interface that has a simple `invoke` method that returns `T`. The purpose of such endpoint is to return some data that is then exposed higher in the stack to a client:
+
+* `MvcEndpoint` exposes an endpoint to HTTP using Spring MVC
+* `JmxEndpoint` exposes an endpoint to JMX using Spring's JMX facility
+
+Both of those have a generic implementation that takes the endpoint and expose its data. While the JMX endpoint isn't going to use any of the reactive feature, the HTTP endpoint in a reactive web application shouldn't use MVC (simply as MVC isn't expected to be on the classpath).
+
+Also, most endpoints have additional features that are then exposed directly in the MVC and/or JMX layer. For instance, the logger endpoint allows to retrieve and change the level of a particular logger. With the support of reactive, we have an opportunity to review this architecture and provide a neutral layer that we adapt on the target environment. Ideally, each endpoint should be defined in this neutral layer.
+
+
+### Implementation
+The list of endpoints is https://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#production-ready-endpoints[available in the documentation].
+
+Let's have a look to each endpoint and figure out what it would take to make them reactive:
+
+#### auditevents
+Audit events are backed by a repository. At the moment we only have an in memory implementation but it would be nice to have a `ReactiveAuditEventRepository` that provides a `Flux<AuditEvent>`.
+
+The audit events endpoint is also a bit special as it doesn't have a centralized `Endpoint` implementation. This can be a problem as having a third type of endpoint can lead to code duplication.
+
+#### autoconfig
+The auto-configuration report is available in memory so there isn't a great need for a reactive based API for this.
+
+#### beans
+The application context structure is available in memory so there isn't a great need for a reactive based API for this.
+
+#### configprops
+The binding of `ConfigurationProperties` is available in memory so there isn't a great need for a reactive based API for this.
+
+#### docs (http only)
+The actuator documentation is probably out of scope of this?
+
+#### dump
+`dumpAllThreads` has no reactive equivalent and is going to provide a `List<ThreadInfo>` so a reactive based API for this isn't probably in order.
+
+#### env
+The `environment` is available in memory so there isn't a great need for a reactive based API for this. This of course completely eludes `PropertySource` implementation that may use the network.
+
+#### flyway
+`Flyway.info()` builds a `MigrationInfoService` and call `refresh()` on it and that is a blocking API that is using JDBC behind the scenes.
+
+#### health
+The health endpoint is a perfect candidate for a reactive API. At the moment, an `HealthIndicator` has to implement the following API:
+
+```java
+public interface HealthIndicator {
+
+	Health health();
+}
+```
+
+An alternative would be something along the lines of
+
+```java
+public interface ReactiveHealthIndicator {
+
+	Mono<Health> health();
+}
+```
+
+We would need to zip all those `Mono` in a single one in order to compute the overall status. For that reason, we couldn't stream the various entries that way since we need the global status to compute the relevant HTTP status.
+
+#### heapdump (http only)
+That API is full blocking
+
+#### info
+The info endpoint invokes a configurable list of `InfoContributor`:
+
+```java
+public interface ReactiveInfoContributor {
+
+	void contribute(Info.Builder builder);
+}
+```
+
+where `Info.Builder` allows to register key/value pairs. The value can be either a scalar value and then it will register a top-level value or the value can be a `Map` itself to register a "nested" namespace.
+
+A reactive equivalent of this API could be as follows:
+
+```java
+public interface ReactiveInfoContributor {
+	Flux<InfoEntry> contribute();
+}
+```
+
+where `InfoEntry` is a tuple of `String` and `Object` where `Object` can be a singular value or a nested map.
+
+#### jolokia (http only)
+This is a blocking API
+
+#### logfile (http only)
+Streaming the content of the log could be an interesting use case.
+
+#### loggers
+The logging information is available in memory so there isn't a great need for a reactive based API for this.
+
+#### liquibase
+The `LiquibaseEndpoint` is using a `DataSource` to retrieve the `LiquibaseReport` and that's obviously blocking.
+
+#### metrics
+It's a tough one so I wonder if we shouldn't delay that to the work in `spring-metrics`.
+
+#### mappings
+The list of MVC mappings are defined in the context so there is no need for a reactive API for this.
+
+But we'd need to improve that endpoint to extract information of a router that has been defined programmatically. This is not currently possible, see https://jira.spring.io/browse/SPR-15711[SPR-15711].
+
+#### shutdown
+This is a POST operation only
+
+#### trace
+`TraceRepository` has only a `findAll()` method which indicates that no streaming is really possible. Maybe we should improve that interface? Offer a reactive equivalent?
+
+Also, the HTTP endpoint could produce JSON stream or Server Sent Events with the latest trace information.
+
+
+## HTTP exposure
+
+* Router function vs. annotation model
+* Support of JAX-RS?
+
+## Summary
+Here's a list of interesting work areas:
+
+* Provide a reactive-based API for the `health` endpoint and build an infrastructure to make it reactive
+* Ditto for the `info` endpoint
+* Find a way to identify the mappings that are defined by the new routeur API
+* Provide a way to stream web request details (`trace` endpoint)
+* Find a way to invoke blocking endpoints on a separate scheduler
+* Provide a way to stream the log file

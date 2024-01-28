@@ -1,0 +1,59 @@
+Configuration properties change between `1.4.0.M3` and `1.4.0.RC1`
+
+.Deprecated keys in `1.4.0.RC1`
+|======================
+|Key  |Replacement |Reason
+|`management.security.role` |`management.security.roles` |
+|======================
+
+.New keys in `1.4.0.RC1`
+|======================
+|Key  |Default value |Description
+|`endpoints.heapdump.enabled` | |Enable the endpoint.
+|`endpoints.heapdump.path` | |Endpoint URL path.
+|`endpoints.heapdump.sensitive` | |Mark if the endpoint exposes sensitive information.
+|`management.security.roles` |`ADMIN` |Comma-separated list of roles that can access the management endpoint.
+|`management.ssl.ciphers` | |
+|`management.ssl.client-auth` | |
+|`management.ssl.enabled` | |
+|`management.ssl.enabled-protocols` | |
+|`management.ssl.key-alias` | |
+|`management.ssl.key-password` | |
+|`management.ssl.key-store` | |
+|`management.ssl.key-store-password` | |
+|`management.ssl.key-store-provider` | |
+|`management.ssl.key-store-type` | |
+|`management.ssl.protocol` | |
+|`management.ssl.trust-store` | |
+|`management.ssl.trust-store-password` | |
+|`management.ssl.trust-store-provider` | |
+|`management.ssl.trust-store-type` | |
+|`server.connection-timeout` | |Time in milliseconds that connectors will wait for another HTTP request before closing the connection.
+|`server.tomcat.accesslog.rename-on-rotate` |`false` |Defer inclusion of the date stamp in the file name until rotate time.
+|`server.tomcat.redirect-context-root` | |Whether requests to the context root should be redirected by appending a / to the path.
+|`spring.artemis.password` | |Login password of the broker.
+|`spring.artemis.user` | |Login user of the broker.
+|`spring.data.cassandra.schema-action` |`none` |Schema action to take at startup.
+|`spring.datasource.hikari.data-source-j-n-d-i` | |
+|`spring.datasource.tomcat.data-source-j-n-d-i` | |
+|`spring.datasource.tomcat.init-s-q-l` | |
+|`spring.elasticsearch.jest.connection-timeout` |`3000` |Connection timeout in milliseconds.
+|`spring.elasticsearch.jest.password` | |Login password.
+|`spring.elasticsearch.jest.read-timeout` |`3000` |Read timeout in milliseconds.
+|`spring.elasticsearch.jest.uris` |`http://localhost:9200` |Comma-separated list of the Elasticsearch instances to use.
+|`spring.elasticsearch.jest.username` | |Login user.
+|`spring.hornetq.password` | |Login password of the broker.
+|`spring.hornetq.user` | |Login user of the broker.
+|`spring.mvc.locale-resolver` | |Define how the locale should be resolved.
+|`spring.mvc.log-resolved-exception` |`false` |Enable warn logging of exceptions resolved by a "HandlerExceptionResolver".
+|`spring.session.jdbc.initializer.enabled` |`true` |Create the required session tables on startup if necessary.
+|`spring.session.jdbc.schema` |`classpath:org/springframework/session/jdbc/schema-@@platform@@.sql` |Path to the SQL file to use to initialize the database schema.
+|======================
+
+.Removed keys in `1.4.0.RC1`
+|======================
+|Key  |Default value |Description
+|`spring.datasource.hikari.data-source-jndi` | |
+|`spring.datasource.tomcat.data-source-jndi` | |
+|`spring.datasource.tomcat.init-sql` | |
+|======================

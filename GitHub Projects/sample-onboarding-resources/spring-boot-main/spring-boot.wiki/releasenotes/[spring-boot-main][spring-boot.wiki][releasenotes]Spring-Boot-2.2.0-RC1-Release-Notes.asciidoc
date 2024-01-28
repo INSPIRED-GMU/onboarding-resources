@@ -1,0 +1,142 @@
+:docs: https://docs.spring.io/spring-boot/docs/2.2.0.RC1/reference/html
+
+= Spring Boot 2.2.0 RC1 Release Notes
+
+For changes in earlier milestones, please refer to:
+
+- link:Spring-Boot-2.2.0-M6-Release-Notes[v2.2.0 M6]
+- link:Spring-Boot-2.2.0-M5-Release-Notes[v2.2.0 M5]
+- link:Spring-Boot-2.2.0-M4-Release-Notes[v2.2.0 M4]
+- link:Spring-Boot-2.2.0-M3-Release-Notes[v2.2.0 M3]
+- link:Spring-Boot-2.2.0-M2-Release-Notes[v2.2.0 M2]
+- link:Spring-Boot-2.2.0-M1-Release-Notes[v2.2.0 M1]
+
+== Upgrading from Spring Boot 2.1 or 2.2.0.M6
+See instructions in the link:Spring-Boot-2.2.0-M1-Release-Notes[2.2.0.M1 release notes] for upgrading from Spring Boot 2.1.
+
+=== Constructor Binding for @ConfigurationProperties
+Contructor binding for `@ConfigurationProperties` now needs to be explicitly declared using either `@ImmutableConfigurationProperties` or `@ConstructorBinding`.
+
+In earlier milestone we attempted to deduce when constructor binding was required vs regular bean injection.
+Unfortuantely this turned out to be quite brittle and very hard to always get right so we've decided an explicit signal is required.
+
+=== Micrometer 'New Relic' eventType
+Micrometer 1.3 has https://github.com/micrometer-metrics/micrometer/pull/1588[changed the evenType] that gets published with each metric to be a fixed value.
+This aligns with New Relic https://docs.newrelic.com/docs/insights/insights-data-sources/default-data/insights-default-data-other-new-relic-products[recommneded best practices].
+
+Spring Boot 2.2 will use the value of `management.metrics.export.newrelic.event-type` as the `eventType` and add "metricName" and "metricType" attributes for context.
+If you don't explicitly set an event type property then `SpringBootSample` is used.
+
+If you perfer to use the previous behavor where the meter name was used as the `eventType`, you can set the `management.metrics.export.newrelic.meter-name-event-type-enabled` property to `true`.
+
+=== Health Endpoint JSON
+The `/actuator/health` endpoint has changed the resulting JSON format by renaming `details` to `components` for the first-level elements.
+This helps to differentiate the actual details retuned from a `HealthIndicator` from the component indicators that make up composite health.
+
+As a result of the change, the actuator media type has been bumped from `application/vnd.spring-boot.actuator.v2+json` to `application/vnd.spring-boot.actuator.v3+json`.
+
+If you have tools that need to consume the older format, you can use an HTTP `Accept:` header with the V2 media type, `application/vnd.spring-boot.actuator.v2+json`.
+
+=== DevTools config directory
+If you are using `~/.config/` for your DevTools properties you no longer need to prefix the file with `.`.
+You should now use `~/.config/spring-boot-devtools.properties` or `~/.config/spring-boot-devtools.yml`.
+
+
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.2.0-RC1-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+
+=== Banners
+ASCII banner files can now make use of ANSI 256 color escape codes by using `{AnsiColor.NNN}` (where NNN is the https://en.wikipedia.org/wiki/ANSI_escape_code[color code]).
+
+You can also use them with image banners by setting the `spring.banner.image.bitdepth` property to `8`.
+We've also added a `spring.banner.image.pixelmode` property that you can set to `block` to use ASCII block chars.
+
+The result looks like this:
+
+image::images/animated-ascii-art-256.gif[]
+
+
+=== SAML Auto-configuration
+Auto-configuration for Spring Security's SAML 2.0 Relying Party is now available when its `spring-security-saml2-server-provider` module is on the classpath. Relying parties can be registered using the `spring.security.saml2.relyingparty.registration.*` properties.
+
+
+
+=== RSocket Support
+Auto-configuration for Spring Security's RSocket integration is now available when its `spring-security-rsocket` module is on the classpath. The auto-configuration will enable RSocket security and configure the server RSocket factory with Spring Security's interceptor.
+
+When testing an RSocket server application, the `local.rsocket.server.port` property is now set to the port that the RSocket server is listening on. It can be injected into test classes using `@LocalRSocketServerPort`.
+
+
+=== Lazy-init Programmatic Exclusions
+If you set the new `spring.main.lazy-initialization` poperty to `true` you may face a situation where you needed it to back off for certain beans.
+This was previously only possible if you could change the `@Bean` method to add `@Lazy(false)` to it.
+
+With RC1 it's now possible to apply exclusions programatically by register a `LazyInitializationExcludeFilter` bean.
+
+For example, to never set `IntegrationFlow` beans to lazy, you can use the following code:
+
+[source,java]
+----
+@Bean
+static LazyInitializationExcludeFilter integrationLazyInitExcludeFilter() {
+    return LazyInitializationExcludeFilter.forBeanTypes(IntegrationFlow.class);
+}
+----
+
+
+=== Health Endpoint
+Component details returned from `/actuator/health` can now be configured to be shown independently of the details.
+The `management.endpoint.health.show-components` property works in a similar way to `show-details` and can be set to `never`, `when-authorized` or `always`.
+
+For example, if you want to always show the individal health indicators composed to create the system health, but you don't want to show their details you can use:
+
+[source,properties]
+----
+management.endpoint.health.show-components=always
+management.endpoint.health.show-details=never
+----
+
+The same property can also be set on a health indicator group.
+
+
+=== Dependency Upgrades
+Spring Boot 2.2.0.RC1 moves to new versions of several Spring projects:
+
+- Reactor Dysprosium-RELEASE
+- https://spring.io/blog/2019/10/02/spring-for-rabbitmq-spring-amqp-2-2-is-now-available[Spring AMQP 2.2.0]
+- https://spring.io/blog/2019/10/02/spring-batch-4-2-in-now-ga[Spring Batch 4.2.0]
+- https://spring.io/blog/2019/10/01/spring-data-moore-goes-ga[Spring Data Moore-RELEASE]
+- https://spring.io/blog/2019/09/30/spring-framework-5-2-goes-ga[Spring Framework 5.2.0]
+- https://spring.io/blog/2019/09/30/spring-hateoas-1-0-0-release-is-released[Spring HATEOAS 1.0.0]
+- https://spring.io/blog/2019/10/02/spring-integration-5-2-ga-available[Spring Integration 5.2.0]
+- https://spring.io/blog/2019/10/02/spring-for-apache-kafka-2-3-is-now-available[Spring Kafka 2.3.0]
+- https://spring.io/blog/2019/09/30/spring-rest-docs-2-0-4-release[Spring REST Docs 2.0.4]
+- https://spring.io/blog/2019/10/01/spring-security-5-2-goes-ga[Spring Security 5.2.0]
+- Spring Session Corn-RC1
+
+Numerous third-party dependencies have also been updated, some of the more noteworthy of which are the following:
+
+- Jackson 2.10
+- Lettuce 5.2
+- Micrometer 1.3
+- Mockito 3.1
+
+
+
+=== Miscellaneous
+- Zip64 files are now supported inside "Far Jars".
+- The `ROLLING_FILE_LOG_PATTERN` is now exposed for use in logback configurations.
+- You can now inject and use a customized `WebTestClient` in any `@SpringBootTest`.
+- Dependency management for Oracle's JDBC driver has been added.
+- Dependency management for Awaitility has been added.
+
+
+
+== Deprecations in Spring Boot 2.2.0 RC1
+- `ConfigurationBeanFactoryMetadata` in favour of `ConfigurationPropertiesBean`
+- `ConfigurationPropertiesBindingPostProcessor` constructors in favor of `@EnableConfigurationProperties` or the `register` method.
+- `ConfigurationPropertiesBindingPostProcessor.VALIDATOR_BEAN_NAME` has moved to `EnableConfigurationProperties.VALIDATOR_BEAN_NAME`
+- `ConfigurationPropertiesBindingPostProcessorRegistrar` in favor of `@EnableConfigurationProperties`
+- `WebTestClientBuilderCustomizer` has been relocated to `org.springframework.boot.test.web.reactive.server`

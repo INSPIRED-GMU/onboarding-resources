@@ -1,0 +1,123 @@
+= Spring Boot 2.7.0 M1 Release Notes
+
+
+
+== Upgrading from Spring Boot 2.6
+
+=== @SpringBootTest Property Source Precendence
+Test property sources added by `@SpringBootTest` using either the `properties` attribute or the `@TestPropertySource` annotation are now added above the command line property source. If you are in the unlikely situation of having a `@SpringBootTest` that uses both `properties` and `args` (and with the same property name), you may need to change things around.
+
+
+
+=== Deprecations from Spring Boot 2.5
+Classes, methods and properties that were deprecated in Spring Boot 2.5 have been removed in this release.
+Please ensure that you aren't calling deprecated methods before upgrading.
+
+
+
+=== Minimum Requirements Changes
+
+
+
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.7.0-M1-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+
+
+=== New Spring GraphQL starter
+Spring Boot 2.7 ships support for https://github.com/spring-projects/spring-graphql[the Spring GraphQL project] with a new `spring-boot-starter-graphql` starter. You'll find more information in https://docs.spring.io/spring-boot/docs/2.7.x-SNAPSHOT/reference/html/web.html#web.graphql[the GraphQL section of the Spring Boot reference documentation].
+
+
+=== Support for RabbitStreamTemplate
+A `RabbitStreamTemplate` is auto-configured if a stream name is set using the `spring.rabbitmq.stream.name` property.
+A `RabbitStreamTemplateConfigurer` is provided, similar to `RabbitTemplateConfigurer` to customize additional instances whilst retaining auto-configuration.
+
+
+
+=== Hazelcast `@SpringAware` Support
+The auto-configured Hazelcast embedded server now uses `SpringManagerContext` by default.
+This makes it possible to inject Spring managed beans into objects instantiated by Hazelcast.
+A `HazelcastConfigCustomizer` callback interface has also been introduced and can be used to further tune the Hazelcast server config.
+
+
+
+=== Operating System Information in Info endpoint
+An `OsInfoContributor` can expose some information about the Operating System the application is running on:
+
+```json
+{
+  "os": {
+    "name": "Linux",
+    "version": "5.4.0-1051-gke",
+    "arch": "amd64"
+  }
+}
+```
+
+This new contributor is disabled by default.
+It can be enabled using the `management.info.os.enabled` property.
+
+
+
+=== Java Vendor Information in Info endpoint
+The existing `JavaInfoContributor` has been improved to offer a dedicated section for the vendor information, including the vendor-specific version.
+Rather than a top-level `vendor` simple attribute, it is now a dedicated object with `name` and `version` attributes:
+
+```json
+{
+  "java": {
+    "vendor": {
+       "name": "Eclipse Adoptium",
+        "version": "Temurin-17.0.1+12"
+    },
+    "..."
+}
+```
+
+Note that not all vendors expose a `java.vendor.version` system property so the `version` attribute may be `null`.
+
+
+
+=== Accessing the Authenticated Principal in RSocket Handler Methods
+An RSocket handler method can now inject the `@Authenticated` `Principal`:
+
+```java
+@MessageMapping ("test") 
+Mono<String> hello (@Authenticated Principal p){ 
+    return Mono.just ("Hello, "  + p.getName()) ;
+}
+```
+
+
+=== Dependency Upgrades
+Spring Boot 2.7 moves to new versions of several Spring projects:
+
+* https://github.com/micrometer-metrics/micrometer/releases/tag/v1.9.0-M2[Micrometer 1.9.0-M2]
+* Spring Data 2021.2.0-M2
+* https://github.com/spring-projects/spring-hateoas/releases/tag/1.5.0-M1[Spring HATEOAS 1.5.0-M1]
+* https://github.com/spring-projects/spring-ldap/releases/tag/2.4.0-M1[Spring LDAP 2.4.0-M1]
+* https://github.com/spring-projects/spring-security/releases/tag/5.7.0-M1[Spring Security 5.7.0-M1]
+* Spring Session 2021.2.0-M1
+
+Numerous third-party dependencies have also been updated, some of the more noteworthy of which are the following:
+
+* https://infinispan.org/blog/2021/10/12/infinispan-13-final[Infinispan 13]
+
+
+
+=== Miscellaneous
+Apart from the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+* Kafka `idlePartitionEventInterval` can be configured using the `spring.kafka.listener.idle-partition-event-interval` property.
+* `KafkaTemplate` `transactionIdPrefix` property can be configured using the `spring.kafka.template.transaction-id-prefix` property.
+* Netty `maxKeepAliveRequests` can be configured using the `server.netty.max-keep-alive-requests` property.
+* `@DataJdbcTest` automatically scans for `AbstractJdbcConfiguration` beans.
+* A `UserDetailsService` bean is no longer auto-configured when SAML 2.0 Login is being used.
+* The transaction isolation level of Spring Batch can be configured using the `spring.batch.jdbc.isolation-level-for-create` property.
+* The filter used to record Spring MVC metrics can now be replaced by defining your own `FilterRegistrationBean<WebMvcMetricsFilter>` bean.
+* The ID of `DatabaseDriver.MARIADB` has changed from `mysql` to `mariadb`
+
+== Deprecations in Spring Boot 2.7
+
+None.

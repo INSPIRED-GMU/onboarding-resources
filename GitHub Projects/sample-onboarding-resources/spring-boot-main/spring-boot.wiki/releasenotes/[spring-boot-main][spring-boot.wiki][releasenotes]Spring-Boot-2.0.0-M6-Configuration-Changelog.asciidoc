@@ -1,0 +1,223 @@
+Configuration properties change between `2.0.0.M5` and `2.0.0.M6`
+
+.Deprecated keys in `2.0.0.M6`
+|======================
+|Key  |Replacement |Reason
+|======================
+
+.New keys in `2.0.0.M6`
+|======================
+|Key  |Default value |Description
+|`endpoints.auditevents.web.path` |`auditevents` |Path of the auditevents endpoint.
+|`endpoints.autoconfig.web.path` |`autoconfig` |Path of the autoconfig endpoint.
+|`endpoints.beans.web.path` |`beans` |Path of the beans endpoint.
+|`endpoints.configprops.web.path` |`configprops` |Path of the configprops endpoint.
+|`endpoints.env.web.path` |`env` |Path of the env endpoint.
+|`endpoints.flyway.web.path` |`flyway` |Path of the flyway endpoint.
+|`endpoints.health.web.path` |`health` |Path of the health endpoint.
+|`endpoints.heapdump.web.path` |`heapdump` |Path of the heapdump endpoint.
+|`endpoints.info.web.path` |`info` |Path of the info endpoint.
+|`endpoints.liquibase.web.path` |`liquibase` |Path of the liquibase endpoint.
+|`endpoints.logfile.web.path` |`logfile` |Path of the logfile endpoint.
+|`endpoints.loggers.web.path` |`loggers` |Path of the loggers endpoint.
+|`endpoints.mappings.web.path` |`mappings` |Path of the mappings endpoint.
+|`endpoints.metrics.web.path` |`metrics` |Path of the metrics endpoint.
+|`endpoints.prometheus.web.path` |`prometheus` |Path of the prometheus endpoint.
+|`endpoints.sessions.web.path` |`sessions` |Path of the sessions endpoint.
+|`endpoints.shutdown.web.path` |`shutdown` |Path of the shutdown endpoint.
+|`endpoints.status.web.path` |`status` |Path of the status endpoint.
+|`endpoints.threaddump.web.path` |`threaddump` |Path of the threaddump endpoint.
+|`endpoints.trace.web.path` |`trace` |Path of the trace endpoint.
+|`logging.file.max-history` |`0` |Maximum number of archive log files to keep.
+|`logging.file.max-size` |`10MB` |Maximum log file size.
+|`logging.pattern.dateformat` | |Appender pattern for log dateformat (default yyyy-MM-dd HH:mm:ss.SSS).
+|`management.endpoints.web.base-path` |`/application` |The base-path for the web endpoints.
+|`management.server.add-application-context-header` |`false` |Add the "X-Application-Context" HTTP header in each response.
+|`management.server.address` | |Network address that the management endpoints should bind to.
+|`management.server.context-path` |`` |Management endpoint context-path.
+|`management.server.port` | |Management endpoint HTTP port.
+|`management.server.ssl.ciphers` | |
+|`management.server.ssl.client-auth` | |
+|`management.server.ssl.enabled` | |
+|`management.server.ssl.enabled-protocols` | |
+|`management.server.ssl.key-alias` | |
+|`management.server.ssl.key-password` | |
+|`management.server.ssl.key-store` | |
+|`management.server.ssl.key-store-password` | |
+|`management.server.ssl.key-store-provider` | |
+|`management.server.ssl.key-store-type` | |
+|`management.server.ssl.protocol` | |
+|`management.server.ssl.trust-store` | |
+|`management.server.ssl.trust-store-password` | |
+|`management.server.ssl.trust-store-provider` | |
+|`management.server.ssl.trust-store-type` | |
+|`server.http2.enabled` | |
+|`server.tomcat.resource.cache-ttl` | |Time-to-live in milliseconds of the static resource cache.
+|`spring.config.additional-location` | |Config file locations used in addition to the defaults.
+|`spring.datasource.initialization-mode` |`embedded` |Initialize the datasource using available DDL and DML scripts.
+|`spring.jpa.mapping-resources` | |Mapping resources (equivalent to "mapping-file" entries in persistence.xml).
+|`spring.metrics.export.atlas.batch-size` | |The number of measurements per request to use for the backend.
+|`spring.metrics.export.atlas.config-refresh-frequency` | |The frequency for refreshing config settings from the LWC service.
+|`spring.metrics.export.atlas.config-time-to-live` | |The TTL for subscriptions from the LWC service.
+|`spring.metrics.export.atlas.config-uri` | |The URI for the Atlas LWC endpoint to retrieve current subscriptions.
+|`spring.metrics.export.atlas.connect-timeout` | |The connection timeout for requests to the backend.
+|`spring.metrics.export.atlas.enabled` | |Enable publishing to the backend.
+|`spring.metrics.export.atlas.eval-uri` | |The URI for the Atlas LWC endpoint to evaluate the data for a subscription.
+|`spring.metrics.export.atlas.lwc-enabled` | |Enable streaming to Atlas LWC.
+|`spring.metrics.export.atlas.meter-time-to-live` | |The TTL for meters that do not have any activity.
+|`spring.metrics.export.atlas.num-threads` | |The number of threads to use with the metrics publishing scheduler.
+|`spring.metrics.export.atlas.read-timeout` | |The read timeout for requests to the backend.
+|`spring.metrics.export.atlas.step` |`1` |The step size (reporting frequency) to use.
+|`spring.metrics.export.atlas.uri` | |The URI for the Atlas backend.
+|`spring.metrics.export.datadog.api-key` | |Your API key, found in your account settings at datadoghq.
+|`spring.metrics.export.datadog.batch-size` | |The number of measurements per request to use for the backend.
+|`spring.metrics.export.datadog.connect-timeout` | |The connection timeout for requests to the backend.
+|`spring.metrics.export.datadog.enabled` | |Enable publishing to the backend.
+|`spring.metrics.export.datadog.num-threads` | |The number of threads to use with the metrics publishing scheduler.
+|`spring.metrics.export.datadog.read-timeout` | |The read timeout for requests to the backend.
+|`spring.metrics.export.datadog.step` |`1` |The step size (reporting frequency) to use.
+|`spring.metrics.export.datadog.uri` | |The URI to ship metrics to.
+|`spring.metrics.export.ganglia.addressing-mode` | |The UDP addressing mode, either unicast or multicast.
+|`spring.metrics.export.ganglia.duration-units` | |The base time unit used to report durations.
+|`spring.metrics.export.ganglia.enabled` | |Enable publishing to the backend.
+|`spring.metrics.export.ganglia.host` | |Ganglia host used for publishing.
+|`spring.metrics.export.ganglia.port` | |Ganglia port used for publishing.
+|`spring.metrics.export.ganglia.protocol-version` | |Ganglia protocol version.
+|`spring.metrics.export.ganglia.rate-units` | |The base time unit used to report rates.
+|`spring.metrics.export.ganglia.step` | |The step size (reporting frequency) to use.
+|`spring.metrics.export.ganglia.time-to-live` | |The TTL for metrics on Ganglia.
+|`spring.metrics.export.graphite.duration-units` | |The base time unit used to report durations.
+|`spring.metrics.export.graphite.enabled` | |Enable publishing to the backend.
+|`spring.metrics.export.graphite.host` | |Graphite host used for publishing.
+|`spring.metrics.export.graphite.port` | |Graphite port used for publishing.
+|`spring.metrics.export.graphite.protocol` | |Protocol to use while shipping data to Graphite.
+|`spring.metrics.export.graphite.rate-units` | |The base time unit used to report rates.
+|`spring.metrics.export.graphite.step` | |The step size (reporting frequency) to use.
+|`spring.metrics.export.influx.batch-size` | |The number of measurements per request to use for the backend.
+|`spring.metrics.export.influx.compressed` | |Enable GZIP compression of metrics batches published to Influx.
+|`spring.metrics.export.influx.connect-timeout` | |The connection timeout for requests to the backend.
+|`spring.metrics.export.influx.consistency` | |The write consistency for each point.
+|`spring.metrics.export.influx.db` | |The tag that will be mapped to "host" when shipping metrics to Influx, or {@code null} if host should be omitted on publishing.
+|`spring.metrics.export.influx.enabled` | |Enable publishing to the backend.
+|`spring.metrics.export.influx.num-threads` | |The number of threads to use with the metrics publishing scheduler.
+|`spring.metrics.export.influx.password` | |Authenticate requests with this password.
+|`spring.metrics.export.influx.read-timeout` | |The read timeout for requests to the backend.
+|`spring.metrics.export.influx.retention-policy` | |Influx writes to the DEFAULT retention policy if one is not specified.
+|`spring.metrics.export.influx.step` |`1` |The step size (reporting frequency) to use.
+|`spring.metrics.export.influx.uri` | |The URI for the Influx backend.
+|`spring.metrics.export.influx.user-name` | |Authenticate requests with this user.
+|`spring.metrics.export.prometheus.descriptions` | |Enable publishing descriptions as part of the scrape payload to Prometheus.
+|`spring.metrics.export.prometheus.enabled` | |Enable publishing to Prometheus.
+|`spring.metrics.export.prometheus.step` | |The step size (reporting frequency) to use.
+|`spring.metrics.export.simple.enabled` |`false` |Enable publishing to the backend.
+|`spring.metrics.export.simple.step` |`10` |The step size (reporting frequency) to use.
+|`spring.metrics.export.statsd.enabled` | |Enable publishing to the backend.
+|`spring.metrics.export.statsd.flavor` | |Variant of the StatsD line protocol to use.
+|`spring.metrics.export.statsd.max-packet-length` |`1400` |Total length of a single payload should be kept within your network's MTU.
+|`spring.metrics.export.statsd.polling-frequency` |`10` |Determines how often gauges will be polled.
+|`spring.metrics.export.statsd.queue-size` | |Governs the maximum size of the queue of items waiting to be sent to a StatsD agent over UDP.
+|`spring.metrics.jdbc.datasource-metric-name` |`data.source` |Name of the metric for data source usage.
+|`spring.metrics.jdbc.instrument-datasource` |`true` |Instrument all available data sources.
+|`spring.session.jdbc.cleanup-cron` |`0 * * * * *` |Cron expression for expired session cleanup job.
+|`spring.session.redis.cleanup-cron` |`0 * * * * *` |Cron expression for expired session cleanup job.
+|======================
+
+.Removed keys in `2.0.0.M6`
+|======================
+|Key  |Default value |Description
+|`management.add-application-context-header` |`false` |Add the "X-Application-Context" HTTP header in each response.
+|`management.address` | |Network address that the management endpoints should bind to.
+|`management.context-path` |`/application` |Management endpoint context-path.
+|`management.port` | |Management endpoint HTTP port.
+|`management.ssl.ciphers` | |
+|`management.ssl.client-auth` | |
+|`management.ssl.enabled` | |
+|`management.ssl.enabled-protocols` | |
+|`management.ssl.key-alias` | |
+|`management.ssl.key-password` | |
+|`management.ssl.key-store` | |
+|`management.ssl.key-store-password` | |
+|`management.ssl.key-store-provider` | |
+|`management.ssl.key-store-type` | |
+|`management.ssl.protocol` | |
+|`management.ssl.trust-store` | |
+|`management.ssl.trust-store-password` | |
+|`management.ssl.trust-store-provider` | |
+|`management.ssl.trust-store-type` | |
+|`spring.datasource.initialize` |`true` |Populate the database using 'data.sql'.
+|`spring.git.properties` | |Resource reference to a generated git info properties file.
+|`spring.metrics.atlas.batch-size` | |The number of measurements per request to use for the backend.
+|`spring.metrics.atlas.config-refresh-frequency` | |The frequency for refreshing config settings from the LWC service.
+|`spring.metrics.atlas.config-time-to-live` | |The TTL for subscriptions from the LWC service.
+|`spring.metrics.atlas.config-uri` | |The URI for the Atlas LWC endpoint to retrieve current subscriptions.
+|`spring.metrics.atlas.connect-timeout` | |The connection timeout for requests to the backend.
+|`spring.metrics.atlas.enabled` |`true` |Enable publishing to the backend.
+|`spring.metrics.atlas.eval-uri` | |The URI for the Atlas LWC endpoint to evaluate the data for a subscription.
+|`spring.metrics.atlas.lwc-enabled` | |Enable streaming to Atlas LWC.
+|`spring.metrics.atlas.meter-time-to-live` | |The TTL for meters that do not have any activity.
+|`spring.metrics.atlas.num-threads` | |The number of threads to use with the metrics publishing scheduler.
+|`spring.metrics.atlas.read-timeout` | |The read timeout for requests to the backend.
+|`spring.metrics.atlas.step` |`1` |The step size (reporting frequency) to use.
+|`spring.metrics.atlas.uri` | |The URI for the Atlas backend.
+|`spring.metrics.datadog.api-key` | |Your API key, found in your account settings at datadoghq.
+|`spring.metrics.datadog.batch-size` | |The number of measurements per request to use for the backend.
+|`spring.metrics.datadog.connect-timeout` | |The connection timeout for requests to the backend.
+|`spring.metrics.datadog.enabled` |`true` |Enable publishing to the backend.
+|`spring.metrics.datadog.num-threads` | |The number of threads to use with the metrics publishing scheduler.
+|`spring.metrics.datadog.read-timeout` | |The read timeout for requests to the backend.
+|`spring.metrics.datadog.step` |`1` |The step size (reporting frequency) to use.
+|`spring.metrics.datadog.timer-percentiles-max` |`2` |The bucket filter clamping the bucket domain of timer percentiles histograms to some max value.
+|`spring.metrics.datadog.timer-percentiles-min` |`10` |The bucket filter clamping the bucket domain of timer percentiles histograms to some min value.
+|`spring.metrics.ganglia.addressing-mode` | |The UDP addressing mode, either unicast or multicast.
+|`spring.metrics.ganglia.duration-units` | |The base time unit used to report durations.
+|`spring.metrics.ganglia.enabled` |`true` |Enable publishing to the backend.
+|`spring.metrics.ganglia.host` | |Ganglia host used for publishing.
+|`spring.metrics.ganglia.port` | |Ganglia port used for publishing.
+|`spring.metrics.ganglia.protocol-version` | |Ganglia protocol version.
+|`spring.metrics.ganglia.rate-units` | |The base time unit used to report rates.
+|`spring.metrics.ganglia.step` |`1` |The step size (reporting frequency) to use.
+|`spring.metrics.ganglia.time-to-live` | |The TTL for metrics on Ganglia.
+|`spring.metrics.graphite.duration-units` | |The base time unit used to report durations.
+|`spring.metrics.graphite.enabled` |`true` |Enable publishing to the backend.
+|`spring.metrics.graphite.host` | |Graphite host used for publishing.
+|`spring.metrics.graphite.port` | |Graphite port used for publishing.
+|`spring.metrics.graphite.protocol` | |Protocol to use while shipping data to Graphite.
+|`spring.metrics.graphite.rate-units` | |The base time unit used to report rates.
+|`spring.metrics.graphite.step` |`1` |The step size (reporting frequency) to use.
+|`spring.metrics.influx.batch-size` | |The number of measurements per request to use for the backend.
+|`spring.metrics.influx.compressed` | |Enable GZIP compression of metrics batches published to Influx.
+|`spring.metrics.influx.connect-timeout` | |The connection timeout for requests to the backend.
+|`spring.metrics.influx.consistency` | |The write consistency for each point.
+|`spring.metrics.influx.db` | |The tag that will be mapped to "host" when shipping metrics to Influx, or {@code null} if host should be omitted on publishing.
+|`spring.metrics.influx.enabled` |`true` |Enable publishing to the backend.
+|`spring.metrics.influx.num-threads` | |The number of threads to use with the metrics publishing scheduler.
+|`spring.metrics.influx.password` | |Authenticate requests with this password.
+|`spring.metrics.influx.read-timeout` | |The read timeout for requests to the backend.
+|`spring.metrics.influx.retention-policy` | |Influx writes to the DEFAULT retention policy if one is not specified.
+|`spring.metrics.influx.step` |`1` |The step size (reporting frequency) to use.
+|`spring.metrics.influx.timer-percentiles-max` |`2` |The bucket filter clamping the bucket domain of timer percentiles histograms to some max value.
+|`spring.metrics.influx.timer-percentiles-min` |`10` |The bucket filter clamping the bucket domain of timer percentiles histograms to some min value.
+|`spring.metrics.influx.uri` | |The URI for the Influx backend.
+|`spring.metrics.influx.user-name` | |Authenticate requests with this user.
+|`spring.metrics.prometheus.descriptions` |`true` |Enable publishing descriptions as part of the scrape payload to Prometheus.
+|`spring.metrics.prometheus.enabled` |`true` |Enable publishing to Prometheus.
+|`spring.metrics.prometheus.timer-percentiles-max` |`2` |The bucket filter clamping the bucket domain of timer percentiles histograms to some max value.
+|`spring.metrics.prometheus.timer-percentiles-min` |`10` |The bucket filter clamping the bucket domain of timer percentiles histograms to some min value.
+|`spring.metrics.simple.enabled` |`true` |
+|`spring.metrics.statsd.enabled` |`true` |Enable publishing to the backend.
+|`spring.metrics.statsd.flavor` | |Variant of the StatsD line protocol to use.
+|`spring.metrics.statsd.host` |`localhost` |Host name of the StatsD agent.
+|`spring.metrics.statsd.max-packet-length` |`1400` |Total length of a single payload should be kept within your network's MTU.
+|`spring.metrics.statsd.polling-frequency` |`10` |Determines how often gauges will be polled.
+|`spring.metrics.statsd.port` |`8125` |UDP port of the StatsD agent.
+|`spring.metrics.statsd.queue-size` | |Governs the maximum size of the queue of items waiting to be sent to a StatsD agent over UDP.
+|`spring.metrics.statsd.timer-percentiles-max` |`2` |Used to create a bucket filter clamping the bucket domain of timer percentiles histograms to some max value.
+|`spring.metrics.statsd.timer-percentiles-min` |`10` |Used to create a bucket filter clamping the bucket domain of timer percentiles histograms to some min value.
+|`spring.mobile.devicedelegatingviewresolver.enable-fallback` |`false` |Enable support for fallback resolution.
+|`spring.mobile.devicedelegatingviewresolver.mobile-prefix` |`mobile/` |Prefix that gets prepended to view names for mobile devices.
+|`spring.mobile.devicedelegatingviewresolver.mobile-suffix` |`` |Suffix that gets appended to view names for mobile devices.
+|`spring.mobile.devicedelegatingviewresolver.normal-prefix` |`` |Prefix that gets prepended to view names for normal devices.
+|`spring.mobile.devicedelegatingviewresolver.normal-suffix` |`` |Suffix that gets appended to view names for normal devices.
+|`spring.mobile.devicedelegatingviewresolver.tablet-prefix` |`tablet/` |Prefix that gets prepended to view names for tablet devices.
+|`spring.mobile.devicedelegatingviewresolver.tablet-suffix` |`` |Suffix that gets appended to view names for tablet devices.
+|======================

@@ -1,0 +1,160 @@
+= Spring Boot Security 2.0
+
+The purpose of this page is to describe in detail changes to the security auto-configuration for user-defined mappings and actuator endpoints.
+This page will also provide a migration path for users moving from 1.x to 2.0.
+
+[[security-autoconfiguration]]
+== Security Auto-configuration
+
+Spring Boot 2.0 does not provide separate auto-configuration for user-defined endpoints and actuator endpoints. When Spring Security is on the classpath, the auto-configuration secures all endpoints by default. It adds the `@EnableWebSecurity` annotation and relies on Spring Security's content-negotiation strategy to determine whether to use `httpBasic` or `formLogin`. A user with a a default username and generated password is added, which can be used to login.
+
+NOTE: Most web actuator endpoints are disabled by default to prevent accidental exposure of sensitive endpoints. To enable all web endpoints you can set `management.endpoints.web.exposure.include=*`.
+
+[[custom-security]]
+== Custom Security
+
+If you want to configure custom security for your application, you will need to add a `WebSecurityConfigurerAdapter` that adds all the bits that you want to configure. In order to avoid ordering issues with the `WebSecurityConfigurerAdapter`, Spring Boot auto-configuration will back off completely. As the auto-configuration backs of completely, there is no longer a need to order your own `WebSecurityConfigurerAdapter` correctly relative to Spring Boot's. As a result the `ACCESS_OVERRIDE_ORDER` constant is no longer required and has been removed.
+
+In addition to the examples below, Spring Security provides its own https://github.com/spring-projects/spring-security-samples[catalog of samples] to help you get started.
+
+[[custom-security-example]]
+== Custom security example
+
+* Open env endpoint
+* Other endpoints should require `ACTUATOR` role
+* Open static resources
+* All other user-defined endpoints require `USER` role
+
+In order to satisfy the above behavior, you need to add a bean of type `WebSecurityConfigurerAdapter` to your configuration:
+
+```java
+http
+    .authorizeRequests()
+        .requestMatchers(EndpointRequest.to("env")).permitAll()
+        .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("ACTUATOR")
+        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+        .antMatchers("/**").hasRole("USER")
+    .and()
+        .httpBasic();
+```
+
+NOTE: We are using `httpBasic` as an example. You can use an authentication mechanism of your choice. Also, since the auto-configuration backs-off completely, remember to explicitly add in all the pieces that you need.
+
+[[migration-path]]
+== Migrating from 1.x to 2.0
+
+NOTE: Again, we use `httpBasic` so that the example is complete. You can replace that with any other authentication mechanism, such as `formLogin` for instance.
+
+=== Restoring role-based access to actuators
+Previously, actuators endpoints were secured using the roles from `management.security.roles`. To restore that behavior, you can add a bean of type `WebSecurityConfigurerAdapter` to your configuration:
+
+```java
+http
+    .authorizeRequests()
+        .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("ACTUATOR")
+        .antMatchers("/**").authenticated()
+    .and()
+        .httpBasic();
+```
+
+=== Restoring role-based access to user-defined endpoints
+Previously, user-defined endpoints were secured using the roles from `security.user.roles`. To restore that behavior you can add a bean of type `WebSecurityConfigurerAdapter` to your configuration:
+
+```java
+http
+    .authorizeRequests()
+        .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("ACTUATOR")
+        .antMatchers("/**").hasRole("USER")
+    .and()
+        .httpBasic();
+```
+
+=== Disabling actuator security but not user-defined endpoints
+
+```java
+http
+    .authorizeRequests()
+        .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
+        .antMatchers("/**").hasRole("USER")
+    .and()
+        .httpBasic();
+```
+
+=== Disabling user defined endpoint security but not actuator endpoints
+
+```java
+http
+    .authorizeRequests()
+        .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("ACTUATOR")
+        .antMatchers("/**").permitAll()
+    .and()
+        .httpBasic();
+```
+
+=== Restoring sensitive/insensitive actuator endpoints
+In 1.x, you could mark endpoints as sensitive using the `endpoints.*.sensitive` flag. To restore this behavior, add a `requestMatcher` that matches all the endpoints you want to open as follows:
+
+```java
+http
+    .authorizeRequests()
+        .requestMatchers(EndpointRequest.to("info")).permitAll()
+        .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("ACTUATOR")
+        .antMatchers("/**").hasRole("USER")
+    .and()
+        .httpBasic();
+```
+
+=== Changing the username and password
+Spring Boot provides a default user with a generated password. If you want to configure that single user, note that the configuration keys have moved to `spring.security.user`:
+
+```properties
+spring.security.user.name=user
+spring.security.user.password=password
+spring.security.user.roles=USER
+```
+
+Alternatively, you can configure a `UserDetailsService` programmatically:
+
+```java
+@Bean
+public UserDetailsService userDetailsService() throws Exception {
+    InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
+    manager.createUser(User.withUsername("user").password("password").roles("USER").build());
+    return manager;
+}
+```
+
+Another alternative is to provide your own `AuthenticationManager` bean or `AuthenticationProvider` bean, which will then be used instead.
+
+=== Restoring separation of basic auth for actuator endpoints but something else for user-defined endpoints
+In 1.x, you could write custom security for your application but leave the actuator endpoints with basic authentication. You can restore this behavior by adding two `WebSecurityConfigurerAdapter` beans as follows:
+
+```
+@Configuration
+@Order(1)
+public static class ActuatorWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .requestMatcher(EndpointRequest.toAnyEndpoint())
+            .authorizeRequests()
+                .requestMatchers(EndpointRequest.to("info")).permitAll()
+                .anyRequest().hasRole("ACTUATOR") // Any other endpoint
+                .and()
+            .httpBasic();
+    }
+}
+
+@Configuration
+public static class FormLoginWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .authorizeRequests()
+                .anyRequest().authenticated()
+            .and()
+                .formLogin();
+    }
+}
+```

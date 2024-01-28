@@ -1,0 +1,28 @@
+Configuration properties change between `2.2.0.M3` and `2.2.0.M4`
+
+.Deprecated keys in `2.2.0.M4`
+|======================
+|Key  |Replacement |Reason
+|`spring.reactor.stacktrace-mode.enabled` |`spring.reactor.debug` |
+|======================
+
+.New keys in `2.2.0.M4`
+|======================
+|Key  |Default value |Description
+|`server.tomcat.mbeanregistry.enabled` |`false` |Whether Tomcat's MBean Registry should be enabled.
+|`spring.couchbase.password` | |Cluster password when using role based access.
+|`spring.couchbase.username` | |Cluster username when using role based access.
+|`spring.data.elasticsearch.client.reactive.connection-timeout` | |Connection timeout.
+|`spring.data.elasticsearch.client.reactive.endpoints` | |Comma-separated list of the Elasticsearch endpoints to connect to.
+|`spring.data.elasticsearch.client.reactive.password` | |Credentials password.
+|`spring.data.elasticsearch.client.reactive.socket-timeout` | |Read and Write Socket timeout.
+|`spring.data.elasticsearch.client.reactive.use-ssl` |`false` |Whether the client should use SSL to connect to the endpoints.
+|`spring.data.elasticsearch.client.reactive.username` | |Credentials username.
+|`spring.kafka.listener.missing-topics-fatal` |`true` |Whether the container should fail to start if at least one of the configured topics are not present on the broker.
+|`spring.profiles` | |Comma-separated list of profile expressions that at least one should match for the document to be included.
+|`spring.reactor.debug` |`false` |Whether Reactor should collect stacktrace information at runtime.
+|`spring.security.oauth2.resourceserver.opaque-token.client-id` | |Client id used to authenticate with the token introspection endpoint.
+|`spring.security.oauth2.resourceserver.opaque-token.client-secret` | |Client secret used to authenticate with the token introspection endpoint.
+|`spring.security.oauth2.resourceserver.opaque-token.introspection-uri` | |OAuth 2.0 endpoint through which token introspection is accomplished.
+|`spring.session.redis.configure-action` | |The configure action to apply when no user defined ConfigureRedisAction bean is present.
+|======================

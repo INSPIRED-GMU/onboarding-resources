@@ -1,0 +1,134 @@
+:docs: https://docs.spring.io/spring-boot/docs/2.7.x-SNAPSHOT/reference/html/
+
+= Spring Boot 2.7.0 M2 Release Notes
+
+For changes in earlier milestones, please refer to:
+
+- link:Spring-Boot-2.7.0-M1-Release-Notes[v2.7.0 M1]
+
+
+
+== Upgrading from Spring Boot 2.6
+
+
+
+=== H2 2.1
+Spring Boot 2.7 has upgraded to H2 2.1.120. H2 2.x is backwards incompatible and fixes a number of security vulnerabilities. See the http://www.h2database.com/html/changelog.html[H2 changelog] and http://www.h2database.com/html/migration-to-v2.html[migration guide] for details of the changes and how to handle the upgrade.
+
+
+
+=== OkHttp 4
+As OkHttp 3 is no longer being maintained, Spring Boot 2.7 has upgraded to OkHTTP 4.
+As part of this upgrade, the property used to control OkHttp's version has changed from `okhttp3.version` to `okhttp.version`.
+
+OkHttp 4 is intended to be backwards compatible with OkHttp 3.
+If this is not the case in your application or wish to continue using OkHttp 3 for another reason, configure the `okttp.version` property in your build.
+
+
+
+=== Separate Dependency Management for netty-tcnative Removed
+Separate dependency management for `netty-tcnative` has been removed in favor of the dependency management provided by Netty's bom.
+This ensures that the version of `netty-tcnative` will align with the version that Netty uses by default.
+As a result of this change, the `netty-tcnative.version` property can no longer be used to override the version of `netty-tcnative`.
+The version can still be overridden by providing your own dependency management but it is recommended that it remains aligned with Netty's default version.
+
+
+
+=== Deprecations from Spring Boot 2.5
+
+
+
+=== Minimum Requirements Changes
+None.
+
+
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.7.0-M2-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+
+
+=== Opaque Token Introspection Without the OIDC SDK
+If you are using opaque token introspection in your OAuth2 resource server, the auto-configured introspector no longer requires a dependency on `com.nimbusds:oauth2-oidc-sdk`.
+Depending on other usages of the SDK, you may be able to remove the dependency from your application.
+
+
+
+=== @DataCouchbaseTest
+A new `@DataCouchbaseTest` annotation for testing applications that use Spring Data Couchbase has been introduced. See the {docs}features.html#features.testing.spring-boot-applications.autoconfigured-spring-data-couchbase[updated reference documentation] for details.
+
+
+
+=== @DataElasticearchTest
+A new `@DataElasticsearchTest` annotation for testing applications that use Spring Data Elasticsearch has been introduced. See the {docs}features.html#features.testing.spring-boot-applications.autoconfigured-spring-data-elasticsearch[updated reference documentation] for details.
+
+
+=== Changes to Auto-configuration
+
+==== Auto-configuration Registration
+If you have created your own auto-configurations, you should move the registration from `spring.factories` to a new file named `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`. Each line contains the fully qualified name of the auto-configuration. See https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot-autoconfigure/src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports[the included auto-configurations] for an example.
+
+For backwards compatibility, entries in `spring.factories` will still be honored.
+
+
+
+==== New @AutoConfiguration Annotation
+
+A new `@AutoConfiguration` annotation has been introduced. It should be used to annotate top-level auto-configuration classes that are listed in the new `META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports` file, replacing `@Configuration`. Configuration classes that are nested within or imported by an `@AutoConfiguration` class should continue to use `@Configuration` as before.
+
+For your convenience, `@AutoConfiguration` also supports auto-configuration ordering via the `after`, `afterNames`, `before` and `beforeNames` attributes. This can be used as a replacement for `@AutoConfigureAfter` and `@AutoConfigureBefore`.
+
+
+
+=== Test Slice Configuration
+If you have created your own test-slices, you should move the registration from `spring.factories` to the new place under `META-INF/spring/<name of your test slice annotation>.imports`. The format is the same as the new file described in the "Auto-configuration Registration" section, see above.
+
+See https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot-test-autoconfigure/src/main/resources/META-INF/spring/[the included test slices for an example].
+
+
+
+=== FailureAnalyzer Injection 
+
+`FailureAnalyzer` implementations can now get access to the `BeanFactory` and `Environment` of the current application context by providing a constructor that takes one or both of these values as a parameter. Support for injecting the `BeanFactory` by implementing `BeanFactoryAware` and injecting the `Environment` by implementing `EnvironmentAware` in a `FailureAnalyzer` is deprecated and will be removed in a future release.
+
+
+
+=== Redis Sentinel Username Support
+Support for specifying a username for authenticating to Sentinel(s) has been added using the `spring.redis.sentinel.username` property.
+ 
+
+
+=== Dependency Upgrades
+Spring Boot 2.7.0-M2 moves to new versions of several Spring projects:
+
+* https://github.com/micrometer-metrics/micrometer/releases/tag/v1.9.0-M3[Micrometer 1.9.0-M3]
+* Spring Data 2021.2.0-M3
+* https://github.com/spring-projects/spring-hateoas/releases/tag/1.5.0-M2[Spring HATEOAS 1.5.0-M2]
+* https://github.com/spring-projects/spring-ldap/releases/tag/2.4.0-M2[Spring LDAP 2.4.0-M2]
+* https://github.com/spring-projects/spring-security/releases/tag/5.7.0-M2[Spring Security 5.7.0-M2]
+
+Numerous third-party dependencies have also been updated, some of the more noteworthy of which are the following:
+
+- Elasticsearch 7.17
+- Flyway 8.5
+- H2 2.1
+- Json 2.9
+- Json Path 2.7
+- Kafka 3.1
+- MariaDB 3.0
+- MongoDB 4.5
+- OkHTTP 4.9
+- REST Assured 4.5
+
+
+
+=== Miscellaneous
+Apart from the changes listed above, there have also been lots of minor tweaks and improvements including:
+
+* The `InputStream` returned by `RandomAccessDataFile` in `spring-boot-loader` now implements `available()`.
+* Spring Kafka's `immediateStop` is configurable using the `spring.kafka.listener.immediate-stop` property.
+
+== Deprecations in Spring Boot 2.7
+
+* Loading auto-configurations from `spring.factories` is deprecated. See above for more details.
+* The Micrometer team moved the binders to a separate micrometer module named `micrometer-binders` and deprecated the old binders. To prevent split packages, the imports have changed, too. If you are using the old binders, please adjust your imports from `io.micrometer.core.instrument.binder` to `io.micrometer.binder`. Spring Boot 2.7 still supports auto-configuration for the binders in the old module, but this support will be removed in Spring Boot 3.0.

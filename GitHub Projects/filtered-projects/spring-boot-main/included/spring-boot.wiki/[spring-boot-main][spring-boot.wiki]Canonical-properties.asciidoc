@@ -1,0 +1,188 @@
+# Spring Boot 2.0 Canonical Properties
+
+## Overview
+
+Canonical properties allow spring boot applications to access properties from underlying sources in a uniform manner.
+No matter what format is used by the underlying source, Spring Boot application can always use a canonical name to obtain it.
+
+A canonical name is composed of elements separated in dots.
+The last dot separates the prefix from the property name.
+Names are alpha-numeric (`a-z` `0-9`) and must be lowercase, the only other characters permitted are `[` and `]` which are used to indicate indexes.
+A property name cannot start with a number.
+
+A typical Spring Boot canonical property would be something like `spring.jpa.databaseplatform=mysql`.
+An indexed property would be `spring.myexample.url[0]=https://example.com`.
+
+## Input Sources
+
+### Properties Files
+
+#### Simple Types
+Simple properties are converted into the canonical by removing any special characters and converting to lowercase.
+For example, the following YAML properties all result in the mapping `spring.jpa.databaseplatform=mysql`:
+
+[source,properties]
+----
+spring.jpa.database-platform=mysql
+spring.jpa.databasePlatform=mysql
+spring.JPA.database_platform=mysql
+----
+
+NOTE: We recommend that properties are stored in lowercase kabab format. i.e. `my.property-name=foo`.
+
+#### List Types
+List types in properties files should be referenced using `[ ]` notation:
+
+[source,properties]
+----
+spring.my-example.url[0]=https://example.com
+spring.my-example.url[1]=https://spring.io
+----
+
+An abbreviated form is also supported:
+
+[source,properties]
+----
+spring.my-example.url[]=https://example.com,https://spring.io
+----
+
+NOTE: The `[]` indicator is required for list types.
+For example, `spring.example.foo=`bar,baz` is a property containing the String "bar,baz"
+, and not a list of two elements.
+
+
+Both of the mappings above result in the following properties:
+
+[source,properties]
+----
+spring.myexample.url[0]=https://example.com
+spring.myexample.url[1]=https://spring.io
+----
+
+### YAML Files
+
+#### Simple Types
+Simple YAML properties are converted into the canonical by removing any special characters and converting to lowercase.
+For example, the following YAML properties all result in the mapping `spring.jpa.databaseplatform=mysql`:
+
+[source,yaml]
+----
+spring:
+  jpa:
+    database-platform: mysql
+    databasePlatform: mysql
+    database_platform: mysql
+----
+
+NOTE: We recommend that properties are stored in yaml in lowercase kabab format. i.e. `my.property-name=foo`.
+
+
+#### Lists
+YAML list type may be specified in the standard or abbreviated form:
+
+[source,yaml]
+----
+spring:
+  my-example:
+    url:
+      - https://example.com
+      - https://spring.io
+----
+
+[source,yaml]
+----
+spring:
+  my-example:
+    url: [https://example.com, http:s//spring.io]
+----
+
+Both are mapped as follows:
+
+[source,properties]
+----
+spring.myexample.url[0]=https://example.com
+spring.myexample.url[1]=https://spring.io
+----
+
+NOTE: Simple comma-separated types should not be used to represent lists.
+For example, `spring.example.foo=`bar,baz` is a property containing the String "bar,baz"
+, and not a list of two elements.
+
+
+### Environment Variables
+
+#### Simple Types
+Environment variables are converted into the canonical form by lowercasing and replacing `_` with `.`.
+
+For example: `SPRING_JPA_DATABASEPLATFORM=mysql` results in the property `spring.jpa.databaseplatform=mysql`.
+
+NOTE: The `_` delimiter must not be used within a property name. i.e. `database-platform` must be written as `DATABASEPLATFORM` and *not* `DATABASE_PLATFORM`.
+
+#### Lists
+
+The `[` and `]` characters cannot be used in environment variable names so instead a special form of `_` is used.
+Any numeric value surrounded by underscores is converted to the `[`,`]` form. For example:
+
+* `MY_FOO_1_` = `my.foo[1]`
+* `MY_FOO_1_BAR` = `my.foo[1].bar`
+* `MY_FOO_1_2_` = `my.foo[1][2]``
+
+In addition, if an environment variable ends in a number the trailing `_` may be omitted:
+
+* `MY_FOO_1` = `my.foo[1]`
+* `MY_FOO_1_2` = `my.foo[1][2]``
+
+### System properties
+
+#### Simple Types
+System properties are converted into canonical form by lowercasing and removing any special characters.
+For example, the following command line parameters will all result in `spring.jpa.databaseplatform=mysql` :
+
+----
+-Dspring.jpa.database-platform=mysql
+-Dspring.jpa.databasePlatform=mysql
+-Dspring.JPA.database_platform=mysql
+----
+
+#### List Types
+List types in system properties should be referenced using `[ ]` notation:
+
+[source,properties]
+----
+-D"spring.my-example.url[0]=https://example.com"
+-D"spring.my-example.url[1]=https://spring.io"
+----
+
+An abbreviated form is also supported:
+
+[source,properties]
+----
+-Dspring.my-example.url[]=https://example.com,https://spring.io
+----
+
+Both of the mappings above result in the following properties:
+
+[source,properties]
+----
+spring.myexample.url[0]=https://example.com
+spring.myexample.url[1]=https://spring.io
+----
+
+NOTE: The `[]` indicator is required for list types.
+For example, `spring.example.foo=bar,baz` is a property containing the String "bar,baz"
+, and not a list of two elements.
+
+## @ConfigurationProperties
+
+
+
+### Collection types
+List and Set types may only be bound from indexed property names.
+So `my.value[0]=foo`, `my.value[2]=bar`.
+
+
+### Map Types
+
+### Other Types
+
+JNDI ??

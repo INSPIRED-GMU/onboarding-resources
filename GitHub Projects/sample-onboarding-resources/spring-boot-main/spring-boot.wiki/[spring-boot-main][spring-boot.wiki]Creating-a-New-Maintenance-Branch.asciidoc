@@ -1,0 +1,27 @@
+A new maintenance branch should be created from `main`. For example, if `main` is currently building 2.6 and we want to start work on 2.7, a `2.6.x` maintenance branch must be created:
+
+```
+$ git checkout main
+$ git checkout -b 2.6.x
+```
+
+Once the branch has been created, a number of changes must be made both on the new maintenance branch and on `main`.
+
+On the new maintenance branch:
+
+* Update the following, replacing `"main"` with the name of the new maintenance branch (for example `"2.6.x"`):
+** `determineGitHubTag` in `buildSrc/src/main/java/org/springframework/boot/build/AsciidoctorConventions.java`
+** `branch` in `ci/parameters.yml`
+
+On `main`:
+
+* Update `version` in https://github.com/spring-projects/spring-boot/blob/main/gradle.properties[`gradle.properties`] to `m.n.0-SNAPSHOT` (for example `2.7.0-SNAPSHOT`)
+* Update the following, aligning with the `m.n.x` milestone for the new version (for example `"2.7.x"`):
+** `main_branch` in https://github.com/spring-projects/spring-boot/blob/main/git/hooks/prepare-forward-merge[`git/hooks/prepare-forward-merge`]
+** `milestone` in https://github.com/spring-projects/spring-boot/blob/main/ci/parameters.yml[`ci/parameters.yml`]
+** Example `fly` command in https://github.com/spring-projects/spring-boot/blob/main/ci/README.adoc[`ci/README.adoc`]
+** Build badge links in https://github.com/spring-projects/spring-boot/blob/main/README.adoc[`README.adoc`]
+** https://github.com/spring-projects/spring-boot/blob/main/eclipse/spring-boot-project.setup[`eclipse/spring-boot-project.setup`]
+* Change `LATEST_GA` to `false` in `ci/pipeline.yml` for both `update-homebrew-tap` and `publish-to-sdkman`
+* Create a new `spring-boot-project/spring-boot-tools/spring-boot-maven-plugin/src/main/xsd/layers-m.n.xsd` file with identical contents to the previous version
+* Update layers XML files beneath `spring-boot-project/spring-boot-tools/spring-boot-maven-plugin/src/` to reference the new XSD. You can use a command similar to `find spring-boot-project/spring-boot-tools/spring-boot-maven-plugin/src -type f | xargs grep -l layers-2.6.xsd` to identify the files to change.

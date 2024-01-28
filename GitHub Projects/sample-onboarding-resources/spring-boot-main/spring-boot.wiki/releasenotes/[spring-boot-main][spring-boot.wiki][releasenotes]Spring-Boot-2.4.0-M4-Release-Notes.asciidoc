@@ -1,0 +1,144 @@
+:actuator-docs: https://docs.spring.io/spring-boot/docs/2.4.0-SNAPSHOT/actuator-api/html/
+:docs: https://docs.spring.io/spring-boot/docs/2.4.0-SNAPSHOT/reference/html/
+:gradle-docs: https://docs.spring.io/spring-boot/docs/2.4.0-SNAPSHOT/gradle-plugin/reference/htmlsingle/
+
+= Spring Boot 2.4.0 M4 Release Notes
+
+For changes in earlier milestones, please refer to:
+
+- link:Spring-Boot-2.4.0-M3-Release-Notes[v2.4.0 M3]
+- link:Spring-Boot-2.4.0-M2-Release-Notes[v2.4.0 M2]
+- link:Spring-Boot-2.4.0-M1-Release-Notes[v2.4.0 M1]
+
+
+
+== Upgrading from Spring Boot 2.3
+
+=== Default Servlet Registration
+Spring Boot 2.4 will no longer register the `DefaultServlet` provided by your servlet container.
+In most applications, it isn't used since the Spring MVC's `DispatcherServlet` is the only servlet that's required.
+
+You can set `server.servlet.register-default-servlet` to `true` if you find you still need the default servlet.
+
+
+=== Undertow Path on Forward
+By default, Undertow preserves the original request URL when a request is forwarded. 
+This release overrides the Undertow default to comply with the Servlet spec.
+The previous Undertow default behavior can be restored by setting a property `server.undertow.preserve-path-on-forward` to `true`.
+
+
+=== Flyway
+The upgrade to Flyway 7 includes https://github.com/flyway/flyway/issues/2785[some changes] to callback ordering.
+This will be a breaking change for anyone relying on registration order which we support via `@Order` and `Ordered`.
+
+
+
+=== Spring Boot Gradle Plugin
+The DSL for the Spring Boot Gradle Plugin `bootJar` task has been updated so that the `mainClass` can be configured using a `Property<String>`.
+If you currently use `mainClassName`, for example:
+
+[source,gradle]
+----
+bootJar {
+	mainClassName 'com.example.ExampleApplication'
+}
+----
+
+You should change it to `mainClass`:
+
+[source,gradle]
+----
+bootJar {
+	mainClass 'com.example.ExampleApplication'
+}
+----
+
+
+== Upgrading from earlier Spring Boot 2.4 milestones
+
+=== Config Data
+The `ConfigDataLocationResolver` and `ConfigDataLocationLoader` interfaces introduced in M2 have been updated with this release.
+If you have been experimenting with the new `ConfigData` features you'll need to adapt to the changes.
+
+See https://github.com/spring-projects/spring-boot/issues/23711[Issue #23711] for more background.
+
+=== Docker Registry Authentication
+The Docker registry authentication configuration supported by the Maven and Gradle plugins has been modified. 
+The `docker.registry` configuration option has been replaced by `docker.builderRegistry` and `docker.publishRegistry` options to enable separate registries for builder images and published images. 
+
+=== Minimum requirements changes
+None.
+
+
+== New and Noteworthy
+TIP: Check link:Spring-Boot-2.4.0-M4-Configuration-Changelog[the configuration changelog] for a complete overview of the changes in configuration.
+
+
+=== Failure Analyzers
+FailureAnalizers will now be considered even if a `ApplicationContext` was not created.
+This allows them to also analyze any exceptions thrown during `Environment` processing.
+
+Note that any analyzer that implements `BeanFactoryAware` or `EnvironmentAware` will not be used unless the `ApplicationContext` was created.
+
+
+=== Gradle Buildpack Support
+The `bootBuildImage` Gradle task now puts _all_ project modules dependencies in the "application" layer.
+This means that if you have multiple project modules in your build, they will now all end up in the same layer.
+
+You can also use `includeProjectDependencies()` and `excludeProjectDependencies()` in the DSL when customizing layers.
+
+See the {gradle-docs}#packaging-layered-jars[updated Gradle documentation] for details.
+
+
+=== Publishing Docker Images
+The Maven plugin `spring-boot:build-image` goal and Gradle plugin `bootBuildImage` task now have the ability to publish the generated image to a Docker registry. 
+See the https://docs.spring.io/spring-boot/docs/2.4.0-M4/maven-plugin/reference/htmlsingle/#build-image-example-publish[Maven] and https://docs.spring.io/spring-boot/docs/2.4.0-M4/gradle-plugin/reference/htmlsingle/#build-image-example-publish[Gradle] plugin documentation for more details on configuring the plugins for publishing images.
+
+
+=== Paketo Buildpack Defaults
+The image builder used by the Maven plugin `spring-boot:build-image` goal and Gradle plugin `bootBuildImage` task by default has been upgraded to the latest Paketo images.
+The Paketo image registry has been changed from Google Container Registry to Docker Hub for improved accessibility. 
+
+
+=== Flyway 7
+This release upgrades to Flyway 7 which brings some additional properties.
+For the open source edition we've add the following `spring.flyway` properties:
+
+- `url`
+- `user`
+- `password`
+
+If you're using the "teams" edition you can also make use of:
+
+- `cherry-pick`
+- `jdbc-properties`
+- `oracle-kerberos-cache-file`
+- `oracle-kerberos-config-file`
+- `skip-executing-migrations`
+
+
+=== Redis Cache Metrics
+If you're using Redis caching you can now expose cache statistics via Micrometer.
+Metrics logged include the number puts, gets and deletes as well has hits/misses.
+The number of pending requests and the lock wait duration are also recorded.
+
+To enable the feature, set `spring.cache.redis.enable-statustics` to `true`.
+
+
+=== Miscellaneous
+
+- The reference documentation now includes both `Properties` and `YAML` for all configuration examples.
+- RSocketServer's fragment size can now be customized using the `spring.rsocket.fragment-size` property
+
+
+
+=== Dependency Upgrades
+
+- Reactor 2020.0.0-RC2
+- Spring Framework 5.3.0-RC2
+- Flyway 7
+
+
+
+== Deprecations in Spring Boot 2.4.0 M3
+The `isEagerInitFilters`/`setEagerInitFilters` methods in `UndertowServletWebServerFactory` have been replaced by `isEagerFilterInit`/`setEagerFilterInit`

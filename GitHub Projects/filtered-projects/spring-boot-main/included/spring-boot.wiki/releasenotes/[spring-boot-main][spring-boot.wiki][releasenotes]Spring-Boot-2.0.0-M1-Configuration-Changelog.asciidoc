@@ -1,0 +1,211 @@
+Configuration properties change between `1.5.3.RELEASE` and `2.0.0.M1`
+
+.Deprecated keys in `2.0.0.M1`
+|======================
+|Key  |Replacement |Reason
+|`flyway.ignore-failed-future-migration` | |
+|`spring.datasource.hikari.initialization-fail-fast` | |
+|`spring.main.web-environment` |`spring.main.web-application-type` |
+|======================
+
+.New keys in `2.0.0.M1`
+|======================
+|Key  |Default value |Description
+|`flyway.allow-mixed-migrations` | |
+|`flyway.clean-disabled` | |
+|`flyway.group` | |
+|`flyway.ignore-future-migrations` | |
+|`flyway.ignore-missing-migrations` | |
+|`flyway.installed-by` | |
+|`flyway.mixed` | |
+|`flyway.repeatable-sql-migration-prefix` | |
+|`flyway.skip-default-callbacks` | |
+|`flyway.skip-default-resolvers` | |
+|`server.error.include-exception` |`false` |Include the "exception" attribute.
+|`server.jetty.accesslog.append` |`false` |Append to log.
+|`server.jetty.accesslog.date-format` |`dd/MMM/yyyy:HH:mm:ss Z` |Timestamp format of the request log.
+|`server.jetty.accesslog.enabled` |`false` |Enable access log.
+|`server.jetty.accesslog.extended-format` |`false` |Enable extended NCSA format.
+|`server.jetty.accesslog.file-date-format` | |Date format to place in log file name.
+|`server.jetty.accesslog.filename` | |Log filename.
+|`server.jetty.accesslog.locale` | |Locale of the request log.
+|`server.jetty.accesslog.log-cookies` |`false` |Enable logging of the request cookies.
+|`server.jetty.accesslog.log-latency` |`false` |Enable logging of request processing time.
+|`server.jetty.accesslog.log-server` |`false` |Enable logging of the request hostname.
+|`server.jetty.accesslog.retention-period` |`31` |Number of days before rotated log files are deleted.
+|`server.jetty.accesslog.time-zone` |`GMT` |Timezone of the request log.
+|`server.servlet.context-parameters` | |Servlet context init parameters.
+|`server.servlet.context-path` | |Context path of the application.
+|`server.servlet.jsp.class-name` | |
+|`server.servlet.jsp.init-parameters` | |
+|`server.servlet.jsp.registered` | |
+|`server.servlet.path` |`/` |Path of the main dispatcher servlet.
+|`server.tomcat.max-http-header-size` |`0` |Maximum size in bytes of the HTTP message header.
+|`spring.data.cassandra.reactive-repositories.enabled` |`true` |Enable Cassandra reactive repositories.
+|`spring.data.mongodb.reactive-repositories.enabled` |`true` |Enable Mongo reactive repositories.
+|`spring.data.neo4j.auto-index` | |Auto index mode.
+|`spring.datasource.hikari.initialization-fail-timeout` | |
+|`spring.datasource.hikari.metrics-tracker-factory` | |
+|`spring.datasource.hikari.scheduled-executor` | |
+|`spring.datasource.hikari.scheduled-executor-service` | |
+|`spring.integration.jdbc.initializer.enabled` |`false` |Create the required integration tables on startup.
+|`spring.integration.jdbc.schema` |`classpath:org/springframework/integration/jdbc/schema-@@platform@@.sql` |Path to the SQL file to use to initialize the database schema.
+|`spring.kafka.consumer.ssl.key-password` | |Password of the private key in the key store file.
+|`spring.kafka.consumer.ssl.keystore-location` | |Location of the key store file.
+|`spring.kafka.consumer.ssl.keystore-password` | |Store password for the key store file.
+|`spring.kafka.consumer.ssl.truststore-location` | |Location of the trust store file.
+|`spring.kafka.consumer.ssl.truststore-password` | |Store password for the trust store file.
+|`spring.kafka.jaas.control-flag` |`required` |Control flag for login configuration.
+|`spring.kafka.jaas.enabled` |`false` |Enable JAAS configuration.
+|`spring.kafka.jaas.login-module` |`com.sun.security.auth.module.Krb5LoginModule` |Login module.
+|`spring.kafka.jaas.options` | |Additional JAAS options.
+|`spring.kafka.producer.ssl.key-password` | |Password of the private key in the key store file.
+|`spring.kafka.producer.ssl.keystore-location` | |Location of the key store file.
+|`spring.kafka.producer.ssl.keystore-password` | |Store password for the key store file.
+|`spring.kafka.producer.ssl.truststore-location` | |Location of the trust store file.
+|`spring.kafka.producer.ssl.truststore-password` | |Store password for the trust store file.
+|`spring.main.web-application-type` | |Flag to explicitly request a specific type of web application.
+|`spring.rabbitmq.listener.direct.acknowledge-mode` | |Acknowledge mode of container.
+|`spring.rabbitmq.listener.direct.auto-startup` |`true` |Start the container automatically on startup.
+|`spring.rabbitmq.listener.direct.consumers-per-queue` | |Number of consumers per queue.
+|`spring.rabbitmq.listener.direct.default-requeue-rejected` | |Whether rejected deliveries are requeued by default; default true.
+|`spring.rabbitmq.listener.direct.idle-event-interval` | |How often idle container events should be published in milliseconds.
+|`spring.rabbitmq.listener.direct.prefetch` | |Number of messages to be handled in a single request.
+|`spring.rabbitmq.listener.direct.retry.enabled` |`false` |Whether or not publishing retries are enabled.
+|`spring.rabbitmq.listener.direct.retry.initial-interval` |`1000` |Interval between the first and second attempt to publish or deliver a message.
+|`spring.rabbitmq.listener.direct.retry.max-attempts` |`3` |Maximum number of attempts to publish or deliver a message.
+|`spring.rabbitmq.listener.direct.retry.max-interval` |`10000` |Maximum interval between attempts.
+|`spring.rabbitmq.listener.direct.retry.multiplier` |`1` |A multiplier to apply to the previous retry interval.
+|`spring.rabbitmq.listener.direct.retry.stateless` |`true` |Whether or not retries are stateless or stateful.
+|`spring.rabbitmq.listener.simple.acknowledge-mode` | |Acknowledge mode of container.
+|`spring.rabbitmq.listener.simple.auto-startup` |`true` |Start the container automatically on startup.
+|`spring.rabbitmq.listener.simple.concurrency` | |Minimum number of listener invoker threads.
+|`spring.rabbitmq.listener.simple.default-requeue-rejected` | |Whether rejected deliveries are requeued by default; default true.
+|`spring.rabbitmq.listener.simple.idle-event-interval` | |How often idle container events should be published in milliseconds.
+|`spring.rabbitmq.listener.simple.max-concurrency` | |Maximum number of listener invoker threads.
+|`spring.rabbitmq.listener.simple.prefetch` | |Number of messages to be handled in a single request.
+|`spring.rabbitmq.listener.simple.retry.enabled` |`false` |Whether or not publishing retries are enabled.
+|`spring.rabbitmq.listener.simple.retry.initial-interval` |`1000` |Interval between the first and second attempt to publish or deliver a message.
+|`spring.rabbitmq.listener.simple.retry.max-attempts` |`3` |Maximum number of attempts to publish or deliver a message.
+|`spring.rabbitmq.listener.simple.retry.max-interval` |`10000` |Maximum interval between attempts.
+|`spring.rabbitmq.listener.simple.retry.multiplier` |`1` |A multiplier to apply to the previous retry interval.
+|`spring.rabbitmq.listener.simple.retry.stateless` |`true` |Whether or not retries are stateless or stateful.
+|`spring.rabbitmq.listener.simple.transaction-size` | |Number of messages to be processed in a transaction; number of messages between acks.
+|`spring.rabbitmq.listener.type` | |Listener container type.
+|`spring.reactor.stacktrace-mode.enabled` |`false` |Set whether Reactor should collect stacktrace information at runtime.
+|`spring.redis.jedis.pool.max-active` |`8` |Max number of connections that can be allocated by the pool at a given time.
+|`spring.redis.jedis.pool.max-idle` |`8` |Max number of "idle" connections in the pool.
+|`spring.redis.jedis.pool.max-wait` |`-1` |Maximum amount of time (in milliseconds) a connection allocation should block before throwing an exception when the pool is exhausted.
+|`spring.redis.jedis.pool.min-idle` |`0` |Target for the minimum number of idle connections to maintain in the pool.
+|`spring.redis.lettuce.pool.max-active` |`8` |Max number of connections that can be allocated by the pool at a given time.
+|`spring.redis.lettuce.pool.max-idle` |`8` |Max number of "idle" connections in the pool.
+|`spring.redis.lettuce.pool.max-wait` |`-1` |Maximum amount of time (in milliseconds) a connection allocation should block before throwing an exception when the pool is exhausted.
+|`spring.redis.lettuce.pool.min-idle` |`0` |Target for the minimum number of idle connections to maintain in the pool.
+|`spring.redis.lettuce.shutdown-timeout` |`2000` |Shutdown timeout in milliseconds.
+|`spring.servlet.multipart.enabled` |`true` |Enable support of multipart uploads.
+|`spring.servlet.multipart.file-size-threshold` |`0` |Threshold after which files will be written to disk.
+|`spring.servlet.multipart.location` | |Intermediate location of uploaded files.
+|`spring.servlet.multipart.max-file-size` |`1MB` |Max file size.
+|`spring.servlet.multipart.max-request-size` |`10MB` |Max request size.
+|`spring.servlet.multipart.resolve-lazily` |`false` |Whether to resolve the multipart request lazily at the time of file or parameter access.
+|`spring.thymeleaf.reactive.max-chunk-size` |`0` |Maximum size of data buffers used for writing to the response, in bytes.
+|`spring.thymeleaf.reactive.media-types` | |Media types supported by the view technology.
+|`spring.thymeleaf.servlet.content-type` |`text/html` |Content-Type value written to HTTP responses.
+|`spring.webflux.static-path-pattern` |`/**` |Path pattern used for static resources.
+|======================
+
+.Removed keys in `2.0.0.M1`
+|======================
+|Key  |Default value |Description
+|`flyway.init-description` | |
+|`flyway.init-on-migrate` | |
+|`flyway.init-version` | |
+|`management.shell.auth.jaas.domain` |`my-domain` |JAAS domain.
+|`management.shell.auth.key.path` | |Path to the authentication key.
+|`management.shell.auth.simple.user.name` |`user` |Login user.
+|`management.shell.auth.simple.user.password` | |Login password.
+|`management.shell.auth.spring.roles` |`ACTUATOR` |Comma-separated list of required roles to login to the CRaSH console.
+|`management.shell.auth.type` |`simple` |Authentication type.
+|`management.shell.command-path-patterns` |`classpath*:/commands/**,classpath*:/crash/commands/**` |Patterns to use to look for commands.
+|`management.shell.command-refresh-interval` |`-1` |Scan for changes and update the command if necessary (in seconds).
+|`management.shell.config-path-patterns` |`classpath*:/crash/*` |Patterns to use to look for configurations.
+|`management.shell.disabled-commands` |`jpa*,jdbc*,jndi*` |Comma-separated list of commands to disable.
+|`management.shell.disabled-plugins` |`` |Comma-separated list of plugins to disable.
+|`management.shell.ssh.auth-timeout` |`600000` |Number of milliseconds after user will be prompted to login again.
+|`management.shell.ssh.enabled` |`true` |Enable CRaSH SSH support.
+|`management.shell.ssh.idle-timeout` |`600000` |Number of milliseconds after which unused connections are closed.
+|`management.shell.ssh.key-path` | |Path to the SSH server key.
+|`management.shell.ssh.port` |`2000` |SSH port.
+|`management.shell.telnet.enabled` |`false` |Enable CRaSH telnet support.
+|`management.shell.telnet.port` |`5000` |Telnet port.
+|`server.context-parameters` | |ServletContext parameters.
+|`server.context-path` | |Context path of the application.
+|`server.jsp-servlet.class-name` | |
+|`server.jsp-servlet.init-parameters` | |
+|`server.jsp-servlet.registered` | |
+|`server.max-http-post-size` |`0` |Maximum size in bytes of the HTTP post content.
+|`server.servlet-path` |`/` |Path of the main dispatcher servlet.
+|`server.undertow.buffers-per-region` | |Number of buffer per region.
+|`spring.cache.guava.spec` | |The spec to use to create caches.
+|`spring.cache.hazelcast.config` | |The location of the configuration file to use to initialize Hazelcast.
+|`spring.data.neo4j.compiler` | |Compiler to use.
+|`spring.datasource.dbcp.access-to-underlying-connection-allowed` | |
+|`spring.datasource.dbcp.connection-init-sqls` | |
+|`spring.datasource.dbcp.default-auto-commit` | |
+|`spring.datasource.dbcp.default-catalog` | |
+|`spring.datasource.dbcp.default-read-only` | |
+|`spring.datasource.dbcp.default-transaction-isolation` | |
+|`spring.datasource.dbcp.driver-class-name` | |
+|`spring.datasource.dbcp.initial-size` | |
+|`spring.datasource.dbcp.log-abandoned` | |
+|`spring.datasource.dbcp.login-timeout` | |
+|`spring.datasource.dbcp.max-active` | |
+|`spring.datasource.dbcp.max-idle` | |
+|`spring.datasource.dbcp.max-open-prepared-statements` | |
+|`spring.datasource.dbcp.max-wait` | |
+|`spring.datasource.dbcp.min-evictable-idle-time-millis` | |
+|`spring.datasource.dbcp.min-idle` | |
+|`spring.datasource.dbcp.num-tests-per-eviction-run` | |
+|`spring.datasource.dbcp.password` | |
+|`spring.datasource.dbcp.pool-prepared-statements` | |
+|`spring.datasource.dbcp.remove-abandoned` | |
+|`spring.datasource.dbcp.remove-abandoned-timeout` | |
+|`spring.datasource.dbcp.test-on-borrow` | |
+|`spring.datasource.dbcp.test-on-return` | |
+|`spring.datasource.dbcp.test-while-idle` | |
+|`spring.datasource.dbcp.time-between-eviction-runs-millis` | |
+|`spring.datasource.dbcp.url` | |
+|`spring.datasource.dbcp.username` | |
+|`spring.datasource.dbcp.validation-query` | |
+|`spring.datasource.dbcp.validation-query-timeout` | |
+|`spring.datasource.hikari.connection-customizer-class-name` | |
+|`spring.http.multipart.enabled` |`true` |Enable support of multi-part uploads.
+|`spring.http.multipart.file-size-threshold` |`0` |Threshold after which files will be written to disk.
+|`spring.http.multipart.location` | |Intermediate location of uploaded files.
+|`spring.http.multipart.max-file-size` |`1MB` |Max file size.
+|`spring.http.multipart.max-request-size` |`10MB` |Max request size.
+|`spring.http.multipart.resolve-lazily` |`false` |Whether to resolve the multipart request lazily at the time of file or parameter access.
+|`spring.jpa.hibernate.naming.strategy` | |Hibernate 4 naming strategy fully qualified name.
+|`spring.rabbitmq.listener.acknowledge-mode` | |Acknowledge mode of container.
+|`spring.rabbitmq.listener.auto-startup` |`true` |Start the container automatically on startup.
+|`spring.rabbitmq.listener.concurrency` | |Minimum number of consumers.
+|`spring.rabbitmq.listener.default-requeue-rejected` | |Whether rejected deliveries are requeued by default; default true.
+|`spring.rabbitmq.listener.idle-event-interval` | |How often idle container events should be published in milliseconds.
+|`spring.rabbitmq.listener.max-concurrency` | |Maximum number of consumers.
+|`spring.rabbitmq.listener.prefetch` | |Number of messages to be handled in a single request.
+|`spring.rabbitmq.listener.retry.enabled` |`false` |Whether or not publishing retries are enabled.
+|`spring.rabbitmq.listener.retry.initial-interval` |`1000` |Interval between the first and second attempt to publish or deliver a message.
+|`spring.rabbitmq.listener.retry.max-attempts` |`3` |Maximum number of attempts to publish or deliver a message.
+|`spring.rabbitmq.listener.retry.max-interval` |`10000` |Maximum interval between attempts.
+|`spring.rabbitmq.listener.retry.multiplier` |`1` |A multiplier to apply to the previous retry interval.
+|`spring.rabbitmq.listener.retry.stateless` |`true` |Whether or not retries are stateless or stateful.
+|`spring.rabbitmq.listener.transaction-size` | |Number of messages to be processed in a transaction.
+|`spring.redis.pool.max-active` |`8` |Max number of connections that can be allocated by the pool at a given time.
+|`spring.redis.pool.max-idle` |`8` |Max number of "idle" connections in the pool.
+|`spring.redis.pool.max-wait` |`-1` |Maximum amount of time (in milliseconds) a connection allocation should block before throwing an exception when the pool is exhausted.
+|`spring.redis.pool.min-idle` |`0` |Target for the minimum number of idle connections to maintain in the pool.
+|`spring.sendgrid.password` | |SendGrid password.
+|`spring.sendgrid.username` | |SendGrid username.
+|`spring.session.mongo.collection-name` |`sessions` |Collection name used to store sessions.
+|`spring.thymeleaf.content-type` |`text/html` |Content-Type value.
+|======================
